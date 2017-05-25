@@ -19,6 +19,7 @@ namespace UberFrba.Login
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            //resulLogin deberia devolver el id del usuario si lo encuetra
             int resulLogin;
 
             //resulLogin = DAO.DAOLogin.login(txtUsuario.Text, txtContrasenia.Text);
@@ -32,8 +33,7 @@ namespace UberFrba.Login
 
             if (resulLogin == 1)
             {
-                // this.Hide();
-               // new SeleccionarRol(resulLogin).ShowDialog();
+                new RolesUsuario(resulLogin).ShowDialog();
             }
 
             if (resulLogin == 0)

@@ -31,20 +31,97 @@ namespace UberFrba.Menu_Acciones
             // accionesUsuario se carga con todas las acciones de ese usuario
             //accionesUsuario = DAO.DAORoles.funcionabilidadesHabilitadasXRol(rol_id);
 
+            //Para cada accion que tiene el usuario lo pongo en el cmbAcciones
             foreach (DataRow row in accionesUsuario.Rows)
             {
-
                 cmbAcciones.Items.Add(row["Nombre"].ToString());
                 cmbAcciones.SelectedIndex = 0;
-
-
             }
-
         }
 
         private void btnSeleccionarAccion_Click(object sender, EventArgs e)
         {
+            Hide();
+            switch (cmbAcciones.Text)
+            {
 
+                case "Alta Rol":
+                    new AbmRol.AltaModificacionRol(Accion.Alta).ShowDialog();
+                    break;
+
+                case "Baja Rol":
+                    new AbmRol.ListadoRoles(Accion.Baja).ShowDialog();
+                    break;
+
+                case "Modificacion Rol":
+                    new AbmRol.ListadoRoles(Accion.Modificacion).ShowDialog();
+                    break;
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                case "Alta Cliente":
+                    new AbmCliente.AltaModificacionAfiliados(Accion.Alta).ShowDialog();
+                    break;
+
+                case "Modificacion Cliente":
+                    new AbmCliente.ListadoAfiliadosModificacion().ShowDialog();
+                    break;
+
+                case "Baja Cliente":
+                    new AbmCliente.ListadoAfiliadosBaja().ShowDialog();
+                    break;
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                case "Alta Automovil":
+                    new AbmAutomovil.AltaModificacionAfiliados(Accion.Alta).ShowDialog();
+                    break;
+
+                case "Modificacion Automovil":
+                    new AbmAutomovil.ListadoAfiliadosModificacion().ShowDialog();
+                    break;
+
+                case "Baja Automovil":
+                    new AbmAutomovil.ListadoAfiliadosBaja().ShowDialog();
+                    break;
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                case "Alta Turno":
+                    new AbmTurno.AltaModificacionAfiliados(Accion.Alta).ShowDialog();
+                    break;
+
+                case "Modificacion Turno":
+                    new AbmTurno.ListadoAfiliadosModificacion().ShowDialog();
+                    break;
+
+                case "Baja Turno":
+                    new AbmTurno.ListadoAfiliadosBaja().ShowDialog();
+                    break;
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                case "Alta Chofer":
+                    new AbmChofer.AltaModificacionAfiliados(Accion.Alta).ShowDialog();
+                    break;
+
+                case "Modificacion Chofer":
+                    new AbmChofer.ListadoAfiliadosModificacion().ShowDialog();
+                    break;
+
+                case "Baja Chofer":
+                    new AbmChofer.ListadoAfiliadosBaja().ShowDialog();
+                    break;
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                case "Registro Viaje":
+                    new RegistrarViaje.SeleccionarOpcionAP(user_id).ShowDialog();
+                    break;
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                case "Rendicion Viaje":
+                    new RendicionViaje.BusquedaAfiliado().ShowDialog();
+                    break;
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                case "Facturacion Cliente":
+                    new Facturacion_Cliente.BusquedaAfiliado().ShowDialog();
+                    break;
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                case "Listado Estadistico":
+                    new Listados.ListadoEstadistico().ShowDialog();
+                    break;
+            }
+            Show();
         }
     }
 }
