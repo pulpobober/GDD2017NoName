@@ -19,7 +19,7 @@ namespace UberFrba.Abm_Cliente
 
         private void btnAlta_Click(object sender, EventArgs e)
         {
-            verificarAltaCliente(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtNroPiso.Text, txtDepto.Text, txtLocalidad.Text)
+            verificarAltaCliente(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtNroPiso.Text, txtDepto.Text, txtLocalidad.Text);
         }
 
         private void verificarAltaCliente(string nombre, string apellido, string dni, string mail, string telefono, string direccion, string nroPiso, string depto, string localidad) { 
