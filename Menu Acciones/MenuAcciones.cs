@@ -45,7 +45,7 @@ namespace UberFrba.Menu_Acciones
             Hide();
             switch (cmbAcciones.Text)
             {
-
+                    /*
                 case "Alta Rol":
                     new AbmRol.AltaModificacionRol(Accion.Alta).ShowDialog();
                     break;
@@ -56,21 +56,21 @@ namespace UberFrba.Menu_Acciones
 
                 case "Modificacion Rol":
                     new AbmRol.ListadoRoles(Accion.Modificacion).ShowDialog();
-                    break;
+                    break;*/
 //////////////////////////////////////////////////////////////////////////////////////////////////////
                 case "Alta Cliente":
-                    new Abm_Cliente.AbmCliente.AltaModificacionAfiliados(Accion.Alta).ShowDialog();
+                    new Abm_Cliente.AltaCliente().ShowDialog();
                     break;
 
                 case "Modificacion Cliente":
-                    new AbmCliente.ListadoAfiliadosModificacion().ShowDialog();
+                    new Abm_Cliente.ListaClientesModificacion().ShowDialog();
                     break;
 
                 case "Baja Cliente":
-                    new AbmCliente.ListadoAfiliadosBaja().ShowDialog();
+                    new Abm_Cliente.ListaClientesBaja().ShowDialog();
                     break;
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-                case "Alta Automovil":
+               /* case "Alta Automovil":
                     new AbmAutomovil.AltaModificacionAfiliados(Accion.Alta).ShowDialog();
                     break;
 
@@ -120,8 +120,9 @@ namespace UberFrba.Menu_Acciones
 //////////////////////////////////////////////////////////////////////////////////////////////////////
                 case "Listado Estadistico":
                     new Listados.ListadoEstadistico().ShowDialog();
-                    break;
+                    break;*/
             }
+ 
             Show();
         }
     }
