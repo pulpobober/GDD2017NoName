@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+//Me vuelve loco este menu para esta clase https://www.youtube.com/watch?v=zwhyAv-qcbA
 namespace UberFrba.Menu_Acciones
 {
     public partial class MenuAcciones : Form
@@ -58,7 +59,7 @@ namespace UberFrba.Menu_Acciones
                     break;
 //////////////////////////////////////////////////////////////////////////////////////////////////////
                 case "Alta Cliente":
-                    new AbmCliente.AltaModificacionAfiliados(Accion.Alta).ShowDialog();
+                    new Abm_Cliente.AbmCliente.AltaModificacionAfiliados(Accion.Alta).ShowDialog();
                     break;
 
                 case "Modificacion Cliente":
