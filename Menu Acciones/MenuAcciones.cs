@@ -45,19 +45,19 @@ namespace UberFrba.Menu_Acciones
             Hide();
             switch (cmbAcciones.Text)
             {
-                    /*
-                case "Alta Rol":
-                    new AbmRol.AltaModificacionRol(Accion.Alta).ShowDialog();
-                    break;
+                /*
+            case "Alta Rol":
+                new Abm_Rol.AltaRol().ShowDialog();
+                break;
 
-                case "Baja Rol":
-                    new AbmRol.ListadoRoles(Accion.Baja).ShowDialog();
-                    break;
+            case "Baja Rol":
+                new Abm_Rol.ListaRolBaja(Accion.Baja).ShowDialog();
+                break;
 
-                case "Modificacion Rol":
-                    new AbmRol.ListadoRoles(Accion.Modificacion).ShowDialog();
-                    break;*/
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+            case "Modificacion Rol":
+                new Abm_Rol.ListaRolModificacion(Accion.Modificacion).ShowDialog();
+                break;*/
+                //////////////////////////////////////////////////////////////////////////////////////////////////////
                 case "Alta Cliente":
                     new Abm_Cliente.AltaCliente().ShowDialog();
                     break;
@@ -70,57 +70,57 @@ namespace UberFrba.Menu_Acciones
                     new Abm_Cliente.ListaClientesBaja().ShowDialog();
                     break;
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-               /* case "Alta Automovil":
-                    new AbmAutomovil.AltaModificacionAfiliados(Accion.Alta).ShowDialog();
-                    break;
+                /* case "Alta Automovil":
+                     new Abm_Automovil.AltaAutomovil().ShowDialog();
+                     break;
 
-                case "Modificacion Automovil":
-                    new AbmAutomovil.ListadoAfiliadosModificacion().ShowDialog();
-                    break;
+                 case "Modificacion Automovil":
+                     new Abm_Automovil.ListaAutomovilModificacion().ShowDialog();
+                     break;
 
-                case "Baja Automovil":
-                    new AbmAutomovil.ListadoAfiliadosBaja().ShowDialog();
-                    break;
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-                case "Alta Turno":
-                    new AbmTurno.AltaModificacionAfiliados(Accion.Alta).ShowDialog();
-                    break;
+                 case "Baja Automovil":
+                     new Abm_Automovil.ListaAutomovilBaja().ShowDialog();
+                     break;
+ //////////////////////////////////////////////////////////////////////////////////////////////////////
+                 case "Alta Turno":
+                     new Abm_Turno.AltaTurno().ShowDialog();
+                     break;
 
-                case "Modificacion Turno":
-                    new AbmTurno.ListadoAfiliadosModificacion().ShowDialog();
-                    break;
+                 case "Modificacion Turno":
+                     new Abm_Turno.ListaTurnoModificacion().ShowDialog();
+                     break;
 
-                case "Baja Turno":
-                    new AbmTurno.ListadoAfiliadosBaja().ShowDialog();
-                    break;
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-                case "Alta Chofer":
-                    new AbmChofer.AltaModificacionAfiliados(Accion.Alta).ShowDialog();
-                    break;
+                 case "Baja Turno":
+                     new Abm_Turno.ListaTurnoBaja().ShowDialog();
+                     break;
+ //////////////////////////////////////////////////////////////////////////////////////////////////////
+                 case "Alta Chofer":
+                     new Abm_Chofer.AltaChofer().ShowDialog();
+                     break;
 
-                case "Modificacion Chofer":
-                    new AbmChofer.ListadoAfiliadosModificacion().ShowDialog();
-                    break;
+                 case "Modificacion Chofer":
+                     new Abm_Chofer.ListaChoferModificacion().ShowDialog();
+                     break;
 
-                case "Baja Chofer":
-                    new AbmChofer.ListadoAfiliadosBaja().ShowDialog();
-                    break;
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-                case "Registro Viaje":
-                    new RegistrarViaje.SeleccionarOpcionAP(user_id).ShowDialog();
-                    break;
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-                case "Rendicion Viaje":
-                    new RendicionViaje.BusquedaAfiliado().ShowDialog();
-                    break;
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-                case "Facturacion Cliente":
-                    new Facturacion_Cliente.BusquedaAfiliado().ShowDialog();
-                    break;
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-                case "Listado Estadistico":
-                    new Listados.ListadoEstadistico().ShowDialog();
-                    break;*/
+                 case "Baja Chofer":
+                     new Abm_Chofer.ListaChoferBaja().ShowDialog();
+                     break;
+ //////////////////////////////////////////////////////////////////////////////////////////////////////
+                 case "Registro Viaje":
+                     new Registrar_Viaje..ShowDialog();
+                     break;
+ //////////////////////////////////////////////////////////////////////////////////////////////////////
+                 case "Rendicion Viaje":
+                     new Rendicion_Viaje..ShowDialog();
+                     break;
+ //////////////////////////////////////////////////////////////////////////////////////////////////////
+                 case "Facturacion Cliente":
+                     new Facturacion_Cliente..ShowDialog();
+                     break;
+ //////////////////////////////////////////////////////////////////////////////////////////////////////
+                 case "Listado Estadistico":
+                     new Listados.ListadoEstadistico().ShowDialog();
+                     break;*/
             }
  
             Show();
