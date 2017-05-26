@@ -19,7 +19,10 @@ namespace UberFrba.Abm_Cliente
 
         private void btnModificacion_Click(object sender, EventArgs e)
         {
-
-        }
+            if (verificarDatosCliente(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtNroPiso.Text, txtDepto.Text, txtLocalidad.Text, txtCodPostal.Text))
+            {
+                //Hacer el modificacion con el DAO
+            }
+        }        
     }
 }

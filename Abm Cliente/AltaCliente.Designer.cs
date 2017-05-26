@@ -31,17 +31,10 @@
             this.btnAlta2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // txtDNI
+            // lblTitulo
             // 
-            this.txtDNI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDNI_KeyPress);
-            // 
-            // txtTelefono
-            // 
-            this.txtTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTelefono_KeyPress);
-            // 
-            // txtCodPostal
-            // 
-            this.txtCodPostal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodPostal_KeyPress);
+            this.lblTitulo.Size = new System.Drawing.Size(180, 37);
+            this.lblTitulo.Text = "Alta Cliente";
             // 
             // btnAlta2
             // 

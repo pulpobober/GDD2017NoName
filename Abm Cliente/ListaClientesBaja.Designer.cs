@@ -37,7 +37,7 @@
             this.btnBorrar.Name = "btnBorrar";
             this.btnBorrar.Size = new System.Drawing.Size(227, 44);
             this.btnBorrar.TabIndex = 10;
-            this.btnBorrar.Text = "Borrar";
+            this.btnBorrar.Text = "Borrar Cliente";
             this.btnBorrar.UseVisualStyleBackColor = true;
             // 
             // ListaClientesBaja
