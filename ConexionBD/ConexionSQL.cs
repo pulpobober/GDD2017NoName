@@ -12,7 +12,7 @@ namespace UberFrba.ConexionBD
         public static SqlConnection miConexion;
 
         private static String cadenaConexion(){
-            return @"Data Source=localhost\SQLSERVER2012; Initial Catalog=gd1c2017; User ID=gd; Password=gd2017;"
+            return @"Data Source=localhost\SQLSERVER2012; Initial Catalog=GD1C2017; User ID=gd; Password=gd2017;";
 // @"Data Source= localhost; Initial Catalog=gd1c2017;integrated security= true";
         }
         
