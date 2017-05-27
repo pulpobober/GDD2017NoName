@@ -204,6 +204,8 @@
             this.txtNroPiso.Name = "txtNroPiso";
             this.txtNroPiso.Size = new System.Drawing.Size(100, 20);
             this.txtNroPiso.TabIndex = 21;
+            this.txtNroPiso.TextChanged += new System.EventHandler(this.txtNroPiso_TextChanged);
+            this.txtNroPiso.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNroPiso_KeyPress);
             // 
             // txtDepto
             // 
