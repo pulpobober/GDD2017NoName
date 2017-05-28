@@ -32,12 +32,21 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnBorrar = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // lblTitulo
+            // 
+            this.lblTitulo.Size = new System.Drawing.Size(187, 33);
+            this.lblTitulo.Text = "Baja Clientes";
             // 
             // btnBuscar
             // 
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // lbSeleccionar
+            // 
+            this.lbSeleccionar.Size = new System.Drawing.Size(399, 25);
+            this.lbSeleccionar.Text = "Seleccione el cliente que quiere eliminar";
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -67,31 +76,13 @@
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
             // 
-            // btnBorrar
-            // 
-            this.btnBorrar.Location = new System.Drawing.Point(193, 393);
-            this.btnBorrar.Name = "btnBorrar";
-            this.btnBorrar.Size = new System.Drawing.Size(227, 44);
-            this.btnBorrar.TabIndex = 10;
-            this.btnBorrar.Text = "Borrar Cliente";
-            this.btnBorrar.UseVisualStyleBackColor = true;
-            // 
             // ListaClientesBaja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(625, 449);
-            this.Controls.Add(this.btnBorrar);
             this.Name = "ListaClientesBaja";
             this.Text = "ListaClientesBaja";
-            this.Controls.SetChildIndex(this.lblApellido, 0);
-            this.Controls.SetChildIndex(this.txtNombre, 0);
-            this.Controls.SetChildIndex(this.lblTitulo, 0);
-            this.Controls.SetChildIndex(this.txtApellido, 0);
-            this.Controls.SetChildIndex(this.txtDNI, 0);
-            this.Controls.SetChildIndex(this.btnBuscar, 0);
-            this.Controls.SetChildIndex(this.btnLimpiar, 0);
-            this.Controls.SetChildIndex(this.btnBorrar, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -99,7 +90,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnBorrar;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;

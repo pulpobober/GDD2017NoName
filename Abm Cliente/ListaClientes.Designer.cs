@@ -39,6 +39,7 @@
             this.tablaClientes = new System.Windows.Forms.DataGridView();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.lbSeleccionar = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tablaClientes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -106,6 +107,7 @@
             this.txtDNI.Name = "txtDNI";
             this.txtDNI.Size = new System.Drawing.Size(197, 22);
             this.txtDNI.TabIndex = 6;
+            this.txtDNI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDNI_KeyPress);
             // 
             // btnBuscar
             // 
@@ -122,7 +124,7 @@
             this.tablaClientes.AllowUserToAddRows = false;
             this.tablaClientes.AllowUserToDeleteRows = false;
             this.tablaClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaClientes.Location = new System.Drawing.Point(21, 197);
+            this.tablaClientes.Location = new System.Drawing.Point(21, 247);
             this.tablaClientes.Name = "tablaClientes";
             this.tablaClientes.ReadOnly = true;
             this.tablaClientes.Size = new System.Drawing.Size(562, 181);
@@ -147,11 +149,22 @@
             this.dataGridView1.Size = new System.Drawing.Size(8, 8);
             this.dataGridView1.TabIndex = 10;
             // 
+            // lbSeleccionar
+            // 
+            this.lbSeleccionar.AutoSize = true;
+            this.lbSeleccionar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSeleccionar.Location = new System.Drawing.Point(19, 208);
+            this.lbSeleccionar.Name = "lbSeleccionar";
+            this.lbSeleccionar.Size = new System.Drawing.Size(318, 25);
+            this.lbSeleccionar.TabIndex = 11;
+            this.lbSeleccionar.Text = "Seleccione el cliente que quiere";
+            // 
             // ListaClientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(625, 449);
+            this.Controls.Add(this.lbSeleccionar);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.tablaClientes);
@@ -175,16 +188,17 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblNombre;
-        private System.Windows.Forms.Label lblDni;
         protected System.Windows.Forms.Label lblApellido;
         protected System.Windows.Forms.TextBox txtNombre;
         protected System.Windows.Forms.Label lblTitulo;
         protected System.Windows.Forms.TextBox txtApellido;
         protected System.Windows.Forms.TextBox txtDNI;
         protected System.Windows.Forms.Button btnBuscar;
-        protected System.Windows.Forms.DataGridView tablaClientes;
         protected System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.DataGridView dataGridView1;
+        protected System.Windows.Forms.Label lbSeleccionar;
+        protected System.Windows.Forms.DataGridView tablaClientes;
+        protected System.Windows.Forms.Label lblNombre;
+        protected System.Windows.Forms.Label lblDni;
     }
 }
