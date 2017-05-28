@@ -16,5 +16,10 @@ namespace UberFrba.Abm_Cliente
         {
             InitializeComponent();
         }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

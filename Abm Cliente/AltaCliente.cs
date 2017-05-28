@@ -22,12 +22,14 @@ namespace UberFrba.Abm_Cliente
 
         private void btnAlta2_Click(object sender, EventArgs e)
         {
+
+           
             if (verificarDatosCliente(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtNroPiso.Text, txtDepto.Text, txtLocalidad.Text, txtCodPostal.Text))
             {
-                //Hacer el alta con el DAO
                 Cliente clie = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), txtDireccion.Text, Int32.Parse(txtNroPiso.Text), txtDepto.Text, txtLocalidad.Text, Int32.Parse(txtCodPostal.Text), dateTimeNacimiento.Value);
                 SQLCliente.insertarCliente(clie);
             }
+             
         }
     }
 }

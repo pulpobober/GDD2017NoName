@@ -9,6 +9,11 @@ namespace UberFrba.Objetos
    public class Cliente
     {
        public Cliente() { }
+       public Cliente(string nom, string ape, int Dni) {
+           this.nombre = nom;
+           this.apellido = ape;
+           this.dni = Dni;
+       }
        public Cliente(string nom, string ape,int Dni,string email,int tel,string dir,int Piso,string Depto,string Localidad,int codPost,DateTime fechaNac) {
             this.nombre = nom;
             this.apellido = ape;

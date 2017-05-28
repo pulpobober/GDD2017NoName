@@ -76,34 +76,33 @@ namespace UberFrba.ConexionBD
             {
                 desconectar();
             }
-        }  
+        }
 
-            /*
-            public DataTable obtenerCliente() {
+        
+        public static DataTable buscarClientes(Cliente clie) {
             try {
-                conectado();
-                cmd = new SqlCommand("obtener_cliente");
-                cmd.CommandType = CommandType.StoredProcedure;
- 
-                cmd.Connection = cnn;
- 
-                if( cmd.ExecuteNonQuery ){
-                    DataTable dt = new DataTable();
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    da.Fill(dt);
-                    return dt;
-                }else{
-                    return null;
-                }
+                conectar();
+                sqlCommand = new SqlCommand("NONAME.buscar_clientes");
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Connection = miConexion;
+
+                sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
+                sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
+                sqlCommand.Parameters.AddWithValue("@dni", clie.dni);
+                sqlCommand.ExecuteNonQuery();
+          
+                DataTable dataTableClientes = new DataTable();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand);
+                dataAdapter.Fill(dataTableClientes);
+                return dataTableClientes;
+               
             }catch(Exception ex){
-                MsgBox(ex.Message);
                 return null;
             }finally{
-                desconectado();
+                desconectar();
             }
-        }  */
-
-        }
+        } 
     }
+}
 
 
