@@ -159,6 +159,29 @@ namespace UberFrba.ConexionBD
                 desconectar();
             }
         }
+
+        public static void eliminarCliente(Cliente clie)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand("NONAME.eliminar_cliente");
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Connection = miConexion;
+
+                sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
+
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                //manejar exepciones
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
     }
 }
 

@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UberFrba.Objetos;
+using UberFrba.ConexionBD;
+
 
 namespace UberFrba.Abm_Cliente
 {
@@ -20,7 +22,6 @@ namespace UberFrba.Abm_Cliente
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-
         }
 
         public override void seleccionoCliente(Cliente clie)

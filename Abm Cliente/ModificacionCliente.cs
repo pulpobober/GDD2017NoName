@@ -36,7 +36,6 @@ namespace UberFrba.Abm_Cliente
             {
                 Cliente clienteAModificar = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), txtDireccion.Text, txtLocalidad.Text, Int32.Parse(txtCodPostal.Text), dateTimeNacimiento.Value);
                 SQLCliente.modificarCliente(clienteAModificar);
-                //Hacer el modificacion con el DAO
             }
         }        
     }

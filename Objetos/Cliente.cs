@@ -15,6 +15,10 @@ namespace UberFrba.Objetos
            this.apellido = ape;
            this.dni = Dni;
        }
+       public Cliente(int Dni)
+       {
+           this.dni = Dni;
+       }
 
        public Cliente(DataGridViewRow datosCliente)
        {
