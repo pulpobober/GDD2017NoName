@@ -19,7 +19,7 @@ namespace UberFrba.ConexionBD
         {
             conectar();
             
-            sqlCommand = new SqlCommand("NONAME.insertar_cliente");
+            sqlCommand = new SqlCommand("NONAME.alta_cliente");
             sqlCommand.CommandType = CommandType.StoredProcedure;
             sqlCommand.Connection = miConexion;
  
@@ -42,38 +42,6 @@ namespace UberFrba.ConexionBD
             desconectar();
         }
     }
-    
-        public static void editarCliente(Cliente clie)
-        {
-        try
-        {
-            conectar();
-            sqlCommand = new SqlCommand("NONAME.editar_cliente");
-            sqlCommand.CommandType = CommandType.StoredProcedure;
-            sqlCommand.Connection = miConexion;
-
-            sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
-            sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
-            sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
-            sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
-            sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
-            sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
-            sqlCommand.Parameters.AddWithValue("@localidad", clie.localidad);
-            sqlCommand.Parameters.AddWithValue("@codPostal", clie.codPostal);
-            sqlCommand.Parameters.AddWithValue("@fechaNacimiento", clie.fechaNacimiento);
-
-            sqlCommand.ExecuteNonQuery();
-        }
-            catch (Exception ex)
-            {
-                //manejar exepciones
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-
         
         public static DataTable filtrarClientes(Cliente clie) {
             try {
@@ -165,7 +133,7 @@ namespace UberFrba.ConexionBD
             try
             {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.eliminar_cliente");
+                sqlCommand = new SqlCommand("NONAME.baja_cliente");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
