@@ -20,9 +20,13 @@ namespace UberFrba.Abm_Cliente
             InitializeComponent();
         }
 
+        DataTable clientes;
+
         private void ListaClientes_Load(object sender, EventArgs e)
         {
-            
+            //Obtener todos los clientes cuando se carga el formulario
+           clientes = SQLCliente.obtenerTodosLosClientes();
+           tablaClientes.DataSource = clientes;
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -30,13 +34,13 @@ namespace UberFrba.Abm_Cliente
             if (verificarDatosBusqueda(txtNombre.Text, txtApellido.Text, txtDNI.Text))
             {
                 Cliente clie = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text));
-                tablaClientes.DataSource = SQLCliente.buscarClientes(clie);
+                tablaClientes.DataSource = SQLCliente.filtrarClientes(clie);
             }
         }
 
         private bool verificarDatosBusqueda(string nombre, string apellido, string dni) {
             if (nombre.Length == 0 && apellido.Length == 0 && dni.Length == 0) {
-                MessageBox.Show("Debe escribir algun campo para buscar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Debe escribir algun campo para filtrar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             return true;
@@ -51,5 +55,19 @@ namespace UberFrba.Abm_Cliente
                 return;
             }
         }
+
+        public void tablaClientes_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //este es el cliente, nose como me vie
+            DataGridViewRow clieRow = tablaClientes.Rows[e.RowIndex];
+            Cliente cliente = new Cliente(clieRow);
+            seleccionoCliente(cliente);
+        }
+
+        public virtual void seleccionoCliente(Cliente clie) { 
+            //metodo que se va a sobreescribir 
+        }
+
+        
     }
 }

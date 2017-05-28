@@ -19,18 +19,16 @@ namespace UberFrba.ConexionBD
         {
             conectar();
             
-            sqlCommand = new SqlCommand("insertar_cliente");
+            sqlCommand = new SqlCommand("NONAME.insertar_cliente");
             sqlCommand.CommandType = CommandType.StoredProcedure;
             sqlCommand.Connection = miConexion;
  
             sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
             sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
-            sqlCommand.Parameters.AddWithValue("@dni", clie.dni);
+            sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
             sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
             sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
             sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
-            sqlCommand.Parameters.AddWithValue("@piso", clie.piso);
-            sqlCommand.Parameters.AddWithValue("@depto", clie.depto);
             sqlCommand.Parameters.AddWithValue("@localidad", clie.localidad);
             sqlCommand.Parameters.AddWithValue("@codPostal", clie.codPostal);
             sqlCommand.Parameters.AddWithValue("@fechaNacimiento", clie.fechaNacimiento);
@@ -50,18 +48,16 @@ namespace UberFrba.ConexionBD
         try
         {
             conectar();
-            sqlCommand = new SqlCommand("editar_cliente");
+            sqlCommand = new SqlCommand("NONAME.editar_cliente");
             sqlCommand.CommandType = CommandType.StoredProcedure;
             sqlCommand.Connection = miConexion;
 
             sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
             sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
-            sqlCommand.Parameters.AddWithValue("@dni", clie.dni);
+            sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
             sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
             sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
             sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
-            sqlCommand.Parameters.AddWithValue("@piso", clie.piso);
-            sqlCommand.Parameters.AddWithValue("@depto", clie.depto);
             sqlCommand.Parameters.AddWithValue("@localidad", clie.localidad);
             sqlCommand.Parameters.AddWithValue("@codPostal", clie.codPostal);
             sqlCommand.Parameters.AddWithValue("@fechaNacimiento", clie.fechaNacimiento);
@@ -79,16 +75,16 @@ namespace UberFrba.ConexionBD
         }
 
         
-        public static DataTable buscarClientes(Cliente clie) {
+        public static DataTable filtrarClientes(Cliente clie) {
             try {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.buscar_clientes");
+                sqlCommand = new SqlCommand("NONAME.filtrar_clientes");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
                 sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
                 sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
-                sqlCommand.Parameters.AddWithValue("@dni", clie.dni);
+                sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
                 sqlCommand.ExecuteNonQuery();
           
                 DataTable dataTableClientes = new DataTable();
@@ -97,11 +93,72 @@ namespace UberFrba.ConexionBD
                 return dataTableClientes;
                
             }catch(Exception ex){
+                //hacer algo con las exepciones
+             
                 return null;
             }finally{
                 desconectar();
             }
-        } 
+        }
+
+        public static DataTable obtenerTodosLosClientes()
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand("NONAME.obtener_todos_los_clientes");
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Connection = miConexion;
+
+                sqlCommand.ExecuteNonQuery();
+
+                DataTable dataTableClientes = new DataTable();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand);
+                dataAdapter.Fill(dataTableClientes);
+                return dataTableClientes;
+
+            }
+            catch (Exception ex)
+            {
+                //hacer algo con las exepciones
+                return null;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static void modificarCliente(Cliente clie)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand("NONAME.modificar_cliente");
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Connection = miConexion;
+
+                sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
+                sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
+                sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
+                sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
+                sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
+                sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
+                sqlCommand.Parameters.AddWithValue("@localidad", clie.localidad);
+                sqlCommand.Parameters.AddWithValue("@codPostal", clie.codPostal);
+                sqlCommand.Parameters.AddWithValue("@fechaNacimiento", clie.fechaNacimiento);
+
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                //manejar exepciones
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
     }
 }
 

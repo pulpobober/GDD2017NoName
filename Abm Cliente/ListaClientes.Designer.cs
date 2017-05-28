@@ -35,7 +35,7 @@
             this.lblTitulo = new System.Windows.Forms.Label();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.txtDNI = new System.Windows.Forms.TextBox();
-            this.btnBuscar = new System.Windows.Forms.Button();
+            this.btnFiltrar = new System.Windows.Forms.Button();
             this.tablaClientes = new System.Windows.Forms.DataGridView();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -109,15 +109,15 @@
             this.txtDNI.TabIndex = 6;
             this.txtDNI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDNI_KeyPress);
             // 
-            // btnBuscar
+            // btnFiltrar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(193, 142);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(238, 37);
-            this.btnBuscar.TabIndex = 7;
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = true;
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            this.btnFiltrar.Location = new System.Drawing.Point(193, 142);
+            this.btnFiltrar.Name = "btnFiltrar";
+            this.btnFiltrar.Size = new System.Drawing.Size(238, 37);
+            this.btnFiltrar.TabIndex = 7;
+            this.btnFiltrar.Text = "Filtrar";
+            this.btnFiltrar.UseVisualStyleBackColor = true;
+            this.btnFiltrar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // tablaClientes
             // 
@@ -129,6 +129,7 @@
             this.tablaClientes.ReadOnly = true;
             this.tablaClientes.Size = new System.Drawing.Size(562, 181);
             this.tablaClientes.TabIndex = 8;
+            this.tablaClientes.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tablaClientes_CellContentDoubleClick);
             // 
             // btnLimpiar
             // 
@@ -168,7 +169,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.tablaClientes);
-            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.btnFiltrar);
             this.Controls.Add(this.txtDNI);
             this.Controls.Add(this.txtApellido);
             this.Controls.Add(this.lblTitulo);
@@ -193,7 +194,7 @@
         protected System.Windows.Forms.Label lblTitulo;
         protected System.Windows.Forms.TextBox txtApellido;
         protected System.Windows.Forms.TextBox txtDNI;
-        protected System.Windows.Forms.Button btnBuscar;
+        protected System.Windows.Forms.Button btnFiltrar;
         protected System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.DataGridView dataGridView1;
         protected System.Windows.Forms.Label lbSeleccionar;

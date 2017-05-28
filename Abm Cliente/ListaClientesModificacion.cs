@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UberFrba.Objetos;
 
 namespace UberFrba.Abm_Cliente
 {
@@ -17,15 +18,16 @@ namespace UberFrba.Abm_Cliente
             InitializeComponent();
         }
 
-       // private void btnModificar_Click(object sender, EventArgs e)
-     //   {
-            //Aca tiene que haber un metodo que le paso por parametro el id del cliente que agarre, y le paso ese parametro a el 
-            //ModificacionCliente.. osea: ModificacionCliente(idUsuario) que lo saco de la tabla
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
 
-            //new AltaModificacionAfiliados(Accion.Modificacion, tablaClientes.Rows[e.RowIndex]).ShowDialog();
+        }
 
-
-         //   new ModificacionCliente().ShowDialog();
-     //   }
+        public override void seleccionoCliente(Cliente clie)
+        {
+            new ModificacionCliente(clie).ShowDialog();
+ 	        //base.seleccionoCliente(clie);
+        }
     }
+
 }

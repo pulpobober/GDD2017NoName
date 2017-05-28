@@ -18,7 +18,7 @@ namespace UberFrba.Abm_Cliente
             InitializeComponent();
         }
 
-        public bool verificarDatosCliente(string nombre, string apellido, string dni, string mail, string telefono, string direccion, string nroPiso, string depto, string localidad, string codPostal)
+        public bool verificarDatosCliente(string nombre, string apellido, string dni, string mail, string telefono, string direccion, string localidad, string codPostal)
         {
             if (nombre.Length == 0)
             {
@@ -43,16 +43,6 @@ namespace UberFrba.Abm_Cliente
             if (direccion.Length == 0)
             {
                 MessageBox.Show("No se puede dejar el campo direccion vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (nroPiso.Length == 0)
-            {
-                MessageBox.Show("No se puede dejar el campo piso vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (depto.Length == 0)
-            {
-                MessageBox.Show("No se puede dejar el campo departamento vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             if (localidad.Length == 0)
@@ -91,21 +81,6 @@ namespace UberFrba.Abm_Cliente
         }
 
         private void txtCodPostal_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
-            {
-                MessageBox.Show("Solo se permiten numeros", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                e.Handled = true;
-                return;
-            }
-        }
-
-        private void txtNroPiso_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtNroPiso_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
             {

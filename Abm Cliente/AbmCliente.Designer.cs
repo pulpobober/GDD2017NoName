@@ -36,8 +36,6 @@
             this.lblCodigoPostsal = new System.Windows.Forms.Label();
             this.lblDireccion = new System.Windows.Forms.Label();
             this.lblTelefono = new System.Windows.Forms.Label();
-            this.lblNroPiso = new System.Windows.Forms.Label();
-            this.lblDepto = new System.Windows.Forms.Label();
             this.lblLocalidad = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
@@ -45,8 +43,6 @@
             this.txtMail = new System.Windows.Forms.TextBox();
             this.txtTelefono = new System.Windows.Forms.TextBox();
             this.txtDireccion = new System.Windows.Forms.TextBox();
-            this.txtNroPiso = new System.Windows.Forms.TextBox();
-            this.txtDepto = new System.Windows.Forms.TextBox();
             this.txtLocalidad = new System.Windows.Forms.TextBox();
             this.txtCodPostal = new System.Windows.Forms.TextBox();
             this.dateTimeNacimiento = new System.Windows.Forms.DateTimePicker();
@@ -127,28 +123,10 @@
             this.lblTelefono.TabIndex = 8;
             this.lblTelefono.Text = "Telefono:";
             // 
-            // lblNroPiso
-            // 
-            this.lblNroPiso.AutoSize = true;
-            this.lblNroPiso.Location = new System.Drawing.Point(212, 266);
-            this.lblNroPiso.Name = "lblNroPiso";
-            this.lblNroPiso.Size = new System.Drawing.Size(50, 13);
-            this.lblNroPiso.TabIndex = 12;
-            this.lblNroPiso.Text = "Nro Piso:";
-            // 
-            // lblDepto
-            // 
-            this.lblDepto.AutoSize = true;
-            this.lblDepto.Location = new System.Drawing.Point(17, 307);
-            this.lblDepto.Name = "lblDepto";
-            this.lblDepto.Size = new System.Drawing.Size(77, 13);
-            this.lblDepto.TabIndex = 13;
-            this.lblDepto.Text = "Departamento:";
-            // 
             // lblLocalidad
             // 
             this.lblLocalidad.AutoSize = true;
-            this.lblLocalidad.Location = new System.Drawing.Point(211, 307);
+            this.lblLocalidad.Location = new System.Drawing.Point(30, 304);
             this.lblLocalidad.Name = "lblLocalidad";
             this.lblLocalidad.Size = new System.Drawing.Size(56, 13);
             this.lblLocalidad.TabIndex = 14;
@@ -195,28 +173,12 @@
             // 
             this.txtDireccion.Location = new System.Drawing.Point(96, 263);
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(100, 20);
+            this.txtDireccion.Size = new System.Drawing.Size(263, 20);
             this.txtDireccion.TabIndex = 20;
-            // 
-            // txtNroPiso
-            // 
-            this.txtNroPiso.Location = new System.Drawing.Point(268, 263);
-            this.txtNroPiso.Name = "txtNroPiso";
-            this.txtNroPiso.Size = new System.Drawing.Size(100, 20);
-            this.txtNroPiso.TabIndex = 21;
-            this.txtNroPiso.TextChanged += new System.EventHandler(this.txtNroPiso_TextChanged);
-            this.txtNroPiso.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNroPiso_KeyPress);
-            // 
-            // txtDepto
-            // 
-            this.txtDepto.Location = new System.Drawing.Point(96, 304);
-            this.txtDepto.Name = "txtDepto";
-            this.txtDepto.Size = new System.Drawing.Size(100, 20);
-            this.txtDepto.TabIndex = 22;
             // 
             // txtLocalidad
             // 
-            this.txtLocalidad.Location = new System.Drawing.Point(270, 304);
+            this.txtLocalidad.Location = new System.Drawing.Point(96, 301);
             this.txtLocalidad.Name = "txtLocalidad";
             this.txtLocalidad.Size = new System.Drawing.Size(100, 20);
             this.txtLocalidad.TabIndex = 23;
@@ -264,8 +226,6 @@
             this.Controls.Add(this.dateTimeNacimiento);
             this.Controls.Add(this.txtCodPostal);
             this.Controls.Add(this.txtLocalidad);
-            this.Controls.Add(this.txtDepto);
-            this.Controls.Add(this.txtNroPiso);
             this.Controls.Add(this.txtDireccion);
             this.Controls.Add(this.txtTelefono);
             this.Controls.Add(this.txtMail);
@@ -273,8 +233,6 @@
             this.Controls.Add(this.txtApellido);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblLocalidad);
-            this.Controls.Add(this.lblDepto);
-            this.Controls.Add(this.lblNroPiso);
             this.Controls.Add(this.lblFechaNacimiento);
             this.Controls.Add(this.lblCodigoPostsal);
             this.Controls.Add(this.lblDireccion);
@@ -299,8 +257,6 @@
         private System.Windows.Forms.Label lblCodigoPostsal;
         private System.Windows.Forms.Label lblDireccion;
         private System.Windows.Forms.Label lblTelefono;
-        private System.Windows.Forms.Label lblNroPiso;
-        private System.Windows.Forms.Label lblDepto;
         private System.Windows.Forms.Label lblLocalidad;
         private System.Windows.Forms.Label lblApellido;
         protected System.Windows.Forms.TextBox txtNombre;
@@ -309,8 +265,6 @@
         protected System.Windows.Forms.TextBox txtMail;
         protected System.Windows.Forms.TextBox txtTelefono;
         protected System.Windows.Forms.TextBox txtDireccion;
-        protected System.Windows.Forms.TextBox txtNroPiso;
-        protected System.Windows.Forms.TextBox txtDepto;
         protected System.Windows.Forms.TextBox txtLocalidad;
         protected System.Windows.Forms.TextBox txtCodPostal;
         protected System.Windows.Forms.DateTimePicker dateTimeNacimiento;

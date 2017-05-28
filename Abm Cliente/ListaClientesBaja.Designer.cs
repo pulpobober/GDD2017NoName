@@ -41,7 +41,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            this.btnFiltrar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // lbSeleccionar
             // 

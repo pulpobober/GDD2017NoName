@@ -36,6 +36,10 @@
             this.lblTitulo.Size = new System.Drawing.Size(292, 33);
             this.lblTitulo.Text = "Modificacion Clientes";
             // 
+            // btnBuscar
+            // 
+            this.btnFiltrar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
             // lbSeleccionar
             // 
             this.lbSeleccionar.Location = new System.Drawing.Point(16, 208);

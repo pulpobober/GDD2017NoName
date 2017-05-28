@@ -61,8 +61,6 @@
             this.Controls.SetChildIndex(this.txtMail, 0);
             this.Controls.SetChildIndex(this.txtTelefono, 0);
             this.Controls.SetChildIndex(this.txtDireccion, 0);
-            this.Controls.SetChildIndex(this.txtNroPiso, 0);
-            this.Controls.SetChildIndex(this.txtDepto, 0);
             this.Controls.SetChildIndex(this.txtLocalidad, 0);
             this.Controls.SetChildIndex(this.txtCodPostal, 0);
             this.Controls.SetChildIndex(this.dateTimeNacimiento, 0);
