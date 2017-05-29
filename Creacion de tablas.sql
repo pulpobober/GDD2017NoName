@@ -12,8 +12,8 @@ BEGIN
   IF OBJECT_ID('NONAME.Factura') IS NOT NULL
     DROP TABLE [NONAME].Factura
 
-  IF OBJECT_ID('NONAME.cliente') IS NOT NULL
-    DROP TABLE [NONAME].cliente
+  IF OBJECT_ID('NONAME.Cliente') IS NOT NULL
+    DROP TABLE [NONAME].Cliente
 
   IF OBJECT_ID('NONAME.Usuario') IS NOT NULL
     DROP TABLE [NONAME].Usuario
@@ -36,7 +36,7 @@ BEGIN
   IF OBJECT_ID('NONAME.Auto') IS NOT NULL
     DROP TABLE [NONAME].Auto
 
- IF OBJECT_ID('NONAME.Marca') IS NOT NULL
+  IF OBJECT_ID('NONAME.Marca') IS NOT NULL
     DROP TABLE [NONAME].Marca
 
   IF OBJECT_ID('NONAME.Rol_Usuario') IS NOT NULL
@@ -50,6 +50,8 @@ BEGIN
 
   IF OBJECT_ID('NONAME.Funcion') IS NOT NULL
     DROP TABLE [NONAME].Funcion
+	
+  DROP SCHEMA [NONAME]
 
 END
 GO
@@ -126,7 +128,7 @@ CREATE TABLE [NONAME].[Chofer](
  )
  GO
 
-CREATE TABLE [NONAME].[Auto_chofer](
+CREATE TABLE [NONAME].[Auto_Chofer](
 	[patente_auto] [varchar](50) NOT NULL,
 	[id_chofer] [numeric](18, 0) NOT NULL
 )
