@@ -22,9 +22,9 @@ namespace UberFrba.Abm_Cliente
 
         private void ListaClientes_Load(object sender, EventArgs e)
         {
-           //Obtener todos los clientes cuando se carga el formulario
-           DataTable clientes = SQLCliente.obtenerTodosLosClientes();
-           tablaClientes.DataSource = clientes;
+            //Obtener todos los clientes cuando se carga el formulario
+            DataTable clientes = SQLCliente.obtenerTodosLosClientes();
+            tablaClientes.DataSource = clientes;
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -36,8 +36,10 @@ namespace UberFrba.Abm_Cliente
             }
         }
 
-        private bool verificarDatosBusqueda(string nombre, string apellido, string dni) {
-            if (nombre.Length == 0 && apellido.Length == 0 && dni.Length == 0) {
+        private bool verificarDatosBusqueda(string nombre, string apellido, string dni)
+        {
+            if (nombre.Length == 0 && apellido.Length == 0 && dni.Length == 0)
+            {
                 MessageBox.Show("Debe escribir algun campo para filtrar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -62,7 +64,8 @@ namespace UberFrba.Abm_Cliente
             seleccionoCliente(cliente);
         }
 
-        public virtual void seleccionoCliente(Cliente clie) { 
+        public virtual void seleccionoCliente(Cliente clie)
+        {
             //metodo que se va a sobreescribir 
         }
 
@@ -79,11 +82,11 @@ namespace UberFrba.Abm_Cliente
         private Cliente obtenerClienteSeleccionado()
         {
             //este es el cliente, nose como me viene de la tabla, quizas tenga que hacer uno x uno los datos de las columnas
-            DataGridViewRow clieRow = tablaClientes.SelectedRows;
-            Cliente cliente = new Cliente(clieRow);
+            //    DataGridViewRow clieRow = tablaClientes.Rows(0);
+            Cliente cliente = new Cliente();
             seleccionoCliente(cliente);
+            return cliente;
         }
 
-        
     }
 }
