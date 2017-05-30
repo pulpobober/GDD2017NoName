@@ -8,6 +8,8 @@ BEGIN
 
 
 --tablas
+  IF OBJECT_ID('NONAME.Turno') IS NOT NULL
+    DROP TABLE [NONAME].Turno
 
   IF OBJECT_ID('NONAME.Factura') IS NOT NULL
     DROP TABLE [NONAME].Factura
@@ -173,5 +175,16 @@ GO
 CREATE TABLE [NONAME].[Funcion](
 	[id_funcion] [int] NOT NULL,
 	[descripcion] [varchar](255) NOT NULL
+ )
+ GO
+
+CREATE TABLE [NONAME].[Turno](
+	[id_turno] [int] NOT NULL,
+	[hora_inicio] [numeric](18, 0) NOT NULL,
+	[hora_fin] [numeric](18, 0) NOT NULL,
+	[descripcion] [varchar](255) NOT NULL,
+	[valor_km] [numeric](18, 0) NOT NULL,
+	[precio_base] [numeric](18, 0) NOT NULL,
+	[habilitado] [bit] NOT NULL
  )
  GO
