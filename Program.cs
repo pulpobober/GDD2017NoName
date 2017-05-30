@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data;
+using System.Diagnostics;
 
 namespace UberFrba
 {
@@ -16,7 +18,7 @@ namespace UberFrba
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Abm_Cliente.ListaClientes());//.Login());
+            Application.Run(new Abm_Automovil.AltaAutomovil());
         }
     }
 }

@@ -8,48 +8,52 @@ BEGIN
 
 
 --tablas
+  IF OBJECT_ID('NONAME.Turno') IS NOT NULL
+    DROP TABLE [NONAME].Turno
 
   IF OBJECT_ID('NONAME.Factura') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].habilitados
+    DROP TABLE [NONAME].Factura
 
-  IF OBJECT_ID('NONAME.cliente') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].medico_especialidad
+  IF OBJECT_ID('NONAME.Cliente') IS NOT NULL
+    DROP TABLE [NONAME].Cliente
 
   IF OBJECT_ID('NONAME.Usuario') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].rol_funcionabilidad
+    DROP TABLE [NONAME].Usuario
 
   IF OBJECT_ID('NONAME.Viaje') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].usuario_rol
+    DROP TABLE [NONAME].Viaje
 
   IF OBJECT_ID('NONAME.Rendicion_viaje') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].rol
+    DROP TABLE [NONAME].Rendicion_viaje
 
   IF OBJECT_ID('NONAME.Rendicion') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].funcionabilidades
+    DROP TABLE [NONAME].Rendicion
 
   IF OBJECT_ID('NONAME.Chofer') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].[sintomas]
+    DROP TABLE [NONAME].Chofer
 
   IF OBJECT_ID('NONAME.Auto_Chofer') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].resultados
+    DROP TABLE [NONAME].Auto_Chofer
 
   IF OBJECT_ID('NONAME.Auto') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].consulta_medica
+    DROP TABLE [NONAME].Auto
 
- IF OBJECT_ID('NONAME.Marca') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].consulta_medica
+  IF OBJECT_ID('NONAME.Marca') IS NOT NULL
+    DROP TABLE [NONAME].Marca
 
   IF OBJECT_ID('NONAME.Rol_Usuario') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].bonos
+    DROP TABLE [NONAME].Rol_Usuario
 
   IF OBJECT_ID('NONAME.Rol') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].compra_bonos
+    DROP TABLE [NONAME].Rol
 
   IF OBJECT_ID('NONAME.Funcion_Rol') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].turnos
+    DROP TABLE [NONAME].Funcion_Rol
 
   IF OBJECT_ID('NONAME.Funcion') IS NOT NULL
-    DROP TABLE [JOINEANDO_ANDO].cancelaciones
+    DROP TABLE [NONAME].Funcion
+	
+  DROP SCHEMA [NONAME]
 
 END
 GO
@@ -85,7 +89,7 @@ CREATE TABLE [NONAME].[Usuario](
 	[mail] [varchar](50) NOT NULL,
 	[fecha_nacimiento] [datetime] NOT NULL,
 	[nombre_de_usuario] [nvarchar](50) NOT NULL,
-	[contraseña] [nvarchar](255) NOT NULL,
+	[contrasena] [nvarchar](255) NOT NULL,
 	[habilitado] [bit] NOT NULL,
 	[intentos_fallidos] [int] NOT NULL
 )
@@ -126,7 +130,7 @@ CREATE TABLE [NONAME].[Chofer](
  )
  GO
 
-CREATE TABLE [NONAME].[Auto_chofer](
+CREATE TABLE [NONAME].[Auto_Chofer](
 	[patente_auto] [varchar](50) NOT NULL,
 	[id_chofer] [numeric](18, 0) NOT NULL
 )
@@ -174,4 +178,13 @@ CREATE TABLE [NONAME].[Funcion](
  )
  GO
 
- --test
+CREATE TABLE [NONAME].[Turno](
+	[id_turno] [int] NOT NULL,
+	[hora_inicio] [numeric](18, 0) NOT NULL,
+	[hora_fin] [numeric](18, 0) NOT NULL,
+	[descripcion] [varchar](255) NOT NULL,
+	[valor_km] [numeric](18, 0) NOT NULL,
+	[precio_base] [numeric](18, 0) NOT NULL,
+	[habilitado] [bit] NOT NULL
+ )
+ GO
