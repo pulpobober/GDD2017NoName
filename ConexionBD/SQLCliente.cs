@@ -18,8 +18,8 @@ namespace UberFrba.ConexionBD
         try
         {
             conectar();
-            
-            sqlCommand = new SqlCommand("NONAME.alta_cliente");
+
+            sqlCommand = new SqlCommand("NONAME.sproc_cliente_alta");
             sqlCommand.CommandType = CommandType.StoredProcedure;
             sqlCommand.Connection = miConexion;
  
@@ -29,9 +29,9 @@ namespace UberFrba.ConexionBD
             sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
             sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
             sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
-            sqlCommand.Parameters.AddWithValue("@localidad", clie.localidad);
-            sqlCommand.Parameters.AddWithValue("@codPostal", clie.codPostal);
-            sqlCommand.Parameters.AddWithValue("@fechaNacimiento", clie.fechaNacimiento);
+           // sqlCommand.Parameters.AddWithValue("@localidad", clie.localidad);
+            sqlCommand.Parameters.AddWithValue("@codigo_postal", clie.codPostal);
+            sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", clie.fechaNacimiento);
 
             sqlCommand.ExecuteNonQuery();
  
@@ -128,9 +128,9 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
                 sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
                 sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
-                sqlCommand.Parameters.AddWithValue("@localidad", clie.localidad);
-                sqlCommand.Parameters.AddWithValue("@codPostal", clie.codPostal);
-                sqlCommand.Parameters.AddWithValue("@fechaNacimiento", clie.fechaNacimiento);
+            //    sqlCommand.Parameters.AddWithValue("@localidad", clie.localidad);
+                sqlCommand.Parameters.AddWithValue("@codigo_postal", clie.codPostal);
+                sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", clie.fechaNacimiento);
 
                 sqlCommand.ExecuteNonQuery();
             }
