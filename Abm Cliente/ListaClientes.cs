@@ -20,12 +20,10 @@ namespace UberFrba.Abm_Cliente
             InitializeComponent();
         }
 
-        DataTable clientes;
-
         private void ListaClientes_Load(object sender, EventArgs e)
         {
-            //Obtener todos los clientes cuando se carga el formulario
-           clientes = SQLCliente.obtenerTodosLosClientes();
+           //Obtener todos los clientes cuando se carga el formulario
+           DataTable clientes = SQLCliente.obtenerTodosLosClientes();
            tablaClientes.DataSource = clientes;
         }
 
