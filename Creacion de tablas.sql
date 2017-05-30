@@ -23,8 +23,8 @@ BEGIN
   IF OBJECT_ID('NONAME.Viaje') IS NOT NULL
     DROP TABLE [NONAME].Viaje
 
-  IF OBJECT_ID('NONAME.Rendicion_viaje') IS NOT NULL
-    DROP TABLE [NONAME].Rendicion_viaje
+  IF OBJECT_ID('NONAME.Rendicion_Viaje') IS NOT NULL
+    DROP TABLE [NONAME].Rendicion_Viaje
 
   IF OBJECT_ID('NONAME.Rendicion') IS NOT NULL
     DROP TABLE [NONAME].Rendicion
@@ -115,9 +115,8 @@ CREATE TABLE [NONAME].[Rendicion_Viaje](
 GO
 
 CREATE TABLE [NONAME].[Rendicion](
-	[nro_rendicion] [int] NOT NULL,
+	[nro_rendicion] [numeric](18, 0) NOT NULL,
 	[id_chofer] [numeric](18, 0) NOT NULL,
-	[id_viaje] [int] NOT NULL,
 	[fecha] [datetime] NOT NULL,
 	[id_turno] [int] NOT NULL,
 	[importe] [numeric](18, 0) NOT NULL
@@ -131,7 +130,7 @@ CREATE TABLE [NONAME].[Chofer](
  GO
 
 CREATE TABLE [NONAME].[Auto_Chofer](
-	[patente_auto] [varchar](50) NOT NULL,
+	[patente_auto] [varchar](10) NOT NULL,
 	[id_chofer] [numeric](18, 0) NOT NULL
 )
 GO
@@ -188,3 +187,118 @@ CREATE TABLE [NONAME].[Turno](
 	[habilitado] [bit] NOT NULL
  )
  GO
+
+
+ --Primary keys
+
+ALTER TABLE [NONAME].[Turno]
+ADD CONSTRAINT PK_Turno PRIMARY KEY (id_turno)
+
+ALTER TABLE [NONAME].[Factura]
+ADD CONSTRAINT PK_Factura PRIMARY KEY (nro_factura)
+
+ALTER TABLE [NONAME].[Cliente]
+ADD CONSTRAINT PK_Cliente PRIMARY KEY (id_cliente)
+
+ALTER TABLE [NONAME].[Usuario]
+ADD CONSTRAINT PK_Usuario PRIMARY KEY (id_usuario_dni)
+
+ALTER TABLE [NONAME].[Viaje]
+ADD CONSTRAINT PK_Viaje PRIMARY KEY (id_viaje)
+
+ALTER TABLE [NONAME].[Rendicion]
+ADD CONSTRAINT PK_Rendicion PRIMARY KEY (nro_rendicion)
+
+ALTER TABLE [NONAME].[Chofer]
+ADD CONSTRAINT PK_Chofer PRIMARY KEY (id_chofer)
+
+ALTER TABLE [NONAME].[Auto]
+ADD CONSTRAINT PK_Auto PRIMARY KEY (patente_auto)
+
+ALTER TABLE [NONAME].[Marca]
+ADD CONSTRAINT PK_Marca PRIMARY KEY (id_marca)
+
+ALTER TABLE [NONAME].[Rol]
+ADD CONSTRAINT PK_Rol PRIMARY KEY (id_rol)
+
+ALTER TABLE [NONAME].[Funcion]
+ADD CONSTRAINT PK_Funcion PRIMARY KEY (id_funcion)
+
+
+--Foreign keys
+
+ALTER TABLE [NONAME].[Factura]
+ADD CONSTRAINT FK_Factura_Cliente FOREIGN KEY (id_cliente) 
+REFERENCES [NONAME].[Cliente] (id_cliente)
+
+ALTER TABLE [NONAME].[Factura]
+ADD CONSTRAINT FK_Factura_Viaje FOREIGN KEY (id_viaje) 
+REFERENCES [NONAME].[Viaje] (id_viaje)
+
+ALTER TABLE [NONAME].[Rendicion_Viaje]
+ADD CONSTRAINT FK_Rendicion_Viaje_Viaje FOREIGN KEY (id_viaje) 
+REFERENCES [NONAME].[Viaje] (id_viaje)
+
+ALTER TABLE [NONAME].[Rendicion_Viaje]
+ADD CONSTRAINT FK_Rendicion_Viaje_Rendicion FOREIGN KEY (nro_rendicion) 
+REFERENCES [NONAME].[Rendicion] (nro_rendicion)
+
+ALTER TABLE [NONAME].[Rendicion]
+ADD CONSTRAINT FK_Rendicion_Chofer FOREIGN KEY (id_chofer) 
+REFERENCES [NONAME].[Chofer] (id_chofer)
+
+ALTER TABLE [NONAME].[Rendicion]
+ADD CONSTRAINT FK_Rendicion_Turno FOREIGN KEY (id_turno) 
+REFERENCES [NONAME].[Turno] (id_turno)
+
+ALTER TABLE [NONAME].[Auto]
+ADD CONSTRAINT FK_Auto_Turno FOREIGN KEY (id_turno) 
+REFERENCES [NONAME].[Turno] (id_turno)
+
+ALTER TABLE [NONAME].[Auto]
+ADD CONSTRAINT FK_Auto_Marca FOREIGN KEY (id_marca) 
+REFERENCES [NONAME].[Marca] (id_marca)
+
+ALTER TABLE [NONAME].[Auto_Chofer]
+ADD CONSTRAINT FK_Auto_Chofer_Auto FOREIGN KEY (patente_auto) 
+REFERENCES [NONAME].[Auto] (patente_auto)
+
+ALTER TABLE [NONAME].[Auto_Chofer]
+ADD CONSTRAINT FK_Auto_Chofer_Chofer FOREIGN KEY (id_chofer) 
+REFERENCES [NONAME].[Chofer] (id_chofer)
+
+ALTER TABLE [NONAME].[Chofer]
+WITH CHECK ADD CONSTRAINT FK_Chofer_Usuario FOREIGN KEY (id_chofer)
+REFERENCES [NONAME].[Usuario] (id_usuario_dni)
+
+ALTER TABLE [NONAME].[Viaje]
+WITH CHECK ADD CONSTRAINT FK_Viaje_Turno FOREIGN KEY (id_turno)
+REFERENCES [NONAME].[Turno] (id_turno)
+
+ALTER TABLE [NONAME].[Viaje]
+WITH CHECK ADD CONSTRAINT FK_Viaje_Chofer FOREIGN KEY (id_chofer)
+REFERENCES [NONAME].[Chofer] (id_chofer)
+
+ALTER TABLE [NONAME].[Viaje]
+WITH CHECK ADD CONSTRAINT FK_Viaje_Cliente FOREIGN KEY (id_cliente)
+REFERENCES [NONAME].[Cliente] (id_cliente)
+
+ALTER TABLE [NONAME].[Cliente]
+WITH CHECK ADD CONSTRAINT FK_Cliente_Usuario FOREIGN KEY (id_cliente)
+REFERENCES [NONAME].[Usuario] (id_usuario_dni)
+
+ALTER TABLE [NONAME].[Rol_Usuario]
+WITH CHECK ADD CONSTRAINT FK_Rol_Usuario_Usuario FOREIGN KEY (id_usuario_dni)
+REFERENCES [NONAME].[Usuario] (id_usuario_dni)
+
+ALTER TABLE [NONAME].[Rol_Usuario]
+WITH CHECK ADD CONSTRAINT FK_Rol_Usuario_Rol FOREIGN KEY (id_rol)
+REFERENCES [NONAME].[Rol] (id_rol)
+
+ALTER TABLE [NONAME].[Funcion_Rol]
+WITH CHECK ADD CONSTRAINT FK_Funcion_Rol_Rol FOREIGN KEY (id_rol)
+REFERENCES [NONAME].[Rol] (id_rol)
+
+ALTER TABLE [NONAME].[Funcion_Rol]
+WITH CHECK ADD CONSTRAINT FK_Funcion_Rol_Funcion FOREIGN KEY (id_funcion)
+REFERENCES [NONAME].[Funcion] (id_Funcion)
