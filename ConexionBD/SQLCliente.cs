@@ -45,21 +45,38 @@ namespace UberFrba.ConexionBD
         
         public static DataTable filtrarClientes(Cliente clie) {
             try {
+                /* lO VIEJO
+        * sqlCommand = new SqlCommand("NONAME.filtrar_clientes");
+       sqlCommand.CommandType = CommandType.StoredProcedure;
+       sqlCommand.Connection = miConexion;
+                
+                 
+       sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
+       sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
+       sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
+       sqlCommand.ExecuteNonQuery(); */           
+
+
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.filtrar_clientes");
-                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+       
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT * FROM Cliente join Usuario on id_cliente = id_usuario_dni WHERE nombre=" + clie.nombre
+                    + "And apellido =" + clie.apellido + "And id_usuario_dni =" + clie.dni ;
+                sqlCommand.CommandType = CommandType.Text; //Esto es opcional porque de base es un texto
                 sqlCommand.Connection = miConexion;
 
-                sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
-                sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
-                sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
-                sqlCommand.ExecuteNonQuery();
-          
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "Select * from NONAME.Cliente";
+                sqlCommand.CommandType = CommandType.Text; //opcional
+                sqlCommand.Connection = miConexion;
+
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableClientes = new DataTable();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand);
-                dataAdapter.Fill(dataTableClientes);
-                return dataTableClientes;
-               
+                dataTableClientes.Load(sqlReader);
+                return dataTableClientes;     
+          
             }catch(Exception ex){
                 //hacer algo con las exepciones
              
@@ -73,18 +90,17 @@ namespace UberFrba.ConexionBD
         {
             try
             {
+                //Falta depurar bien el select
+
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.obtener_todos_los_clientes");
-                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "Select * from NONAME.Cliente";
+                sqlCommand.CommandType = CommandType.Text; //opcional
                 sqlCommand.Connection = miConexion;
-
-                sqlCommand.ExecuteNonQuery();
-
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableClientes = new DataTable();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand);
-                dataAdapter.Fill(dataTableClientes);
+                dataTableClientes.Load(sqlReader);
                 return dataTableClientes;
-
             }
             catch (Exception ex)
             {

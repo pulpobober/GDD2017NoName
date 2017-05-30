@@ -52,6 +52,7 @@
             this.btnAlta.Size = new System.Drawing.Size(75, 23);
             this.btnAlta.TabIndex = 12;
             this.btnAlta.Text = "Alta";
+            this.btnAlta.Click += new System.EventHandler(this.btnAlta_Click_1);
             // 
             // AltaAutomovil
             // 
@@ -61,6 +62,7 @@
             this.Controls.Add(this.btnAlta);
             this.Name = "AltaAutomovil";
             this.Text = "AltaAutomovil";
+            this.Controls.SetChildIndex(this.txtChofer, 0);
             this.Controls.SetChildIndex(this.btnAlta, 0);
             this.Controls.SetChildIndex(this.lblChofer, 0);
             this.Controls.SetChildIndex(this.lblTurno, 0);

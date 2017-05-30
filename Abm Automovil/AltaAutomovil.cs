@@ -71,5 +71,20 @@ namespace UberFrba.Abm_Automovil
 
             return Convert.ToInt32(reader["idTurno"]);
         }
+
+        private void btnAlta_Click_1(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.Write("hola");
+            ConexionSQL conexion = new ConexionSQL();
+            if (verificarDatosAutomovil(txtTurno.Text, txtPatente.Text, txtModelo.Text, selectMarca.Text, txtChofer.Text))
+            {
+                int idmarca = obtainIdMarca(selectMarca.Text);
+                int idturno = 1;//obtainIdTurno(txtTurno.Text);
+                var automovil = new { patente_auto = txtPatente.Text, modelo = txtModelo.Text, id_turno = idturno, id_marca = idmarca, rodado = "rodado", habilitado = "si", licencia = "si" };
+                Console.WriteLine(ConexionSQL.insertar(automovil, "Auto"));
+                /*Automovil auto = new Automovil(txtTurno.Text, txtPatente.Text, txtModelo.Text, selectMarca.Text, txtChofer.Text);
+                SQLAutomovil.insertarAutomovil(auto);*/
+            }
+        }
     }
 }
