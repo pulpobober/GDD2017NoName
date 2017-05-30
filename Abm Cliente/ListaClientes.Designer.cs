@@ -40,6 +40,9 @@
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.lbSeleccionar = new System.Windows.Forms.Label();
+            this.btnModificar = new System.Windows.Forms.Button();
+            this.btnEliminar = new System.Windows.Forms.Button();
+            this.Seleccionar = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.tablaClientes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -124,9 +127,13 @@
             this.tablaClientes.AllowUserToAddRows = false;
             this.tablaClientes.AllowUserToDeleteRows = false;
             this.tablaClientes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tablaClientes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Seleccionar});
             this.tablaClientes.Location = new System.Drawing.Point(21, 247);
+            this.tablaClientes.MultiSelect = false;
             this.tablaClientes.Name = "tablaClientes";
             this.tablaClientes.ReadOnly = true;
+            this.tablaClientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tablaClientes.Size = new System.Drawing.Size(562, 181);
             this.tablaClientes.TabIndex = 8;
             this.tablaClientes.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tablaClientes_CellContentDoubleClick);
@@ -160,11 +167,38 @@
             this.lbSeleccionar.TabIndex = 11;
             this.lbSeleccionar.Text = "Seleccione el cliente que quiere";
             // 
+            // btnModificar
+            // 
+            this.btnModificar.Location = new System.Drawing.Point(24, 445);
+            this.btnModificar.Name = "btnModificar";
+            this.btnModificar.Size = new System.Drawing.Size(167, 51);
+            this.btnModificar.TabIndex = 12;
+            this.btnModificar.Text = "Modificar";
+            this.btnModificar.UseVisualStyleBackColor = true;
+            // 
+            // btnEliminar
+            // 
+            this.btnEliminar.Location = new System.Drawing.Point(408, 445);
+            this.btnEliminar.Name = "btnEliminar";
+            this.btnEliminar.Size = new System.Drawing.Size(175, 51);
+            this.btnEliminar.TabIndex = 13;
+            this.btnEliminar.Text = "Eliminar";
+            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            // 
+            // Seleccionar
+            // 
+            this.Seleccionar.HeaderText = "Seleccionar";
+            this.Seleccionar.Name = "Seleccionar";
+            this.Seleccionar.ReadOnly = true;
+            // 
             // ListaClientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(625, 449);
+            this.ClientSize = new System.Drawing.Size(640, 508);
+            this.Controls.Add(this.btnEliminar);
+            this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.lbSeleccionar);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnLimpiar);
@@ -201,5 +235,8 @@
         protected System.Windows.Forms.DataGridView tablaClientes;
         protected System.Windows.Forms.Label lblNombre;
         protected System.Windows.Forms.Label lblDni;
+        private System.Windows.Forms.Button btnModificar;
+        private System.Windows.Forms.Button btnEliminar;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Seleccionar;
     }
 }

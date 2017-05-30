@@ -56,7 +56,7 @@ namespace UberFrba.Abm_Cliente
 
         public void tablaClientes_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            //este es el cliente, nose como me vie
+            //este es el cliente, nose como me viene de la tabla, quizas tenga que hacer uno x uno los datos de las columnas
             DataGridViewRow clieRow = tablaClientes.Rows[e.RowIndex];
             Cliente cliente = new Cliente(clieRow);
             seleccionoCliente(cliente);
@@ -64,6 +64,24 @@ namespace UberFrba.Abm_Cliente
 
         public virtual void seleccionoCliente(Cliente clie) { 
             //metodo que se va a sobreescribir 
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            Cliente clie = obtenerClienteSeleccionado();
+            DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este cliente?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                SQLCliente.eliminarCliente(clie);
+            }
+        }
+
+        private Cliente obtenerClienteSeleccionado()
+        {
+            //este es el cliente, nose como me viene de la tabla, quizas tenga que hacer uno x uno los datos de las columnas
+            DataGridViewRow clieRow = tablaClientes.SelectedRows;
+            Cliente cliente = new Cliente(clieRow);
+            seleccionoCliente(cliente);
         }
 
         
