@@ -27,7 +27,7 @@ BEGIN
   contrasena,
   habilitado,
   intentos_fallidos)
-    VALUES (@id_usuario_dni, @nombre, @apellido, @telefono, @direccion, @mail, @fecha_nacimiento, @id_usuario_dni, HASHBYTES('SHA2_256', @id_usuario_dni), 1, 0)
+    VALUES (@id_usuario_dni, @nombre, @apellido, @telefono, @direccion, @mail, @fecha_nacimiento, @id_usuario_dni, HASHBYTES('SHA2_256', CAST(@id_usuario_dni as nvarchar(10))), 1, 0)
 
 
   INSERT INTO [NONAME].Cliente (
