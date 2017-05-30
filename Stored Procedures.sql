@@ -33,7 +33,7 @@ BEGIN
   INSERT INTO [NONAME].Cliente (
   id_cliente,
   codigo_postal)
-    VALUES (@@IDENTITY, @codigo_postal)
+    VALUES (@id_usuario_dni, @codigo_postal)
 
 
   INSERT INTO [NONAME].Rol_Usuario (
