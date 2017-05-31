@@ -200,7 +200,7 @@ GO
 
 CREATE TABLE [NONAME].[Chofer](
 	[id_chofer] [int] NOT NULL,
-	[cedula] [varchar](10) NOT NULL,
+	[cedula] [varchar](10) NULL,
  )
  GO
 
