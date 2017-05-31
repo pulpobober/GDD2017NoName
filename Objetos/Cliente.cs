@@ -28,11 +28,12 @@ namespace UberFrba.Objetos
            this.mail = datosCliente.Cells["mail"].Value.ToString(); ;
            this.telefono = Int32.Parse(datosCliente.Cells["telefono"].Value.ToString());
            this.direccion = datosCliente.Cells["direccion"].Value.ToString();
-           this.localidad = datosCliente.Cells["localidad"].Value.ToString();
-           this.codPostal = Int32.Parse(datosCliente.Cells["codigo_postal"].Value.ToString());
-           this.fechaNacimiento = DateTime.ParseExact(datosCliente.Cells["fecha_nacimiento"].Value.ToString(), "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+         //  this.localidad = datosCliente.Cells["localidad"].Value.ToString();
+           this.codPostal = datosCliente.Cells["codigo_postal"].Value.ToString();
+           this.fechaNacimiento = Convert.ToDateTime(datosCliente.Cells["fecha_nacimiento"].Value.ToString());
+           //datosCliente.Cells["fecha_nacimiento"];//DateTime.ParseExact(datosCliente.Cells["fecha_nacimiento"].Value);//.ToString(), "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
        }
-       public Cliente(string nom, string ape,int Dni,string email,int tel,string dir,string Localidad,int codPost,DateTime fechaNac) {
+       public Cliente(string nom, string ape,int Dni,string email,int tel,string dir,string Localidad,string codPost,DateTime fechaNac) {
             this.nombre = nom;
             this.apellido = ape;
             this.dni = Dni;
@@ -50,7 +51,7 @@ namespace UberFrba.Objetos
         public int telefono { get; set; }
         public string direccion { get; set; }
         public string localidad { get; set; }
-        public int codPostal { get; set; }
+        public string codPostal { get; set; }
         public DateTime fechaNacimiento { get; set; }
         public bool habilitado { get; set; }
         public int intentos_fallidos { get; set; }

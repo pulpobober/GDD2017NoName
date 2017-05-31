@@ -15,6 +15,8 @@ namespace UberFrba.Abm_Cliente
     //Clase Padre De las listas, es la que va a traerme la info de los que quiero seleccionar para borrar y eliminar
     public partial class ListaClientes : Form
     {
+
+        Cliente clienteSeleccionado;
         public ListaClientes()
         {
             InitializeComponent();
@@ -31,8 +33,13 @@ namespace UberFrba.Abm_Cliente
         {
             if (verificarDatosBusqueda(txtNombre.Text, txtApellido.Text, txtDNI.Text))
             {
-                Cliente clie = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text));
-                tablaClientes.DataSource = SQLCliente.filtrarClientes(clie);
+                if (txtNombre.Text.Length > 0) {
+                    //tiene nombre
+                    if (txtApellido.Text.Length > 0) { }
+                }
+
+                Cliente clieABuscar = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text));
+                tablaClientes.DataSource = SQLCliente.filtrarClientes(clieABuscar);
             }
         }
 
@@ -56,37 +63,33 @@ namespace UberFrba.Abm_Cliente
             }
         }
 
+        //Por ahora no hago nada con el doble ckick
         public void tablaClientes_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             //este es el cliente, nose como me viene de la tabla, quizas tenga que hacer uno x uno los datos de las columnas
-            DataGridViewRow clieRow = tablaClientes.Rows[e.RowIndex];
-            Cliente cliente = new Cliente(clieRow);
-            seleccionoCliente(cliente);
-        }
-
-        public virtual void seleccionoCliente(Cliente clie)
-        {
-            //metodo que se va a sobreescribir 
+           // DataGridViewRow clieRow = tablaClientes.Rows[e.RowIndex];
+           // Cliente cliente = new Cliente(clieRow);
+            //seleccionoCliente(cliente);
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            Cliente clie = obtenerClienteSeleccionado();
             DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este cliente?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                SQLCliente.eliminarCliente(clie);
+                SQLCliente.eliminarCliente(clienteSeleccionado);
             }
         }
 
-        private Cliente obtenerClienteSeleccionado()
+        private void tablaClientes_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            //este es el cliente, nose como me viene de la tabla, quizas tenga que hacer uno x uno los datos de las columnas
-            //    DataGridViewRow clieRow = tablaClientes.Rows(0);
-            Cliente cliente = new Cliente();
-            seleccionoCliente(cliente);
-            return cliente;
+            DataGridViewRow clieRow = tablaClientes.Rows[e.RowIndex];
+            clienteSeleccionado = new Cliente(clieRow);
         }
 
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            new ModificacionCliente(clienteSeleccionado).ShowDialog();
+        }
     }
 }

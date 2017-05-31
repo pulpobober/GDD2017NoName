@@ -19,7 +19,7 @@ namespace UberFrba.ConexionBD
         {
             conectar();
 
-            sqlCommand = new SqlCommand("NONAME.sproc_cliente_alta");
+            sqlCommand = new SqlCommand("NONAME.sproc_cliente_altaPRUEBA");
             sqlCommand.CommandType = CommandType.StoredProcedure;
             sqlCommand.Connection = miConexion;
  
@@ -59,17 +59,10 @@ namespace UberFrba.ConexionBD
 
                 conectar();
 
-       
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT * FROM Cliente join Usuario on id_cliente = id_usuario_dni WHERE nombre=" + clie.nombre
+                sqlCommand.CommandText = "SELECT nombre, apellido, id_usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM Cliente join Usuario on id_cliente = id_usuario_dni WHERE nombre=" + clie.nombre
                     + "And apellido =" + clie.apellido + "And id_usuario_dni =" + clie.dni ;
                 sqlCommand.CommandType = CommandType.Text; //Esto es opcional porque de base es un texto
-                sqlCommand.Connection = miConexion;
-
-                conectar();
-                sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "Select * from NONAME.Cliente";
-                sqlCommand.CommandType = CommandType.Text; //opcional
                 sqlCommand.Connection = miConexion;
 
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
@@ -94,7 +87,7 @@ namespace UberFrba.ConexionBD
 
                 conectar();
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "Select * from NONAME.Cliente";
+                sqlCommand.CommandText = "SELECT nombre, apellido, id_usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Usuario join NONAME.Cliente on id_usuario_dni = id_cliente";
                 sqlCommand.CommandType = CommandType.Text; //opcional
                 sqlCommand.Connection = miConexion;
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();

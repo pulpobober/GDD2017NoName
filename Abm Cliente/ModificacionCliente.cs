@@ -20,6 +20,7 @@ namespace UberFrba.Abm_Cliente
         }
 
         public ModificacionCliente(Cliente clie) {
+            InitializeComponent();
             txtNombre.Text = clie.nombre;
             txtApellido.Text = clie.apellido;
             txtDNI.Text = clie.dni.ToString();
@@ -28,13 +29,16 @@ namespace UberFrba.Abm_Cliente
             txtDireccion.Text = clie.direccion;
             txtLocalidad.Text = clie.localidad;
             txtCodPostal.Text = clie.codPostal.ToString();
+            dateTimeNacimiento.Value = clie.fechaNacimiento;
+            //lblTitulo.Text = "Modificacion Cliente";
+           // btnModificacion.Show()
         }
 
         private void btnModificacion_Click(object sender, EventArgs e)
         {
             if (verificarDatosCliente(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtLocalidad.Text, txtCodPostal.Text))
             {
-                Cliente clienteAModificar = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), txtDireccion.Text, txtLocalidad.Text, Int32.Parse(txtCodPostal.Text), dateTimeNacimiento.Value);
+                Cliente clienteAModificar = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), txtDireccion.Text, txtLocalidad.Text, txtCodPostal.Text, dateTimeNacimiento.Value);
                 SQLCliente.modificarCliente(clienteAModificar);
             }
         }        

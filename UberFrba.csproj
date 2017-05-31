@@ -80,18 +80,6 @@
     <Compile Include="Abm Cliente\ListaClientes.Designer.cs">
       <DependentUpon>ListaClientes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm Cliente\ListaClientesBaja.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm Cliente\ListaClientesBaja.Designer.cs">
-      <DependentUpon>ListaClientesBaja.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abm Cliente\ListaClientesModificacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm Cliente\ListaClientesModificacion.Designer.cs">
-      <DependentUpon>ListaClientesModificacion.cs</DependentUpon>
-    </Compile>
     <Compile Include="Abm Cliente\ModificacionCliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,12 +180,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Cliente\ListaClientes.resx">
       <DependentUpon>ListaClientes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Abm Cliente\ListaClientesBaja.resx">
-      <DependentUpon>ListaClientesBaja.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Abm Cliente\ListaClientesModificacion.resx">
-      <DependentUpon>ListaClientesModificacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Cliente\ModificacionCliente.resx">
       <DependentUpon>ModificacionCliente.cs</DependentUpon>

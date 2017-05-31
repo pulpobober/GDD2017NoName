@@ -26,7 +26,7 @@ namespace UberFrba.Abm_Cliente
            
             if (verificarDatosCliente(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtLocalidad.Text, txtCodPostal.Text))
             {
-                Cliente nuevoCliente = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), txtDireccion.Text, txtLocalidad.Text, Int32.Parse(txtCodPostal.Text), dateTimeNacimiento.Value);
+                Cliente nuevoCliente = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), txtDireccion.Text, txtLocalidad.Text, txtCodPostal.Text, dateTimeNacimiento.Value);
                 SQLCliente.insertarCliente(nuevoCliente);
             }
              

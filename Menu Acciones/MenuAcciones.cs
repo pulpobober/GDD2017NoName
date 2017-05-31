@@ -62,12 +62,13 @@ namespace UberFrba.Menu_Acciones
                     new Abm_Cliente.AltaCliente().ShowDialog();
                     break;
 
+                    /////AAAAPAAAA NO ME DI CUENTA DE ESTO, QUIZAS SI OCULTE ALGUN BOTON O VUELVA A HACER LA HERENCIA, VER BIEN DESPUES
                 case "Modificacion Cliente":
-                    new Abm_Cliente.ListaClientesModificacion().ShowDialog();
+                    new Abm_Cliente.ListaClientes().ShowDialog();
                     break;
 
                 case "Baja Cliente":
-                    new Abm_Cliente.ListaClientesBaja().ShowDialog();
+                    new Abm_Cliente.ListaClientes().ShowDialog();
                     break;
 //////////////////////////////////////////////////////////////////////////////////////////////////////
                 /* case "Alta Automovil":
