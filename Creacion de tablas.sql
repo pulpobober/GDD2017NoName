@@ -156,7 +156,7 @@ CREATE TABLE [NONAME].[Cliente](
 GO
 
 CREATE TABLE [NONAME].[Usuario](
-	[id_usuario] [int] NOT NULL,
+	[id_usuario] [int] IDENTITY (1, 1) NOT NULL,
 	[usuario_dni] [numeric](18, 0) NOT NULL,
 	[nombre] [varchar](255) NOT NULL,
 	[apellido] [varchar](255) NOT NULL,
@@ -172,7 +172,7 @@ CREATE TABLE [NONAME].[Usuario](
 GO
 
 CREATE TABLE [NONAME].[Viaje](
-	[id_viaje] [int] NOT NULL,
+	[id_viaje] [int] IDENTITY (1, 1) NOT NULL,
 	[fecha_hora_inicio] [datetime] NOT NULL,
 	[fecha_hora_fin] [datetime] NOT NULL,
 	[cantidad_km] [numeric](18, 0) NOT NULL,
