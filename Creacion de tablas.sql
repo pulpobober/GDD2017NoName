@@ -1,7 +1,7 @@
 USE [GD1C2017]
 GO
 
-IF OBJECT_ID('NONAME.DROP_Fk') IS NOT NULL
+IF OBJECT_ID('NONAME.DROP_FK') IS NOT NULL
 DROP PROCEDURE NONAME.DROP_FK
 GO
 
@@ -10,7 +10,7 @@ as
 	IF OBJECT_ID('NONAME.FK_Viaje_Turno') IS NOT NULL
 	ALTER TABLE [NONAME].[Viaje] DROP CONSTRAINT [FK_Viaje_Turno]
 	
-	IF OBJECT_ID('NONAME.FK_Viaje_Client') IS NOT NULL
+	IF OBJECT_ID('NONAME.FK_Viaje_Cliente') IS NOT NULL
 	ALTER TABLE [NONAME].[Viaje] DROP CONSTRAINT [FK_Viaje_Cliente]
 	
 	IF OBJECT_ID('NONAME.FK_Viaje_Chofer') IS NOT NULL
@@ -37,7 +37,7 @@ as
 	IF OBJECT_ID('NONAME.FK_Funcion_Rol_Rol') IS NOT NULL
 	ALTER TABLE [NONAME].[Funcion_Rol] DROP CONSTRAINT [FK_Funcion_Rol_Rol]
 	
-	IF OBJECT_ID('NONAME.FK_Funcion_Rol_Funcio') IS NOT NULL
+	IF OBJECT_ID('NONAME.FK_Funcion_Rol_Funcion') IS NOT NULL
 	ALTER TABLE [NONAME].[Funcion_Rol] DROP CONSTRAINT [FK_Funcion_Rol_Funcion]
 	
 	IF OBJECT_ID('NONAME.FK_Factura_Viaje') IS NOT NULL
@@ -72,7 +72,7 @@ GO
 IF SCHEMA_ID('NONAME') IS NOT NULL
 BEGIN
 
---constrains
+--constraints
 	
 EXEC NONAME.DROP_FK
 
@@ -123,7 +123,7 @@ EXEC NONAME.DROP_FK
   IF OBJECT_ID('NONAME.Auto') IS NOT NULL
 	DROP TABLE [NONAME].[Auto]
 
-	IF OBJECT_ID('NONAME.DROP_Fk') IS NOT NULL
+	IF OBJECT_ID('NONAME.DROP_FK') IS NOT NULL
 	DROP PROCEDURE NONAME.DROP_FK
 
 
@@ -156,7 +156,7 @@ CREATE TABLE [NONAME].[Cliente](
 GO
 
 CREATE TABLE [NONAME].[Usuario](
-	[id_usuario] [int] IDENTITY (1, 1) NOT NULL,
+	[id_usuario] [int] IDENTITY(1, 1) NOT NULL,
 	[usuario_dni] [numeric](18, 0) NOT NULL,
 	[nombre] [varchar](255) NOT NULL,
 	[apellido] [varchar](255) NOT NULL,
@@ -172,7 +172,7 @@ CREATE TABLE [NONAME].[Usuario](
 GO
 
 CREATE TABLE [NONAME].[Viaje](
-	[id_viaje] [int] IDENTITY (1, 1) NOT NULL,
+	[id_viaje] [int] IDENTITY(1, 1) NOT NULL,
 	[fecha_hora_inicio] [datetime] NOT NULL,
 	[fecha_hora_fin] [datetime] NOT NULL,
 	[cantidad_km] [numeric](18, 0) NOT NULL,
@@ -474,7 +474,7 @@ GO
 INSERT INTO [NONAME].Rol (tipo, id_rol, habilitado)
  VALUES 
 		('Administrador', 1, 1),
-		('Client', 2, 1),
+		('Cliente', 2, 1),
 		('Chofer', 3, 1)
 GO
 
