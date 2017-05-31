@@ -19,7 +19,7 @@ namespace UberFrba.ConexionBD
         {
             conectar();
 
-            sqlCommand = new SqlCommand("NONAME.sproc_cliente_altaPRUEBA");
+            sqlCommand = new SqlCommand("NONAME.sproc_cliente_alta");
             sqlCommand.CommandType = CommandType.StoredProcedure;
             sqlCommand.Connection = miConexion;
  
@@ -111,7 +111,7 @@ namespace UberFrba.ConexionBD
             try
             {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.modificar_cliente");
+                sqlCommand = new SqlCommand("NONAME.sproc_cliente_modificacion");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
@@ -142,7 +142,7 @@ namespace UberFrba.ConexionBD
             try
             {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.baja_cliente");
+                sqlCommand = new SqlCommand("NONAME.sproc_cliente_baja");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 

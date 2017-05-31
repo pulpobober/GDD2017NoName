@@ -48,6 +48,10 @@
             this.dateTimeNacimiento = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.lblTitulo = new System.Windows.Forms.Label();
+            this.lblPiso = new System.Windows.Forms.Label();
+            this.lblDepartamento = new System.Windows.Forms.Label();
+            this.txtPiso = new System.Windows.Forms.TextBox();
+            this.txtDepto = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblMail
@@ -126,7 +130,7 @@
             // lblLocalidad
             // 
             this.lblLocalidad.AutoSize = true;
-            this.lblLocalidad.Location = new System.Drawing.Point(30, 304);
+            this.lblLocalidad.Location = new System.Drawing.Point(210, 302);
             this.lblLocalidad.Name = "lblLocalidad";
             this.lblLocalidad.Size = new System.Drawing.Size(56, 13);
             this.lblLocalidad.TabIndex = 14;
@@ -173,12 +177,12 @@
             // 
             this.txtDireccion.Location = new System.Drawing.Point(96, 263);
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(263, 20);
+            this.txtDireccion.Size = new System.Drawing.Size(159, 20);
             this.txtDireccion.TabIndex = 20;
             // 
             // txtLocalidad
             // 
-            this.txtLocalidad.Location = new System.Drawing.Point(96, 301);
+            this.txtLocalidad.Location = new System.Drawing.Point(276, 299);
             this.txtLocalidad.Name = "txtLocalidad";
             this.txtLocalidad.Size = new System.Drawing.Size(100, 20);
             this.txtLocalidad.TabIndex = 23;
@@ -216,11 +220,47 @@
             this.lblTitulo.TabIndex = 28;
             this.lblTitulo.Text = "Abm Cliente";
             // 
+            // lblPiso
+            // 
+            this.lblPiso.AutoSize = true;
+            this.lblPiso.Location = new System.Drawing.Point(273, 266);
+            this.lblPiso.Name = "lblPiso";
+            this.lblPiso.Size = new System.Drawing.Size(30, 13);
+            this.lblPiso.TabIndex = 29;
+            this.lblPiso.Text = "Piso:";
+            // 
+            // lblDepartamento
+            // 
+            this.lblDepartamento.AutoSize = true;
+            this.lblDepartamento.Location = new System.Drawing.Point(16, 302);
+            this.lblDepartamento.Name = "lblDepartamento";
+            this.lblDepartamento.Size = new System.Drawing.Size(77, 13);
+            this.lblDepartamento.TabIndex = 30;
+            this.lblDepartamento.Text = "Departamento:";
+            // 
+            // txtPiso
+            // 
+            this.txtPiso.Location = new System.Drawing.Point(312, 263);
+            this.txtPiso.Name = "txtPiso";
+            this.txtPiso.Size = new System.Drawing.Size(47, 20);
+            this.txtPiso.TabIndex = 31;
+            // 
+            // txtDepto
+            // 
+            this.txtDepto.Location = new System.Drawing.Point(96, 299);
+            this.txtDepto.Name = "txtDepto";
+            this.txtDepto.Size = new System.Drawing.Size(100, 20);
+            this.txtDepto.TabIndex = 32;
+            // 
             // AbmCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(405, 488);
+            this.Controls.Add(this.txtDepto);
+            this.Controls.Add(this.txtPiso);
+            this.Controls.Add(this.lblDepartamento);
+            this.Controls.Add(this.lblPiso);
             this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dateTimeNacimiento);
@@ -257,7 +297,6 @@
         private System.Windows.Forms.Label lblCodigoPostsal;
         private System.Windows.Forms.Label lblDireccion;
         private System.Windows.Forms.Label lblTelefono;
-        private System.Windows.Forms.Label lblLocalidad;
         private System.Windows.Forms.Label lblApellido;
         protected System.Windows.Forms.TextBox txtNombre;
         protected System.Windows.Forms.TextBox txtApellido;
@@ -270,6 +309,11 @@
         protected System.Windows.Forms.DateTimePicker dateTimeNacimiento;
         private System.Windows.Forms.Label label1;
         protected System.Windows.Forms.Label lblTitulo;
+        protected System.Windows.Forms.Label lblLocalidad;
+        protected System.Windows.Forms.Label lblPiso;
+        protected System.Windows.Forms.TextBox txtPiso;
+        protected System.Windows.Forms.Label lblDepartamento;
+        protected System.Windows.Forms.TextBox txtDepto;
 
     }
 }

@@ -26,19 +26,55 @@ namespace UberFrba.Abm_Cliente
             txtDNI.Text = clie.dni.ToString();
             txtMail.Text = clie.mail;
             txtTelefono.Text = clie.telefono.ToString();
-            txtDireccion.Text = clie.direccion;
-            txtLocalidad.Text = clie.localidad;
             txtCodPostal.Text = clie.codPostal.ToString();
             dateTimeNacimiento.Value = clie.fechaNacimiento;
-            //lblTitulo.Text = "Modificacion Cliente";
-           // btnModificacion.Show()
+            depurarDireccion(clie.direccion);
+        }
+
+        public void depurarDireccion(string direccionEntera) { 
+            string letras = "";
+            int contadorPropio = 0;
+            for (int i = 0; i < direccionEntera.Length; i++)
+            {
+                if (direccionEntera[i] == ',')
+                {
+                    escribirForm(letras, contadorPropio);
+                    letras = "";
+                    i++;
+                    contadorPropio ++;
+
+                }
+                 else{
+                    letras += direccionEntera[i];
+                 }
+            }
+            escribirForm(letras, contadorPropio);
+        }
+
+        public void escribirForm(string letras, int contador) {
+            switch (contador)
+            {
+                case 0:
+                    txtDireccion.Text = letras;
+                    break;
+                case 1:
+                    txtPiso.Text = letras;
+                    break;
+                case 2:
+                    txtDepto.Text = letras;
+                    break;
+                case 3:
+                    txtLocalidad.Text = letras;
+                    break;
+            }
         }
 
         private void btnModificacion_Click(object sender, EventArgs e)
         {
             if (verificarDatosCliente(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtLocalidad.Text, txtCodPostal.Text))
             {
-                Cliente clienteAModificar = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), txtDireccion.Text, txtLocalidad.Text, txtCodPostal.Text, dateTimeNacimiento.Value);
+                string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
+                Cliente clienteAModificar = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, txtCodPostal.Text, dateTimeNacimiento.Value);
                 SQLCliente.modificarCliente(clienteAModificar);
             }
         }        

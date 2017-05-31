@@ -18,6 +18,10 @@ namespace UberFrba.Abm_Cliente
             InitializeComponent();
         }
 
+        public string obtenerDireccionEntera(string direccion, string piso, string depto, string localidad) { 
+            return (direccion + ", " + piso + ", " + depto + ", " + localidad);
+        }
+
         public bool verificarDatosCliente(string nombre, string apellido, string dni, string mail, string telefono, string direccion, string localidad, string codPostal)
         {
             if (nombre.Length == 0)
@@ -90,5 +94,4 @@ namespace UberFrba.Abm_Cliente
            // }
         }
     }
-
 }
