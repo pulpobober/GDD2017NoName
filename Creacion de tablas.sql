@@ -435,3 +435,141 @@ REFERENCES [NONAME].[Funcion] (id_Funcion)
 ALTER TABLE [NONAME].[Funcion_Rol]
 CHECK CONSTRAINT [FK_Funcion_Rol_Funcion]
 
+
+-- migracias prueba 
+
+/*
+--inserts
+
+INSERT INTO [NONAME].Marca (nombre, id_marca)
+  VALUES 
+		('Fiat', 1),
+		('Peugeot', 2),
+		('Ford', 3),
+		('Renault', 4),
+		('Volkswagen', 5),
+		('Chevrolet', 6)
+GO
+
+INSERT INTO [NONAME].Funcion (descripcion, id_funcion)
+ VALUES 
+		('Alta Rol', 1),
+		('Modificacion Rol', 2),
+		('Baja Rol', 3),
+		('Alta Usuario', 4),
+		('Modificacion Usuario', 5),
+		('Baja Usuario', 6),
+		('Alta Auto', 7),
+		('Modificacion Auto', 8),
+		('Baja Auto', 9),
+		('Alta Turno', 10),
+		('Modificacion Turno', 11),
+		('Baja Turno', 12),
+		('Registro de viajes', 13),
+		('Pago al chofer', 14),
+		('Facturacion del cliente', 15),
+		('Listado Estadistico', 16)
+GO
+
+INSERT INTO [NONAME].Rol (tipo, id_rol, habilitado)
+ VALUES 
+		('Administradore', 1, 1),
+		('Cliente', 2, 1),
+		('Chofere', 3, 1)
+GO
+
+INSERT INTO [NONAME].Funcion_Rol (id_rol, id_funcion)
+ VALUES 
+		(1, 1),
+		(1, 2),
+		(1, 3),
+		(1, 4),
+		(1, 5),
+		(1, 6),
+		(1, 7),
+		(1, 8),
+		(1, 9),
+		(1, 10),
+		(1, 11),
+		(1, 12),
+		(1, 13),
+		(1, 14)
+GO
+
+-- todavia no tienen asiganads funcionalidades los clientes y los choferes...
+
+INSERT INTO [NONAME].Turno (hora_inicio, hora_fin, descripcion, valor_km, precio_base, id_turno, habilitado)
+ VALUES 
+		(0, 8, 'Turno Mañana', 0.73, 7.30, 1, 1),
+		(8, 16, 'Turno Tarde', 0.73, 7.30, 2, 1),
+		(16, 24, 'Turno Noche', 0.85, 8.50, 3, 1)
+GO
+
+-- Chofer
+
+INSERT INTO [NONAME].Usuario
+  SELECT DISTINCT
+    [Chofer_Dni],
+    [Chofer_Nombre],
+    [Chofer_Apellido],
+    [Chofer_Telefono],
+    [Chofer_Direccion],
+    [Chofer_Mail],
+    [Chofer_Fecha_Nac],
+    cast([Chofer_Dni] as nvarchar(50)) + '-1',
+    HASHBYTES('SHA2_256', cast([Chofer_Dni] as nvarchar(50)) + '-1'),
+    1,
+    0
+  FROM [GD1C2017].[gd_esquema].[Maestra]
+
+GO
+
+INSERT INTO [NONAME].Chofer
+  SELECT DISTINCT
+    U.id_usuario,
+    'True'
+  FROM NONAME.Usuario AS U
+  INNER JOIN gd_esquema.maestra AS C
+    ON (U.nombre = C.Chofer_Nombre)
+    AND (u.apellido = C.Chofer_Apellido)
+    AND (u.id_usuario = C.Chofer_Dni)
+
+GO
+
+-- seguin con chofer auto y chofer rendicion....
+
+
+--Cliente
+
+INSERT INTO [NONAME].Usuario
+  SELECT DISTINCT
+
+    [Cliente_Dni],
+    [Cliente_Nombre],
+    [Cliente_Apellido],
+    [Cliente_Telefono],
+    [Cliente_Direccion],
+    [Cliente_Mail],
+    [Cliente_Fecha_Nac],
+    cast([Cliente_Dni] as nvarchar(50)) + '-1',
+    HASHBYTES('SHA2_256', cast([Cliente_Dni] as nvarchar(50)) + '-1'),
+    1,
+    0
+  FROM [GD1C2017].[gd_esquema].[Maestra]
+
+GO
+
+
+INSERT INTO [NONAME].Cliente
+  SELECT DISTINCT
+    U.id_usuario,
+    NULL
+  FROM (NONAME.Usuario AS U
+  INNER JOIN gd_esquema.maestra AS C
+    ON (U.nombre = C.Cliente_Nombre)
+    AND (U.apellido = C.Cliente_Apellido)
+    AND (U.id_usuario = C.Cliente_Dni))
+
+GO
+
+*/
