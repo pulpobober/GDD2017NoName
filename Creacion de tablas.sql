@@ -473,9 +473,9 @@ GO
 
 INSERT INTO [NONAME].Rol (tipo, id_rol, habilitado)
  VALUES 
-		('Administradore', 1, 1),
-		('Cliente', 2, 1),
-		('Chofere', 3, 1)
+		('Administrador', 1, 1),
+		('Client', 2, 1),
+		('Chofer', 3, 1)
 GO
 
 INSERT INTO [NONAME].Funcion_Rol (id_rol, id_funcion)
