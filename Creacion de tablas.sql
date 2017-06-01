@@ -123,8 +123,36 @@ EXEC NONAME.DROP_FK
   IF OBJECT_ID('NONAME.Auto') IS NOT NULL
 	DROP TABLE [NONAME].[Auto]
 
-	IF OBJECT_ID('NONAME.DROP_FK') IS NOT NULL
+--Stored Procedures
+  IF OBJECT_ID('NONAME.DROP_FK') IS NOT NULL
 	DROP PROCEDURE NONAME.DROP_FK
+
+	IF OBJECT_ID('NONAME.sproc_rol_alta') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_rol_alta
+
+	IF OBJECT_ID('NONAME.sproc_rol_baja') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_rol_baja
+
+	IF OBJECT_ID('NONAME.sproc_rol_modificacion') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_rol_modificacion
+
+	IF OBJECT_ID('NONAME.sproc_cliente_alta') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_cliente_alta
+
+	IF OBJECT_ID('NONAME.sproc_cliente_baja') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_cliente_baja
+
+	IF OBJECT_ID('NONAME.sproc_cliente_modificacion') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_cliente_modificacion
+
+	IF OBJECT_ID('NONAME.sproc_automovil_alta') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_automovil_alta
+
+	IF OBJECT_ID('NONAME.sproc_automovil_baja') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_automovil_baja
+
+	IF OBJECT_ID('NONAME.sproc_automovil_modificacion') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_automovil_modificacion
 
 
   DROP SCHEMA [NONAME]
@@ -205,7 +233,7 @@ CREATE TABLE [NONAME].[Chofer](
  GO
 
 CREATE TABLE [NONAME].[Auto_Chofer](
-	[id_auto] [int] IDENTITY(1, 1) NOT NULL,
+	[id_auto] [int] NOT NULL,
 	[id_chofer] [int] NOT NULL
 )
 GO
@@ -216,9 +244,9 @@ CREATE TABLE [NONAME].[Auto](
 	[modelo] [varchar](255) NOT NULL,
 	[id_turno] [int] NOT NULL,
 	[id_marca] [int] NOT NULL,
-	[rodado] [varchar](10) NOT NULL,
+	[rodado] [varchar](10) NULL,
 	[habilitado] [bit] NOT NULL,
-	[licencia] [varchar](26) NOT NULL
+	[licencia] [varchar](26) NULL
 )
 GO
 
