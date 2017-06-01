@@ -205,12 +205,13 @@ CREATE TABLE [NONAME].[Chofer](
  GO
 
 CREATE TABLE [NONAME].[Auto_Chofer](
-	[patente_auto] [varchar](10) NOT NULL,
+	[id_auto] [int] IDENTITY(1, 1) NOT NULL,
 	[id_chofer] [int] NOT NULL
 )
 GO
 
 CREATE TABLE [NONAME].[Auto](
+	[id_auto] [int] IDENTITY(1, 1) NOT NULL,
 	[patente_auto] [varchar](10) NOT NULL,
 	[modelo] [varchar](255) NOT NULL,
 	[id_turno] [int] NOT NULL,
@@ -288,7 +289,7 @@ ALTER TABLE [NONAME].[Chofer]
 ADD CONSTRAINT PK_Chofer PRIMARY KEY (id_chofer)
 
 ALTER TABLE [NONAME].[Auto]
-ADD CONSTRAINT PK_Auto PRIMARY KEY (patente_auto)
+ADD CONSTRAINT PK_Auto PRIMARY KEY (id_auto)
 
 ALTER TABLE [NONAME].[Marca]
 ADD CONSTRAINT PK_Marca PRIMARY KEY (id_marca)
@@ -359,8 +360,8 @@ ALTER TABLE [NONAME].[Auto]
 CHECK CONSTRAINT [FK_Auto_Marca]
 
 ALTER TABLE [NONAME].[Auto_Chofer]
-ADD CONSTRAINT FK_Auto_Chofer_Auto FOREIGN KEY (patente_auto) 
-REFERENCES [NONAME].[Auto] (patente_auto)
+ADD CONSTRAINT FK_Auto_Chofer_Auto FOREIGN KEY (id_auto) 
+REFERENCES [NONAME].[Auto] (id_auto)
 
 ALTER TABLE [NONAME].[Auto_Chofer]
 CHECK CONSTRAINT [FK_Auto_Chofer_Auto]
