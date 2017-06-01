@@ -472,6 +472,8 @@ INSERT INTO [NONAME].Funcion (descripcion, id_funcion)
 		('Listado Estadistico', 16)
 GO
 
+--chequear las funcionalidades que faltan 
+
 INSERT INTO [NONAME].Rol (tipo, id_rol, habilitado)
  VALUES 
 		('Administrador', 1, 1),
