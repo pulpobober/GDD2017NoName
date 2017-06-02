@@ -51,6 +51,9 @@ as
 	
 	IF OBJECT_ID('NONAME.FK_Chofer_Usuario') IS NOT NULL
 	ALTER TABLE [NONAME].[Chofer] DROP CONSTRAINT [FK_Chofer_Usuario]
+
+	IF OBJECT_ID('NONAME.FK_Auto_Chofer_Chofer') IS NOT NULL
+	ALTER TABLE [NONAME].[Auto_Chofer] DROP CONSTRAINT [FK_Auto_Chofer_Chofer]
 	
 	IF OBJECT_ID('NONAME.FK_Auto_Chofer_Auto') IS NOT NULL
 	ALTER TABLE [NONAME].[Auto_Chofer] DROP CONSTRAINT [FK_Auto_Chofer_Auto]
@@ -391,6 +394,13 @@ REFERENCES [NONAME].[Auto] (id_auto)
 ALTER TABLE [NONAME].[Auto_Chofer]
 CHECK CONSTRAINT [FK_Auto_Chofer_Auto]
 
+ALTER TABLE [NONAME].[Auto_Chofer]
+ADD CONSTRAINT FK_Auto_Chofer_Chofer FOREIGN KEY (id_chofer) 
+REFERENCES [NONAME].[Chofer] (id_chofer)
+
+ALTER TABLE [NONAME].[Auto_Chofer]
+CHECK CONSTRAINT [FK_Auto_Chofer_Chofer]
+
 ALTER TABLE [NONAME].[Chofer]
 WITH CHECK ADD CONSTRAINT FK_Chofer_Usuario FOREIGN KEY (id_chofer)
 REFERENCES [NONAME].[Usuario] (id_usuario)
@@ -553,7 +563,6 @@ INSERT INTO [NONAME].Chofer
   INNER JOIN gd_esquema.maestra AS C
     ON (U.nombre = C.Chofer_Nombre)
     AND (u.apellido = C.Chofer_Apellido)
-    AND (u.id_usuario = C.Chofer_Dni)
 
 GO
 
@@ -588,8 +597,7 @@ INSERT INTO [NONAME].Cliente
   FROM (NONAME.Usuario AS U
   INNER JOIN gd_esquema.maestra AS C
     ON (U.nombre = C.Cliente_Nombre)
-    AND (U.apellido = C.Cliente_Apellido)
-    AND (U.id_usuario = C.Cliente_Dni))
+    AND (U.apellido = C.Cliente_Apellido))
 
 GO
 
