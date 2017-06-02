@@ -49,9 +49,10 @@ namespace UberFrba.Abm_Automovil
         }
         private int obtainIdChofer(string chofer)
         {
-            int indexof_whitspace = chofer.IndexOf(" ");
-            string nombre = chofer.Substring(0, indexof_whitspace - 1);
-            string apellido = chofer.Substring(indexof_whitspace - 1);
+            chofer=chofer.Replace(' ', '_');
+            int indexof_whitspace = chofer.IndexOf("_");
+            string nombre = chofer.Substring(0, indexof_whitspace);
+            string apellido = chofer.Substring(indexof_whitspace+1);
 
             SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
             SqlCommand cmd = new SqlCommand();
