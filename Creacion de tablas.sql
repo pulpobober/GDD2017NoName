@@ -63,8 +63,8 @@ as
 	
 	IF OBJECT_ID('NONAME.FK_Auto_Marca') IS NOT NULL
 	ALTER TABLE [NONAME].[Auto] DROP CONSTRAINT [FK_Auto_Marca]
-GO
 
+GO
 
 
 -- Validacion de existencia 
@@ -464,8 +464,11 @@ REFERENCES [NONAME].[Funcion] (id_Funcion)
 ALTER TABLE [NONAME].[Funcion_Rol]
 CHECK CONSTRAINT [FK_Funcion_Rol_Funcion]
 
+--CONSTRAINT
 
--- migracias prueba 
+ALTER TABLE [NONAME].[Usuario]  ADD CONSTRAINT [dni_unico] UNIQUE (usuario_dni);
+
+ALTER TABLE [NONAME].[Auto]  ADD CONSTRAINT [petente_unico] UNIQUE (patente_auto);
 
 
 --inserts
@@ -531,7 +534,7 @@ GO
 
 INSERT INTO [NONAME].Turno (hora_inicio, hora_fin, descripcion, valor_km, precio_base, id_turno, habilitado)
  VALUES 
-		(0, 8, 'Turno Mañana', 0.73, 7.30, 1, 1),
+		(0, 8, 'Turno Mañna', 0.73, 7.30, 1, 1),
 		(8, 16, 'Turno Tarde', 0.73, 7.30, 2, 1),
 		(16, 24, 'Turno Noche', 0.85, 8.50, 3, 1)
 GO
@@ -601,3 +604,18 @@ INSERT INTO [NONAME].Cliente
 
 GO
 
+
+INSERT INTO [NONAME].Viaje 
+	SELECT 
+	m.Viaje_Fecha,
+	m.Viaje_Fecha,
+	m.Viaje_Cant_Kilometros,
+	t.id_turno,
+	ch.id_usuario,
+	cl.id_usuario
+	from [gd_esquema].[Maestra] m
+	join [NONAME].Turno t ON m.Turno_Descripcion= t.descripcion
+	join [NONAME].Usuario ch ON m.Chofer_Dni = ch.usuario_dni 
+	join [NONAME].Usuario cl ON m.Cliente_Dni = cl.usuario_dni
+	
+GO
