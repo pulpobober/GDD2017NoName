@@ -14,13 +14,15 @@ namespace UberFrba.Abm_Cliente
 {
     public partial class ModificacionCliente : AbmCliente
     {
+        int idCliente;
         public ModificacionCliente()
         {
             InitializeComponent();
         }
-
+        
         public ModificacionCliente(Cliente clie) {
             InitializeComponent();
+            idCliente = clie.id_cliente;
             txtNombre.Text = clie.nombre;
             txtApellido.Text = clie.apellido;
             txtDNI.Text = clie.dni.ToString();
@@ -74,7 +76,7 @@ namespace UberFrba.Abm_Cliente
             if (verificarDatosCliente(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtLocalidad.Text, txtCodPostal.Text))
             {
                 string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
-                Cliente clienteAModificar = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, txtCodPostal.Text, dateTimeNacimiento.Value);
+                Cliente clienteAModificar = new Cliente(idCliente,txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, txtCodPostal.Text, dateTimeNacimiento.Value);
                 SQLCliente.modificarCliente(clienteAModificar);
             }
         }        

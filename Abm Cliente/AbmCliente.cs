@@ -49,11 +49,6 @@ namespace UberFrba.Abm_Cliente
                 MessageBox.Show("No se puede dejar el campo direccion vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (localidad.Length == 0)
-            {
-                MessageBox.Show("No se puede dejar el campo localidad vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
             if (codPostal.Length == 0)
             {
                 MessageBox.Show("No se puede dejar el campo codigo postal vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);

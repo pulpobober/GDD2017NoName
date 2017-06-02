@@ -25,7 +25,7 @@ namespace UberFrba.ConexionBD
  
             sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
             sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
-            sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
+            sqlCommand.Parameters.AddWithValue("@usuario_dni", clie.dni);
             sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
             sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
             sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
@@ -47,8 +47,8 @@ namespace UberFrba.ConexionBD
                 conectar();
 
                 sqlCommand = new SqlCommand();
-                //agregarle los ?
-                sqlCommand.CommandText = "SELECT nombre, apellido, id_usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Cliente join NONAME.Usuario on id_cliente = id_usuario_dni WHERE " + (String.IsNullOrEmpty(clie.nombre) ? "1=1" : ("nombre ='" + clie.nombre) + "'") + (clie.dni == 0  ? " And 1=1" : ( " And id_usuario_dni =" + clie.dni.ToString())) + (String.IsNullOrEmpty(clie.apellido) ? " And 1=1" : (" And apellido ='" + clie.apellido.ToString() + "'")) ;
+           
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Cliente join NONAME.Usuario on id_cliente = id_usuario WHERE " + (String.IsNullOrEmpty(clie.nombre) ? "1=1" : ("nombre ='" + clie.nombre) + "'") + (clie.dni == 0  ? " And 1=1" : ( " And id_usuario_dni =" + clie.dni.ToString())) + (String.IsNullOrEmpty(clie.apellido) ? " And 1=1" : (" And apellido ='" + clie.apellido.ToString() + "'")) ;
                 sqlCommand.CommandType = CommandType.Text; //Esto es opcional porque de base es un texto
                 sqlCommand.Connection = miConexion;
 
@@ -70,11 +70,9 @@ namespace UberFrba.ConexionBD
         {
             try
             {
-                //Falta depurar bien el select
-
                 conectar();
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT nombre, apellido, id_usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Usuario join NONAME.Cliente on id_usuario_dni = id_cliente";
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Usuario join NONAME.Cliente on id_usuario = id_cliente";
                 sqlCommand.CommandType = CommandType.Text; //opcional
                 sqlCommand.Connection = miConexion;
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
@@ -102,10 +100,10 @@ namespace UberFrba.ConexionBD
                 sqlCommand = new SqlCommand("NONAME.sproc_cliente_modificacion");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
-
+                sqlCommand.Parameters.AddWithValue("@id_usuario", clie.id_cliente);
                 sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
                 sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
-                sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
+                sqlCommand.Parameters.AddWithValue("@usuario_dni", clie.dni);
                 sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
                 sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
                 sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
@@ -134,7 +132,7 @@ namespace UberFrba.ConexionBD
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
-                sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
+                sqlCommand.Parameters.AddWithValue("@id_usuario", clie.id_cliente);
 
                 sqlCommand.ExecuteNonQuery();
             }

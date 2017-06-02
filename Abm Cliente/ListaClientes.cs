@@ -27,6 +27,8 @@ namespace UberFrba.Abm_Cliente
             //Obtener todos los clientes cuando se carga el formulario
             DataTable clientes = SQLCliente.obtenerTodosLosClientes();
             tablaClientes.DataSource = clientes;
+            this.tablaClientes.Columns[0].Visible = false; //usuarioID
+
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -99,6 +101,7 @@ namespace UberFrba.Abm_Cliente
             txtDNI.Text = "";
             txtApellido.Text = "";
             txtNombre.Text = "";
+            this.tablaClientes.Columns[0].Visible = false; //usuarioID
         }
     }
 }
