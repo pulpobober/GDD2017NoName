@@ -20,38 +20,10 @@ namespace UberFrba.Abm_Automovil
         {
             InitializeComponent();
         }
-
-        private void btnAlta_Click(object sender, EventArgs e)
-        {
-           System.Diagnostics.Debug.Write("hola");
-            ConexionSQL conexion = new ConexionSQL();
-            if (verificarDatosAutomovil(txtTurno.Text, txtPatente.Text, txtModelo.Text, selectMarca.Text, txtChofer.Text))
-            {   int idmarca= obtainIdMarca(selectMarca.Text);
-                  int idturno = 1;//obtainIdTurno(txtTurno.Text);
-                var automovil = new { patente_auto = txtPatente.Text, modelo = txtModelo.Text,id_turno = idturno, id_marca = idmarca,rodado="rodado",habilitado="si",licencia="si" };
-               Console.WriteLine(ConexionSQL.insertar(automovil, "Auto"));
-                /*Automovil auto = new Automovil(txtTurno.Text, txtPatente.Text, txtModelo.Text, selectMarca.Text, txtChofer.Text);
-                SQLAutomovil.insertarAutomovil(auto);*/
-            }
-
-        }
         private int obtainIdMarca(string marca)
-        {
-            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
-
-            cmd.CommandText = "SELECT idMarca FROM Marca";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = miConexion;
-
-            miConexion.Open();
-
-            reader = cmd.ExecuteReader();
-
-            miConexion.Close();
-
-            return Convert.ToInt32(reader["idMarca"]);
+        {   int length_substring= marca.IndexOf("]");
+            int idMarca = Convert.ToInt32(marca.Substring(1, length_substring-1));
+            return idMarca;
         }
         private int obtainIdTurno(string turno)
         {
@@ -59,7 +31,7 @@ namespace UberFrba.Abm_Automovil
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader;
 
-            cmd.CommandText = "SELECT idTurno FROM Turno";
+            cmd.CommandText = "SELECT id_turno FROM Noname.Turno where descripcion='"+turno+"'";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = miConexion;
 
@@ -67,23 +39,53 @@ namespace UberFrba.Abm_Automovil
 
             reader = cmd.ExecuteReader();
 
-            miConexion.Close();
+           // miConexion.Close();
 
-            return Convert.ToInt32(reader["idTurno"]);
+            while (reader.Read())
+            {
+                return Convert.ToInt32(reader["id_turno"]);
+            }
+            return 0;
         }
+        private int obtainIdChofer(string chofer)
+        {
+            int indexof_whitspace = chofer.IndexOf(" ");
+            string nombre = chofer.Substring(0, indexof_whitspace - 1);
+            string apellido = chofer.Substring(indexof_whitspace - 1);
 
+            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "Select id_usuario from NONAME.Usuario inner join NONAME.Chofer on id_usuario=id_chofer where nombre='"+nombre+"' and apellido='"+apellido+"'";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = miConexion;
+
+            miConexion.Open();
+
+            reader = cmd.ExecuteReader();
+
+            // miConexion.Close();
+
+            while (reader.Read())
+            {
+                return Convert.ToInt32(reader["id_usuario"]);
+            }
+            return 0;
+
+        }
         private void btnAlta_Click_1(object sender, EventArgs e)
         {
             System.Diagnostics.Debug.Write("hola");
             ConexionSQL conexion = new ConexionSQL();
-            if (verificarDatosAutomovil(txtTurno.Text, txtPatente.Text, txtModelo.Text, selectMarca.Text, txtChofer.Text))
+            if (verificarDatosAutomovil(txtTurno.Text, txtPatente.Text, txtModelo.Text, selectMarca.GetItemText(selectMarca.SelectedItem), txtChofer.Text))
             {
                 int idmarca = obtainIdMarca(selectMarca.Text);
-                int idturno = 1;//obtainIdTurno(txtTurno.Text);
-                var automovil = new { patente_auto = txtPatente.Text, modelo = txtModelo.Text, id_turno = idturno, id_marca = idmarca, rodado = "rodado", habilitado = "si", licencia = "si" };
-                Console.WriteLine(ConexionSQL.insertar(automovil, "Auto"));
-                /*Automovil auto = new Automovil(txtTurno.Text, txtPatente.Text, txtModelo.Text, selectMarca.Text, txtChofer.Text);
-                SQLAutomovil.insertarAutomovil(auto);*/
+                int idturno = obtainIdTurno(txtTurno.Text);
+                int idchofer = obtainIdChofer(txtChofer.Text);
+                Automovil auto = new Automovil(idturno, txtPatente.Text, txtModelo.Text, idmarca, idchofer, txtRodado.Text, txtLicencia.Text, 1);
+                string response=SQLAutomovil.insertarAutomovil(auto);
+                MessageBox.Show(response);
             }
         }
     }

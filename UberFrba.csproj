@@ -111,6 +111,7 @@
       <DependentUpon>ModificacionRol.cs</DependentUpon>
     </Compile>
     <Compile Include="ConexionBD\ConexionSQL.cs" />
+    <Compile Include="ConexionBD\SQLAutomovil.cs" />
     <Compile Include="ConexionBD\SQLCliente.cs" />
     <Compile Include="ConexionBD\SQLRoles.cs" />
     <Compile Include="Facturacion\Form1.cs">

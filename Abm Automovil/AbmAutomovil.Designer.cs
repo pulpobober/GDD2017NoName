@@ -1,4 +1,7 @@
-﻿namespace UberFrba.Abm_Automovil
+﻿using System.Data.SqlClient;
+using UberFrba.ConexionBD;
+
+namespace UberFrba.Abm_Automovil
 {
     partial class AbmAutomovil
     {
@@ -38,7 +41,13 @@
             this.txtPatente = new System.Windows.Forms.TextBox();
             this.txtTurno = new System.Windows.Forms.TextBox();
             this.txtChofer = new System.Windows.Forms.TextBox();
-            this.selectMarca = new System.Windows.Forms.TextBox();
+            this.selectMarca = new System.Windows.Forms.ComboBox();
+            this.lblRodado = new System.Windows.Forms.Label();
+            this.txtRodado = new System.Windows.Forms.TextBox();
+            this.txtLicencia = new System.Windows.Forms.TextBox();
+            this.lblLicencia = new System.Windows.Forms.Label();
+
+            
             this.SuspendLayout();
             // 
             // lblTitulo
@@ -95,6 +104,21 @@
             this.lblMarca.Size = new System.Drawing.Size(100, 20);
             this.lblMarca.TabIndex = 6;
             this.lblMarca.Text = "Marca: ";
+            // lblRodado
+            // 
+            this.lblRodado.Location = new System.Drawing.Point(34, 191);
+            this.lblRodado.Name = "lblRodado";
+            this.lblRodado.Size = new System.Drawing.Size(100, 20);
+            this.lblRodado.TabIndex = 6;
+            this.lblRodado.Text = "Rodado: ";
+            // 
+            // lblLicencia
+            // 
+            this.lblLicencia.Location = new System.Drawing.Point(34, 191);
+            this.lblLicencia.Name = "lblLicencia";
+            this.lblLicencia.Size = new System.Drawing.Size(100, 20);
+            this.lblLicencia.TabIndex = 6;
+            this.lblLicencia.Text = "Licencia: ";
             // 
             // txtModelo
             // 
@@ -124,10 +148,25 @@
             this.txtChofer.Size = new System.Drawing.Size(100, 20);
             this.txtChofer.TabIndex = 10;
             // 
+            // txtRodado
+            // 
+            this.txtRodado.Location = new System.Drawing.Point(188, 226);
+            this.txtRodado.Name = "txtRodado";
+            this.txtRodado.Size = new System.Drawing.Size(100, 20);
+            this.txtRodado.TabIndex = 10;
+            // 
+            // txtLicencia
+            // 
+            this.txtLicencia.Location = new System.Drawing.Point(188, 226);
+            this.txtLicencia.Name = "txtLicencia";
+            this.txtLicencia.Size = new System.Drawing.Size(100, 20);
+            this.txtLicencia.TabIndex = 10;
+            // 
             // selectMarca
             // 
             this.selectMarca.Location = new System.Drawing.Point(188, 194);
             this.selectMarca.Name = "selectMarca";
+            this.selectMarca.DataSource=SQLAutomovil.obtain_marcas();
             this.selectMarca.Size = new System.Drawing.Size(171, 17);
             this.selectMarca.TabIndex = 1;
             // 
@@ -142,21 +181,25 @@
             this.Controls.Add(this.txtPatente);
             this.Controls.Add(this.txtTurno);
             this.Controls.Add(this.txtChofer);
+            this.Controls.Add(this.txtRodado);
+            this.Controls.Add(this.txtLicencia);
             this.Controls.Add(this.selectMarca);
             this.Controls.Add(this.lblModelo);
             this.Controls.Add(this.lblPatente);
             this.Controls.Add(this.lblTurno);
             this.Controls.Add(this.lblChofer);
+            this.Controls.Add(this.lblRodado);
+            this.Controls.Add(this.lblLicencia);
             this.Name = "AbmAutomovil";
             this.Text = "AbmAutomovil";
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-
+       
         #endregion
 
-        protected System.Windows.Forms.TextBox selectMarca;
+        protected System.Windows.Forms.ComboBox selectMarca;
         protected System.Windows.Forms.Label lblModelo;
         protected System.Windows.Forms.Label lblPatente;
         protected System.Windows.Forms.Label lblTurno;
@@ -167,5 +210,9 @@
         protected System.Windows.Forms.TextBox txtChofer;
         protected System.Windows.Forms.Label lblTitulo;
         protected System.Windows.Forms.Label lblMarca;
+        protected System.Windows.Forms.Label lblRodado;
+        protected System.Windows.Forms.Label lblLicencia;
+        protected System.Windows.Forms.TextBox txtLicencia;
+        protected System.Windows.Forms.TextBox txtRodado;
     }
 }

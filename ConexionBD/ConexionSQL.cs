@@ -27,7 +27,7 @@ namespace UberFrba.ConexionBD
             miConexion.Close();
         }
 
-        public static int insertar(dynamic parametros, string tabla)
+       /* public static int insertar(dynamic parametros, string tabla)
         {
             List<String> campos = new List<String>();
             List<String> valores = new List<String>();
@@ -49,7 +49,7 @@ namespace UberFrba.ConexionBD
 
             return command.ExecuteNonQuery();
 
-        }
+        }*/
 
     }
 }

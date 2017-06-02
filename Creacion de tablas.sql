@@ -1,16 +1,16 @@
 USE [GD1C2017]
 GO
 
-IF OBJECT_ID('NONAME.DROP_Fk') IS NOT NULL
-DROP PROCEDURE NONAME.DROP_FK
-GO
+	IF OBJECT_ID('NONAME.DROP_FK') IS NOT NULL
+	DROP PROCEDURE NONAME.DROP_FK
+	GO
 
 CREATE PROCEDURE NONAME.DROP_FK
 as
 	IF OBJECT_ID('NONAME.FK_Viaje_Turno') IS NOT NULL
 	ALTER TABLE [NONAME].[Viaje] DROP CONSTRAINT [FK_Viaje_Turno]
 	
-	IF OBJECT_ID('NONAME.FK_Viaje_Client') IS NOT NULL
+	IF OBJECT_ID('NONAME.FK_Viaje_Cliente') IS NOT NULL
 	ALTER TABLE [NONAME].[Viaje] DROP CONSTRAINT [FK_Viaje_Cliente]
 	
 	IF OBJECT_ID('NONAME.FK_Viaje_Chofer') IS NOT NULL
@@ -37,7 +37,7 @@ as
 	IF OBJECT_ID('NONAME.FK_Funcion_Rol_Rol') IS NOT NULL
 	ALTER TABLE [NONAME].[Funcion_Rol] DROP CONSTRAINT [FK_Funcion_Rol_Rol]
 	
-	IF OBJECT_ID('NONAME.FK_Funcion_Rol_Funcio') IS NOT NULL
+	IF OBJECT_ID('NONAME.FK_Funcion_Rol_Funcion') IS NOT NULL
 	ALTER TABLE [NONAME].[Funcion_Rol] DROP CONSTRAINT [FK_Funcion_Rol_Funcion]
 	
 	IF OBJECT_ID('NONAME.FK_Factura_Viaje') IS NOT NULL
@@ -51,7 +51,7 @@ as
 	
 	IF OBJECT_ID('NONAME.FK_Chofer_Usuario') IS NOT NULL
 	ALTER TABLE [NONAME].[Chofer] DROP CONSTRAINT [FK_Chofer_Usuario]
-	
+
 	IF OBJECT_ID('NONAME.FK_Auto_Chofer_Chofer') IS NOT NULL
 	ALTER TABLE [NONAME].[Auto_Chofer] DROP CONSTRAINT [FK_Auto_Chofer_Chofer]
 	
@@ -72,7 +72,7 @@ GO
 IF SCHEMA_ID('NONAME') IS NOT NULL
 BEGIN
 
---constrains
+--constraints
 	
 EXEC NONAME.DROP_FK
 
@@ -123,8 +123,36 @@ EXEC NONAME.DROP_FK
   IF OBJECT_ID('NONAME.Auto') IS NOT NULL
 	DROP TABLE [NONAME].[Auto]
 
-	IF OBJECT_ID('NONAME.DROP_Fk') IS NOT NULL
+--Stored Procedures
+  IF OBJECT_ID('NONAME.DROP_FK') IS NOT NULL
 	DROP PROCEDURE NONAME.DROP_FK
+
+	IF OBJECT_ID('NONAME.sproc_rol_alta') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_rol_alta
+
+	IF OBJECT_ID('NONAME.sproc_rol_baja') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_rol_baja
+
+	IF OBJECT_ID('NONAME.sproc_rol_modificacion') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_rol_modificacion
+
+	IF OBJECT_ID('NONAME.sproc_cliente_alta') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_cliente_alta
+
+	IF OBJECT_ID('NONAME.sproc_cliente_baja') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_cliente_baja
+
+	IF OBJECT_ID('NONAME.sproc_cliente_modificacion') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_cliente_modificacion
+
+	IF OBJECT_ID('NONAME.sproc_automovil_alta') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_automovil_alta
+
+	IF OBJECT_ID('NONAME.sproc_automovil_baja') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_automovil_baja
+
+	IF OBJECT_ID('NONAME.sproc_automovil_modificacion') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_automovil_modificacion
 
 
   DROP SCHEMA [NONAME]
@@ -156,7 +184,7 @@ CREATE TABLE [NONAME].[Cliente](
 GO
 
 CREATE TABLE [NONAME].[Usuario](
-	[id_usuario] [int] IDENTITY (1, 1) NOT NULL,
+	[id_usuario] [int] IDENTITY(1, 1) NOT NULL,
 	[usuario_dni] [numeric](18, 0) NOT NULL,
 	[nombre] [varchar](255) NOT NULL,
 	[apellido] [varchar](255) NOT NULL,
@@ -172,7 +200,7 @@ CREATE TABLE [NONAME].[Usuario](
 GO
 
 CREATE TABLE [NONAME].[Viaje](
-	[id_viaje] [int] IDENTITY (1, 1) NOT NULL,
+	[id_viaje] [int] IDENTITY(1, 1) NOT NULL,
 	[fecha_hora_inicio] [datetime] NOT NULL,
 	[fecha_hora_fin] [datetime] NOT NULL,
 	[cantidad_km] [numeric](18, 0) NOT NULL,
@@ -200,24 +228,25 @@ GO
 
 CREATE TABLE [NONAME].[Chofer](
 	[id_chofer] [int] NOT NULL,
-	[cedula] [varchar](10) NOT NULL,
+	[cedula] [varchar](10) NULL,
  )
  GO
 
 CREATE TABLE [NONAME].[Auto_Chofer](
-	[patente_auto] [varchar](10) NOT NULL,
+	[id_auto] [int] NOT NULL,
 	[id_chofer] [int] NOT NULL
 )
 GO
 
 CREATE TABLE [NONAME].[Auto](
+	[id_auto] [int] IDENTITY(1, 1) NOT NULL,
 	[patente_auto] [varchar](10) NOT NULL,
 	[modelo] [varchar](255) NOT NULL,
 	[id_turno] [int] NOT NULL,
 	[id_marca] [int] NOT NULL,
-	[rodado] [varchar](10) NOT NULL,
+	[rodado] [varchar](10) NULL,
 	[habilitado] [bit] NOT NULL,
-	[licencia] [varchar](26) NOT NULL
+	[licencia] [varchar](26) NULL
 )
 GO
 
@@ -288,7 +317,7 @@ ALTER TABLE [NONAME].[Chofer]
 ADD CONSTRAINT PK_Chofer PRIMARY KEY (id_chofer)
 
 ALTER TABLE [NONAME].[Auto]
-ADD CONSTRAINT PK_Auto PRIMARY KEY (patente_auto)
+ADD CONSTRAINT PK_Auto PRIMARY KEY (id_auto)
 
 ALTER TABLE [NONAME].[Marca]
 ADD CONSTRAINT PK_Marca PRIMARY KEY (id_marca)
@@ -359,8 +388,8 @@ ALTER TABLE [NONAME].[Auto]
 CHECK CONSTRAINT [FK_Auto_Marca]
 
 ALTER TABLE [NONAME].[Auto_Chofer]
-ADD CONSTRAINT FK_Auto_Chofer_Auto FOREIGN KEY (patente_auto) 
-REFERENCES [NONAME].[Auto] (patente_auto)
+ADD CONSTRAINT FK_Auto_Chofer_Auto FOREIGN KEY (id_auto) 
+REFERENCES [NONAME].[Auto] (id_auto)
 
 ALTER TABLE [NONAME].[Auto_Chofer]
 CHECK CONSTRAINT [FK_Auto_Chofer_Auto]
@@ -438,7 +467,7 @@ CHECK CONSTRAINT [FK_Funcion_Rol_Funcion]
 
 -- migracias prueba 
 
-/*
+
 --inserts
 
 INSERT INTO [NONAME].Marca (nombre, id_marca)
@@ -471,11 +500,13 @@ INSERT INTO [NONAME].Funcion (descripcion, id_funcion)
 		('Listado Estadistico', 16)
 GO
 
+--chequear las funcionalidades que faltan 
+
 INSERT INTO [NONAME].Rol (tipo, id_rol, habilitado)
  VALUES 
-		('Administradore', 1, 1),
+		('Administrador', 1, 1),
 		('Cliente', 2, 1),
-		('Chofere', 3, 1)
+		('Chofer', 3, 1)
 GO
 
 INSERT INTO [NONAME].Funcion_Rol (id_rol, id_funcion)
@@ -532,7 +563,6 @@ INSERT INTO [NONAME].Chofer
   INNER JOIN gd_esquema.maestra AS C
     ON (U.nombre = C.Chofer_Nombre)
     AND (u.apellido = C.Chofer_Apellido)
-    AND (u.id_usuario = C.Chofer_Dni)
 
 GO
 
@@ -567,9 +597,7 @@ INSERT INTO [NONAME].Cliente
   FROM (NONAME.Usuario AS U
   INNER JOIN gd_esquema.maestra AS C
     ON (U.nombre = C.Cliente_Nombre)
-    AND (U.apellido = C.Cliente_Apellido)
-    AND (U.id_usuario = C.Cliente_Dni))
+    AND (U.apellido = C.Cliente_Apellido))
 
 GO
 
-*/
