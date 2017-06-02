@@ -1,9 +1,9 @@
 USE [GD1C2017]
 GO
 
-IF OBJECT_ID('NONAME.DROP_FK') IS NOT NULL
-DROP PROCEDURE NONAME.DROP_FK
-GO
+	IF OBJECT_ID('NONAME.DROP_FK') IS NOT NULL
+	DROP PROCEDURE NONAME.DROP_FK
+	GO
 
 CREATE PROCEDURE NONAME.DROP_FK
 as
@@ -51,9 +51,6 @@ as
 	
 	IF OBJECT_ID('NONAME.FK_Chofer_Usuario') IS NOT NULL
 	ALTER TABLE [NONAME].[Chofer] DROP CONSTRAINT [FK_Chofer_Usuario]
-	
-	IF OBJECT_ID('NONAME.FK_Auto_Chofer_Chofer') IS NOT NULL
-	ALTER TABLE [NONAME].[Auto_Chofer] DROP CONSTRAINT [FK_Auto_Chofer_Chofer]
 	
 	IF OBJECT_ID('NONAME.FK_Auto_Chofer_Auto') IS NOT NULL
 	ALTER TABLE [NONAME].[Auto_Chofer] DROP CONSTRAINT [FK_Auto_Chofer_Auto]
@@ -394,13 +391,6 @@ REFERENCES [NONAME].[Auto] (id_auto)
 ALTER TABLE [NONAME].[Auto_Chofer]
 CHECK CONSTRAINT [FK_Auto_Chofer_Auto]
 
-ALTER TABLE [NONAME].[Auto_Chofer]
-ADD CONSTRAINT FK_Auto_Chofer_Chofer FOREIGN KEY (id_chofer) 
-REFERENCES [NONAME].[Chofer] (id_chofer)
-
-ALTER TABLE [NONAME].[Auto_Chofer]
-CHECK CONSTRAINT [FK_Auto_Chofer_Chofer]
-
 ALTER TABLE [NONAME].[Chofer]
 WITH CHECK ADD CONSTRAINT FK_Chofer_Usuario FOREIGN KEY (id_chofer)
 REFERENCES [NONAME].[Usuario] (id_usuario)
@@ -467,7 +457,7 @@ CHECK CONSTRAINT [FK_Funcion_Rol_Funcion]
 
 -- migracias prueba 
 
-/*
+
 --inserts
 
 INSERT INTO [NONAME].Marca (nombre, id_marca)
@@ -603,4 +593,3 @@ INSERT INTO [NONAME].Cliente
 
 GO
 
-*/
