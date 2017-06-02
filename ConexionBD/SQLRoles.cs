@@ -18,25 +18,16 @@ namespace UberFrba.ConexionBD
             try
             {
                 conectar();
-
-                sqlCommand = new SqlCommand("NONAME.alta_rol");
+                sqlCommand = new SqlCommand("NONAME.sproc_rol_alta");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
                 sqlCommand.Parameters.AddWithValue("@nombre", unRol.nombre);
-           //     sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
                 sqlCommand.Parameters.AddWithValue("@habilitado", unRol.estado);
+
                 //int id = 
                 /*
-                                 parameter = new SqlParameter("@nombre", SqlDbType.NVarChar, 50);
-                parameter.Value = nombre;
-                parameters.Add(parameter);
-
-                parameter = new SqlParameter("@inhabilitado", SqlDbType.Bit);
-                parameter.Value = !habilitado;
-                parameters.Add(parameter);
-                int id;
-
+       
                 id = int.Parse((AdaptadorSQL.SQLHelper_ExecuteScalar("NONAME.alta_Rol", parameters)).ToString());
 
                 // Como barro un map?
@@ -68,7 +59,7 @@ namespace UberFrba.ConexionBD
             catch (Exception ex)
             {
                 //Manejar errores
-
+                throw ex;
             }
             finally
             {
@@ -98,6 +89,7 @@ namespace UberFrba.ConexionBD
             {
                 //hacer algo con las exepciones
                 return null;
+                throw ex;
             }
             finally
             {
@@ -122,6 +114,7 @@ namespace UberFrba.ConexionBD
             catch (Exception ex)
             {
                 //manejar exepciones
+                throw ex;
             }
             finally
             {
@@ -145,6 +138,7 @@ namespace UberFrba.ConexionBD
             catch (Exception ex)
             {
                 //manejar exepciones
+                throw ex;
             }
             finally
             {
@@ -174,6 +168,7 @@ namespace UberFrba.ConexionBD
             {
                 //hacer algo con las exepciones
                 return null;
+                throw ex;
             }
             finally
             {

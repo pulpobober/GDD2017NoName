@@ -38,7 +38,7 @@ namespace UberFrba.Abm_Cliente
                     if (txtApellido.Text.Length > 0) { }
                 }
 
-                Cliente clieABuscar = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text));
+                Cliente clieABuscar = new Cliente(txtNombre.Text, txtApellido.Text, String.IsNullOrEmpty(txtDNI.Text) ?  0 : Int32.Parse(txtDNI.Text));
                 tablaClientes.DataSource = SQLCliente.filtrarClientes(clieABuscar);
             }
         }
@@ -90,6 +90,15 @@ namespace UberFrba.Abm_Cliente
         private void btnModificar_Click(object sender, EventArgs e)
         {
             new ModificacionCliente(clienteSeleccionado).ShowDialog();
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            DataTable clientes = SQLCliente.obtenerTodosLosClientes();
+            tablaClientes.DataSource = clientes;
+            txtDNI.Text = "";
+            txtApellido.Text = "";
+            txtNombre.Text = "";
         }
     }
 }

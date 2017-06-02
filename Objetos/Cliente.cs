@@ -15,6 +15,34 @@ namespace UberFrba.Objetos
            this.apellido = ape;
            this.dni = Dni;
        }
+       /*
+       public Cliente(string nom, string ape)
+       {
+           this.nombre = nom;
+           this.apellido = ape;
+       }
+
+       public Cliente(string nom)
+       {
+           this.nombre = nom;
+       }
+
+       public Cliente(string ape)
+       {
+           this.apellido = ape;
+       }
+       public Cliente(string ape, int Dni)
+       {
+           this.apellido = ape;
+           this.dni = Dni;
+       }
+       public Cliente(string nom int Dni)
+       {
+           this.nombre = nom;
+           this.dni = Dni;
+       }
+       */
+
        public Cliente(int Dni)
        {
            this.dni = Dni;

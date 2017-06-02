@@ -29,7 +29,6 @@ namespace UberFrba.ConexionBD
             sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
             sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
             sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
-           // sqlCommand.Parameters.AddWithValue("@localidad", clie.localidad);
             sqlCommand.Parameters.AddWithValue("@codigo_postal", clie.codPostal);
             sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", clie.fechaNacimiento);
 
@@ -37,7 +36,7 @@ namespace UberFrba.ConexionBD
  
         } catch(Exception ex){
            //Manejar errores
-            
+            throw ex;
         }finally{
             desconectar();
         }
@@ -45,35 +44,23 @@ namespace UberFrba.ConexionBD
         
         public static DataTable filtrarClientes(Cliente clie) {
             try {
-                /* lO VIEJO
-        * sqlCommand = new SqlCommand("NONAME.filtrar_clientes");
-       sqlCommand.CommandType = CommandType.StoredProcedure;
-       sqlCommand.Connection = miConexion;
-                
-                 
-       sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
-       sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
-       sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
-       sqlCommand.ExecuteNonQuery(); */           
-
-
                 conectar();
 
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT nombre, apellido, id_usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM Cliente join Usuario on id_cliente = id_usuario_dni WHERE nombre=" + clie.nombre
-                    + "And apellido =" + clie.apellido + "And id_usuario_dni =" + clie.dni ;
+                //agregarle los ?
+                sqlCommand.CommandText = "SELECT nombre, apellido, id_usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Cliente join NONAME.Usuario on id_cliente = id_usuario_dni WHERE " + (String.IsNullOrEmpty(clie.nombre) ? "1=1" : ("nombre ='" + clie.nombre) + "'") + (clie.dni == 0  ? " And 1=1" : ( " And id_usuario_dni =" + clie.dni.ToString())) + (String.IsNullOrEmpty(clie.apellido) ? " And 1=1" : (" And apellido ='" + clie.apellido.ToString() + "'")) ;
                 sqlCommand.CommandType = CommandType.Text; //Esto es opcional porque de base es un texto
                 sqlCommand.Connection = miConexion;
 
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableClientes = new DataTable();
                 dataTableClientes.Load(sqlReader);
-                return dataTableClientes;     
+                return dataTableClientes;
           
             }catch(Exception ex){
                 //hacer algo con las exepciones
-             
                 return null;
+                throw ex;
             }finally{
                 desconectar();
             }
@@ -99,6 +86,7 @@ namespace UberFrba.ConexionBD
             {
                 //hacer algo con las exepciones
                 return null;
+                throw ex;
             }
             finally
             {
@@ -121,7 +109,6 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
                 sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
                 sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
-            //    sqlCommand.Parameters.AddWithValue("@localidad", clie.localidad);
                 sqlCommand.Parameters.AddWithValue("@codigo_postal", clie.codPostal);
                 sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", clie.fechaNacimiento);
 
@@ -130,6 +117,7 @@ namespace UberFrba.ConexionBD
             catch (Exception ex)
             {
                 //manejar exepciones
+                throw ex;
             }
             finally
             {
@@ -153,6 +141,7 @@ namespace UberFrba.ConexionBD
             catch (Exception ex)
             {
                 //manejar exepciones
+                throw ex;
             }
             finally
             {
