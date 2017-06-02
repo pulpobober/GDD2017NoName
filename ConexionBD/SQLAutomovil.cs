@@ -20,7 +20,7 @@ namespace UberFrba.ConexionBD
             sqlCommand = new SqlCommand("NONAME.sproc_automovil_alta");
             sqlCommand.CommandType = CommandType.StoredProcedure;
             sqlCommand.Connection = miConexion;
- 
+           
             sqlCommand.Parameters.AddWithValue("@patente_auto", auto.patente);
             sqlCommand.Parameters.AddWithValue("@modelo", auto.modelo);
             sqlCommand.Parameters.AddWithValue("@id_turno", auto.idturno);
@@ -29,7 +29,6 @@ namespace UberFrba.ConexionBD
             sqlCommand.Parameters.AddWithValue("@habilitado", auto.habilitado);
             sqlCommand.Parameters.AddWithValue("@licencia", auto.licencia);
             sqlCommand.Parameters.AddWithValue("@id_chofer", auto.idchofer);
-
             int response=sqlCommand.ExecuteNonQuery();
             if (response == 0)
             {
