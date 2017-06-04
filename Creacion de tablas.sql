@@ -468,8 +468,9 @@ CHECK CONSTRAINT [FK_Funcion_Rol_Funcion]
 
 ALTER TABLE [NONAME].[Usuario]  ADD CONSTRAINT [dni_unico] UNIQUE (usuario_dni);
 
-ALTER TABLE [NONAME].[Auto]  ADD CONSTRAINT [petente_unico] UNIQUE (patente_auto);
+ALTER TABLE [NONAME].[Usuario]  ADD CONSTRAINT [telefono_unico] UNIQUE (telefono);
 
+ALTER TABLE [NONAME].[Auto]  ADD CONSTRAINT [patente_unico] UNIQUE (patente_auto);
 
 --inserts
 
@@ -497,9 +498,9 @@ INSERT INTO [NONAME].Funcion (descripcion, id_funcion)
 		('Alta Turno', 10),
 		('Modificacion Turno', 11),
 		('Baja Turno', 12),
-		('Registro de viajes', 13),
-		('Pago al chofer', 14),
-		('Facturacion del cliente', 15),
+		('Registro de Viajes', 13),
+		('Pago al Chofer', 14),
+		('Facturacion del Cliente', 15),
 		('Listado Estadistico', 16)
 GO
 
@@ -534,7 +535,7 @@ GO
 
 INSERT INTO [NONAME].Turno (hora_inicio, hora_fin, descripcion, valor_km, precio_base, id_turno, habilitado)
  VALUES 
-		(0, 8, 'Turno Mañna', 0.73, 7.30, 1, 1),
+		(0, 8, 'Turno Mañana', 0.73, 7.30, 1, 1),
 		(8, 16, 'Turno Tarde', 0.73, 7.30, 2, 1),
 		(16, 24, 'Turno Noche', 0.85, 8.50, 3, 1)
 GO
