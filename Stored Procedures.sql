@@ -203,12 +203,13 @@ BEGIN
 
 	SET @id_auto = SCOPE_IDENTITY() --Capturo el último id_auto auto-incrementado en Auto
 
-		INSERT INTO [NONAME].Auto_Chofer
-    select
-		a.id_auto,
-		c.id_chofer
-		from NONAME.Auto a, NONAME.Chofer c
-		where a.id_auto = @id_auto and c.id_chofer = @id_chofer
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Auto_Chofer WHERE id_auto = @id_auto AND id_chofer = @id_chofer)
+		BEGIN
+			INSERT INTO [NONAME].Auto_Chofer
+			SELECT Auto.id_auto, Chofer.id_chofer
+			FROM NONAME.Auto, NONAME.Chofer
+			WHERE Auto.id_auto = @id_auto and Chofer.id_chofer = @id_chofer
+		END
 
 END
 

@@ -472,6 +472,9 @@ ALTER TABLE [NONAME].[Usuario]  ADD CONSTRAINT [telefono_unico] UNIQUE (telefono
 
 ALTER TABLE [NONAME].[Auto]  ADD CONSTRAINT [patente_unico] UNIQUE (patente_auto);
 
+--Tener en cuenta que un chofer no puede estar asignado a más de un auto activo al mismo momento.
+ALTER TABLE [NONAME].[Auto_Chofer]  ADD CONSTRAINT [choferxauto_unico] UNIQUE (id_chofer);
+
 --inserts
 
 INSERT INTO [NONAME].Marca (nombre, id_marca)
