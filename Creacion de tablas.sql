@@ -128,33 +128,37 @@ EXEC NONAME.DROP_FK
 	DROP PROCEDURE NONAME.DROP_FK
 
 	IF OBJECT_ID('NONAME.sproc_rol_alta') IS NOT NULL
-	DROP PROCEDURE NONAME.sproc_rol_alta
+		DROP PROCEDURE NONAME.sproc_rol_alta
 
 	IF OBJECT_ID('NONAME.sproc_rol_baja') IS NOT NULL
-	DROP PROCEDURE NONAME.sproc_rol_baja
+		DROP PROCEDURE NONAME.sproc_rol_baja
 
 	IF OBJECT_ID('NONAME.sproc_rol_modificacion') IS NOT NULL
-	DROP PROCEDURE NONAME.sproc_rol_modificacion
+		DROP PROCEDURE NONAME.sproc_rol_modificacion
 
 	IF OBJECT_ID('NONAME.sproc_cliente_alta') IS NOT NULL
-	DROP PROCEDURE NONAME.sproc_cliente_alta
+		DROP PROCEDURE NONAME.sproc_cliente_alta
 
 	IF OBJECT_ID('NONAME.sproc_cliente_baja') IS NOT NULL
-	DROP PROCEDURE NONAME.sproc_cliente_baja
+		DROP PROCEDURE NONAME.sproc_cliente_baja
 
 	IF OBJECT_ID('NONAME.sproc_cliente_modificacion') IS NOT NULL
-	DROP PROCEDURE NONAME.sproc_cliente_modificacion
+		DROP PROCEDURE NONAME.sproc_cliente_modificacion
 
 	IF OBJECT_ID('NONAME.sproc_automovil_alta') IS NOT NULL
-	DROP PROCEDURE NONAME.sproc_automovil_alta
+		DROP PROCEDURE NONAME.sproc_automovil_alta
 
 	IF OBJECT_ID('NONAME.sproc_automovil_baja') IS NOT NULL
-	DROP PROCEDURE NONAME.sproc_automovil_baja
+		DROP PROCEDURE NONAME.sproc_automovil_baja
 
 	IF OBJECT_ID('NONAME.sproc_automovil_modificacion') IS NOT NULL
-	DROP PROCEDURE NONAME.sproc_automovil_modificacion
+		DROP PROCEDURE NONAME.sproc_automovil_modificacion
 
+--User-Defined Data & Table Types
+	IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
+		DROP TYPE NONAME.ListaFuncionalidadesRol
 
+--Ahora sí, el Schema
   DROP SCHEMA [NONAME]
 
 END
@@ -263,7 +267,7 @@ CREATE TABLE [NONAME].[Rol_Usuario](
 GO
 
 CREATE TABLE [NONAME].[Rol](
-	[id_rol] [int] NOT NULL,
+	[id_rol] [int] IDENTITY(4,1) NOT NULL,
 	[tipo] [varchar](255) NOT NULL,
 	[habilitado] [bit] NOT NULL
 )
@@ -509,11 +513,17 @@ GO
 
 --chequear las funcionalidades que faltan 
 
+--Seteo IDENTITY_INSERT temporariamente en ON para que permita el ingreso de los 3 roles iniciales (id_rol es de tipo IDENTITY).
+SET IDENTITY_INSERT NONAME.Rol ON;
+
 INSERT INTO [NONAME].Rol (tipo, id_rol, habilitado)
  VALUES 
 		('Administrador', 1, 1),
 		('Cliente', 2, 1),
 		('Chofer', 3, 1)
+
+--Reseteo IDENTITY_INSERT de vuelta en OFF (id_rol = IDENTITY(4,1)).
+SET IDENTITY_INSERT NONAME.Rol OFF;
 GO
 
 INSERT INTO [NONAME].Funcion_Rol (id_rol, id_funcion)
@@ -541,6 +551,40 @@ INSERT INTO [NONAME].Turno (hora_inicio, hora_fin, descripcion, valor_km, precio
 		(0, 8, 'Turno Mañana', 0.73, 7.30, 1, 1),
 		(8, 16, 'Turno Tarde', 0.73, 7.30, 2, 1),
 		(16, 24, 'Turno Noche', 0.85, 8.50, 3, 1)
+GO
+
+--Administrador
+
+INSERT INTO [NONAME].Usuario (
+	usuario_dni,
+	nombre,
+	apellido,
+	telefono,
+	direccion,
+	mail,
+	fecha_nacimiento,
+	nombre_de_usuario,
+	contrasena,
+	habilitado,
+	intentos_fallidos)
+VALUES (
+	0000000000000000,
+	'admin',
+	'admin',
+	0000000000000000,
+	'N/A',
+	'N/A',
+	GETDATE(),
+	'admin',
+	HASHBYTES('SHA2_256', 'w23e'),
+	1,
+	0)
+GO
+
+INSERT INTO [NONAME].Rol_Usuario
+SELECT Rol.id_rol, Usuario.id_usuario
+FROM NONAME.Rol, NONAME.Usuario
+WHERE Rol.tipo LIKE '_dmin%' AND Usuario.nombre_de_usuario = 'admin'
 GO
 
 -- Chofer

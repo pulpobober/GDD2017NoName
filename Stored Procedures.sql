@@ -1,6 +1,7 @@
 USE [GD1C2017]
 GO
 
+
 IF OBJECT_ID('NONAME.sproc_rol_alta') IS NOT NULL
 	DROP PROCEDURE NONAME.sproc_rol_alta
 
@@ -28,7 +29,16 @@ IF OBJECT_ID('NONAME.sproc_automovil_baja') IS NOT NULL
 IF OBJECT_ID('NONAME.sproc_automovil_modificacion') IS NOT NULL
 	DROP PROCEDURE NONAME.sproc_automovil_modificacion
 
+IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
+	DROP TYPE NONAME.ListaFuncionalidadesRol
 GO
+
+
+CREATE TYPE NONAME.ListaFuncionalidadesRol
+AS TABLE (
+	id_funcion INT NOT NULL PRIMARY KEY);
+GO
+
 
 CREATE PROCEDURE NONAME.sproc_cliente_alta
 	@nombre VARCHAR(255),
@@ -85,13 +95,15 @@ BEGIN
 		@codigo_postal)
 
 
-	INSERT INTO [NONAME].Rol_Usuario (
-		id_rol,
-		id_usuario)
-	VALUES (
-		@id_rol,
-		@id_usuario) -- @id_usuario = último id_usuario auto-incrementado
-
+	IF EXISTS (SELECT 1 FROM NONAME.Rol WHERE id_rol = @id_rol AND habilitado = 1) --No está permitida la asignación de un rol inhabilitado a un usuario
+		BEGIN
+			INSERT INTO [NONAME].Rol_Usuario (
+				id_rol,
+				id_usuario)
+			VALUES (
+				@id_rol,
+				@id_usuario) -- @id_usuario = último id_usuario auto-incrementado
+		END
 END
 
 GO
@@ -298,4 +310,153 @@ BEGIN
 		
 END
 
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_rol_alta
+	@tipo VARCHAR(255),
+	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,
+	@habilitado BIT = 1
+
+AS
+BEGIN	
+	DECLARE @id_rol INT;
+
+	INSERT INTO NONAME.Rol (
+		tipo,
+		habilitado)
+	VALUES (
+		@tipo,
+		@habilitado)
+
+	SET @id_rol = SCOPE_IDENTITY() --Capturo el último id_rol auto-incrementado en Rol	
+
+	
+	DECLARE @id_funcion INT;
+	
+	DECLARE CursorIDFuncion CURSOR FOR
+		SELECT id_funcion
+		FROM @ids_funciones;
+	
+	OPEN CursorIDFuncion;
+
+	FETCH NEXT FROM CursorIDFuncion INTO @id_funcion
+	
+	WHILE @@FETCH_STATUS = 0 --Recorro la lista de Funcionalidades y voy agregando una por una a Funcion_Rol
+	BEGIN
+		INSERT INTO NONAME.Funcion_Rol (
+			id_rol,
+			id_funcion)
+		VALUES (
+			@id_rol,
+			@id_funcion)		
+
+		FETCH NEXT FROM CursorIDFuncion INTO @id_funcion
+	END
+
+	CLOSE CursorIDFuncion;
+	DEALLOCATE CursorIDFuncion;
+
+END
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_rol_baja
+	@id_rol INT
+
+/*	
+La eliminación del rol implica una baja lógica del mismo, ósea, el rol debe poder
+inhabilitarse. No está permitida la asignación de un rol inhabilitado a un usuario,
+por ende, se debe quitar el rol inhabilitado a todos aquellos usuarios que lo posean.
+*/
+
+AS
+BEGIN
+
+	UPDATE [NONAME].Rol
+	SET habilitado = 0
+	WHERE id_rol = @id_rol
+
+--Averiguar si la quita del rol eliminado a los usuarios que lo tengan asignado debería hacerse mediante un TRIGGER...
+	DELETE FROM NONAME.Rol_Usuario
+	WHERE Rol_Usuario.id_rol = @id_rol
+
+END
+
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_rol_modificacion
+	@id_rol INT,
+	@tipo VARCHAR(255) = NULL,
+	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,
+	@habilitado BIT = NULL
+
+/*
+En la modificación de un rol solo se pueden alterar los campos: nombre y el listado de funcionalidades.
+Se deben poder quitar de a una las funcionalidades como así también agregar nuevas funcionalidades al rol
+que se está modificando. Se debe poder volver a habilitar un rol inhabilitado desde la sección de modificación.
+Esto no implica recuperar las asignaciones que existían en un pasado.
+*/
+
+AS
+BEGIN
+	
+	IF(@tipo IS NOT NULL)
+		BEGIN
+			UPDATE NONAME.Rol
+			SET tipo = @tipo
+			WHERE id_rol = @id_rol
+		END
+
+
+	IF(@habilitado IS NOT NULL)
+		BEGIN
+			UPDATE NONAME.Rol
+			SET habilitado = @habilitado
+			WHERE id_rol = @id_rol
+		END
+	
+
+--En caso de haber algun id_funcion en la lista de funciones @ids_funciones, actualizo la lista de funcionalidades del Rol en base a lo que me llego por parametro
+	IF EXISTS (SELECT 1 FROM @ids_funciones)
+		BEGIN
+			DECLARE @id_funcion INT;
+	
+			DECLARE CursorIDFuncion CURSOR FOR
+			SELECT id_funcion
+			FROM @ids_funciones;
+	
+			OPEN CursorIDFuncion;
+
+			FETCH NEXT FROM CursorIDFuncion INTO @id_funcion
+	
+			WHILE @@FETCH_STATUS = 0 --Recorro una por una la lista de Funcionalidades
+			BEGIN
+
+				--Agrego NUEVAS funcionalidades
+				IF NOT EXISTS (SELECT 1 FROM NONAME.Funcion_Rol WHERE id_rol = @id_rol AND id_funcion = @id_funcion)
+					BEGIN
+						INSERT INTO NONAME.Funcion_Rol (
+							id_rol,
+							id_funcion)
+						VALUES (
+							@id_rol,
+							@id_funcion)
+					END
+
+				--Quito VIEJAS funcionalidades
+				DELETE FROM NONAME.Funcion_Rol
+				WHERE Funcion_Rol.id_rol = @id_rol AND Funcion_Rol.id_funcion NOT IN (SELECT * FROM @ids_funciones)
+				
+				--Obtengo proximo valor de @id_funcion
+				FETCH NEXT FROM CursorIDFuncion INTO @id_funcion
+			END
+
+			CLOSE CursorIDFuncion;
+			DEALLOCATE CursorIDFuncion;
+
+		END
+		
+END
 GO
