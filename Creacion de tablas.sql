@@ -63,6 +63,7 @@ as
 	
 	IF OBJECT_ID('NONAME.FK_Auto_Marca') IS NOT NULL
 	ALTER TABLE [NONAME].[Auto] DROP CONSTRAINT [FK_Auto_Marca]
+	
 
 GO
 
@@ -548,7 +549,7 @@ GO
 
 INSERT INTO [NONAME].Turno (hora_inicio, hora_fin, descripcion, valor_km, precio_base, id_turno, habilitado)
  VALUES 
-		(0, 8, 'Turno Mañana', 0.73, 7.30, 1, 1),
+		(0, 8, 'Turno Mañna', 0.73, 7.30, 1, 1),
 		(8, 16, 'Turno Tarde', 0.73, 7.30, 2, 1),
 		(16, 24, 'Turno Noche', 0.85, 8.50, 3, 1)
 GO
