@@ -315,11 +315,12 @@ GO
 
 CREATE PROCEDURE NONAME.sproc_rol_alta
 	@tipo VARCHAR(255),
-	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,
+	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,--Lista de tipo Tabla (Table-Valued Parameters) que contiene al menos un valor de id_funcion
 	@habilitado BIT = 1
 
 AS
 BEGIN	
+	
 	DECLARE @id_rol INT;
 
 	INSERT INTO NONAME.Rol (
@@ -332,30 +333,9 @@ BEGIN
 	SET @id_rol = SCOPE_IDENTITY() --Capturo el último id_rol auto-incrementado en Rol	
 
 	
-	DECLARE @id_funcion INT;
-	
-	DECLARE CursorIDFuncion CURSOR FOR
-		SELECT id_funcion
-		FROM @ids_funciones;
-	
-	OPEN CursorIDFuncion;
-
-	FETCH NEXT FROM CursorIDFuncion INTO @id_funcion
-	
-	WHILE @@FETCH_STATUS = 0 --Recorro la lista de Funcionalidades y voy agregando una por una a Funcion_Rol
-	BEGIN
-		INSERT INTO NONAME.Funcion_Rol (
-			id_rol,
-			id_funcion)
-		VALUES (
-			@id_rol,
-			@id_funcion)		
-
-		FETCH NEXT FROM CursorIDFuncion INTO @id_funcion
-	END
-
-	CLOSE CursorIDFuncion;
-	DEALLOCATE CursorIDFuncion;
+	INSERT INTO NONAME.Funcion_Rol
+	SELECT @id_rol, id_funcion
+	FROM @ids_funciones
 
 END
 GO
@@ -389,7 +369,7 @@ GO
 CREATE PROCEDURE NONAME.sproc_rol_modificacion
 	@id_rol INT,
 	@tipo VARCHAR(255) = NULL,
-	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,
+	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,--Lista opcional de tipo Tabla (Table-Valued Parameters) que contiene (o no) uno o más valores de id_funcion
 	@habilitado BIT = NULL
 
 /*
@@ -418,43 +398,23 @@ BEGIN
 		END
 	
 
---En caso de haber algun id_funcion en la lista de funciones @ids_funciones, actualizo la lista de funcionalidades del Rol en base a lo que me llego por parametro
-	IF EXISTS (SELECT 1 FROM @ids_funciones)
+/* En caso de haber algun id_funcion en la lista de funciones @ids_funciones,
+actualizo la lista de funcionalidades del Rol en base a lo que me llegó por parametro.
+Caso contrario, dejo todo igual */
+	IF EXISTS (SELECT 1 FROM @ids_funciones) --Me llegó al menos un id_funcion ==> AGREGO Y/O QUITO FUNCIONALIDADES
 		BEGIN
+			
 			DECLARE @id_funcion INT;
 	
-			DECLARE CursorIDFuncion CURSOR FOR
-			SELECT id_funcion
-			FROM @ids_funciones;
-	
-			OPEN CursorIDFuncion;
-
-			FETCH NEXT FROM CursorIDFuncion INTO @id_funcion
-	
-			WHILE @@FETCH_STATUS = 0 --Recorro una por una la lista de Funcionalidades
-			BEGIN
-
-				--Agrego NUEVAS funcionalidades
-				IF NOT EXISTS (SELECT 1 FROM NONAME.Funcion_Rol WHERE id_rol = @id_rol AND id_funcion = @id_funcion)
-					BEGIN
-						INSERT INTO NONAME.Funcion_Rol (
-							id_rol,
-							id_funcion)
-						VALUES (
-							@id_rol,
-							@id_funcion)
-					END
-
-				--Quito VIEJAS funcionalidades
-				DELETE FROM NONAME.Funcion_Rol
-				WHERE Funcion_Rol.id_rol = @id_rol AND Funcion_Rol.id_funcion NOT IN (SELECT * FROM @ids_funciones)
-				
-				--Obtengo proximo valor de @id_funcion
-				FETCH NEXT FROM CursorIDFuncion INTO @id_funcion
-			END
-
-			CLOSE CursorIDFuncion;
-			DEALLOCATE CursorIDFuncion;
+			--Asigno al Rol aquellas nuevas funcionalidades que no tenía asignadas previamente
+			INSERT INTO NONAME.Funcion_Rol
+			SELECT @id_rol, id_funcion
+			FROM @ids_funciones
+			WHERE NOT EXISTS (SELECT 1 FROM NONAME.Funcion_Rol WHERE id_rol = @id_rol AND id_funcion = @id_funcion)
+			
+			--Quito aquellas funcionalidades viejas que ya no le corresponden al Rol
+			DELETE FROM NONAME.Funcion_Rol
+			WHERE Funcion_Rol.id_rol = @id_rol AND Funcion_Rol.id_funcion NOT IN (SELECT * FROM @ids_funciones)
 
 		END
 		
