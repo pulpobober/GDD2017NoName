@@ -40,9 +40,6 @@ as
 	IF OBJECT_ID('NONAME.FK_Funcion_Rol_Funcion') IS NOT NULL
 	ALTER TABLE [NONAME].[Funcion_Rol] DROP CONSTRAINT [FK_Funcion_Rol_Funcion]
 	
-	IF OBJECT_ID('NONAME.FK_Factura_Viaje') IS NOT NULL
-	ALTER TABLE [NONAME].[Factura] DROP CONSTRAINT [FK_Factura_Viaje]
-	
 	IF OBJECT_ID('NONAME.FK_Factura_Cliente') IS NOT NULL
 	ALTER TABLE [NONAME].[Factura] DROP CONSTRAINT [FK_Factura_Cliente]
 	
@@ -58,13 +55,14 @@ as
 	IF OBJECT_ID('NONAME.FK_Auto_Chofer_Auto') IS NOT NULL
 	ALTER TABLE [NONAME].[Auto_Chofer] DROP CONSTRAINT [FK_Auto_Chofer_Auto]
 	
-	IF OBJECT_ID('NONAME.FK_Auto_Turno') IS NOT NULL
-	ALTER TABLE [NONAME].[Auto] DROP CONSTRAINT [FK_Auto_Turno]
-	
 	IF OBJECT_ID('NONAME.FK_Auto_Marca') IS NOT NULL
 	ALTER TABLE [NONAME].[Auto] DROP CONSTRAINT [FK_Auto_Marca]
 	
+	IF OBJECT_ID('NONAME.FK_Factura_Viaje_Factura') IS NOT NULL
+	ALTER TABLE [NONAME].[Factura_Viaje] DROP CONSTRAINT [FK_Factura_Viaje_Factura]
 
+	IF OBJECT_ID('NONAME.FK_Factura_Viaje_Viaje') IS NOT NULL
+	ALTER TABLE [NONAME].[Factura_Viaje] DROP CONSTRAINT [FK_Factura_Viaje_Viaje]
 GO
 
 
@@ -124,6 +122,9 @@ EXEC NONAME.DROP_FK
   IF OBJECT_ID('NONAME.Auto') IS NOT NULL
 	DROP TABLE [NONAME].[Auto]
 
+  IF OBJECT_ID('NONAME.Factura_Viaje') IS NOT NULL
+	DROP TABLE [NONAME].[Factura_Viaje]
+
 --Stored Procedures
   IF OBJECT_ID('NONAME.DROP_FK') IS NOT NULL
 	DROP PROCEDURE NONAME.DROP_FK
@@ -174,11 +175,16 @@ GO
 CREATE TABLE [NONAME].[Factura](
 	[nro_factura] [numeric](18, 0) NOT NULL,
 	[id_cliente] [int] NOT NULL,
-	[id_viaje] [int] NOT NULL,
 	[fecha_fin] [datetime] NOT NULL,
 	[fecha_inicio] [datetime] NOT NULL,
 	[fecha] [datetime] NOT NULL,
 	[importe] [numeric](18, 0) NOT NULL
+)
+GO
+
+CREATE TABLE [NONAME].[Factura_Viaje](
+	[nro_factura] [numeric](18, 0) NOT NULL,
+	[id_viaje] [int]  NOT NULL
 )
 GO
 
@@ -211,7 +217,7 @@ CREATE TABLE [NONAME].[Viaje](
 	[cantidad_km] [numeric](18, 0) NOT NULL,
 	[id_turno] [int] NOT NULL,
 	[id_chofer] [int] NOT NULL,
-	[id_cliente] [int] NOT NULL
+	[id_cliente] [int] NOT NULL,
 )
 GO
 
@@ -239,7 +245,8 @@ CREATE TABLE [NONAME].[Chofer](
 
 CREATE TABLE [NONAME].[Auto_Chofer](
 	[id_auto] [int] NOT NULL,
-	[id_chofer] [int] NOT NULL
+	[id_chofer] [int] NOT NULL,
+	[id_turno] [int] NOT NULL,
 )
 GO
 
@@ -247,7 +254,6 @@ CREATE TABLE [NONAME].[Auto](
 	[id_auto] [int] IDENTITY(1, 1) NOT NULL,
 	[patente_auto] [varchar](10) NOT NULL,
 	[modelo] [varchar](255) NOT NULL,
-	[id_turno] [int] NOT NULL,
 	[id_marca] [int] NOT NULL,
 	[rodado] [varchar](10) NULL,
 	[habilitado] [bit] NOT NULL,
@@ -343,12 +349,19 @@ REFERENCES [NONAME].[Cliente] (id_cliente)
 ALTER TABLE [NONAME].[Factura]
 CHECK CONSTRAINT [FK_Factura_Cliente]
 
-ALTER TABLE [NONAME].[Factura]
-ADD CONSTRAINT FK_Factura_Viaje FOREIGN KEY (id_viaje) 
+ALTER TABLE [NONAME].[Factura_Viaje]
+ADD CONSTRAINT FK_Factura_Viaje_Factura FOREIGN KEY (nro_factura) 
+REFERENCES [NONAME].[Factura] (nro_factura)
+
+ALTER TABLE [NONAME].[Factura_Viaje]
+CHECK CONSTRAINT [FK_Factura_Viaje_Factura]
+
+ALTER TABLE [NONAME].[Factura_Viaje]
+ADD CONSTRAINT FK_Factura_Viaje_Viaje FOREIGN KEY (id_viaje) 
 REFERENCES [NONAME].[Viaje] (id_viaje)
 
-ALTER TABLE [NONAME].[Factura]
-CHECK CONSTRAINT [FK_Factura_Viaje]
+ALTER TABLE [NONAME].[Factura_Viaje]
+CHECK CONSTRAINT [FK_Factura_Viaje_Viaje]
 
 ALTER TABLE [NONAME].[Rendicion_Viaje]
 ADD CONSTRAINT FK_Rendicion_Viaje_Viaje FOREIGN KEY (id_viaje) 
@@ -377,13 +390,6 @@ REFERENCES [NONAME].[Turno] (id_turno)
 
 ALTER TABLE [NONAME].[Rendicion]
 CHECK CONSTRAINT [FK_Rendicion_Turno]
-
-ALTER TABLE [NONAME].[Auto]
-ADD CONSTRAINT FK_Auto_Turno FOREIGN KEY (id_turno) 
-REFERENCES [NONAME].[Turno] (id_turno)
-
-ALTER TABLE [NONAME].[Auto]
-CHECK CONSTRAINT [FK_Auto_Turno]
 
 ALTER TABLE [NONAME].[Auto]
 ADD CONSTRAINT FK_Auto_Marca FOREIGN KEY (id_marca) 
@@ -477,8 +483,7 @@ ALTER TABLE [NONAME].[Usuario]  ADD CONSTRAINT [telefono_unico] UNIQUE (telefono
 
 ALTER TABLE [NONAME].[Auto]  ADD CONSTRAINT [patente_unico] UNIQUE (patente_auto);
 
---Tener en cuenta que un chofer no puede estar asignado a más de un auto activo al mismo momento.
-ALTER TABLE [NONAME].[Auto_Chofer]  ADD CONSTRAINT [choferxauto_unico] UNIQUE (id_chofer);
+
 
 --inserts
 
@@ -655,7 +660,7 @@ GO
 
 
 INSERT INTO [NONAME].Viaje 
-	SELECT 
+	SELECT DISTINCT
 	m.Viaje_Fecha,
 	m.Viaje_Fecha,
 	m.Viaje_Cant_Kilometros,
@@ -663,8 +668,77 @@ INSERT INTO [NONAME].Viaje
 	ch.id_usuario,
 	cl.id_usuario
 	from [gd_esquema].[Maestra] m
-	join [NONAME].Turno t ON m.Turno_Descripcion= t.descripcion
+	join [NONAME].Turno t ON m.Turno_Descripcion = t.descripcion
 	join [NONAME].Usuario ch ON m.Chofer_Dni = ch.usuario_dni 
 	join [NONAME].Usuario cl ON m.Cliente_Dni = cl.usuario_dni
 	
 GO
+
+
+INSERT INTO [NONAME].Auto
+	SELECT DISTINCT 
+	m.Auto_Patente,
+	m.Auto_Modelo,
+	mar.id_marca,
+	m.Auto_rodado,
+	1,
+	m.Auto_Licencia
+	from [gd_esquema].[Maestra] m
+	join [NONAME].Marca mar ON m.Auto_Marca = mar.nombre
+
+
+INSERT INTO [NONAME].Auto_Chofer
+	SELECT DISTINCT
+	a.id_auto,
+	c.id_usuario,
+	t.id_turno
+	from [gd_esquema].[Maestra] m
+	join [NONAME].Turno t ON m.Turno_Descripcion = t.descripcion
+	join [NONAME].Auto a ON m.Auto_Patente = a.patente_auto
+	join [NONAME].Usuario c ON m.Chofer_Dni = c.usuario_dni 
+
+
+INSERT INTO [NONAME].Rol_Usuario
+  SELECT
+    id_usuario,
+    1
+  FROM NONAME.Usuario
+  WHERE Usuario.nombre = 'Admin'
+
+GO
+
+INSERT INTO [NONAME].Rol_Usuario
+  SELECT
+    2,
+    id_cliente
+  FROM [NONAME].Cliente
+
+GO
+
+INSERT INTO [NONAME].Rol_Usuario
+  SELECT
+    3,
+    id_chofer
+  FROM [NONAME].Chofer
+
+GO
+
+
+-- El importe se calcula con la cantidad de kilometros recorridos y el valor del km por turno
+-- el monto da valores muy altos manana chequeo la cuenta besis
+
+INSERT INTO [NONAME].Factura
+SELECT DISTINCT
+	m.Factura_Nro,
+	c.id_usuario,
+	m.Factura_Fecha_Fin,
+	m.Factura_Fecha_Inicio,
+	m.Factura_Fecha,
+	(select sum(v.cantidad_km * t.valor_km) from NONAME.Viaje v, NONAME.Turno t 
+											  where v.id_turno = t.id_turno
+											  and v.fecha_hora_inicio >= m.Factura_Fecha_Inicio
+											  and v.fecha_hora_fin <= m.Factura_Fecha_Fin)
+	FROM [gd_esquema].[Maestra] m
+	join [NONAME].Usuario c ON m.Cliente_Dni = c.usuario_dni
+	where Factura_Nro is not null
+
