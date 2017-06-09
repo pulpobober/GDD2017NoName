@@ -293,7 +293,7 @@ CREATE TABLE [NONAME].[Funcion](
  GO
 
 CREATE TABLE [NONAME].[Turno](
-	[id_turno] [int] NOT NULL,
+	[id_turno] [int] IDENTITY(4,1) NOT NULL,
 	[hora_inicio] [numeric](18, 0) NOT NULL,
 	[hora_fin] [numeric](18, 0) NOT NULL,
 	[descripcion] [varchar](255) NOT NULL,
@@ -552,12 +552,19 @@ GO
 
 -- todavia no tienen asiganads funcionalidades los clientes y los choferes...
 
+--Seteo IDENTITY_INSERT temporariamente en ON para que permita el ingreso de los 3 turnos iniciales (id_turno es de tipo IDENTITY).
+SET IDENTITY_INSERT NONAME.Turno ON;
+
 INSERT INTO [NONAME].Turno (hora_inicio, hora_fin, descripcion, valor_km, precio_base, id_turno, habilitado)
  VALUES 
 		(0, 8, 'Turno Mañna', 0.73, 7.30, 1, 1),
 		(8, 16, 'Turno Tarde', 0.73, 7.30, 2, 1),
 		(16, 24, 'Turno Noche', 0.85, 8.50, 3, 1)
+
+--Reseteo IDENTITY_INSERT de vuelta en OFF (id_turno = IDENTITY(4,1)).
+SET IDENTITY_INSERT NONAME.Turno OFF;
 GO
+
 
 --Administrador
 

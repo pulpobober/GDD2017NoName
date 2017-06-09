@@ -29,6 +29,24 @@ IF OBJECT_ID('NONAME.sproc_automovil_baja') IS NOT NULL
 IF OBJECT_ID('NONAME.sproc_automovil_modificacion') IS NOT NULL
 	DROP PROCEDURE NONAME.sproc_automovil_modificacion
 
+IF OBJECT_ID('NONAME.sproc_turno_alta') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_turno_alta
+
+IF OBJECT_ID('NONAME.sproc_turno_baja') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_turno_baja
+
+IF OBJECT_ID('NONAME.sproc_turno_modificacion') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_turno_modificacion
+
+IF OBJECT_ID('NONAME.sproc_chofer_alta') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_chofer_alta
+
+IF OBJECT_ID('NONAME.sproc_chofer_baja') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_chofer_baja
+
+IF OBJECT_ID('NONAME.sproc_chofer_modificacion') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_chofer_modificacion
+
 IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
 	DROP TYPE NONAME.ListaFuncionalidadesRol
 GO
@@ -37,6 +55,115 @@ GO
 CREATE TYPE NONAME.ListaFuncionalidadesRol
 AS TABLE (
 	id_funcion INT NOT NULL PRIMARY KEY);
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_rol_alta
+	@tipo VARCHAR(255),
+	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,--Lista de tipo Tabla (Table-Valued Parameters) que contiene al menos un valor de id_funcion
+	@habilitado BIT = 1
+
+AS
+BEGIN	
+	
+	DECLARE @id_rol INT;
+
+	INSERT INTO NONAME.Rol (
+		tipo,
+		habilitado)
+	VALUES (
+		@tipo,
+		@habilitado)
+
+	SET @id_rol = SCOPE_IDENTITY() --Capturo el último id_rol auto-incrementado en Rol	
+
+	
+	INSERT INTO NONAME.Funcion_Rol
+	SELECT @id_rol, id_funcion
+	FROM @ids_funciones
+
+END
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_rol_baja
+	@id_rol INT
+
+/*	
+La eliminación del rol implica una baja lógica del mismo, ósea, el rol debe poder
+inhabilitarse. No está permitida la asignación de un rol inhabilitado a un usuario,
+por ende, se debe quitar el rol inhabilitado a todos aquellos usuarios que lo posean.
+*/
+
+AS
+BEGIN
+
+	UPDATE [NONAME].Rol
+	SET habilitado = 0
+	WHERE id_rol = @id_rol
+
+--Averiguar si la quita del rol eliminado a los usuarios que lo tengan asignado debería hacerse mediante un TRIGGER...
+	DELETE FROM NONAME.Rol_Usuario
+	WHERE Rol_Usuario.id_rol = @id_rol
+
+END
+
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_rol_modificacion
+	@id_rol INT,
+	@tipo VARCHAR(255) = NULL,
+	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,--Lista opcional de tipo Tabla (Table-Valued Parameters) que contiene (o no) uno o más valores de id_funcion
+	@habilitado BIT = NULL
+
+/*
+En la modificación de un rol solo se pueden alterar los campos: nombre y el listado de funcionalidades.
+Se deben poder quitar de a una las funcionalidades como así también agregar nuevas funcionalidades al rol
+que se está modificando. Se debe poder volver a habilitar un rol inhabilitado desde la sección de modificación.
+Esto no implica recuperar las asignaciones que existían en un pasado.
+*/
+
+AS
+BEGIN
+	
+	IF(@tipo IS NOT NULL)
+		BEGIN
+			UPDATE NONAME.Rol
+			SET tipo = @tipo
+			WHERE id_rol = @id_rol
+		END
+
+
+	IF(@habilitado IS NOT NULL)
+		BEGIN
+			UPDATE NONAME.Rol
+			SET habilitado = @habilitado
+			WHERE id_rol = @id_rol
+		END
+	
+
+/* En caso de haber algun id_funcion en la lista de funciones @ids_funciones,
+actualizo la lista de funcionalidades del Rol en base a lo que me llegó por parametro.
+Caso contrario, dejo todo igual */
+	IF EXISTS (SELECT 1 FROM @ids_funciones) --Me llegó al menos un id_funcion ==> AGREGO Y/O QUITO FUNCIONALIDADES
+		BEGIN
+			
+			DECLARE @id_funcion INT;
+	
+			--Asigno al Rol aquellas nuevas funcionalidades que no tenía asignadas previamente
+			INSERT INTO NONAME.Funcion_Rol
+			SELECT @id_rol, id_funcion
+			FROM @ids_funciones
+			WHERE NOT EXISTS (SELECT 1 FROM NONAME.Funcion_Rol WHERE id_rol = @id_rol AND id_funcion = @id_funcion)
+			
+			--Quito aquellas funcionalidades viejas que ya no le corresponden al Rol
+			DELETE FROM NONAME.Funcion_Rol
+			WHERE Funcion_Rol.id_rol = @id_rol AND Funcion_Rol.id_funcion NOT IN (SELECT * FROM @ids_funciones)
+
+		END
+		
+END
 GO
 
 
@@ -310,110 +437,163 @@ END
 GO
 
 
-CREATE PROCEDURE NONAME.sproc_rol_alta
-	@tipo VARCHAR(255),
-	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,--Lista de tipo Tabla (Table-Valued Parameters) que contiene al menos un valor de id_funcion
-	@habilitado BIT = 1
+CREATE PROCEDURE NONAME.sproc_turno_alta
+	@hora_inicio NUMERIC(18, 0),
+	@hora_fin NUMERIC(18, 0),
+	@descripcion VARCHAR(255),
+	@valor_km NUMERIC(18,0),
+	@precio_base NUMERIC(18,0),
+	@habilitado BIT
 
 AS
-BEGIN	
-	
-	DECLARE @id_rol INT;
+BEGIN
 
-	INSERT INTO NONAME.Rol (
-		tipo,
-		habilitado)
-	VALUES (
-		@tipo,
-		@habilitado)
-
-	SET @id_rol = SCOPE_IDENTITY() --Capturo el último id_rol auto-incrementado en Rol	
-
-	
-	INSERT INTO NONAME.Funcion_Rol
-	SELECT @id_rol, id_funcion
-	FROM @ids_funciones
+	IF((@hora_inicio < @hora_fin) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
+		NOT EXISTS (SELECT 1  --los turnos no se superponen
+					FROM NONAME.Turno
+					WHERE (@hora_inicio BETWEEN Turno.hora_inicio AND Turno.hora_fin) OR (@hora_fin BETWEEN Turno.hora_inicio AND Turno.hora_fin)))
+		BEGIN
+			INSERT INTO NONAME.Turno (
+				hora_inicio,
+				hora_fin,
+				descripcion,
+				valor_km,
+				precio_base,
+				habilitado)
+			VALUES (
+				@hora_inicio,
+				@hora_fin,
+				@descripcion,
+				@valor_km,
+				@precio_base,
+				@habilitado)
+		END
 
 END
 GO
 
 
-CREATE PROCEDURE NONAME.sproc_rol_baja
-	@id_rol INT
+CREATE PROCEDURE NONAME.sproc_turno_baja
+	@id_turno INT
 
 /*	
-La eliminación del rol implica una baja lógica del mismo, ósea, el rol debe poder
-inhabilitarse. No está permitida la asignación de un rol inhabilitado a un usuario,
-por ende, se debe quitar el rol inhabilitado a todos aquellos usuarios que lo posean.
+	La eliminación de un turno implica su baja lógica. Cuando un turno se inhabilita
+	sus datos siguen existiendo en la base de datos, pero no se pueden realizar viajes en
+	mencionado turno.
 */
 
 AS
 BEGIN
 
-	UPDATE [NONAME].Rol
+	UPDATE [NONAME].Turno
 	SET habilitado = 0
-	WHERE id_rol = @id_rol
-
---Averiguar si la quita del rol eliminado a los usuarios que lo tengan asignado debería hacerse mediante un TRIGGER...
-	DELETE FROM NONAME.Rol_Usuario
-	WHERE Rol_Usuario.id_rol = @id_rol
+	WHERE id_turno = @id_turno
 
 END
-
 GO
 
 
-CREATE PROCEDURE NONAME.sproc_rol_modificacion
-	@id_rol INT,
-	@tipo VARCHAR(255) = NULL,
-	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,--Lista opcional de tipo Tabla (Table-Valued Parameters) que contiene (o no) uno o más valores de id_funcion
+CREATE PROCEDURE NONAME.sproc_turno_modificacion
+	@id_turno INT,
+	@hora_inicio NUMERIC(18, 0) = NULL,
+	@hora_fin NUMERIC(18, 0) = NULL,
+	@descripcion VARCHAR(255) = NULL,
+	@valor_km NUMERIC(18,0) = NULL,
+	@precio_base NUMERIC(18,0) = NULL,
 	@habilitado BIT = NULL
 
 /*
-En la modificación de un rol solo se pueden alterar los campos: nombre y el listado de funcionalidades.
-Se deben poder quitar de a una las funcionalidades como así también agregar nuevas funcionalidades al rol
-que se está modificando. Se debe poder volver a habilitar un rol inhabilitado desde la sección de modificación.
-Esto no implica recuperar las asignaciones que existían en un pasado.
+Se debe poder volver a habilitar un turno inhabilitado desde la sección de 
+modificación y el mismo debe cumplir con las mismas restricciones:
+Bajo ninguna circunstancia las franjas horarias pueden superponerse entre sí.
+Un turno no debe exceder las 24hs y además debe comenzar y finalizar dentro del mismo día.
 */
 
 AS
 BEGIN
-	
-	IF(@tipo IS NOT NULL)
+
+--se precisa modificar tanto hora_inicio como hora_fin	
+	IF((@hora_inicio IS NOT NULL) AND (@hora_fin IS NOT NULL))
 		BEGIN
-			UPDATE NONAME.Rol
-			SET tipo = @tipo
-			WHERE id_rol = @id_rol
+			IF((@hora_inicio < @hora_fin) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
+				NOT EXISTS (SELECT 1  --los turnos no se superponen
+							FROM NONAME.Turno
+							WHERE (@hora_inicio BETWEEN Turno.hora_inicio AND Turno.hora_fin) OR (@hora_fin BETWEEN Turno.hora_inicio AND Turno.hora_fin)))
+				BEGIN
+					UPDATE [NONAME].Turno
+					SET @hora_inicio = @hora_inicio,
+						@hora_fin = @hora_fin
+					WHERE id_turno = @id_turno
+				END
+		END
+	
+
+--se precisa modificar hora_inicio unicamente
+	IF((@hora_inicio IS NOT NULL) AND (@hora_fin IS NULL))
+		BEGIN
+			DECLARE @hora_fin_orig NUMERIC(18,0)
+			SET @hora_fin_orig = (SELECT Turno.hora_fin FROM NONAME.Turno WHERE id_turno = @id_turno)
+			
+			IF((@hora_inicio < @hora_fin_orig) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
+				NOT EXISTS (SELECT 1  --los turnos no se superponen
+							FROM NONAME.Turno
+							WHERE (@hora_inicio BETWEEN Turno.hora_inicio AND Turno.hora_fin) OR (@hora_fin_orig BETWEEN Turno.hora_inicio AND Turno.hora_fin)))
+				BEGIN
+					UPDATE [NONAME].Turno
+					SET @hora_inicio = @hora_inicio
+					WHERE id_turno = @id_turno
+				END
+		END
+
+
+--se precisa modificar hora_fin unicamente
+	IF((@hora_inicio IS NULL) AND (@hora_fin IS NOT NULL))
+		BEGIN
+			DECLARE @hora_inicio_orig NUMERIC(18,0)
+			SET @hora_inicio_orig = (SELECT Turno.hora_inicio FROM NONAME.Turno WHERE id_turno = @id_turno)
+			
+			IF((@hora_inicio_orig < @hora_fin) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
+				NOT EXISTS (SELECT 1  --los turnos no se superponen
+							FROM NONAME.Turno
+							WHERE (@hora_inicio_orig BETWEEN Turno.hora_inicio AND Turno.hora_fin) OR (@hora_fin BETWEEN Turno.hora_inicio AND Turno.hora_fin)))
+				BEGIN
+					UPDATE [NONAME].Turno
+					SET @hora_fin = @hora_fin
+					WHERE id_turno = @id_turno
+				END
+		END
+	
+	
+	IF(@descripcion IS NOT NULL)
+		BEGIN
+			UPDATE [NONAME].Turno
+			SET descripcion = @descripcion
+			WHERE id_turno = @id_turno
+		END
+
+
+	IF(@valor_km IS NOT NULL)
+		BEGIN
+			UPDATE [NONAME].Turno
+			SET valor_km = @valor_km
+			WHERE id_turno = @id_turno
+		END
+
+
+	IF(@precio_base IS NOT NULL)
+		BEGIN
+			UPDATE [NONAME].Turno
+			SET precio_base = @precio_base
+			WHERE id_turno = @id_turno
 		END
 
 
 	IF(@habilitado IS NOT NULL)
 		BEGIN
-			UPDATE NONAME.Rol
+			UPDATE [NONAME].Turno
 			SET habilitado = @habilitado
-			WHERE id_rol = @id_rol
+			WHERE id_turno = @id_turno
 		END
-	
 
-/* En caso de haber algun id_funcion en la lista de funciones @ids_funciones,
-actualizo la lista de funcionalidades del Rol en base a lo que me llegó por parametro.
-Caso contrario, dejo todo igual */
-	IF EXISTS (SELECT 1 FROM @ids_funciones) --Me llegó al menos un id_funcion ==> AGREGO Y/O QUITO FUNCIONALIDADES
-		BEGIN
-			
-			DECLARE @id_funcion INT;
-	
-			--Asigno al Rol aquellas nuevas funcionalidades que no tenía asignadas previamente
-			INSERT INTO NONAME.Funcion_Rol
-			SELECT @id_rol, id_funcion
-			FROM @ids_funciones
-			WHERE NOT EXISTS (SELECT 1 FROM NONAME.Funcion_Rol WHERE id_rol = @id_rol AND id_funcion = @id_funcion)
-			
-			--Quito aquellas funcionalidades viejas que ya no le corresponden al Rol
-			DELETE FROM NONAME.Funcion_Rol
-			WHERE Funcion_Rol.id_rol = @id_rol AND Funcion_Rol.id_funcion NOT IN (SELECT * FROM @ids_funciones)
-
-		END
-		
 END
 GO
