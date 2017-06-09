@@ -742,3 +742,40 @@ SELECT DISTINCT
 	join [NONAME].Usuario c ON m.Cliente_Dni = c.usuario_dni
 	where Factura_Nro is not null
 
+
+INSERT INTO [NONAME].Factura_Viaje
+	SELECT DISTINCT
+	f.nro_factura,
+	v.id_viaje
+	from [gd_esquema].[Maestra] m
+	join [NONAME].Factura f ON m.Factura_Nro = f.nro_factura
+	join [NONAME].Viaje v ON v.fecha_hora_inicio >= m.Factura_Fecha_Inicio
+						and v.fecha_hora_fin <= m.Factura_Fecha_Fin
+
+
+-- con el porcentaje de la tabla Rendicion_Viaje se supone que tengo que calcular el importe????
+-- se podra hacer el porcentaje dinamico??
+						  
+
+INSERT INTO [NONAME].Rendicion
+	SELECT DISTINCT
+	m.Rendicion_Nro,
+	c.id_usuario,
+	m.Rendicion_Fecha,
+	t.id_turno,
+	sum(m.Rendicion_Importe)
+	from [gd_esquema].[Maestra] m
+	join [NONAME].Usuario c ON m.Chofer_Dni = c.usuario_dni 
+	join [NONAME].Turno t ON m.Turno_Descripcion = t.descripcion
+	where m.Rendicion_Nro is not null 
+	group by m.Rendicion_Nro, c.id_usuario, m.Rendicion_Fecha, t.id_turno
+
+
+INSERT INTO [NONAME].Rendicion_Viaje
+	SELECT DISTINCT
+	id_viaje,
+	m.Rendicion_Nro,
+	(100*m.Rendicion_Importe/(m.Viaje_Cant_Kilometros*m.Turno_Valor_Kilometro+m.Turno_Precio_Base))
+	FROM [gd_esquema].[Maestra] m
+	join [NONAME].Viaje v ON v.fecha_hora_inicio = m.Rendicion_Fecha
+	where Rendicion_Nro is not null
