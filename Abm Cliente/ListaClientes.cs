@@ -35,11 +35,6 @@ namespace UberFrba.Abm_Cliente
         {
             if (verificarDatosBusqueda(txtNombre.Text, txtApellido.Text, txtDNI.Text))
             {
-                if (txtNombre.Text.Length > 0) {
-                    //tiene nombre
-                    if (txtApellido.Text.Length > 0) { }
-                }
-
                 Cliente clieABuscar = new Cliente(txtNombre.Text, txtApellido.Text, String.IsNullOrEmpty(txtDNI.Text) ?  0 : Int32.Parse(txtDNI.Text));
                 tablaClientes.DataSource = SQLCliente.filtrarClientes(clieABuscar);
             }
@@ -80,6 +75,7 @@ namespace UberFrba.Abm_Cliente
             if (dialogResult == DialogResult.Yes)
             {
                 SQLCliente.eliminarCliente(clienteSeleccionado);
+
             }
         }
 
@@ -93,6 +89,15 @@ namespace UberFrba.Abm_Cliente
         {
             new ModificacionCliente(clienteSeleccionado).ShowDialog();
         }
+
+        /*public static void recargar() {
+            DataTable clientes = SQLCliente.obtenerTodosLosClientes();
+            tablaClientes.DataSource = clientes;
+            txtDNI.Text = "";
+            txtApellido.Text = "";
+            txtNombre.Text = "";
+            this.tablaClientes.Columns[0].Visible = false; //usuarioID
+        }*/
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {

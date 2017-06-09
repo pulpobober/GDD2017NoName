@@ -33,8 +33,7 @@
             this.txtNombreRol = new System.Windows.Forms.TextBox();
             this.checkListFuncionalidades = new System.Windows.Forms.CheckedListBox();
             this.lblFuncionalidades = new System.Windows.Forms.Label();
-            this.lblEstado = new System.Windows.Forms.Label();
-            this.cmbEstado = new System.Windows.Forms.ComboBox();
+            this.ckbHabilitado = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblTitulo
@@ -67,6 +66,7 @@
             // 
             this.checkListFuncionalidades.FormattingEnabled = true;
             this.checkListFuncionalidades.Location = new System.Drawing.Point(12, 114);
+            this.checkListFuncionalidades.MultiColumn = true;
             this.checkListFuncionalidades.Name = "checkListFuncionalidades";
             this.checkListFuncionalidades.Size = new System.Drawing.Size(453, 124);
             this.checkListFuncionalidades.TabIndex = 3;
@@ -80,30 +80,24 @@
             this.lblFuncionalidades.TabIndex = 4;
             this.lblFuncionalidades.Text = "Funcionalidades";
             // 
-            // lblEstado
+            // ckbHabilitado
             // 
-            this.lblEstado.AutoSize = true;
-            this.lblEstado.Location = new System.Drawing.Point(285, 53);
-            this.lblEstado.Name = "lblEstado";
-            this.lblEstado.Size = new System.Drawing.Size(43, 13);
-            this.lblEstado.TabIndex = 5;
-            this.lblEstado.Text = "Estado:";
-            // 
-            // cmbEstado
-            // 
-            this.cmbEstado.FormattingEnabled = true;
-            this.cmbEstado.Location = new System.Drawing.Point(331, 49);
-            this.cmbEstado.Name = "cmbEstado";
-            this.cmbEstado.Size = new System.Drawing.Size(134, 21);
-            this.cmbEstado.TabIndex = 6;
+            this.ckbHabilitado.AutoSize = true;
+            this.ckbHabilitado.Checked = true;
+            this.ckbHabilitado.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckbHabilitado.Location = new System.Drawing.Point(338, 52);
+            this.ckbHabilitado.Name = "ckbHabilitado";
+            this.ckbHabilitado.Size = new System.Drawing.Size(73, 17);
+            this.ckbHabilitado.TabIndex = 7;
+            this.ckbHabilitado.Text = "Habilitado";
+            this.ckbHabilitado.UseVisualStyleBackColor = true;
             // 
             // AbmRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(485, 262);
-            this.Controls.Add(this.cmbEstado);
-            this.Controls.Add(this.lblEstado);
+            this.Controls.Add(this.ckbHabilitado);
             this.Controls.Add(this.lblFuncionalidades);
             this.Controls.Add(this.checkListFuncionalidades);
             this.Controls.Add(this.txtNombreRol);
@@ -124,8 +118,7 @@
         protected System.Windows.Forms.TextBox txtNombreRol;
         protected System.Windows.Forms.CheckedListBox checkListFuncionalidades;
         protected System.Windows.Forms.Label lblFuncionalidades;
-        protected System.Windows.Forms.Label lblEstado;
-        protected System.Windows.Forms.ComboBox cmbEstado;
+        protected System.Windows.Forms.CheckBox ckbHabilitado;
 
     }
 }

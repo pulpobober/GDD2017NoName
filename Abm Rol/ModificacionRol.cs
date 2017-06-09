@@ -21,6 +21,11 @@ namespace UberFrba.Abm_Rol
         public ModificacionRol(Rol rolSeleccionado)
         {
             txtNombreRol.Text = rolSeleccionado.nombre;
+            ckbHabilitado.Checked = rolSeleccionado.estado ? true : false;
+            
+         //   ckbHabilitado.set
+//            ckb.selec = rolSeleccionado.estado ? "Habilitado" : "Desabilitado";
+          //  checkListFuncionalidades llenarlo con los datos de este usuario, lo voy a pedir ahora
             //checkListFuncionalidades.Items.
         }
     }

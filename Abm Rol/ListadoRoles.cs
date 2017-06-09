@@ -14,6 +14,8 @@ namespace UberFrba.Abm_Rol
 {
     public partial class ListadoRoles : Form
     {
+        Rol rolSeleccionado;
+
         public ListadoRoles()
         {
             InitializeComponent();
@@ -21,7 +23,6 @@ namespace UberFrba.Abm_Rol
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            Rol rolSeleccionado = new Rol(listaRoles.SelectedItem.ToString());
             new ModificacionRol(rolSeleccionado).ShowDialog();
         }
 
@@ -30,8 +31,8 @@ namespace UberFrba.Abm_Rol
             DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este rol?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {              
-                Rol rolSeleccionado = new Rol(listaRoles.SelectedItem.ToString());
-                SQLRoles.eliminarRol(rolSeleccionado);
+                //Rol rolSeleccionado = new Rol(listaRoles.SelectedItem.ToString());
+              //  SQLRoles.eliminarRol(rolSeleccionado);
             }
 
         }
@@ -39,7 +40,19 @@ namespace UberFrba.Abm_Rol
         private void ListadoRoles_Load(object sender, EventArgs e)
         {
             DataTable roles = SQLRoles.obtenerTodosLosRoles();
-            listaRoles.DataSource = roles; 
+            listaRoles.DataSource = roles;
+            this.listaRoles.Columns[0].Visible = false; //rol_id
+            this.listaRoles.Columns[2].Visible = false; //habilitado
+
+
+        }
+
+        private void listaRoles_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow listaRow = listaRoles.Rows[e.RowIndex];
+            rolSeleccionado = new Rol(listaRow);
+
+
         }
     }
 }

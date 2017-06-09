@@ -22,35 +22,14 @@ namespace UberFrba.ConexionBD
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
-                sqlCommand.Parameters.AddWithValue("@nombre", unRol.nombre);
+                sqlCommand.Parameters.AddWithValue("@tipo", unRol.nombre);
                 sqlCommand.Parameters.AddWithValue("@habilitado", unRol.estado);
+                DataTable columna = unRol.tablaFuncionalidades.DefaultView.ToTable(false, unRol.tablaFuncionalidades.Columns[0].ColumnName);//defindedDataTable.DefaultView.ToTable
+               // DataTable columna = //unRol.tablaFuncionalidades.Columns[0].DefaultValue.t
+             //   sqlCommand.Parameters.AddWithValue("ids_funciones", unRol.tablaFuncionalidades.Columns[0]);
+                sqlCommand.Parameters.AddWithValue("ids_funciones", columna);
 
-                //int id = 
-                /*
-       
-                id = int.Parse((AdaptadorSQL.SQLHelper_ExecuteScalar("NONAME.alta_Rol", parameters)).ToString());
-
-                // Como barro un map?
-                foreach (KeyValuePair<int, bool> funcionabilidad in funciones)
-                {
-
-
-                    parameters.Clear();
-
-                    parameter = new SqlParameter("@idRol", SqlDbType.Int);
-                    parameter.Value = id;
-                    parameters.Add(parameter);
-
-                    parameter = new SqlParameter("@idFuncionabilidad", SqlDbType.Int);
-                    parameter.Value = funcionabilidad.Key;
-                    parameters.Add(parameter);
-
-                    if (funcionabilidad.Value == true) AdaptadorSQL.SQLHelper_ExecuteNonQuery("NONAME.alta_funcionabiliad_x_rol", parameters);
-                    else AdaptadorSQL.SQLHelper_ExecuteNonQuery("NONAME.baja_funcionablilida_x_rol", parameters);
-
-                }
-
-                 */
+              //  DataTable dt = defindedDataTable.DefaultView.ToTable(false, defindedDataTable.Columns[0].);
 
 
                 sqlCommand.ExecuteNonQuery();
@@ -73,21 +52,17 @@ namespace UberFrba.ConexionBD
             try
             {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.obtener_todos_los_roles");
-                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_rol, tipo, habilitado FROM NONAME.Rol";
+                sqlCommand.CommandType = CommandType.Text; //opcional
                 sqlCommand.Connection = miConexion;
-
-                sqlCommand.ExecuteNonQuery();
-
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableRoles = new DataTable();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand);
-                dataAdapter.Fill(dataTableRoles);
+                dataTableRoles.Load(sqlReader);
                 return dataTableRoles;
-
             }
             catch (Exception ex)
             {
-                //hacer algo con las exepciones
                 return null;
                 throw ex;
             }
@@ -96,6 +71,8 @@ namespace UberFrba.ConexionBD
                 desconectar();
             }
         }
+
+       
 
         public static void modificarRol(Rol unRol)
         {
@@ -152,21 +129,17 @@ namespace UberFrba.ConexionBD
             try
             {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.obtener_todas_las_funcionalidades");
-                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_funcion, descripcion FROM NONAME.Funcion";
+                sqlCommand.CommandType = CommandType.Text; //opcional
                 sqlCommand.Connection = miConexion;
-
-                sqlCommand.ExecuteNonQuery();
-
-                DataTable dataTableFuncionalidades = new DataTable();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand);
-                dataAdapter.Fill(dataTableFuncionalidades);
-                return dataTableFuncionalidades;
-
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableRoles = new DataTable();
+                dataTableRoles.Load(sqlReader);
+                return dataTableRoles;
             }
             catch (Exception ex)
             {
-                //hacer algo con las exepciones
                 return null;
                 throw ex;
             }
@@ -178,4 +151,117 @@ namespace UberFrba.ConexionBD
     }
 }
 
+/*
 
+  static SqlCommand sqlCommand = new SqlCommand();
+        
+
+        public static void insertarCliente(Cliente clie) {
+        try
+        {
+            conectar();
+
+            sqlCommand = new SqlCommand("NONAME.sproc_cliente_alta");
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.Connection = miConexion;
+ 
+            sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
+            sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
+            sqlCommand.Parameters.AddWithValue("@usuario_dni", clie.dni);
+            sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
+            sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
+            sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
+            sqlCommand.Parameters.AddWithValue("@codigo_postal", clie.codPostal);
+            sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", clie.fechaNacimiento);
+
+            sqlCommand.ExecuteNonQuery();
+ 
+        } catch(Exception ex){
+           //Manejar errores
+            throw ex;
+        }finally{
+            desconectar();
+        }
+    }
+        
+        public static DataTable filtrarClientes(Cliente clie) {
+            try {
+                conectar();
+
+                sqlCommand = new SqlCommand();
+           
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Cliente join NONAME.Usuario on id_cliente = id_usuario WHERE " + (String.IsNullOrEmpty(clie.nombre) ? "1=1" : ("nombre ='" + clie.nombre) + "'") + (clie.dni == 0  ? " And 1=1" : ( " And id_usuario_dni =" + clie.dni.ToString())) + (String.IsNullOrEmpty(clie.apellido) ? " And 1=1" : (" And apellido ='" + clie.apellido.ToString() + "'")) ;
+                sqlCommand.CommandType = CommandType.Text; //Esto es opcional porque de base es un texto
+                sqlCommand.Connection = miConexion;
+
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableClientes = new DataTable();
+                dataTableClientes.Load(sqlReader);
+                return dataTableClientes;
+          
+            }catch(Exception ex){
+                //hacer algo con las exepciones
+                return null;
+                throw ex;
+            }finally{
+                desconectar();
+            }
+        }
+
+       
+
+        public static void modificarCliente(Cliente clie)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand("NONAME.sproc_cliente_modificacion");
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Connection = miConexion;
+                sqlCommand.Parameters.AddWithValue("@id_usuario", clie.id_cliente);
+                sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
+                sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
+                sqlCommand.Parameters.AddWithValue("@usuario_dni", clie.dni);
+                sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
+                sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
+                sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
+                sqlCommand.Parameters.AddWithValue("@codigo_postal", clie.codPostal);
+                sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", clie.fechaNacimiento);
+
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                //manejar exepciones
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static void eliminarCliente(Cliente clie)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand("NONAME.sproc_cliente_baja");
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Connection = miConexion;
+
+                sqlCommand.Parameters.AddWithValue("@id_usuario", clie.id_cliente);
+
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                //manejar exepciones
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+*/

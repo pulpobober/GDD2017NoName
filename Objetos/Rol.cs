@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,21 +10,36 @@ namespace UberFrba.Objetos
 {
     public class Rol
     {
+       public int id_rol { get; set; }
        public string nombre { get; set; }
        public bool estado { get; set; }
        public Dictionary<int, Boolean> diccionarioFunciones { get; set; }
-
+       public DataTable tablaFuncionalidades { get; set; }
        public Rol() { }
-       public Rol(string nom, bool est ,Dictionary<int, Boolean> diccionarioFunc)
+
+    //Este rol se crea cuando voy a crear un rol
+       public Rol(string nom, bool est, DataTable funciones)//Dictionary<int, Boolean> diccionarioFunc)
        {
+           this.nombre = nom;
+           this.estado = est;
+           //this.diccionarioFunciones = diccionarioFunc;
+           this.tablaFuncionalidades = funciones;
+       }
+
+
+        //Este rol se crea cuando voy a modificar un rol
+       public Rol(int id, string nom, bool est, Dictionary<int, Boolean> diccionarioFunc)
+       {
+           this.id_rol = id;
            this.nombre = nom;
            this.estado = est;
            this.diccionarioFunciones = diccionarioFunc;
        }
-       public Rol(DataGridViewRow datosCliente)
+       public Rol(DataGridViewRow datosRol)
        {
-           this.nombre = datosCliente.Cells["nombre"].Value.ToString();
-           //ver que onda la funcionalidad
+           this.nombre = datosRol.Cells["tipo"].Value.ToString();
+           this.estado = Convert.ToBoolean(datosRol.Cells["habilitado"].Value.ToString());
+           this.id_rol = Int32.Parse(datosRol.Cells["id_rol"].Value.ToString());
        }
 
        public Rol(string nom)
