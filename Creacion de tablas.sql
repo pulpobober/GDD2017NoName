@@ -130,7 +130,7 @@ EXEC NONAME.DROP_FK
 	DROP PROCEDURE NONAME.DROP_FK
 
 	IF OBJECT_ID('NONAME.sproc_rol_alta') IS NOT NULL
-		DROP PROCEDURE NONAME.sproc_rol_alta
+	DROP PROCEDURE NONAME.sproc_rol_alta
 
 	IF OBJECT_ID('NONAME.sproc_rol_baja') IS NOT NULL
 		DROP PROCEDURE NONAME.sproc_rol_baja
@@ -155,6 +155,24 @@ EXEC NONAME.DROP_FK
 
 	IF OBJECT_ID('NONAME.sproc_automovil_modificacion') IS NOT NULL
 		DROP PROCEDURE NONAME.sproc_automovil_modificacion
+
+	IF OBJECT_ID('NONAME.sproc_turno_alta') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_turno_alta
+
+	IF OBJECT_ID('NONAME.sproc_turno_baja') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_turno_baja
+
+	IF OBJECT_ID('NONAME.sproc_turno_modificacion') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_turno_modificacion
+
+	IF OBJECT_ID('NONAME.sproc_chofer_alta') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_chofer_alta
+
+	IF OBJECT_ID('NONAME.sproc_chofer_baja') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_chofer_baja
+
+	IF OBJECT_ID('NONAME.sproc_chofer_modificacion') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_chofer_modificacion
 
 --User-Defined Data & Table Types
 	IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL

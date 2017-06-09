@@ -237,7 +237,7 @@ GO
 
 
 CREATE PROCEDURE NONAME.sproc_cliente_baja
-	@id_usuario INT
+	@id_usuario INT -- (id_usuario = id_cliente)
 
 /*	
 	La eliminación de un cliente implica la baja lógica del mismo. Un cliente
@@ -596,4 +596,147 @@ BEGIN
 		END
 
 END
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_chofer_alta
+	@nombre VARCHAR(255),
+	@apellido VARCHAR(255),
+	@usuario_dni NUMERIC(18,0),
+	@direccion VARCHAR(255),
+	@codigo_postal VARCHAR(50),
+	@telefono NUMERIC(18, 0),
+	@mail VARCHAR(50),
+	@fecha_nacimiento DATETIME,
+	@habilitado BIT = 1
+
+AS
+BEGIN
+
+	DECLARE @id_rol INT
+	DECLARE @id_usuario INT
+
+	SET @id_rol = (SELECT id_rol FROM NONAME.Rol WHERE UPPER(tipo) = 'CHOFER')
+
+	INSERT INTO NONAME.Usuario (
+		usuario_dni,
+		nombre,
+		apellido,
+		telefono,
+		direccion,
+		mail,
+		fecha_nacimiento,
+		nombre_de_usuario,
+		contrasena,
+		habilitado,
+		intentos_fallidos)
+	VALUES (
+		@usuario_dni,
+		@nombre,
+		@apellido,
+		@telefono,
+		@direccion,
+		@mail,
+		@fecha_nacimiento,
+		@usuario_dni,
+		HASHBYTES('SHA2_256', CAST(@usuario_dni as NVARCHAR(10))),
+		@habilitado,
+		0)
+
+	
+	SET @id_usuario = SCOPE_IDENTITY() --Capturo el último id_usuario auto-incrementado en Usuario
+
+	INSERT INTO [NONAME].Chofer (
+		id_chofer,
+		cedula)
+	VALUES (
+		@id_usuario,
+		NULL)
+
+
+	IF EXISTS (SELECT 1 FROM NONAME.Rol WHERE id_rol = @id_rol AND habilitado = 1) --No está permitida la asignación de un rol inhabilitado a un usuario
+		BEGIN
+			INSERT INTO [NONAME].Rol_Usuario (
+				id_rol,
+				id_usuario)
+			VALUES (
+				@id_rol,
+				@id_usuario) -- @id_usuario = último id_usuario auto-incrementado
+		END
+END
+
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_chofer_baja
+	@id_usuario INT -- (id_usuario = id_chofer)
+
+/*	
+	En el caso de tratarse de una baja, la misma deberá ser lógica. Cuando un chofer se inhabilita, 
+	sus datos siguen existiendo en la base de datos, pero luego no pueden realizarse viajes bajo ese 
+	chofer deshabilitado. Se debe poder volver a habilitar un chofer dado de baja desde la sección de 
+	modificación y el mismo debe cumplir con las restricciones descriptas.
+*/
+
+AS
+BEGIN
+
+	UPDATE [NONAME].Usuario
+	SET habilitado = 0
+	WHERE id_usuario = @id_usuario
+
+END
+
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_chofer_modificacion
+	@id_usuario INT, -- (id_usuario = id_chofer)
+	@usuario_dni NUMERIC(18,0),
+	@nombre VARCHAR(255),
+	@apellido VARCHAR(255),
+	@telefono NUMERIC(18, 0),
+	@direccion VARCHAR(255),
+	@mail VARCHAR(50),
+	@fecha_nacimiento DATETIME,
+	@codigo_postal VARCHAR(50),
+	@habilitado BIT = NULL
+--	,@cedula VARCHAR(10) = NULL
+
+/*
+Dichos datos pueden ser modificados en su totalidad y en el caso de tratarse de
+una baja, la misma deberá ser lógica. Cuando un chofer se inhabilita, sus datos siguen
+existiendo en la base de datos, pero luego no pueden realizarse viajes bajo ese chofer
+deshabilitado. Se debe poder volver a habilitar un chofer dado de baja desde la sección
+de modificación y el mismo debe cumplir con las restricciones descriptas.
+*/
+
+AS
+BEGIN
+	
+	UPDATE [NONAME].Usuario
+	SET	nombre = @nombre,
+		apellido = @apellido,
+		usuario_dni = @usuario_dni,
+		mail = @mail,
+		telefono = @telefono,
+		direccion = @direccion,
+		fecha_nacimiento = @fecha_nacimiento
+	WHERE id_usuario = @id_usuario
+
+/*	
+	UPDATE NONAME.Chofer
+	SET cedula = @cedula
+	WHERE id_chofer = @id_usuario
+*/
+
+	IF(@habilitado IS NOT NULL)
+		BEGIN
+			UPDATE [NONAME].Usuario
+			SET habilitado = @habilitado
+			WHERE id_usuario = @id_usuario
+		END
+
+END
+
 GO
