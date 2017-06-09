@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using UberFrba.Objetos;
+using System.Diagnostics;
 
 namespace UberFrba.ConexionBD
 {
@@ -60,110 +61,166 @@ namespace UberFrba.ConexionBD
             }
             return  marcas;  
         }
+        public static string obtainTurno(int idturno)
+        {
+            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "SELECT descripcion FROM Noname.Turno where id_turno="+idturno;
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = miConexion;
+
+
+            System.Console.Write(cmd.CommandText);
+
+            miConexion.Open();
+
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                return reader["descripcion"].ToString();
+            }
+            return "";
+        }
+        public static string obtainMarca(int idmarca)
+        {
+            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "SELECT nombre FROM Noname.Marca where id_marca=" + idmarca;
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = miConexion;
+
+
+            System.Console.Write(cmd.CommandText);
+
+            miConexion.Open();
+
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                return reader["nombre"].ToString();
+            }
+            return "";
+        }
+        public static string obtainChofer(int idchofer)
+        {
+            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "Select concat(nombre,' ', apellido) as chofer from NONAME.Usuario where id_usuario=" + idchofer ;
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = miConexion;
+
+
+            System.Console.Write(cmd.CommandText);
+
+            miConexion.Open();
+
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                return reader["chofer"].ToString();
+            }
+            return "";
+        }
+
+        public static string obtainHabilitado(int idautomovil)
+        {
+            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "select habilitado from NONAME.Auto where id_auto=" + idautomovil;
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = miConexion;
+
+
+            System.Console.Write(cmd.CommandText);
+
+            miConexion.Open();
+
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                return reader["habilitado"].ToString();
+            }
+            return "";
+        }
+
         public static DataTable filtrarAutomoviles(Automovil auto) {
-            try {
-
-
                 conectar();
 
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "Select marca, modelo, patente, chofer" ;
+                sqlCommand.CommandText = "Select Marca.nombre as marca, modelo, patente_auto, concat(Usuario.nombre, ' ', Usuario.apellido) as chofer, id_chofer from NONAME.Auto inner join NONAME.Marca on Auto.id_marca=marca.id_marca inner join NONAME.Auto_Chofer on Auto.id_auto=Auto_Chofer.id_auto inner join NONAME.Usuario on Auto_Chofer.id_chofer=Usuario.id_usuario WHERE " + ((auto.idmarca == 0) ? "1=1" : ("Marca.id_marca ='" + auto.idmarca) + "'") + (String.IsNullOrEmpty(auto.modelo) ? " And 1=1" : (" And modelo ='" + auto.modelo + "'")) + (String.IsNullOrEmpty(auto.patente) ? " And 1=1" : (" And patente_auto ='" + auto.patente + "'")) + (auto.idchofer == 0 ? " And 1=1" : (" And id_chofer ='" + auto.idchofer + "' group by patente_auto, Marca.nombre,Auto.modelo, Usuario.nombre, Usuario.apellido, Auto_Chofer.id_chofer"));
                 sqlCommand.CommandType = CommandType.Text; //Esto es opcional porque de base es un texto
                 sqlCommand.Connection = miConexion;
 
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
-                DataTable dataTableClientes = new DataTable();
-                dataTableClientes.Load(sqlReader);
-                return dataTableClientes;     
-          
-            }catch(Exception ex){
-                //hacer algo con las exepciones
-             
-                return null;
-            }finally{
-                desconectar();
-            }
+                DataTable dataTableAutos = new DataTable();
+                dataTableAutos.Load(sqlReader);
+                return dataTableAutos;     
         }
 
-        public static DataTable obtenerTodosLosClientes()
+        public static DataTable obtenerTodosLosAutomoviles()
         {
-            try
-            {
-                //Falta depurar bien el select
-
                 conectar();
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT nombre, apellido, id_usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Usuario join NONAME.Cliente on id_usuario_dni = id_cliente";
+                sqlCommand.CommandText = "SELECT Auto_Chofer.id_auto,Marca.nombre as marca, modelo, patente_auto, CONCAT(Usuario.nombre,' ',Usuario.apellido) as chofer FROM NONAME.Auto join NONAME.Marca on Auto.id_marca= Marca.id_marca join NONAME.Auto_Chofer on Auto_Chofer.id_auto=Auto.id_auto join NONAME.Usuario on Auto_Chofer.id_chofer=id_usuario";
                 sqlCommand.CommandType = CommandType.Text; //opcional
                 sqlCommand.Connection = miConexion;
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableClientes = new DataTable();
                 dataTableClientes.Load(sqlReader);
                 return dataTableClientes;
-            }
-            catch (Exception ex)
-            {
-                //hacer algo con las exepciones
-                return null;
-            }
-            finally
-            {
-                desconectar();
-            }
+          
         }
 
-        public static void modificarCliente(Cliente clie)
+        public static string modificarAutomovil(Automovil auto)
         {
-            try
-            {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.sproc_cliente_modificacion");
+                sqlCommand = new SqlCommand("NONAME.sproc_automovil_modificacion");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
-                sqlCommand.Parameters.AddWithValue("@nombre", clie.nombre);
-                sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
-                sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
-                sqlCommand.Parameters.AddWithValue("@mail", clie.mail);
-                sqlCommand.Parameters.AddWithValue("@telefono", clie.telefono);
-                sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
-            //    sqlCommand.Parameters.AddWithValue("@localidad", clie.localidad);
-                sqlCommand.Parameters.AddWithValue("@codigo_postal", clie.codPostal);
-                sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", clie.fechaNacimiento);
+                sqlCommand.Parameters.AddWithValue("@patente_auto", auto.patente);
+                sqlCommand.Parameters.AddWithValue("@modelo", auto.modelo);
+                sqlCommand.Parameters.AddWithValue("@id_turno", auto.idturno);
+                sqlCommand.Parameters.AddWithValue("@id_marca", auto.idmarca);
+                sqlCommand.Parameters.AddWithValue("@rodado", auto.rodado);
+                sqlCommand.Parameters.AddWithValue("@habilitado", auto.habilitado);
+                sqlCommand.Parameters.AddWithValue("@licencia", auto.licencia);
+                sqlCommand.Parameters.AddWithValue("@id_chofer", auto.idchofer);
+                sqlCommand.Parameters.AddWithValue("@id_auto", auto.idautomovil);
 
-                sqlCommand.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                //manejar exepciones
-            }
-            finally
-            {
-                desconectar();
-            }
+                int response=sqlCommand.ExecuteNonQuery();
+                if (response > 0)
+                {
+                    return "Se modifico correctamente el automovil: " + auto.idautomovil;
+                }
+                else
+                {
+                    return "No se pudo realizar la modificacion";
+                }
+           
         }
 
-        public static void eliminarCliente(Cliente clie)
+        public static int eliminarAutomovil(Automovil auto)
         {
-            try
-            {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.sproc_cliente_baja");
+                sqlCommand = new SqlCommand("NONAME.sproc_automovil_baja");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
-                sqlCommand.Parameters.AddWithValue("@id_usuario_dni", clie.dni);
+                sqlCommand.Parameters.AddWithValue("@id_auto", auto.idautomovil);
 
-                sqlCommand.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                //manejar exepciones
-            }
-            finally
-            {
-                desconectar();
-            }
+                int response=sqlCommand.ExecuteNonQuery();
+
+                return response;
+                
         }
     }
 }

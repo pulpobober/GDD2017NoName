@@ -56,6 +56,18 @@
     <Compile Include="Abm Automovil\AltaAutomovil.Designer.cs">
       <DependentUpon>AltaAutomovil.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm Automovil\ModificacionAutomovil.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Automovil\ModificacionAutomovil.Designer.cs">
+      <DependentUpon>ModificacionAutomovil.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Automovil\ListadoAutomoviles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Automovil\ListadoAutomoviles.Designer.cs">
+      <DependentUpon>ListadoAutomoviles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm Chofer\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -172,6 +184,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Automovil\AltaAutomovil.resx">
       <DependentUpon>AltaAutomovil.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Automovil\ListadoAutomoviles.resx">
+      <DependentUpon>ListadoAutomoviles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Automovil\ModificacionAutomovil.resx">
+      <DependentUpon>ModificacionAutomovil.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Cliente\AbmCliente.resx">
       <DependentUpon>AbmCliente.cs</DependentUpon>
