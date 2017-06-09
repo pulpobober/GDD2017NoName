@@ -199,7 +199,6 @@ BEGIN
 	INSERT INTO NONAME.Auto (
 		patente_auto,
 		modelo,
-		id_turno,
 		id_marca,
 		rodado,
 		habilitado,
@@ -207,7 +206,6 @@ BEGIN
 	VALUES (
 		@patente_auto,
 		@modelo,
-		@id_turno,
 		@id_marca,
 		@rodado,
 		@habilitado,
@@ -218,9 +216,9 @@ BEGIN
 	IF NOT EXISTS (SELECT 1 FROM NONAME.Auto_Chofer WHERE id_auto = @id_auto AND id_chofer = @id_chofer)
 		BEGIN
 			INSERT INTO [NONAME].Auto_Chofer
-			SELECT Auto.id_auto, Chofer.id_chofer
-			FROM NONAME.Auto, NONAME.Chofer
-			WHERE Auto.id_auto = @id_auto and Chofer.id_chofer = @id_chofer
+			SELECT Auto.id_auto, Chofer.id_chofer, Turno.id_turno
+			FROM NONAME.Auto, NONAME.Chofer, NONAME.Turno
+			WHERE Auto.id_auto = @id_auto AND Chofer.id_chofer = @id_chofer AND Turno.id_turno = @id_turno
 		END
 
 END
@@ -272,16 +270,15 @@ AS
 BEGIN
 	
 	UPDATE NONAME.Auto
-	SET
-		patente_auto = @patente_auto,
+	SET	patente_auto = @patente_auto,
 		modelo = @modelo,
-		id_turno = @id_turno,
 		id_marca = @id_marca
 	WHERE id_auto = @id_auto
 
 	
 	UPDATE NONAME.Auto_Chofer
-	SET id_chofer = @id_chofer
+	SET id_chofer = @id_chofer,
+		id_turno = @id_turno
 	WHERE id_auto = @id_auto
 
 	
