@@ -28,12 +28,12 @@ namespace UberFrba.Objetos
 
 
         //Este rol se crea cuando voy a modificar un rol
-       public Rol(int id, string nom, bool est, Dictionary<int, Boolean> diccionarioFunc)
+       public Rol(int id, string nom, bool est, DataTable funciones)
        {
            this.id_rol = id;
            this.nombre = nom;
            this.estado = est;
-           this.diccionarioFunciones = diccionarioFunc;
+           this.tablaFuncionalidades = funciones;
        }
        public Rol(DataGridViewRow datosRol)
        {

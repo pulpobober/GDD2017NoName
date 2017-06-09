@@ -25,5 +25,14 @@ namespace UberFrba.Abm_Rol
              Rol unRol = new Rol(txtNombreRol.Text, ckbHabilitado.Checked ? true : false, funcionalidadesHabilitadas);
             SQLRoles.insertarRol(unRol);
         }
+
+        private void AltaRol_Load(object sender, EventArgs e)
+        {
+            InitializeComponent();
+            foreach (DataRow row in funcionalidades.Rows)
+            {
+                checkListFuncionalidades.Items.Add(row["descripcion"].ToString());
+            }
+        }
     }
 }

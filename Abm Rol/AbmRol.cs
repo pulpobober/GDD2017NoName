@@ -24,11 +24,6 @@ namespace UberFrba.Abm_Rol
         {
             //Llenar listas funcionalidades
             funcionalidades = SQLRoles.obtenerTodasLasFuncionalidades();
-            foreach (DataRow row in funcionalidades.Rows)
-            {
-                checkListFuncionalidades.Items.Add(row["descripcion"].ToString());
-            }
-            
         }
 
         public DataTable obtenerFuncionalidadesHabilitadas(){

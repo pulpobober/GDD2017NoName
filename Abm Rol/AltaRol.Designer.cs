@@ -54,6 +54,8 @@
             this.Controls.Add(this.btnAlta);
             this.Name = "AltaRol";
             this.Text = "AltaRol";
+            this.Load += new System.EventHandler(this.AltaRol_Load);
+            this.Controls.SetChildIndex(this.ckbHabilitado, 0);
             this.Controls.SetChildIndex(this.lblTitulo, 0);
             this.Controls.SetChildIndex(this.lblNombre, 0);
             this.Controls.SetChildIndex(this.txtNombreRol, 0);
