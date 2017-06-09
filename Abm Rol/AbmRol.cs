@@ -26,6 +26,15 @@ namespace UberFrba.Abm_Rol
             funcionalidades = SQLRoles.obtenerTodasLasFuncionalidades();
         }
 
+        public bool verificarDatosRol(string nombre){
+            if (nombre.Length == 0)
+            {
+                MessageBox.Show("No se puede dejar el campo nombre vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
+        }
+
         public DataTable obtenerFuncionalidadesHabilitadas(){
             DataTable funcionalidadesHabilitadas = new DataTable();
             funcionalidadesHabilitadas.Clear();

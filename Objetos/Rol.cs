@@ -13,16 +13,14 @@ namespace UberFrba.Objetos
        public int id_rol { get; set; }
        public string nombre { get; set; }
        public bool estado { get; set; }
-       public Dictionary<int, Boolean> diccionarioFunciones { get; set; }
        public DataTable tablaFuncionalidades { get; set; }
        public Rol() { }
 
     //Este rol se crea cuando voy a crear un rol
-       public Rol(string nom, bool est, DataTable funciones)//Dictionary<int, Boolean> diccionarioFunc)
+       public Rol(string nom, bool est, DataTable funciones)
        {
            this.nombre = nom;
            this.estado = est;
-           //this.diccionarioFunciones = diccionarioFunc;
            this.tablaFuncionalidades = funciones;
        }
 

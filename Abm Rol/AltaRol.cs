@@ -21,9 +21,12 @@ namespace UberFrba.Abm_Rol
 
         private void btnAlta_Click(object sender, EventArgs e)
         {
-            DataTable funcionalidadesHabilitadas = obtenerFuncionalidadesHabilitadas();
-             Rol unRol = new Rol(txtNombreRol.Text, ckbHabilitado.Checked ? true : false, funcionalidadesHabilitadas);
-            SQLRoles.insertarRol(unRol);
+            if (verificarDatosRol(txtNombreRol.Text))
+            {
+                DataTable funcionalidadesHabilitadas = obtenerFuncionalidadesHabilitadas();
+                Rol unRol = new Rol(txtNombreRol.Text, ckbHabilitado.Checked ? true : false, funcionalidadesHabilitadas);
+                SQLRoles.insertarRol(unRol);
+            }
         }
 
         private void AltaRol_Load(object sender, EventArgs e)

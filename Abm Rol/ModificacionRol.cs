@@ -50,12 +50,12 @@ namespace UberFrba.Abm_Rol
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            DataTable funcionalidadesHabilitadas = obtenerFuncionalidadesHabilitadas();
-            Rol unRol = new Rol(idRol,txtNombreRol.Text, ckbHabilitado.Checked ? true : false, funcionalidadesHabilitadas);
-            SQLRoles.modificarRol(unRol);
+            if (verificarDatosRol(txtNombreRol.Text))
+            {
+                DataTable funcionalidadesHabilitadas = obtenerFuncionalidadesHabilitadas();
+                Rol unRol = new Rol(idRol, txtNombreRol.Text, ckbHabilitado.Checked ? true : false, funcionalidadesHabilitadas);
+                SQLRoles.modificarRol(unRol);
+            }
         }
-
-
-
     }
 }
