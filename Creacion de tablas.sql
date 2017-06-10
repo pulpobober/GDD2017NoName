@@ -5,6 +5,10 @@ GO
 		DROP PROCEDURE NONAME.DROP_FK
 	GO
 
+	IF OBJECT_ID('NONAME.sp_migra_auto_marca') IS NOT NULL
+		DROP PROCEDURE NONAME.sp_migra_auto_marca
+	GO
+
 CREATE PROCEDURE NONAME.DROP_FK
 as
 	IF OBJECT_ID('NONAME.FK_Viaje_Turno') IS NOT NULL
@@ -174,6 +178,9 @@ EXEC NONAME.DROP_FK
 
 	IF OBJECT_ID('NONAME.sproc_chofer_modificacion') IS NOT NULL
 		DROP PROCEDURE NONAME.sproc_chofer_modificacion
+
+
+	
 
 --User-Defined Data & Table Types
 
@@ -498,23 +505,43 @@ CHECK CONSTRAINT [FK_Funcion_Rol_Funcion]
 --CONSTRAINT
 
 ALTER TABLE [NONAME].[Usuario]  ADD CONSTRAINT [dni_unico] UNIQUE (usuario_dni);
+GO
 
 ALTER TABLE [NONAME].[Usuario]  ADD CONSTRAINT [telefono_unico] UNIQUE (telefono);
+GO
 
 ALTER TABLE [NONAME].[Auto]  ADD CONSTRAINT [patente_unico] UNIQUE (patente_auto);
-
+GO
 
 --inserts
 
-INSERT INTO [NONAME].Marca (nombre, id_marca)
-  VALUES 
-		('Fiat', 1),
-		('Peugeot', 2),
-		('Ford', 3),
-		('Renault', 4),
-		('Volkswagen', 5),
-		('Chevrolet', 6)
+
+
+CREATE PROCEDURE NONAME.sp_migra_auto_marca (@nombre_auto varchar(255), @id_marca int) 
+AS
+	INSERT INTO NONAME.Marca (nombre, id_marca)
+	VALUES (@nombre_auto, @id_marca)
 GO
+
+EXEC NONAME.sp_migra_auto_marca
+	@nombre_auto = 'Fiat', @id_marca = 1;
+
+EXEC NONAME.sp_migra_auto_marca
+	@nombre_auto = 'Peugeot', @id_marca = 2;
+
+EXEC NONAME.sp_migra_auto_marca
+	@nombre_auto = 'Ford', @id_marca = 3;
+
+EXEC NONAME.sp_migra_auto_marca
+	@nombre_auto = 'Renault', @id_marca = 4;
+
+EXEC NONAME.sp_migra_auto_marca
+	@nombre_auto = 'Volkswagen', @id_marca = 5;
+
+EXEC NONAME.sp_migra_auto_marca
+	@nombre_auto = 'Chevrolet', @id_marca = 6;
+
+
 
 INSERT INTO [NONAME].Funcion (descripcion, id_funcion)
  VALUES 
