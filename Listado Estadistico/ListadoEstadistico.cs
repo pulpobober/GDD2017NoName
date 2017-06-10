@@ -42,31 +42,38 @@ namespace UberFrba.Listado_Estadistico
 
         private void btnMostrarListado_Click(object sender, EventArgs e)
         {
-            int anio = int.Parse(txtAnio.Text);
+            if (txtAnio.Text.Length == 0) {
+                MessageBox.Show("Debe escribir un anio", "Listado Estadistico", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
 
-            int trimestre = obtenerTrimestre();
-
-            switch (cmbListado.Text)
+            else
             {
+                int anio = int.Parse(txtAnio.Text);
 
-                case "":
-                    MessageBox.Show("Seleccione un listado estadistico", "Listado Estadistico", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    break;
-                case "Top 5 de los choferes con mayor recaudacion":
-                    tablaListado.DataSource = SQLListadoEstadistico.choferesConMasRecaudacion(anio, trimestre);
-                    break;
+                int trimestre = obtenerTrimestre();
 
-                case "Top 5 de los choferes con el viaje mas largo realizado":
-                    tablaListado.DataSource = SQLListadoEstadistico.choferesConElViajeMasLargoRealizado(anio, trimestre);
-                    break;
+                switch (cmbListado.Text)
+                {
 
-                case "Top 5 de los clientes con mayor consumo":
-                    tablaListado.DataSource = SQLListadoEstadistico.clientesConMayorConsumo(anio, trimestre);
-                    break;
+                    case "":
+                        MessageBox.Show("Seleccione un listado estadistico", "Listado Estadistico", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        break;
+                    case "Top 5 de los choferes con mayor recaudacion":
+                        tablaListado.DataSource = SQLListadoEstadistico.choferesConMasRecaudacion(anio, trimestre);
+                        break;
 
-                case "Cliente que utilizo mas veces el mismo automovil en los viajes que ha realizado":
-                    tablaListado.DataSource = SQLListadoEstadistico.ClienteQueUtilizoMasVecesElMismoAutomovil(anio, trimestre);
-                    break;
+                    case "Top 5 de los choferes con el viaje mas largo realizado":
+                        tablaListado.DataSource = SQLListadoEstadistico.choferesConElViajeMasLargoRealizado(anio, trimestre);
+                        break;
+
+                    case "Top 5 de los clientes con mayor consumo":
+                        tablaListado.DataSource = SQLListadoEstadistico.clientesConMayorConsumo(anio, trimestre);
+                        break;
+
+                    case "Cliente que utilizo mas veces el mismo automovil en los viajes que ha realizado":
+                        tablaListado.DataSource = SQLListadoEstadistico.ClienteQueUtilizoMasVecesElMismoAutomovil(anio, trimestre);
+                        break;
+                }
             }
         }
 

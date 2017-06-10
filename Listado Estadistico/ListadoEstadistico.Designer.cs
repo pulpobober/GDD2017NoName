@@ -40,6 +40,7 @@
             // 
             // cmbListado
             // 
+            this.cmbListado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbListado.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbListado.FormattingEnabled = true;
             this.cmbListado.Items.AddRange(new object[] {
@@ -104,6 +105,7 @@
             // 
             // cmbTrimestre
             // 
+            this.cmbTrimestre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTrimestre.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbTrimestre.FormattingEnabled = true;
             this.cmbTrimestre.Items.AddRange(new object[] {
