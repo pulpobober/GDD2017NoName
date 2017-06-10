@@ -26,7 +26,10 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@nombre_de_usuario", usuario);
                 sqlCommand.Parameters.AddWithValue("@contrasena", contrasena);
 
-                resultado = sqlCommand.ExecuteNonQuery();
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableLogin = new DataTable();
+                dataTableLogin.Load(sqlReader);
+                return int.Parse(dataTableLogin.Rows[0][1].ToString());
                 return resultado;
 
             }
