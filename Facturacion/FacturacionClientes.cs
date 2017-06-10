@@ -16,5 +16,17 @@ namespace UberFrba.Facturacion
         {
             InitializeComponent();
         }
+
+        private void FacturacionClientes_Load(object sender, EventArgs e)
+        {
+            //llenar con llos nombres de los clientes
+            DataTable clientes = new DataTable();
+
+            foreach (DataRow row in clientes.Rows)
+            {
+                cmbClientes.Items.Add(row["nombre"].ToString());
+                cmbClientes.SelectedIndex = 0;
+            }
+        }
     }
 }
