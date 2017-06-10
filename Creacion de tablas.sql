@@ -566,7 +566,8 @@ INSERT INTO [NONAME].Funcion_Rol (id_rol, id_funcion)
 		(1, 11),
 		(1, 12),
 		(1, 13),
-		(1, 14)
+		(1, 14),
+		(2, 13)
 GO
 
 -- todavia no tienen asiganads funcionalidades los clientes y los choferes...
