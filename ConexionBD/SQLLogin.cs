@@ -14,8 +14,6 @@ namespace UberFrba.ConexionBD
 
         public static int verificarLogin(string usuario, string contrasena)
         {
-            int resultado = -1;
-
             try
             {
                 conectar();
@@ -30,12 +28,37 @@ namespace UberFrba.ConexionBD
                 DataTable dataTableLogin = new DataTable();
                 dataTableLogin.Load(sqlReader);
                 return int.Parse(dataTableLogin.Rows[0][1].ToString());
-                return resultado;
 
             }
             catch (Exception ex)
             {
                 //Manejar errores
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static DataTable obtenerRolesUsuario(string nombre_usuario)
+        {
+            nombre_usuario = "39210895";
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT u.id_usuario, ro.id_rol ,ro.tipo FROM NONAME.Rol_Usuario r join NONAME.Usuario u on r.id_usuario = u.id_usuario, NONAME.Rol ro WHERE ro.id_rol = r.id_rol And nombre_de_usuario = '" + nombre_usuario+"'";
+                sqlCommand.CommandType = CommandType.Text; //opcional
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableRoles = new DataTable();
+                dataTableRoles.Load(sqlReader);
+                return dataTableRoles;
+            }
+            catch (Exception ex)
+            {
+                return null;
                 throw ex;
             }
             finally

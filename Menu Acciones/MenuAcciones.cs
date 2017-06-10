@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UberFrba.ConexionBD;
 
 //Me vuelve loco este menu para esta clase https://www.youtube.com/watch?v=zwhyAv-qcbA
 namespace UberFrba.Menu_Acciones
@@ -23,19 +24,19 @@ namespace UberFrba.Menu_Acciones
         }
 
 
-        public MenuAcciones(int rol, int user)
+        public MenuAcciones(int id_rol, int id_usuario)
         {
-            rol_id = rol;
-            user_id = user;
+            rol_id = id_rol;
+            user_id = id_usuario;
             InitializeComponent();
             
             // accionesUsuario se carga con todas las acciones de ese usuario
-            //accionesUsuario = DAO.DAORoles.funcionabilidadesHabilitadasXRol(rol_id);
+            accionesUsuario = SQLRoles.obtenerTodasLasFuncionalidadesHabilitadasDelRol(rol_id);
 
             //Para cada accion que tiene el usuario lo pongo en el cmbAcciones
             foreach (DataRow row in accionesUsuario.Rows)
             {
-                cmbAcciones.Items.Add(row["Nombre"].ToString());
+                cmbAcciones.Items.Add(row["descripcion"].ToString());
                 cmbAcciones.SelectedIndex = 0;
             }
         }
@@ -125,6 +126,25 @@ namespace UberFrba.Menu_Acciones
             }
  
             Show();
+        }
+
+        private void MenuAcciones_Load(object sender, EventArgs e)
+        {
+            ////ESTO ESTA PARA PODER PROBAR, DESPUES BORRAR
+            rol_id = 1;
+            user_id = 90;
+            //InitializeComponent();
+
+            // accionesUsuario se carga con todas las acciones de ese usuario
+            
+            accionesUsuario = SQLRoles.obtenerTodasLasFuncionalidadesHabilitadasDelRol(rol_id);
+
+            //Para cada accion que tiene el usuario lo pongo en el cmbAcciones
+            foreach (DataRow row in accionesUsuario.Rows)
+            {
+                cmbAcciones.Items.Add(row["descripcion"].ToString());
+                cmbAcciones.SelectedIndex = 0;
+            }
         }
     }
 }
