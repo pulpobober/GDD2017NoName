@@ -19,6 +19,9 @@ namespace UberFrba.Abm_Turno
 
         private void AbmTurno_Load(object sender, EventArgs e)
         {
+            cmbInicio.Items.Clear();
+            cmbFinal.Items.Clear();
+
             for (int i = 0; i < 25; i++)
             {
                 cmbInicio.Items.Add(i.ToString() + ":00");

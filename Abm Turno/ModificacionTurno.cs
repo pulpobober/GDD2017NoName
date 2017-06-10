@@ -39,5 +39,10 @@ namespace UberFrba.Abm_Turno
             txtValorKm.Text = tur.valor_km.ToString();
             txtPrecioBase.Text = tur.precio_base.ToString();
         }
+
+         private void ModificacionTurno_Load(object sender, EventArgs e)
+         {
+
+         }
     }
 }

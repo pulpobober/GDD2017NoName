@@ -137,6 +137,7 @@
     <Compile Include="ConexionBD\ConexionSQL.cs" />
     <Compile Include="ConexionBD\SQLAutomovil.cs" />
     <Compile Include="ConexionBD\SQLCliente.cs" />
+    <Compile Include="ConexionBD\SQLLogin.cs" />
     <Compile Include="ConexionBD\SQLRoles.cs" />
     <Compile Include="ConexionBD\SQLTurno.cs" />
     <Compile Include="Facturacion\Form1.cs">
