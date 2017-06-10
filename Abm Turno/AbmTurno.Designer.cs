@@ -138,6 +138,7 @@
             this.txtValorKm.Name = "txtValorKm";
             this.txtValorKm.Size = new System.Drawing.Size(37, 20);
             this.txtValorKm.TabIndex = 10;
+            this.txtValorKm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtValorKm_KeyPress);
             // 
             // txtPrecioBase
             // 
@@ -145,6 +146,7 @@
             this.txtPrecioBase.Name = "txtPrecioBase";
             this.txtPrecioBase.Size = new System.Drawing.Size(36, 20);
             this.txtPrecioBase.TabIndex = 11;
+            this.txtPrecioBase.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPrecioBase_KeyPress);
             // 
             // AbmTurno
             // 
@@ -180,11 +182,11 @@
         protected System.Windows.Forms.Label lblValorKilometro;
         protected System.Windows.Forms.Label lblPrecioBase;
         protected System.Windows.Forms.CheckBox ckbHabilitado;
-        private System.Windows.Forms.ComboBox cmbInicio;
-        private System.Windows.Forms.ComboBox cmbFinal;
-        private System.Windows.Forms.TextBox txtDescripcion;
-        private System.Windows.Forms.TextBox txtValorKm;
-        private System.Windows.Forms.TextBox txtPrecioBase;
+        protected System.Windows.Forms.ComboBox cmbInicio;
+        protected System.Windows.Forms.ComboBox cmbFinal;
+        protected System.Windows.Forms.TextBox txtDescripcion;
+        protected System.Windows.Forms.TextBox txtValorKm;
+        protected System.Windows.Forms.TextBox txtPrecioBase;
 
     }
 }

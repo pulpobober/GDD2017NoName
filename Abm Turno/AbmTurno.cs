@@ -19,14 +19,14 @@ namespace UberFrba.Abm_Turno
 
         private void AbmTurno_Load(object sender, EventArgs e)
         {
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 25; i++)
             {
                 cmbInicio.Items.Add(i.ToString() + ":00");
                 cmbFinal.Items.Add(i.ToString() + ":00");
             }
         }
 
-        public bool verificarDatosTurno(string inicio, string fin, string descripcion, string valorKm, string precioBase)
+        public bool verificarDatosTurno(object inicio, object fin, string descripcion, string valorKm, string precioBase)
         {
             if (inicio == null)
             {
@@ -35,7 +35,7 @@ namespace UberFrba.Abm_Turno
             }
             if (fin == null)
             {
-                MessageBox.Show("No se puede dejar el campo hora fin vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se puede dejar el campo hora finalizacion vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             if (descripcion.Length == 0)
@@ -55,6 +55,48 @@ namespace UberFrba.Abm_Turno
             }
 
             return true;
+        }
+
+        private void txtValorKm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
+            {
+                MessageBox.Show("Solo se permiten numeros", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                e.Handled = true;
+                return;
+            }
+        }
+
+        private void txtPrecioBase_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
+            {
+                MessageBox.Show("Solo se permiten numeros", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                e.Handled = true;
+                return;
+            }
+        }
+
+        public string agregarHoraReal(string horaReal)
+        {
+            return horaReal + ":00";
+        }
+
+        public string sacarHoraReal(string horaReal)
+        {
+            string hora = "";
+            for (int i = 0; i < horaReal.Length; i++)
+            {
+                if (horaReal[i] == ':')
+                {
+                    return hora;
+                }
+                else
+                {
+                    hora += horaReal[i];
+                }
+            }
+            return hora;
         }
 
     }

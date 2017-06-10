@@ -50,5 +50,10 @@ namespace UberFrba.Objetos
             this.precio_base = Int32.Parse(datosTurno.Cells["precio_base"].Value.ToString());
             this.habilitado = Convert.ToBoolean(datosTurno.Cells["habilitado"].Value.ToString());
         }
+
+        public Turno(string desc)
+        {
+            this.descripcion = desc;
+        }
     }
 }

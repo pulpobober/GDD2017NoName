@@ -18,15 +18,18 @@ namespace UberFrba.ConexionBD
             try
             {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.sproc_rol_alta");
+                sqlCommand = new SqlCommand("NONAME.sproc_turno_alta");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
-      //          sqlCommand.Parameters.AddWithValue("@tipo", unTurno.nombre);
-       //         sqlCommand.Parameters.AddWithValue("@habilitado", unTurno.estado);
-               // DataTable columna = unTurno.tablaFuncionalidades.DefaultView.ToTable(false, unTurno.tablaFuncionalidades.Columns[0].ColumnName);
-               // sqlCommand.Parameters.AddWithValue("ids_funciones", columna);
-               sqlCommand.ExecuteNonQuery();
+                sqlCommand.Parameters.AddWithValue("@hora_inicio", unTurno.hora_inicio);
+                sqlCommand.Parameters.AddWithValue("@hora_fin", unTurno.hora_fin);
+                sqlCommand.Parameters.AddWithValue("@descripcion", unTurno.descripcion);
+                sqlCommand.Parameters.AddWithValue("@valor_km", unTurno.valor_km); 
+                sqlCommand.Parameters.AddWithValue("@precio_base", unTurno.precio_base);
+                sqlCommand.Parameters.AddWithValue("@habilitado", unTurno.habilitado);
+              
+                sqlCommand.ExecuteNonQuery();
 
             }
             catch (Exception ex)
@@ -47,8 +50,8 @@ namespace UberFrba.ConexionBD
             {
                 conectar();
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT id_rol, tipo, habilitado FROM NONAME.Turno";
-                sqlCommand.CommandType = CommandType.Text; //opcional
+                sqlCommand.CommandText = "SELECT id_turno, hora_inicio, hora_fin, descripcion, valor_km, precio_base, habilitado FROM NONAME.Turno";
+                sqlCommand.CommandType = CommandType.Text;
                 sqlCommand.Connection = miConexion;
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableTurnos = new DataTable();
@@ -66,7 +69,31 @@ namespace UberFrba.ConexionBD
             }
         }
 
-       
+
+        public static DataTable filtarTurnos(Turno unTurno)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_turno, hora_inicio, hora_fin, descripcion, valor_km, precio_base, habilitado FROM NONAME.Turno WHERE descripcion = '" + unTurno.descripcion + "'";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableTurnos = new DataTable();
+                dataTableTurnos.Load(sqlReader);
+                return dataTableTurnos;
+            }
+            catch (Exception ex)
+            {
+                return null;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
 
         public static void modificarTurno(Turno unTurno)
         {
@@ -74,15 +101,18 @@ namespace UberFrba.ConexionBD
             try
             {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.sproc_rol_modificacion");
+                sqlCommand = new SqlCommand("NONAME.sproc_turno_modificacion");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
-          //      sqlCommand.Parameters.AddWithValue("@id_rol", unTurno.id_rol);
-          //      sqlCommand.Parameters.AddWithValue("@tipo", unTurno.nombre);
-            //    sqlCommand.Parameters.AddWithValue("@habilitado", unTurno.estado);
-           //     DataTable columna = unTurno.tablaFuncionalidades.DefaultView.ToTable(false, unTurno.tablaFuncionalidades.Columns[0].ColumnName);
-         //       sqlCommand.Parameters.AddWithValue("ids_funciones", columna);
+                sqlCommand.Parameters.AddWithValue("@id_turno", unTurno.id_turno);
+                sqlCommand.Parameters.AddWithValue("@hora_inicio", unTurno.hora_inicio);
+                sqlCommand.Parameters.AddWithValue("@hora_fin", unTurno.hora_fin);
+                sqlCommand.Parameters.AddWithValue("@descripcion", unTurno.descripcion);
+                sqlCommand.Parameters.AddWithValue("@valor_km", unTurno.valor_km);
+                sqlCommand.Parameters.AddWithValue("@precio_base", unTurno.precio_base);
+                sqlCommand.Parameters.AddWithValue("@habilitado", unTurno.habilitado);
+
                 sqlCommand.ExecuteNonQuery();
 
             }
@@ -102,11 +132,11 @@ namespace UberFrba.ConexionBD
             try
             {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.sproc_rol_baja");
+                sqlCommand = new SqlCommand("NONAME.sproc_turno_baja");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
-          //      sqlCommand.Parameters.AddWithValue("@id_rol", unTurno.id_rol);
+                sqlCommand.Parameters.AddWithValue("@id_turno", unTurno.id_turno);
 
                 sqlCommand.ExecuteNonQuery();
             }
@@ -120,57 +150,5 @@ namespace UberFrba.ConexionBD
                 desconectar();
             }
         }
-
-
-        public static DataTable obtenerTodasLasFuncionalidades()
-        {
-            try
-            {
-                conectar();
-                sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT id_funcion, descripcion FROM NONAME.Funcion";
-                sqlCommand.CommandType = CommandType.Text; //opcional
-                sqlCommand.Connection = miConexion;
-                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
-                DataTable dataTableTurnos = new DataTable();
-                dataTableTurnos.Load(sqlReader);
-                return dataTableTurnos;
-            }
-            catch (Exception ex)
-            {
-                return null;
-                throw ex;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
-
-        public static DataTable obtenerTodasLasFuncionalidadesHabilitadasDelTurno(int id_rol)
-        {
-            try
-            {
-                conectar();
-                sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT f.id_funcion, f.descripcion FROM NONAME.Funcion_Turno fr Join NONAME.Funcion f on f.id_funcion = fr.id_funcion, NONAME.Turno r WHERE r.id_rol = fr.id_rol AND r.id_rol =" + id_rol.ToString();
-                sqlCommand.CommandType = CommandType.Text; //opcional
-                sqlCommand.Connection = miConexion;
-                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
-                DataTable dataTableTurnos = new DataTable();
-                dataTableTurnos.Load(sqlReader);
-                return dataTableTurnos;
-            }
-            catch (Exception ex)
-            {
-                return null;
-                throw ex;
-            }
-            finally
-            {
-                desconectar();
-            }
-        }
     }
-    
 }
