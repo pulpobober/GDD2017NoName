@@ -43,21 +43,23 @@ namespace UberFrba.Menu_Acciones
 
         private void btnSeleccionarAccion_Click(object sender, EventArgs e)
         {
+            //ACA LE FALTA EL TEMA DE LA HERENCIA Y QUE SI ES BAJA NO ME APAREZCA MODIFICACION TAMBIEN
+            //PARA ESO HAY QUE IMPLEMENTAR UN DOBLE CLICK EN TODAS LAS CLASES
             Hide();
             switch (cmbAcciones.Text)
             {
-                /*
+                
             case "Alta Rol":
                 new Abm_Rol.AltaRol().ShowDialog();
                 break;
 
             case "Baja Rol":
-                new Abm_Rol.ListaRolBaja(Accion.Baja).ShowDialog();
+                new Abm_Rol.ListadoRoles().ShowDialog();
                 break;
 
             case "Modificacion Rol":
-                new Abm_Rol.ListaRolModificacion(Accion.Modificacion).ShowDialog();
-                break;*/
+                new Abm_Rol.ListadoRoles().ShowDialog();
+                break;
                 //////////////////////////////////////////////////////////////////////////////////////////////////////
                 case "Alta Cliente":
                     new Abm_Cliente.AltaCliente().ShowDialog();
@@ -82,21 +84,21 @@ namespace UberFrba.Menu_Acciones
 
                  case "Baja Automovil":
                      new Abm_Automovil.ListaAutomovilBaja().ShowDialog();
-                     break;
+                     break; */
  //////////////////////////////////////////////////////////////////////////////////////////////////////
                  case "Alta Turno":
                      new Abm_Turno.AltaTurno().ShowDialog();
                      break;
 
                  case "Modificacion Turno":
-                     new Abm_Turno.ListaTurnoModificacion().ShowDialog();
+                     new Abm_Turno.ListaTurnos().ShowDialog();
                      break;
 
                  case "Baja Turno":
-                     new Abm_Turno.ListaTurnoBaja().ShowDialog();
+                     new Abm_Turno.ListaTurnos().ShowDialog();
                      break;
  //////////////////////////////////////////////////////////////////////////////////////////////////////
-                 case "Alta Chofer":
+                /* case "Alta Chofer":
                      new Abm_Chofer.AltaChofer().ShowDialog();
                      break;
 
