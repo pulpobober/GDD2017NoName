@@ -31,7 +31,7 @@
             this.lblChofer = new System.Windows.Forms.Label();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.lblAutomovil = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblTurno = new System.Windows.Forms.Label();
             this.lblCantidadKilometros = new System.Windows.Forms.Label();
             this.lblFechaInicio = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -66,20 +66,20 @@
             // lblAutomovil
             // 
             this.lblAutomovil.AutoSize = true;
-            this.lblAutomovil.Location = new System.Drawing.Point(230, 61);
+            this.lblAutomovil.Location = new System.Drawing.Point(3, 103);
             this.lblAutomovil.Name = "lblAutomovil";
             this.lblAutomovil.Size = new System.Drawing.Size(56, 13);
             this.lblAutomovil.TabIndex = 2;
             this.lblAutomovil.Text = "Automovil:";
             // 
-            // label4
+            // lblTurno
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 108);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(38, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Turno:";
+            this.lblTurno.AutoSize = true;
+            this.lblTurno.Location = new System.Drawing.Point(237, 62);
+            this.lblTurno.Name = "lblTurno";
+            this.lblTurno.Size = new System.Drawing.Size(38, 13);
+            this.lblTurno.TabIndex = 3;
+            this.lblTurno.Text = "Turno:";
             // 
             // lblCantidadKilometros
             // 
@@ -116,11 +116,12 @@
             this.cmbChoferes.Name = "cmbChoferes";
             this.cmbChoferes.Size = new System.Drawing.Size(121, 21);
             this.cmbChoferes.TabIndex = 7;
+            this.cmbChoferes.SelectedIndexChanged += new System.EventHandler(this.cmbChoferes_SelectedIndexChanged);
             // 
             // cmbAutomovil
             // 
             this.cmbAutomovil.FormattingEnabled = true;
-            this.cmbAutomovil.Location = new System.Drawing.Point(292, 58);
+            this.cmbAutomovil.Location = new System.Drawing.Point(65, 100);
             this.cmbAutomovil.Name = "cmbAutomovil";
             this.cmbAutomovil.Size = new System.Drawing.Size(121, 21);
             this.cmbAutomovil.TabIndex = 8;
@@ -128,10 +129,11 @@
             // cmbTurnos
             // 
             this.cmbTurnos.FormattingEnabled = true;
-            this.cmbTurnos.Location = new System.Drawing.Point(54, 105);
+            this.cmbTurnos.Location = new System.Drawing.Point(284, 58);
             this.cmbTurnos.Name = "cmbTurnos";
             this.cmbTurnos.Size = new System.Drawing.Size(121, 21);
             this.cmbTurnos.TabIndex = 9;
+            this.cmbTurnos.SelectedIndexChanged += new System.EventHandler(this.cmbTurnos_SelectedIndexChanged);
             // 
             // dateTimeFin
             // 
@@ -182,7 +184,7 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lblFechaInicio);
             this.Controls.Add(this.lblCantidadKilometros);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblTurno);
             this.Controls.Add(this.lblAutomovil);
             this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.lblChofer);
@@ -199,7 +201,7 @@
         private System.Windows.Forms.Label lblChofer;
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Label lblAutomovil;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblTurno;
         private System.Windows.Forms.Label lblCantidadKilometros;
         private System.Windows.Forms.Label lblFechaInicio;
         private System.Windows.Forms.Label label7;

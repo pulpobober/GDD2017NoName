@@ -12,7 +12,6 @@ namespace UberFrba.ConexionBD
     public class SQLCliente:ConexionSQL
     {
         static SqlCommand sqlCommand = new SqlCommand();
-        
 
         public static void insertarCliente(Cliente clie) {
         try

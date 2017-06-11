@@ -171,6 +171,7 @@
     <Compile Include="ConexionBD\SQLFacturacion.cs" />
     <Compile Include="ConexionBD\SQLListadoEstadistico.cs" />
     <Compile Include="ConexionBD\SQLLogin.cs" />
+    <Compile Include="ConexionBD\SQLRegistroViaje.cs" />
     <Compile Include="ConexionBD\SQLRendicionViajes.cs" />
     <Compile Include="ConexionBD\SQLRoles.cs" />
     <Compile Include="ConexionBD\SQLTurno.cs" />
@@ -317,10 +318,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Facturacion\" />
-    <Folder Include="Registro Viajes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -222,6 +222,35 @@ namespace UberFrba.ConexionBD
                 return response;
                 
         }
+
+        public static DataTable obtenerAutomovilDelChofer(int id_chofer, int id_turno)
+        {
+            try
+            {
+                conectar();
+
+                sqlCommand = new SqlCommand();
+
+                sqlCommand.CommandText = "SELECT a.id_auto, a.patente_auto FROM NONAME.Auto a join NONAME.Auto_chofer c on c.id_auto = a.id_auto WHERE " + "c.id_chofer ='" + id_chofer + "'" + "And c.id_turno = '" + id_turno+"'";
+                sqlCommand.CommandType = CommandType.Text; //Esto es opcional porque de base es un texto
+                sqlCommand.Connection = miConexion;
+
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableClientes = new DataTable();
+                dataTableClientes.Load(sqlReader);
+                return dataTableClientes;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
     }
 }
 

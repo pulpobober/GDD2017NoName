@@ -12,8 +12,6 @@ namespace UberFrba.ConexionBD
     {
         static SqlCommand sqlCommand = new SqlCommand();
 
-        //Charlar con juli a ver si lo hago yo con un select desde aca o con un stored procedure
-
         public static DataTable choferesConMasRecaudacion(int anio, int trimestre)
         {
             try

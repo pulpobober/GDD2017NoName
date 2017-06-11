@@ -150,5 +150,30 @@ namespace UberFrba.ConexionBD
                 desconectar();
             }
         }
+
+        public static DataTable obtenerTodosLosTurnosDelChofer(int id_chofer)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT c.id_turno, descripcion FROM NONAME.Turno t Join NONAME.Auto_Chofer c on c.id_turno = t.id_turno WHERE c.id_chofer = '" + id_chofer + "'";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableTurnos = new DataTable();
+                dataTableTurnos.Load(sqlReader);
+                return dataTableTurnos;
+            }
+            catch (Exception ex)
+            {
+                return null;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
     }
 }
