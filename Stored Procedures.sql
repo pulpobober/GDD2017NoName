@@ -881,7 +881,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_RegistroViaje
+CREATE PROCEDURE NONAME.sp_RegistroViaje
 	@id_chofer int,
 	@id_auto int,
 	@id_turno int,
