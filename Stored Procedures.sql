@@ -47,8 +47,8 @@ IF OBJECT_ID('NONAME.sproc_chofer_baja') IS NOT NULL
 IF OBJECT_ID('NONAME.sproc_chofer_modificacion') IS NOT NULL
 	DROP PROCEDURE NONAME.sproc_chofer_modificacion
 
-IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
-	DROP TYPE NONAME.ListaFuncionalidadesRol
+IF OBJECT_ID('NONAME.sproc_login_usuario') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_login_usuario
 
 IF OBJECT_ID('NONAME.sp_detelle_rendicion') IS NOT NULL
 	DROP PROCEDURE NONAME.sp_detelle_rendicion
@@ -56,15 +56,14 @@ IF OBJECT_ID('NONAME.sp_detelle_rendicion') IS NOT NULL
 IF OBJECT_ID('NONAME.sp_importe_rendicion') IS NOT NULL
 	DROP PROCEDURE NONAME.sp_importe_rendicion
 
-IF OBJECT_ID('NONAME.sproc_login_usuario') IS NOT NULL
-	DROP PROCEDURE NONAME.sproc_login_usuario
-
 IF OBJECT_ID('NONAME.sp_importe_facturacion') IS NOT NULL
 	DROP PROCEDURE NONAME.sp_importe_facturacion	
 
 IF OBJECT_ID('NONAME.sp_detalle_facturacion') IS NOT NULL
 	DROP PROCEDURE NONAME.sp_detalle_facturacion	
 
+IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
+	DROP TYPE NONAME.ListaFuncionalidadesRol
 GO  
 
 
@@ -250,69 +249,6 @@ BEGIN
 END
 
 GO
-
-
-CREATE PROCEDURE NONAME.sproc_login_usuario @nombre_de_usuario nvarchar(50),
-@contrasena varchar(50)
-AS
-BEGIN
-  IF EXISTS (SELECT
-      1
-    FROM NONAME.Usuario
-    WHERE nombre_de_usuario = @nombre_de_usuario
-    AND [contrasena] = CAST(HASHBYTES('SHA2_256', CAST(@contrasena AS NVARCHAR(255))) AS NVARCHAR(255))
-    AND habilitado = 1)
-  BEGIN
-    SELECT
-      'Ingreso OK' resultado,
-      id_usuario
-    FROM NONAME.Usuario
-    WHERE nombre_de_usuario = @nombre_de_usuario
-  END
-  ELSE
-  BEGIN
-    IF EXISTS (SELECT
-        nombre_de_usuario,
-        nombre_de_usuario
-      FROM NONAME.Usuario
-      WHERE nombre_de_usuario = @nombre_de_usuario)
-    BEGIN
-      IF ((SELECT
-          intentos_fallidos
-        FROM NONAME.Usuario
-        WHERE nombre_de_usuario = @nombre_de_usuario)
-        < 3)
-      BEGIN
-        UPDATE NONAME.Usuario
-        SET intentos_fallidos = intentos_fallidos + 1
-        WHERE nombre_de_usuario = @nombre_de_usuario
-
-        SELECT
-          'usuario o password invalido' resultado,
-          0
-      END
-      ELSE
-      BEGIN
-        UPDATE NONAME.Usuario
-        SET habilitado = 0
-        WHERE nombre_de_usuario = @nombre_de_usuario
-
-        SELECT
-          'el usuario se encuentra bloqueado',
-          -1
-      END
-    END
-    ELSE
-    BEGIN
-      SELECT
-        'usuario o password invalido' resultado,
-        0
-    END
-  END
-END
-
-GO
-
 
 
 CREATE PROCEDURE NONAME.sproc_cliente_baja
@@ -530,7 +466,7 @@ BEGIN
 	IF((@hora_inicio < @hora_fin) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
 		NOT EXISTS (SELECT 1  --los turnos no se superponen
 					FROM NONAME.Turno
-					WHERE (@hora_inicio BETWEEN Turno.hora_inicio AND Turno.hora_fin) OR (@hora_fin BETWEEN Turno.hora_inicio AND Turno.hora_fin)))
+					WHERE (@hora_inicio > Turno.hora_inicio AND @hora_inicio < Turno.hora_fin) OR (@hora_fin > Turno.hora_inicio AND @hora_fin < Turno.hora_fin) AND (Turno.habilitado = 1)))
 		BEGIN
 			INSERT INTO NONAME.Turno (
 				hora_inicio,
@@ -597,11 +533,11 @@ BEGIN
 			IF((@hora_inicio < @hora_fin) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
 				NOT EXISTS (SELECT 1  --los turnos no se superponen
 							FROM NONAME.Turno
-							WHERE (@hora_inicio BETWEEN Turno.hora_inicio AND Turno.hora_fin) OR (@hora_fin BETWEEN Turno.hora_inicio AND Turno.hora_fin)))
+							WHERE ((@hora_inicio > Turno.hora_inicio AND @hora_inicio < Turno.hora_fin) OR (@hora_fin > Turno.hora_inicio AND @hora_fin < Turno.hora_fin)) AND (Turno.id_turno <> @id_turno) AND (Turno.habilitado = 1)))
 				BEGIN
 					UPDATE [NONAME].Turno
-					SET @hora_inicio = @hora_inicio,
-						@hora_fin = @hora_fin
+					SET hora_inicio = @hora_inicio,
+						hora_fin = @hora_fin
 					WHERE id_turno = @id_turno
 				END
 		END
@@ -616,10 +552,10 @@ BEGIN
 			IF((@hora_inicio < @hora_fin_orig) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
 				NOT EXISTS (SELECT 1  --los turnos no se superponen
 							FROM NONAME.Turno
-							WHERE (@hora_inicio BETWEEN Turno.hora_inicio AND Turno.hora_fin) OR (@hora_fin_orig BETWEEN Turno.hora_inicio AND Turno.hora_fin)))
+							WHERE (@hora_inicio > Turno.hora_inicio AND @hora_inicio < Turno.hora_fin) AND (Turno.id_turno <> @id_turno) AND (Turno.habilitado = 1)))
 				BEGIN
 					UPDATE [NONAME].Turno
-					SET @hora_inicio = @hora_inicio
+					SET hora_inicio = @hora_inicio
 					WHERE id_turno = @id_turno
 				END
 		END
@@ -634,10 +570,10 @@ BEGIN
 			IF((@hora_inicio_orig < @hora_fin) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
 				NOT EXISTS (SELECT 1  --los turnos no se superponen
 							FROM NONAME.Turno
-							WHERE (@hora_inicio_orig BETWEEN Turno.hora_inicio AND Turno.hora_fin) OR (@hora_fin BETWEEN Turno.hora_inicio AND Turno.hora_fin)))
+							WHERE (@hora_fin > Turno.hora_inicio AND @hora_fin < Turno.hora_fin) AND (Turno.id_turno <> @id_turno) AND (Turno.habilitado = 1)))
 				BEGIN
 					UPDATE [NONAME].Turno
-					SET @hora_fin = @hora_fin
+					SET hora_fin = @hora_fin
 					WHERE id_turno = @id_turno
 				END
 		END
@@ -667,11 +603,31 @@ BEGIN
 		END
 
 
-	IF(@habilitado IS NOT NULL)
+	IF(@habilitado = 0)
 		BEGIN
 			UPDATE [NONAME].Turno
 			SET habilitado = @habilitado
 			WHERE id_turno = @id_turno
+		END
+
+--Valida si cumple las restricciones antes de volver a habilitarlo
+	IF(@habilitado = 1)
+		BEGIN
+			DECLARE @hora_inicio_ NUMERIC(18,0)
+			DECLARE @hora_fin_ NUMERIC(18,0)
+
+			SET @hora_inicio_ = (SELECT Turno.hora_inicio FROM NONAME.Turno WHERE id_turno = @id_turno)
+			SET @hora_fin_ = (SELECT Turno.hora_fin FROM NONAME.Turno WHERE id_turno = @id_turno)
+			
+			IF((@hora_inicio_ < @hora_fin_) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
+				NOT EXISTS (SELECT 1  --los turnos no se superponen
+							FROM NONAME.Turno
+							WHERE ((@hora_inicio_ > Turno.hora_inicio AND @hora_inicio_ < Turno.hora_fin) OR (@hora_fin_ > Turno.hora_inicio AND @hora_fin_ < Turno.hora_fin)) AND (Turno.id_turno <> @id_turno) AND (Turno.habilitado = 1)))
+				BEGIN
+					UPDATE [NONAME].Turno
+					SET habilitado = @habilitado
+					WHERE id_turno = @id_turno
+				END
 		END
 
 END
@@ -819,6 +775,71 @@ END
 GO
 
 
+CREATE PROCEDURE NONAME.sproc_login_usuario
+	@nombre_de_usuario nvarchar(50),
+	@contrasena varchar(50)
+
+AS
+BEGIN
+
+  IF EXISTS (SELECT
+      1
+    FROM NONAME.Usuario
+    WHERE nombre_de_usuario = @nombre_de_usuario
+    AND [contrasena] = CAST(HASHBYTES('SHA2_256', CAST(@contrasena AS NVARCHAR(255))) AS NVARCHAR(255))
+    AND habilitado = 1)
+  BEGIN
+    SELECT
+      'Ingreso OK' resultado,
+      id_usuario
+    FROM NONAME.Usuario
+    WHERE nombre_de_usuario = @nombre_de_usuario
+  END
+  ELSE
+  BEGIN
+    IF EXISTS (SELECT
+        nombre_de_usuario,
+        nombre_de_usuario
+      FROM NONAME.Usuario
+      WHERE nombre_de_usuario = @nombre_de_usuario)
+    BEGIN
+      IF ((SELECT
+          intentos_fallidos
+        FROM NONAME.Usuario
+        WHERE nombre_de_usuario = @nombre_de_usuario)
+        < 3)
+      BEGIN
+        UPDATE NONAME.Usuario
+        SET intentos_fallidos = intentos_fallidos + 1
+        WHERE nombre_de_usuario = @nombre_de_usuario
+
+        SELECT
+          'usuario o password invalido' resultado,
+          0
+      END
+      ELSE
+      BEGIN
+        UPDATE NONAME.Usuario
+        SET habilitado = 0
+        WHERE nombre_de_usuario = @nombre_de_usuario
+
+        SELECT
+          'el usuario se encuentra bloqueado',
+          -1
+      END
+    END
+    ELSE
+    BEGIN
+      SELECT
+        'usuario o password invalido' resultado,
+        0
+    END
+  END
+END
+
+GO
+
+
 CREATE PROCEDURE NONAME.sp_detelle_rendicion
 	@id_usuario int, -- (id_usuario = id_chofer)
 	@id_turno int,
@@ -833,6 +854,7 @@ BEGIN
 	and v.fecha_hora_inicio = @fecha
 END
 GO
+
 
 CREATE PROCEDURE NONAME.sp_importe_rendicion
 	@id_usuario int, -- (id_usuario = id_chofer)
@@ -876,4 +898,3 @@ BEGIN
 	and f.fecha = @fecha
 END
 GO
-
