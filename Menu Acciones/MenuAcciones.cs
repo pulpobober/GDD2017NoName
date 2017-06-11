@@ -111,7 +111,7 @@ namespace UberFrba.Menu_Acciones
                      break;
  //////////////////////////////////////////////////////////////////////////////////////////////////////
                  case "Registro Viaje":
-                     new Registrar_Viaje..ShowDialog();
+                     new Registrar_Viaje..ShowDialog(user_id);
                      break;
  //////////////////////////////////////////////////////////////////////////////////////////////////////
                  case "Rendicion Viaje":
