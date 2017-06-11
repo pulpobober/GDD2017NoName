@@ -21,6 +21,19 @@ namespace UberFrba.Abm_Chofer
             InitializeComponent();
         }
 
+        public ListaChoferes(bool modificacion)
+        {
+            InitializeComponent();
+            if (modificacion)
+            {
+                btnEliminar.Hide();
+            }
+            else
+            {
+                btnModificar.Hide();
+            }
+        }
+
         private void ListaChoferes_Load(object sender, EventArgs e)
         {
             //Obtener todos los Choferes cuando se carga el formulario

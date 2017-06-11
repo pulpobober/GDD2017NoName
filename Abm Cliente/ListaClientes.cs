@@ -22,6 +22,20 @@ namespace UberFrba.Abm_Cliente
             InitializeComponent();
         }
 
+        public ListaClientes(bool modificacion)
+        {
+            InitializeComponent();
+            if (modificacion)
+            {
+                btnEliminar.Hide();
+            }
+            else
+            {
+                btnModificar.Hide();
+            }
+        }
+
+
         private void ListaClientes_Load(object sender, EventArgs e)
         {
             //Obtener todos los clientes cuando se carga el formulario

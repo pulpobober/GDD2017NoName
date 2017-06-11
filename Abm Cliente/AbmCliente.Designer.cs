@@ -283,6 +283,7 @@
             this.Controls.Add(this.lblNombre);
             this.Name = "AbmCliente";
             this.Text = "AbmCliente";
+            this.Load += new System.EventHandler(this.AbmCliente_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

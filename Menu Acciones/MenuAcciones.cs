@@ -43,35 +43,32 @@ namespace UberFrba.Menu_Acciones
 
         private void btnSeleccionarAccion_Click(object sender, EventArgs e)
         {
-            //ACA LE FALTA EL TEMA DE LA HERENCIA Y QUE SI ES BAJA NO ME APAREZCA MODIFICACION TAMBIEN
-            //PARA ESO HAY QUE IMPLEMENTAR UN DOBLE CLICK EN TODAS LAS CLASES
             Hide();
             switch (cmbAcciones.SelectedItem.ToString())
             {
                 
-            case "Alta Rol":
-                new Abm_Rol.AltaRol().ShowDialog();
-                break;
+                case "Alta Rol":
+                    new Abm_Rol.AltaRol().ShowDialog();
+                    break;
 
-            case "Baja Rol":
-                new Abm_Rol.ListadoRoles().ShowDialog();
-                break;
-
-            case "Modificacion Rol":
-                new Abm_Rol.ListadoRoles().ShowDialog();
-                break;
+                case "Baja Rol":
+                    new Abm_Rol.ListadoRoles(false).ShowDialog();
+                    break;
+         
+                case "Modificacion Rol":
+                    new Abm_Rol.ListadoRoles(true).ShowDialog();
+                    break;
                 //////////////////////////////////////////////////////////////////////////////////////////////////////
                 case "Alta Cliente":
                     new Abm_Cliente.AltaCliente().ShowDialog();
                     break;
 
-                    /////AAAAPAAAA NO ME DI CUENTA DE ESTO, QUIZAS SI OCULTE ALGUN BOTON O VUELVA A HACER LA HERENCIA, VER BIEN DESPUES
                 case "Modificacion Cliente":
-                    new Abm_Cliente.ListaClientes().ShowDialog();
+                    new Abm_Cliente.ListaClientes(true).ShowDialog();
                     break;
 
                 case "Baja Cliente":
-                    new Abm_Cliente.ListaClientes().ShowDialog();
+                    new Abm_Cliente.ListaClientes(false).ShowDialog();
                     break;
 //////////////////////////////////////////////////////////////////////////////////////////////////////
                 case "Alta Auto":
@@ -79,13 +76,11 @@ namespace UberFrba.Menu_Acciones
                      break;
 
                  case "Modificacion Auto":
-                    new Abm_Automovil.ListadoAutomoviles().ShowDialog();
-                //     new Abm_Automovil.ListaAutomovilModificacion().ShowDialog();
-                     break;
+                    new Abm_Automovil.ListadoAutomoviles(true).ShowDialog();
+                    break;
 
                  case "Baja Auto":
-                     new Abm_Automovil.ListadoAutomoviles().ShowDialog();
-             //        new Abm_Automovil.ListaAutomovilBaja().ShowDialog();
+                     new Abm_Automovil.ListadoAutomoviles(false).ShowDialog();
                      break; 
  //////////////////////////////////////////////////////////////////////////////////////////////////////
                  case "Alta Turno":
@@ -93,11 +88,11 @@ namespace UberFrba.Menu_Acciones
                      break;
 
                  case "Modificacion Turno":
-                     new Abm_Turno.ListaTurnos().ShowDialog();
+                     new Abm_Turno.ListaTurnos(true).ShowDialog();
                      break;
 
                  case "Baja Turno":
-                     new Abm_Turno.ListaTurnos().ShowDialog();
+                     new Abm_Turno.ListaTurnos(false).ShowDialog();
                      break;
  //////////////////////////////////////////////////////////////////////////////////////////////////////
                  case "Alta Chofer":
@@ -105,13 +100,11 @@ namespace UberFrba.Menu_Acciones
                      break;
 
                  case "Modificacion Chofer":
-                     new Abm_Chofer.ListaChoferes().ShowDialog();
-
-                    // new Abm_Chofer.ListaChoferModificacion().ShowDialog();
+                     new Abm_Chofer.ListaChoferes(true).ShowDialog();
                      break;
 
                  case "Baja Chofer":
-                    new Abm_Chofer.ListaChoferes().ShowDialog();
+                    new Abm_Chofer.ListaChoferes(false).ShowDialog();
                    //  new Abm_Chofer.ListaChoferBaja().ShowDialog();
                      break;
  //////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -88,5 +88,10 @@ namespace UberFrba.Abm_Cliente
               //  return;
            // }
         }
+
+        private void AbmCliente_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

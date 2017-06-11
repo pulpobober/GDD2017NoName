@@ -22,6 +22,19 @@ namespace UberFrba.Abm_Automovil
             InitializeComponent();
         }
 
+        public ListadoAutomoviles(bool modificacion)
+        {
+            InitializeComponent();
+            if (modificacion)
+            {
+                btnEliminar.Hide();
+            }
+            else
+            {
+                btnModificar.Hide();
+            }
+        }
+
         private void ListaAutomoviles_Load(object sender, EventArgs e)
         {
             //Obtener todos los automoviles cuando se carga el formulario

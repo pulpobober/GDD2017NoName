@@ -21,6 +21,18 @@ namespace UberFrba.Abm_Rol
             InitializeComponent();
         }
 
+        public ListadoRoles(bool modificacion)
+        {
+            InitializeComponent();
+            if (modificacion)
+            {
+                btnEliminar.Hide();
+            }
+            else {
+                btnModificar.Hide();
+            }
+        }
+
         private void btnModificar_Click(object sender, EventArgs e)
         {
             new ModificacionRol(rolSeleccionado).ShowDialog();

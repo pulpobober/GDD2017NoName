@@ -20,6 +20,17 @@ namespace UberFrba.Abm_Turno
             InitializeComponent();
         }
 
+        public ListaTurnos(bool modificacion){
+            InitializeComponent();
+            if (modificacion)
+            {
+                btnEliminar.Hide();
+            }
+            else {
+                btnModificar.Hide();
+            }
+        }
+
         private void ListaTurnos_Load(object sender, EventArgs e)
         {
             //Obtener todos los turnos cuando se carga el formulario
