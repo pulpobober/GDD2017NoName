@@ -191,7 +191,8 @@ EXEC NONAME.DROP_FK
 	IF OBJECT_ID('NONAME.sproc_chofer_modificacion') IS NOT NULL
 		DROP PROCEDURE NONAME.sproc_chofer_modificacion
 
-
+	IF OBJECT_ID('NONAME.sp_detelle_rendicion') IS NOT NULL
+		DROP PROCEDURE NONAME.sp_detelle_rendicion
 	
 
 --User-Defined Data & Table Types

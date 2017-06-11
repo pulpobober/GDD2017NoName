@@ -49,6 +49,10 @@ IF OBJECT_ID('NONAME.sproc_chofer_modificacion') IS NOT NULL
 
 IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
 	DROP TYPE NONAME.ListaFuncionalidadesRol
+
+IF OBJECT_ID('NONAME.sp_detelle_rendicion') IS NOT NULL
+	DROP PROCEDURE NONAME.sp_detelle_rendicion
+	
 GO
 
 
@@ -801,3 +805,18 @@ BEGIN
 END
 
 GO
+
+
+CREATE PROCEDURE sp_detelle_rendicion
+	@id_usuario int, -- (id_usuario = id_chofer)
+	@id_turno int,
+	@fecha datetime
+AS
+BEGIN
+	SELECT renvi.nro_rendicion, renvi.id_viaje
+	FROM [NONAME].Rendicion_Viaje renvi
+	JOIN [NONAME].Viaje v ON renvi.id_viaje = v.id_viaje
+	JOIN [NONAME].Rendicion r ON renvi.nro_rendicion = r.nro_rendicion
+	where v.id_chofer = @id_usuario
+	and v.fecha_hora_inicio = @fecha
+END
