@@ -54,7 +54,8 @@ namespace UberFrba.Abm_Rol
             {
                 DataTable funcionalidadesHabilitadas = obtenerFuncionalidadesHabilitadas();
                 Rol unRol = new Rol(idRol, txtNombreRol.Text, ckbHabilitado.Checked ? true : false, funcionalidadesHabilitadas);
-                SQLRoles.modificarRol(unRol);
+                string response=SQLRoles.modificarRol(unRol);
+                MessageBox.Show(response);
             }
         }
     }

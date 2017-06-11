@@ -49,7 +49,8 @@ namespace UberFrba.Abm_Turno
             DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este Turno?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                SQLTurno.eliminarTurno(turnoSeleccionado);
+                string response=SQLTurno.eliminarTurno(turnoSeleccionado);
+                MessageBox.Show(response);
 
             }
         }

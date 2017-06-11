@@ -133,8 +133,8 @@ namespace UberFrba.Menu_Acciones
         private void MenuAcciones_Load(object sender, EventArgs e)
         {
             ////ESTO ESTA PARA PODER PROBAR, DESPUES BORRAR
-            rol_id = 1;
-            user_id = 90;
+           // rol_id = 1;
+            //user_id = 90;
             //InitializeComponent();
 
             // accionesUsuario se carga con todas las acciones de ese usuario

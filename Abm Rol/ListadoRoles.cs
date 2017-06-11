@@ -31,7 +31,8 @@ namespace UberFrba.Abm_Rol
             DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este rol?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                SQLRoles.eliminarRol(rolSeleccionado);
+                string response=SQLRoles.eliminarRol(rolSeleccionado);
+                MessageBox.Show(response);
             }
 
         }

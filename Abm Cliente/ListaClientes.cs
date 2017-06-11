@@ -74,7 +74,8 @@ namespace UberFrba.Abm_Cliente
             DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este cliente?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                SQLCliente.eliminarCliente(clienteSeleccionado);
+               string response= SQLCliente.eliminarCliente(clienteSeleccionado);
+               MessageBox.Show(response);
 
             }
         }

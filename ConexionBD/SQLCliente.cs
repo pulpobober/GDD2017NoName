@@ -13,7 +13,7 @@ namespace UberFrba.ConexionBD
     {
         static SqlCommand sqlCommand = new SqlCommand();
 
-        public static void insertarCliente(Cliente clie) {
+        public static string insertarCliente(Cliente clie) {
         try
         {
             conectar();
@@ -31,10 +31,19 @@ namespace UberFrba.ConexionBD
             sqlCommand.Parameters.AddWithValue("@codigo_postal", clie.codPostal);
             sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", clie.fechaNacimiento);
 
-            sqlCommand.ExecuteNonQuery();
+            int response=sqlCommand.ExecuteNonQuery();
+            if (response > 0)
+            {
+                return "Cliente dado de alta correctamente";
+            }
+            else
+            {
+                return "Fallo al dar de alta el cliente: " + clie.nombre + " " + clie.apellido;
+            }
  
         } catch(Exception ex){
            //Manejar errores
+            return "Fallo al dar de alta el cliente: " + clie.nombre + " " + clie.apellido;
             throw ex;
         }finally{
             desconectar();
@@ -91,7 +100,7 @@ namespace UberFrba.ConexionBD
             }
         }
 
-        public static void modificarCliente(Cliente clie)
+        public static string modificarCliente(Cliente clie)
         {
             try
             {
@@ -109,11 +118,20 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@codigo_postal", clie.codPostal);
                 sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", clie.fechaNacimiento);
 
-                sqlCommand.ExecuteNonQuery();
+                int response=sqlCommand.ExecuteNonQuery();
+                if (response > 0)
+                {
+                    return "Cliente modificado correctamente";
+                }
+                else
+                {
+                    return "Fallo modificar el cliente: " + clie.nombre + " " + clie.apellido;
+                }
             }
             catch (Exception ex)
             {
                 //manejar exepciones
+                return "Fallo modificar el cliente: " + clie.nombre + " " + clie.apellido;
                 throw ex;
             }
             finally
@@ -122,7 +140,7 @@ namespace UberFrba.ConexionBD
             }
         }
 
-        public static void eliminarCliente(Cliente clie)
+        public static string eliminarCliente(Cliente clie)
         {
             try
             {
@@ -133,11 +151,20 @@ namespace UberFrba.ConexionBD
 
                 sqlCommand.Parameters.AddWithValue("@id_usuario", clie.id_cliente);
 
-                sqlCommand.ExecuteNonQuery();
+                int response=sqlCommand.ExecuteNonQuery();
+                if (response > 0)
+                {
+                    return "Cliente dado de baja exitosamente";
+                }
+                else
+                {
+                    return "Fallo al dar de baja el cliente: " + clie.nombre + " " + clie.apellido;
+                }
             }
             catch (Exception ex)
             {
                 //manejar exepciones
+                return "Fallo al dar de baja el cliente: " + clie.nombre + " " + clie.apellido;
                 throw ex;
             }
             finally
