@@ -31,9 +31,10 @@ namespace UberFrba.Login
 
                 if (resultadoLogin > 0)
                 {
-                    // this.Hide();
-                   // new SeleccionarRol(resultado).ShowDialog();
-                    MessageBox.Show("TODO OK", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Hide();
+                    new RolesUsuario(resultadoLogin, txtUsuario.Text).ShowDialog();
+                   // new SeleccionarRol(resultadoLogin).ShowDialog();
+                   // MessageBox.Show("TODO OK", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
 

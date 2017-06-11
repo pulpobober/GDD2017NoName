@@ -33,6 +33,8 @@
             this.cmbClientes = new System.Windows.Forms.ComboBox();
             this.tablaFacturacion = new System.Windows.Forms.DataGridView();
             this.lblFacturacionCliente = new System.Windows.Forms.Label();
+            this.lblFacturacionClientesTexto = new System.Windows.Forms.Label();
+            this.lblFacturacionTotal = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tablaFacturacion)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,10 +70,10 @@
             this.tablaFacturacion.AllowUserToAddRows = false;
             this.tablaFacturacion.AllowUserToDeleteRows = false;
             this.tablaFacturacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaFacturacion.Location = new System.Drawing.Point(12, 107);
+            this.tablaFacturacion.Location = new System.Drawing.Point(12, 111);
             this.tablaFacturacion.Name = "tablaFacturacion";
             this.tablaFacturacion.ReadOnly = true;
-            this.tablaFacturacion.Size = new System.Drawing.Size(571, 168);
+            this.tablaFacturacion.Size = new System.Drawing.Size(571, 178);
             this.tablaFacturacion.TabIndex = 4;
             // 
             // lblFacturacionCliente
@@ -84,11 +86,33 @@
             this.lblFacturacionCliente.TabIndex = 5;
             this.lblFacturacionCliente.Text = "Facturacion clientes";
             // 
+            // lblFacturacionClientesTexto
+            // 
+            this.lblFacturacionClientesTexto.AutoSize = true;
+            this.lblFacturacionClientesTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFacturacionClientesTexto.Location = new System.Drawing.Point(12, 315);
+            this.lblFacturacionClientesTexto.Name = "lblFacturacionClientesTexto";
+            this.lblFacturacionClientesTexto.Size = new System.Drawing.Size(185, 25);
+            this.lblFacturacionClientesTexto.TabIndex = 6;
+            this.lblFacturacionClientesTexto.Text = "Facturacion Total:";
+            // 
+            // lblFacturacionTotal
+            // 
+            this.lblFacturacionTotal.AutoSize = true;
+            this.lblFacturacionTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFacturacionTotal.Location = new System.Drawing.Point(203, 315);
+            this.lblFacturacionTotal.Name = "lblFacturacionTotal";
+            this.lblFacturacionTotal.Size = new System.Drawing.Size(70, 25);
+            this.lblFacturacionTotal.TabIndex = 7;
+            this.lblFacturacionTotal.Text = "label2";
+            // 
             // FacturacionClientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(595, 357);
+            this.Controls.Add(this.lblFacturacionTotal);
+            this.Controls.Add(this.lblFacturacionClientesTexto);
             this.Controls.Add(this.lblFacturacionCliente);
             this.Controls.Add(this.tablaFacturacion);
             this.Controls.Add(this.cmbClientes);
@@ -110,5 +134,7 @@
         private System.Windows.Forms.ComboBox cmbClientes;
         private System.Windows.Forms.DataGridView tablaFacturacion;
         private System.Windows.Forms.Label lblFacturacionCliente;
+        private System.Windows.Forms.Label lblFacturacionClientesTexto;
+        private System.Windows.Forms.Label lblFacturacionTotal;
     }
 }

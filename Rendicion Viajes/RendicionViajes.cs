@@ -65,7 +65,12 @@ namespace UberFrba.Rendicion_Viajes
             lblImporteTotal.Show();
             lblImporteTotalTexto.Show();
             tablaRendicion.DataSource = SQLRendicionViajes.rendirConDetalle(id_chofer, id_turno, selectorFecha.Value);
-           // lblImporteTotal.Text = SQLRendicionViajes.rendirElTotal(id_chofer, id_turno, selectorFecha.Value).ToString();
+            lblImporteTotal.Text = SQLRendicionViajes.rendirElTotal(id_chofer, id_turno, selectorFecha.Value).ToString();
+        }
+
+        private void RendicionViajes_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

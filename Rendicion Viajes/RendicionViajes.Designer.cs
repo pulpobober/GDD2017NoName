@@ -152,6 +152,7 @@
             this.Controls.Add(this.tablaRendicion);
             this.Name = "RendicionViajes";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.RendicionViajes_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tablaRendicion)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -22,14 +22,14 @@ namespace UberFrba.Login
             InitializeComponent();
         }
 
-        public RolesUsuario(string nombreUsuario)
+        public RolesUsuario(int idUsuario, string nombreUsuario)
         {
             InitializeComponent();
             nombre_usuario  = nombreUsuario;
+            id_usuario = idUsuario;
+
             //rolesUsuario me deberia devolver todos los roles que tiene el usuario
             rolesUsuario = SQLLogin.obtenerRolesUsuario(nombreUsuario);
-            id_usuario = obtenerIdUsuario();
-
             //Aca va recorriendo la tabla y los va agregando al cmbRoles
             foreach (DataRow row in rolesUsuario.Rows)
             {
@@ -41,38 +41,23 @@ namespace UberFrba.Login
         
         private void btnRol_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
             new Menu_Acciones.MenuAcciones(obtenerIdRolSeleccionado(cmbRoles.SelectedItem.ToString()), id_usuario).ShowDialog();
-            this.Close();
         }
 
         //Cuando se carga la pantalla, verifica si hay un solo rol o mas roles
         private void RolesUsuario_Load(object sender, EventArgs e)
         {
-            //ESTO LO PUSE PAARA PODER PROBAR, DESPUES HAY QUE BORRARLO
-            ////////////////////////////////////////////////////////////////////////
-            //rolesUsuario me deberia devolver todos los roles que tiene el usuario
-            rolesUsuario = SQLLogin.obtenerRolesUsuario(nombre_usuario);
-            id_usuario = obtenerIdUsuario();
-
-            //Aca va recorriendo la tabla y los va agregando al cmbRoles
-            foreach (DataRow row in rolesUsuario.Rows)
-            {
-                cmbRoles.Items.Add(row["tipo"].ToString());
-            }
-            cmbRoles.SelectedIndex = 0;
-
-            //////////////////////////////////////////////////////////////////////////////////////////////////
-
             if (cmbRoles.Items.Count == 1)
             {
-                new Menu_Acciones.MenuAcciones(obtenerIdRolSeleccionado(cmbRoles.SelectedItem.ToString()), id_usuario).ShowDialog();
+                this.Hide();
                 this.Close();
+                new Menu_Acciones.MenuAcciones(obtenerIdRolSeleccionado(cmbRoles.SelectedItem.ToString()), id_usuario).ShowDialog();
             }
             if (cmbRoles.Items.Count == 0)
             {
+                this.Hide();
                 MessageBox.Show("Usted no posee un rol asignado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
             } 
         }
 
@@ -82,16 +67,6 @@ namespace UberFrba.Login
                 if (row["tipo"].ToString() == tipo){
                     return int.Parse(row["id_rol"].ToString());
                 }
-            }
-            return -1;
-        }
-
-        private int obtenerIdUsuario()
-        {
-            foreach (DataRow row in rolesUsuario.Rows)
-            {
-                //Me devuelve el primer ID que encuentra porque siempre es el mismo usuario
-                return int.Parse(row["id_usuario"].ToString());
             }
             return -1;
         }

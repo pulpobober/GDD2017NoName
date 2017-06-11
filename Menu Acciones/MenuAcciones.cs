@@ -46,7 +46,7 @@ namespace UberFrba.Menu_Acciones
             //ACA LE FALTA EL TEMA DE LA HERENCIA Y QUE SI ES BAJA NO ME APAREZCA MODIFICACION TAMBIEN
             //PARA ESO HAY QUE IMPLEMENTAR UN DOBLE CLICK EN TODAS LAS CLASES
             Hide();
-            switch (cmbAcciones.Text)
+            switch (cmbAcciones.SelectedItem.ToString())
             {
                 
             case "Alta Rol":
@@ -74,17 +74,19 @@ namespace UberFrba.Menu_Acciones
                     new Abm_Cliente.ListaClientes().ShowDialog();
                     break;
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-                /* case "Alta Automovil":
+                case "Alta Auto":
                      new Abm_Automovil.AltaAutomovil().ShowDialog();
                      break;
 
-                 case "Modificacion Automovil":
-                     new Abm_Automovil.ListaAutomovilModificacion().ShowDialog();
+                 case "Modificacion Auto":
+                    new Abm_Automovil.ListadoAutomoviles().ShowDialog();
+                //     new Abm_Automovil.ListaAutomovilModificacion().ShowDialog();
                      break;
 
-                 case "Baja Automovil":
-                     new Abm_Automovil.ListaAutomovilBaja().ShowDialog();
-                     break; */
+                 case "Baja Auto":
+                     new Abm_Automovil.ListadoAutomoviles().ShowDialog();
+             //        new Abm_Automovil.ListaAutomovilBaja().ShowDialog();
+                     break; 
  //////////////////////////////////////////////////////////////////////////////////////////////////////
                  case "Alta Turno":
                      new Abm_Turno.AltaTurno().ShowDialog();
@@ -98,33 +100,36 @@ namespace UberFrba.Menu_Acciones
                      new Abm_Turno.ListaTurnos().ShowDialog();
                      break;
  //////////////////////////////////////////////////////////////////////////////////////////////////////
-                /* case "Alta Chofer":
+                 case "Alta Chofer":
                      new Abm_Chofer.AltaChofer().ShowDialog();
                      break;
 
                  case "Modificacion Chofer":
-                     new Abm_Chofer.ListaChoferModificacion().ShowDialog();
+                     new Abm_Chofer.ListaChoferes().ShowDialog();
+
+                    // new Abm_Chofer.ListaChoferModificacion().ShowDialog();
                      break;
 
                  case "Baja Chofer":
-                     new Abm_Chofer.ListaChoferBaja().ShowDialog();
+                    new Abm_Chofer.ListaChoferes().ShowDialog();
+                   //  new Abm_Chofer.ListaChoferBaja().ShowDialog();
                      break;
  //////////////////////////////////////////////////////////////////////////////////////////////////////
-                 case "Registro Viaje":
-                     new Registrar_Viaje..ShowDialog(user_id);
+                 case "Registro de Viajes":
+                     new Registro_Viajes.RegistroViaje(user_id).ShowDialog();
                      break;
  //////////////////////////////////////////////////////////////////////////////////////////////////////
-                 case "Rendicion Viaje":
-                     new Rendicion_Viaje..ShowDialog();
+                 case "Pago al Chofer":
+                     new Rendicion_Viajes.RendicionViajes().ShowDialog();
                      break;
  //////////////////////////////////////////////////////////////////////////////////////////////////////
-                 case "Facturacion Cliente":
-                     new Facturacion_Cliente..ShowDialog();
+                 case "Facturacion del Cliente":
+                     new Facturacion.FacturacionClientes().ShowDialog();
                      break;
  //////////////////////////////////////////////////////////////////////////////////////////////////////
                  case "Listado Estadistico":
-                     new Listados.ListadoEstadistico().ShowDialog();
-                     break;*/
+                     new Listado_Estadistico.ListadoEstadistico().ShowDialog();
+                     break;
             }
  
             Show();
@@ -132,21 +137,6 @@ namespace UberFrba.Menu_Acciones
 
         private void MenuAcciones_Load(object sender, EventArgs e)
         {
-            ////ESTO ESTA PARA PODER PROBAR, DESPUES BORRAR
-            rol_id = 1;
-            user_id = 90;
-            //InitializeComponent();
-
-            // accionesUsuario se carga con todas las acciones de ese usuario
-            
-            accionesUsuario = SQLRoles.obtenerTodasLasFuncionalidadesHabilitadasDelRol(rol_id);
-
-            //Para cada accion que tiene el usuario lo pongo en el cmbAcciones
-            foreach (DataRow row in accionesUsuario.Rows)
-            {
-                cmbAcciones.Items.Add(row["descripcion"].ToString());
-                cmbAcciones.SelectedIndex = 0;
-            }
         }
     }
 }

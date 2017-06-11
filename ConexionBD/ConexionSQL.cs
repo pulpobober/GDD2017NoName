@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using UberFrba.Properties;
 
 namespace UberFrba.ConexionBD
 {
@@ -12,8 +13,7 @@ namespace UberFrba.ConexionBD
         public static SqlConnection miConexion;
 
         public static String cadenaConexion(){
-            return @"Data Source=localhost\SQLSERVER2012; Initial Catalog=GD1C2017; User ID=gd; Password=gd2017;";
-// @"Data Source= localhost; Initial Catalog=gd1c2017;integrated security= true";
+            return Settings.Default.conector;
         }
         
         //Metodo para conectar la base
