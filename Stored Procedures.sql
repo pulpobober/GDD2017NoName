@@ -1,4 +1,4 @@
-USE [GD1C2017]
+﻿USE [GD1C2017]
 GO
 
 
@@ -604,7 +604,6 @@ CREATE PROCEDURE NONAME.sproc_chofer_alta
 	@apellido VARCHAR(255),
 	@usuario_dni NUMERIC(18,0),
 	@direccion VARCHAR(255),
-	@codigo_postal VARCHAR(50),
 	@telefono NUMERIC(18, 0),
 	@mail VARCHAR(50),
 	@fecha_nacimiento DATETIME,
@@ -699,7 +698,6 @@ CREATE PROCEDURE NONAME.sproc_chofer_modificacion
 	@direccion VARCHAR(255),
 	@mail VARCHAR(50),
 	@fecha_nacimiento DATETIME,
-	@codigo_postal VARCHAR(50),
 	@habilitado BIT = NULL
 --	,@cedula VARCHAR(10) = NULL
 
