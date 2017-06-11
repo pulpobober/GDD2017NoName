@@ -13,7 +13,7 @@ namespace UberFrba.ConexionBD
     {
         static SqlCommand sqlCommand = new SqlCommand();
 
-        public static void insertarTurno(Turno unTurno)
+        public static string insertarTurno(Turno unTurno)
         {
             try
             {
@@ -29,12 +29,20 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@precio_base", unTurno.precio_base);
                 sqlCommand.Parameters.AddWithValue("@habilitado", unTurno.habilitado);
               
-                sqlCommand.ExecuteNonQuery();
-
+               int response= sqlCommand.ExecuteNonQuery();
+               if (response > 0)
+               {
+                   return "Turno dado de alta correctamente";
+               }
+               else
+               {
+                   return "Fallo al dar de alta el turno: " + unTurno.descripcion;
+               }
             }
             catch (Exception ex)
             {
                 //Manejar errores
+                return "Fallo al dar de alta el turno: " + unTurno.descripcion;
                 throw ex;
             }
             finally
@@ -95,7 +103,7 @@ namespace UberFrba.ConexionBD
             }
         }
 
-        public static void modificarTurno(Turno unTurno)
+        public static string modificarTurno(Turno unTurno)
         {
 
             try
@@ -113,12 +121,21 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@precio_base", unTurno.precio_base);
                 sqlCommand.Parameters.AddWithValue("@habilitado", unTurno.habilitado);
 
-                sqlCommand.ExecuteNonQuery();
+                int response = sqlCommand.ExecuteNonQuery();
+                if (response > 0)
+                {
+                    return "Turno modificado correctamente";
+                }
+                else
+                {
+                    return "Fallo al modificar el turno: " + unTurno.descripcion;
+                }
 
             }
             catch (Exception ex)
             {
                 //Manejar errores
+                return "Fallo al modificar el turno: " + unTurno.descripcion;
                 throw ex;
             }
             finally
@@ -127,7 +144,7 @@ namespace UberFrba.ConexionBD
             }
         }
 
-        public static void eliminarTurno(Turno unTurno)
+        public static string eliminarTurno(Turno unTurno)
         {
             try
             {
@@ -138,11 +155,20 @@ namespace UberFrba.ConexionBD
 
                 sqlCommand.Parameters.AddWithValue("@id_turno", unTurno.id_turno);
 
-                sqlCommand.ExecuteNonQuery();
+                int response = sqlCommand.ExecuteNonQuery();
+                if (response > 0)
+                {
+                    return "Turno dado de baja correctamente";
+                }
+                else
+                {
+                    return "Fallo al dar de baja el turno: " + unTurno.descripcion;
+                }
             }
             catch (Exception ex)
             {
                 //manejar exepciones
+                return "Fallo al dar de baja el turno: " + unTurno.descripcion;
                 throw ex;
             }
             finally

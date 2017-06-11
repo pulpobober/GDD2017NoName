@@ -137,6 +137,7 @@ namespace UberFrba.Menu_Acciones
 
         private void MenuAcciones_Load(object sender, EventArgs e)
         {
+
         }
     }
 }

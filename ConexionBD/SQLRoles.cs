@@ -13,7 +13,7 @@ namespace UberFrba.ConexionBD
     {
         static SqlCommand sqlCommand = new SqlCommand();
 
-        public static void insertarRol(Rol unRol)
+        public static string insertarRol(Rol unRol)
         {
             try
             {
@@ -26,12 +26,21 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@habilitado", unRol.estado);
                 DataTable columna = unRol.tablaFuncionalidades.DefaultView.ToTable(false, unRol.tablaFuncionalidades.Columns[0].ColumnName);
                 sqlCommand.Parameters.AddWithValue("ids_funciones", columna);
-               sqlCommand.ExecuteNonQuery();
+                int response=sqlCommand.ExecuteNonQuery();
+                if (response > 0)
+                {
+                    return "Rol dado de alta correctamente";
+                }
+                else
+                {
+                    return "Fallo al dar de alta el rol: " + unRol.nombre;
+                }
 
             }
             catch (Exception ex)
             {
                 //Manejar errores
+                return "Fallo al dar de alta el rol: " + unRol.nombre;
                 throw ex;
             }
             finally
@@ -68,7 +77,7 @@ namespace UberFrba.ConexionBD
 
        
 
-        public static void modificarRol(Rol unRol)
+        public static string modificarRol(Rol unRol)
         {
 
             try
@@ -83,12 +92,21 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@habilitado", unRol.estado);
                 DataTable columna = unRol.tablaFuncionalidades.DefaultView.ToTable(false, unRol.tablaFuncionalidades.Columns[0].ColumnName);
                 sqlCommand.Parameters.AddWithValue("ids_funciones", columna);
-                sqlCommand.ExecuteNonQuery();
+                int response=sqlCommand.ExecuteNonQuery();
+                if (response > 0)
+                {
+                    return "Rol modificado exitosamente";
+                }
+                else
+                {
+                    return "Fallo al modificar el rol: " + unRol.nombre;
+                }
 
             }
             catch (Exception ex)
             {
                 //Manejar errores
+                return "Fallo al modificar el rol: " + unRol.nombre;
                 throw ex;
             }
             finally
@@ -97,7 +115,7 @@ namespace UberFrba.ConexionBD
             }
         }
 
-        public static void eliminarRol(Rol unRol)
+        public static string eliminarRol(Rol unRol)
         {
             try
             {
@@ -108,11 +126,20 @@ namespace UberFrba.ConexionBD
 
                 sqlCommand.Parameters.AddWithValue("@id_rol", unRol.id_rol);
 
-                sqlCommand.ExecuteNonQuery();
+                int response=sqlCommand.ExecuteNonQuery();
+                if (response > 0)
+                {
+                    return "Rol dado de baja exitosamente";
+                }
+                else
+                {
+                    return "Fallo al dar de baja el rol: " + unRol.nombre;
+                }
             }
             catch (Exception ex)
             {
                 //manejar exepciones
+                return "Fallo al dar de baja el rol: " + unRol.nombre;
                 throw ex;
             }
             finally

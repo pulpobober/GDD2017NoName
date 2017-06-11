@@ -38,12 +38,10 @@
             this.btnFiltrar = new System.Windows.Forms.Button();
             this.tablaClientes = new System.Windows.Forms.DataGridView();
             this.btnLimpiar = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.lbSeleccionar = new System.Windows.Forms.Label();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tablaClientes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblNombre
@@ -148,14 +146,6 @@
             this.btnLimpiar.UseVisualStyleBackColor = false;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(51, 286);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(8, 8);
-            this.dataGridView1.TabIndex = 10;
-            // 
             // lbSeleccionar
             // 
             this.lbSeleccionar.AutoSize = true;
@@ -194,7 +184,6 @@
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.lbSeleccionar);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.tablaClientes);
             this.Controls.Add(this.btnFiltrar);
@@ -209,7 +198,6 @@
             this.Text = "ListaClientes";
             this.Load += new System.EventHandler(this.ListaClientes_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tablaClientes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,7 +212,6 @@
         protected System.Windows.Forms.TextBox txtDNI;
         protected System.Windows.Forms.Button btnFiltrar;
         protected System.Windows.Forms.Button btnLimpiar;
-        private System.Windows.Forms.DataGridView dataGridView1;
         protected System.Windows.Forms.Label lbSeleccionar;
         protected System.Windows.Forms.DataGridView tablaClientes;
         protected System.Windows.Forms.Label lblNombre;
