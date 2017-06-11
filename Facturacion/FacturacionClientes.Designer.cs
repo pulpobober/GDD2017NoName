@@ -31,9 +31,9 @@
             this.btnFacturacion = new System.Windows.Forms.Button();
             this.lblCliente = new System.Windows.Forms.Label();
             this.cmbClientes = new System.Windows.Forms.ComboBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.tablaFacturacion = new System.Windows.Forms.DataGridView();
             this.lblFacturacionCliente = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tablaFacturacion)).BeginInit();
             this.SuspendLayout();
             // 
             // btnFacturacion
@@ -44,6 +44,7 @@
             this.btnFacturacion.TabIndex = 0;
             this.btnFacturacion.Text = "Facturacion";
             this.btnFacturacion.UseVisualStyleBackColor = true;
+            this.btnFacturacion.Click += new System.EventHandler(this.btnFacturacion_Click);
             // 
             // lblCliente
             // 
@@ -62,16 +63,16 @@
             this.cmbClientes.Size = new System.Drawing.Size(287, 21);
             this.cmbClientes.TabIndex = 3;
             // 
-            // dataGridView1
+            // tablaFacturacion
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 107);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(571, 168);
-            this.dataGridView1.TabIndex = 4;
+            this.tablaFacturacion.AllowUserToAddRows = false;
+            this.tablaFacturacion.AllowUserToDeleteRows = false;
+            this.tablaFacturacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tablaFacturacion.Location = new System.Drawing.Point(12, 107);
+            this.tablaFacturacion.Name = "tablaFacturacion";
+            this.tablaFacturacion.ReadOnly = true;
+            this.tablaFacturacion.Size = new System.Drawing.Size(571, 168);
+            this.tablaFacturacion.TabIndex = 4;
             // 
             // lblFacturacionCliente
             // 
@@ -89,14 +90,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(595, 357);
             this.Controls.Add(this.lblFacturacionCliente);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.tablaFacturacion);
             this.Controls.Add(this.cmbClientes);
             this.Controls.Add(this.lblCliente);
             this.Controls.Add(this.btnFacturacion);
             this.Name = "FacturacionClientes";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.FacturacionClientes_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tablaFacturacion)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -107,7 +108,7 @@
         private System.Windows.Forms.Button btnFacturacion;
         private System.Windows.Forms.Label lblCliente;
         private System.Windows.Forms.ComboBox cmbClientes;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView tablaFacturacion;
         private System.Windows.Forms.Label lblFacturacionCliente;
     }
 }
