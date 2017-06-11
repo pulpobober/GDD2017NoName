@@ -828,13 +828,20 @@ INSERT INTO [NONAME].Rendicion
 	join [NONAME].Turno t ON m.Turno_Descripcion = t.descripcion
 	where m.Rendicion_Nro is not null 
 	group by m.Rendicion_Nro, c.id_usuario, m.Rendicion_Fecha, t.id_turno
+	order by m.Rendicion_Nro
+
 
 
 INSERT INTO [NONAME].Rendicion_Viaje
 	SELECT DISTINCT
 	id_viaje,
 	m.Rendicion_Nro,
-	(100*m.Rendicion_Importe/(m.Viaje_Cant_Kilometros*m.Turno_Valor_Kilometro+m.Turno_Precio_Base))
-	FROM [gd_esquema].[Maestra] m
-	join [NONAME].Viaje v ON v.fecha_hora_inicio = m.Rendicion_Fecha
-	where Rendicion_Nro is not null
+	(100*m.Rendicion_Importe/(m.Viaje_Cant_Kilometros * m.Turno_Valor_Kilometro + m.Turno_Precio_Base))
+	from [NONAME].Viaje v 
+	join [NONAME].Usuario Cliente on v.id_cliente = Cliente.id_usuario
+	join [NONAME].Usuario Chofer on v.id_chofer = Chofer.id_usuario
+	join [gd_esquema].[Maestra] m on m.Viaje_Fecha = v.fecha_hora_inicio 
+		and m.Chofer_Dni = Chofer.usuario_dni
+		and m.Cliente_Dni = Cliente.usuario_dni 
+		and Rendicion_Nro is not null
+

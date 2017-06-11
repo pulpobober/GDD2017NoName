@@ -813,10 +813,12 @@ CREATE PROCEDURE sp_detelle_rendicion
 	@fecha datetime
 AS
 BEGIN
-	SELECT renvi.nro_rendicion, renvi.id_viaje
+	SELECT distinct renvi.nro_rendicion, renvi.id_viaje
 	FROM [NONAME].Rendicion_Viaje renvi
 	JOIN [NONAME].Viaje v ON renvi.id_viaje = v.id_viaje
 	JOIN [NONAME].Rendicion r ON renvi.nro_rendicion = r.nro_rendicion
 	where v.id_chofer = @id_usuario
 	and v.fecha_hora_inicio = @fecha
 END
+
+
