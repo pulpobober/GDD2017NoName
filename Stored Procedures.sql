@@ -58,7 +58,13 @@ IF OBJECT_ID('NONAME.sp_importe_rendicion') IS NOT NULL
 
 IF OBJECT_ID('NONAME.sproc_login_usuario') IS NOT NULL
 	DROP PROCEDURE NONAME.sproc_login_usuario
-	
+
+IF OBJECT_ID('NONAME.sp_importe_facturacion') IS NOT NULL
+	DROP PROCEDURE NONAME.sp_importe_facturacion	
+
+IF OBJECT_ID('NONAME.sp_detalle_facturacion') IS NOT NULL
+	DROP PROCEDURE NONAME.sp_detalle_facturacion	
+
 GO  
 
 
@@ -843,4 +849,31 @@ END
 GO
 
 
+CREATE PROCEDURE NONAME.sp_detalle_facturacion
+	@id_usuario int, -- (id_usuario = id_cliente)
+	@fecha datetime
+AS
+BEGIN
+	SELECT fv.id_viaje
+	FROM Factura_Viaje fv
+	JOIN Viaje v ON fv.id_viaje = v.id_viaje
+	JOIN Factura f ON fv.nro_factura = f.nro_factura
+	WHERE f.fecha = @fecha 
+	and f.id_cliente = @id_usuario
+	
+END
+GO
+
+
+CREATE PROCEDURE NONAME.sp_importe_facturacion
+	@id_usuario int, -- (id_usuario = id_cliente)
+	@fecha datetime
+AS
+BEGIN
+	SELECT f.importe
+	FROM NONAME.Factura f
+	where f.id_cliente = @id_usuario
+	and f.fecha = @fecha
+END
+GO
 

@@ -200,6 +200,11 @@ EXEC NONAME.DROP_FK
 	IF OBJECT_ID('NONAME.sproc_login_usuario') IS NOT NULL
 		DROP PROCEDURE NONAME.sproc_login_usuario
 	
+	IF OBJECT_ID('NONAME.sp_importe_facturacion') IS NOT NULL
+		DROP PROCEDURE NONAME.sp_importe_facturacion	
+
+	IF OBJECT_ID('NONAME.sp_detalle_facturacion') IS NOT NULL
+		DROP PROCEDURE NONAME.sp_detalle_facturacion	
 
 --User-Defined Data & Table Types
 
@@ -645,8 +650,8 @@ INSERT INTO [NONAME].Usuario (
 	intentos_fallidos)
 VALUES (
 	0000000000000000,
-	'admin',
-	'admin',
+	'Administrador',
+	'General',
 	0000000000000000,
 	'N/A',
 	'N/A',
