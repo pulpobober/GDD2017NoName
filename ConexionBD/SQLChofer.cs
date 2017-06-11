@@ -9,7 +9,7 @@ using UberFrba.Objetos;
 
 namespace UberFrba.ConexionBD
 {
-    class SQLChofer : ConexionSQL
+    public class SQLChofer : ConexionSQL
     {
         static SqlCommand sqlCommand = new SqlCommand();
 
@@ -149,6 +149,34 @@ namespace UberFrba.ConexionBD
             {
                 desconectar();
             }
+        }
+
+        public int obtainIdChofer(string chofer)
+        {
+            chofer = chofer.Replace(' ', '_');
+            int indexof_whitspace = chofer.IndexOf("_");
+            string nombre = chofer.Substring(0, indexof_whitspace);
+            string apellido = chofer.Substring(indexof_whitspace + 1);
+
+            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "Select id_usuario from NONAME.Usuario inner join NONAME.Chofer on id_usuario=id_chofer where nombre='" + nombre + "' and apellido='" + apellido + "'";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = miConexion;
+
+            miConexion.Open();
+
+            reader = cmd.ExecuteReader();
+
+            // miConexion.Close();
+
+            while (reader.Read())
+            {
+                return Convert.ToInt32(reader["id_usuario"]);
+            }
+            return 0;
         }
 
         public static string eliminarChofer(Chofer chofer)
