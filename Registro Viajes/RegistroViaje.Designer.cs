@@ -128,10 +128,6 @@
             // cmbTurnos
             // 
             this.cmbTurnos.FormattingEnabled = true;
-            this.cmbTurnos.Items.AddRange(new object[] {
-            "Mañana",
-            "Tarde",
-            "Noche"});
             this.cmbTurnos.Location = new System.Drawing.Point(54, 105);
             this.cmbTurnos.Name = "cmbTurnos";
             this.cmbTurnos.Size = new System.Drawing.Size(121, 21);
@@ -139,6 +135,7 @@
             // 
             // dateTimeFin
             // 
+            this.dateTimeFin.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimeFin.Location = new System.Drawing.Point(175, 194);
             this.dateTimeFin.Name = "dateTimeFin";
             this.dateTimeFin.Size = new System.Drawing.Size(200, 20);
@@ -147,6 +144,7 @@
             // 
             // dataTimeInicio
             // 
+            this.dataTimeInicio.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dataTimeInicio.Location = new System.Drawing.Point(175, 159);
             this.dataTimeInicio.Name = "dataTimeInicio";
             this.dataTimeInicio.Size = new System.Drawing.Size(200, 20);
@@ -156,7 +154,7 @@
             // 
             this.txtCantidadKm.Location = new System.Drawing.Point(339, 105);
             this.txtCantidadKm.Name = "txtCantidadKm";
-            this.txtCantidadKm.Size = new System.Drawing.Size(100, 20);
+            this.txtCantidadKm.Size = new System.Drawing.Size(45, 20);
             this.txtCantidadKm.TabIndex = 12;
             // 
             // btnRegistrarViaje

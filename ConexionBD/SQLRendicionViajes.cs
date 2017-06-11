@@ -17,13 +17,13 @@ namespace UberFrba.ConexionBD
             {
                 conectar();
 
-                sqlCommand = new SqlCommand("NONAME.rendirViaje");
+                sqlCommand = new SqlCommand("sp_detelle_rendicion");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
-                sqlCommand.Parameters.AddWithValue("@id_chofer", idchofer);
+                sqlCommand.Parameters.AddWithValue("@id_usuario", idchofer);
                 sqlCommand.Parameters.AddWithValue("@id_turno", id_turno);
-                sqlCommand.Parameters.AddWithValue("@fecha", fecha);
+                sqlCommand.Parameters.AddWithValue("@fecha", fecha.Date);
 
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableListado = new DataTable();

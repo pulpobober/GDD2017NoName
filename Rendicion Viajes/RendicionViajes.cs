@@ -20,10 +20,11 @@ namespace UberFrba.Rendicion_Viajes
         public RendicionViajes()
         {
             InitializeComponent();
-            tablaTurnos = SQLTurno.obtenerTodosLosTurnos();
-
             lblImporteTotal.Hide();
             lblImporteTotalTexto.Hide();
+
+
+            tablaTurnos = SQLTurno.obtenerTodosLosTurnos();
 
             foreach (DataRow row in tablaTurnos.Rows)
             {
@@ -54,7 +55,7 @@ namespace UberFrba.Rendicion_Viajes
 
             foreach (DataRow row in tablaChoferes.Rows)
             {
-                if (row["nombre"].ToString() + " " +row["apellido"].ToString() == cmbTurno.SelectedItem.ToString())
+                if (row["nombre"].ToString() + " " + row["apellido"].ToString() == cmbChoferes.SelectedItem.ToString())
                 {
                     id_chofer = int.Parse(row["id_usuario"].ToString());
                 }
@@ -64,7 +65,7 @@ namespace UberFrba.Rendicion_Viajes
             lblImporteTotal.Show();
             lblImporteTotalTexto.Show();
             tablaRendicion.DataSource = SQLRendicionViajes.rendirConDetalle(id_chofer, id_turno, selectorFecha.Value);
-            lblImporteTotal.Text = SQLRendicionViajes.rendirElTotal(id_chofer, id_turno, selectorFecha.Value).ToString();
+           // lblImporteTotal.Text = SQLRendicionViajes.rendirElTotal(id_chofer, id_turno, selectorFecha.Value).ToString();
         }
     }
 }
