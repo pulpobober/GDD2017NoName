@@ -18,7 +18,7 @@ namespace UberFrba
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Abm_Chofer.AltaChofer());
+            Application.Run(new Listado_Estadistico.ListadoEstadistico());
            //  Application.Run(new Login.Login());
              Application.Run(new Menu_Acciones.MenuAcciones());
             //Application.Run(new Abm_Rol.ListadoRoles());
