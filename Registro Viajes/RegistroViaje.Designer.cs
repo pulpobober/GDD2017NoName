@@ -128,6 +128,10 @@
             // cmbTurnos
             // 
             this.cmbTurnos.FormattingEnabled = true;
+            this.cmbTurnos.Items.AddRange(new object[] {
+            "Mañana",
+            "Tarde",
+            "Noche"});
             this.cmbTurnos.Location = new System.Drawing.Point(54, 105);
             this.cmbTurnos.Name = "cmbTurnos";
             this.cmbTurnos.Size = new System.Drawing.Size(121, 21);

@@ -30,15 +30,15 @@
         {
             this.lblFecha = new System.Windows.Forms.Label();
             this.selectorFecha = new System.Windows.Forms.DateTimePicker();
-            this.txtChofer = new System.Windows.Forms.TextBox();
             this.lblChofer = new System.Windows.Forms.Label();
-            this.txtTurno = new System.Windows.Forms.TextBox();
             this.lblTurno = new System.Windows.Forms.Label();
-            this.txtImporteTotal = new System.Windows.Forms.TextBox();
-            this.lblImporteTotal = new System.Windows.Forms.Label();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.btnRendir = new System.Windows.Forms.Button();
             this.tablaRendicion = new System.Windows.Forms.DataGridView();
+            this.cmbChoferes = new System.Windows.Forms.ComboBox();
+            this.cmbTurno = new System.Windows.Forms.ComboBox();
+            this.lblImporteTotalTexto = new System.Windows.Forms.Label();
+            this.lblImporteTotal = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tablaRendicion)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,13 +57,6 @@
             this.selectorFecha.Size = new System.Drawing.Size(200, 20);
             this.selectorFecha.TabIndex = 1;
             // 
-            // txtChofer
-            // 
-            this.txtChofer.Location = new System.Drawing.Point(422, 67);
-            this.txtChofer.Name = "txtChofer";
-            this.txtChofer.Size = new System.Drawing.Size(100, 20);
-            this.txtChofer.TabIndex = 3;
-            // 
             // lblChofer
             // 
             this.lblChofer.Location = new System.Drawing.Point(347, 70);
@@ -72,35 +65,13 @@
             this.lblChofer.TabIndex = 2;
             this.lblChofer.Text = "Chofer: ";
             // 
-            // txtTurno
-            // 
-            this.txtTurno.Location = new System.Drawing.Point(648, 67);
-            this.txtTurno.Name = "txtTurno";
-            this.txtTurno.Size = new System.Drawing.Size(100, 20);
-            this.txtTurno.TabIndex = 6;
-            // 
             // lblTurno
             // 
             this.lblTurno.Location = new System.Drawing.Point(581, 70);
             this.lblTurno.Name = "lblTurno";
-            this.lblTurno.Size = new System.Drawing.Size(61, 23);
+            this.lblTurno.Size = new System.Drawing.Size(46, 17);
             this.lblTurno.TabIndex = 5;
             this.lblTurno.Text = "Turno: ";
-            // 
-            // txtImporteTotal
-            // 
-            this.txtImporteTotal.Location = new System.Drawing.Point(126, 117);
-            this.txtImporteTotal.Name = "txtImporteTotal";
-            this.txtImporteTotal.Size = new System.Drawing.Size(100, 20);
-            this.txtImporteTotal.TabIndex = 8;
-            // 
-            // lblImporteTotal
-            // 
-            this.lblImporteTotal.Location = new System.Drawing.Point(29, 120);
-            this.lblImporteTotal.Name = "lblImporteTotal";
-            this.lblImporteTotal.Size = new System.Drawing.Size(100, 23);
-            this.lblImporteTotal.TabIndex = 7;
-            this.lblImporteTotal.Text = "Importe a rendir: ";
             // 
             // lblTitulo
             // 
@@ -113,34 +84,70 @@
             // 
             // btnRendir
             // 
-            this.btnRendir.Location = new System.Drawing.Point(385, 130);
+            this.btnRendir.Location = new System.Drawing.Point(261, 96);
             this.btnRendir.Name = "btnRendir";
-            this.btnRendir.Size = new System.Drawing.Size(100, 40);
+            this.btnRendir.Size = new System.Drawing.Size(175, 68);
             this.btnRendir.TabIndex = 9;
             this.btnRendir.Text = "Rendir";
             this.btnRendir.Click += new System.EventHandler(this.btnRendir_Click);
             // 
             // tablaRendicion
             // 
-            this.tablaRendicion.Location = new System.Drawing.Point(12, 202);
+            this.tablaRendicion.Location = new System.Drawing.Point(12, 170);
             this.tablaRendicion.Name = "tablaRendicion";
-            this.tablaRendicion.Size = new System.Drawing.Size(842, 345);
+            this.tablaRendicion.Size = new System.Drawing.Size(696, 243);
             this.tablaRendicion.TabIndex = 10;
+            // 
+            // cmbChoferes
+            // 
+            this.cmbChoferes.FormattingEnabled = true;
+            this.cmbChoferes.Location = new System.Drawing.Point(401, 66);
+            this.cmbChoferes.Name = "cmbChoferes";
+            this.cmbChoferes.Size = new System.Drawing.Size(153, 21);
+            this.cmbChoferes.TabIndex = 11;
+            // 
+            // cmbTurno
+            // 
+            this.cmbTurno.FormattingEnabled = true;
+            this.cmbTurno.Location = new System.Drawing.Point(633, 66);
+            this.cmbTurno.Name = "cmbTurno";
+            this.cmbTurno.Size = new System.Drawing.Size(104, 21);
+            this.cmbTurno.TabIndex = 12;
+            // 
+            // lblImporteTotalTexto
+            // 
+            this.lblImporteTotalTexto.AutoSize = true;
+            this.lblImporteTotalTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblImporteTotalTexto.Location = new System.Drawing.Point(13, 440);
+            this.lblImporteTotalTexto.Name = "lblImporteTotalTexto";
+            this.lblImporteTotalTexto.Size = new System.Drawing.Size(337, 25);
+            this.lblImporteTotalTexto.TabIndex = 13;
+            this.lblImporteTotalTexto.Text = "El importe total de la rendicion es:";
+            // 
+            // lblImporteTotal
+            // 
+            this.lblImporteTotal.AutoSize = true;
+            this.lblImporteTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblImporteTotal.Location = new System.Drawing.Point(356, 440);
+            this.lblImporteTotal.Name = "lblImporteTotal";
+            this.lblImporteTotal.Size = new System.Drawing.Size(70, 25);
+            this.lblImporteTotal.TabIndex = 14;
+            this.lblImporteTotal.Text = "label1";
             // 
             // RendicionViajes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(869, 558);
+            this.ClientSize = new System.Drawing.Size(775, 489);
+            this.Controls.Add(this.lblImporteTotal);
+            this.Controls.Add(this.lblImporteTotalTexto);
+            this.Controls.Add(this.cmbTurno);
+            this.Controls.Add(this.cmbChoferes);
             this.Controls.Add(this.lblFecha);
             this.Controls.Add(this.selectorFecha);
             this.Controls.Add(this.lblChofer);
-            this.Controls.Add(this.txtChofer);
             this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.lblTurno);
-            this.Controls.Add(this.txtTurno);
-            this.Controls.Add(this.lblImporteTotal);
-            this.Controls.Add(this.txtImporteTotal);
             this.Controls.Add(this.btnRendir);
             this.Controls.Add(this.tablaRendicion);
             this.Name = "RendicionViajes";
@@ -155,14 +162,14 @@
 
         protected System.Windows.Forms.DateTimePicker selectorFecha;
         protected System.Windows.Forms.Label lblFecha;
-        protected System.Windows.Forms.TextBox txtChofer;
         protected System.Windows.Forms.Label lblChofer;
-        protected System.Windows.Forms.TextBox txtTurno;
         protected System.Windows.Forms.Label lblTurno;
-        protected System.Windows.Forms.TextBox txtImporteTotal;
-        protected System.Windows.Forms.Label lblImporteTotal;
         protected System.Windows.Forms.Label lblTitulo;
         protected System.Windows.Forms.Button btnRendir;
         protected System.Windows.Forms.DataGridView tablaRendicion;
+        private System.Windows.Forms.ComboBox cmbChoferes;
+        private System.Windows.Forms.ComboBox cmbTurno;
+        private System.Windows.Forms.Label lblImporteTotalTexto;
+        private System.Windows.Forms.Label lblImporteTotal;
     }
 }

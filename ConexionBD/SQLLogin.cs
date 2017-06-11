@@ -32,7 +32,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //Manejar errores
                 throw ex;
             }
             finally
@@ -43,7 +42,6 @@ namespace UberFrba.ConexionBD
 
         public static DataTable obtenerRolesUsuario(string nombre_usuario)
         {
-            nombre_usuario = "39210895";
             try
             {
                 conectar();

@@ -27,7 +27,7 @@ namespace UberFrba.Facturacion
 
             foreach (DataRow row in clientes.Rows)
             {
-                cmbClientes.Items.Add(row["nombre_de_usuario"].ToString());
+                cmbClientes.Items.Add(row["nombre"].ToString() + " " +row["apellido"].ToString());
                 cmbClientes.SelectedIndex = 0;
             }
         }

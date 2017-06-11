@@ -14,69 +14,57 @@ namespace UberFrba.Rendicion_Viajes
 {
     public partial class RendicionViajes : Form
     {
+        DataTable tablaTurnos;
+        DataTable tablaChoferes;
+
         public RendicionViajes()
         {
             InitializeComponent();
+            tablaTurnos = SQLTurno.obtenerTodosLosTurnos();
+
+            lblImporteTotal.Hide();
+            lblImporteTotalTexto.Hide();
+
+            foreach (DataRow row in tablaTurnos.Rows)
+            {
+                cmbTurno.Items.Add(row["descripcion"].ToString());
+                cmbTurno.SelectedIndex = 0;
+            }
+
+            tablaChoferes = SQLChofer.obtenerTodosLosChoferes();
+
+            foreach (DataRow row in tablaChoferes.Rows)
+            {
+                cmbChoferes.Items.Add(row["nombre"].ToString() + " " + row["apellido"].ToString());
+                cmbChoferes.SelectedIndex = 0;
+            }
+
         }
 
         private void btnRendir_Click(object sender, EventArgs e)
         {
-            int idchofer = obtainIdChofer(txtChofer.Text);
-            int idturno = obtainIdTurno(txtTurno.Text);
-            tablaRendicion.DataSource = SQLRendicionViajes.rendir(idchofer, idturno, Convert.ToDouble(txtImporteTotal.Text), selectorFecha.Text);
-
-        }
-
-        public int obtainIdChofer(string chofer)
-        {
-            chofer = chofer.Replace(' ', '_');
-            int indexof_whitspace = chofer.IndexOf("_");
-            string nombre = chofer.Substring(0, indexof_whitspace);
-            string apellido = chofer.Substring(indexof_whitspace + 1);
-
-            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
-
-            cmd.CommandText = "Select id_usuario from NONAME.Usuario inner join NONAME.Chofer on id_usuario=id_chofer where nombre='" + nombre + "' and apellido='" + apellido + "'";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = miConexion;
-
-            miConexion.Open();
-
-            reader = cmd.ExecuteReader();
-
-            // miConexion.Close();
-
-            while (reader.Read())
+            int id_turno = -1;
+            int id_chofer = -1;
+            foreach (DataRow row in tablaTurnos.Rows)
             {
-                return Convert.ToInt32(reader["id_usuario"]);
+                if (row["descripcion"].ToString() == cmbTurno.SelectedItem.ToString()) {
+                    id_turno = int.Parse(row["id_turno"].ToString());
+                }
             }
-            return 0;
-        }
 
-        private int obtainIdTurno(string turno)
-        {
-
-            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
-
-            cmd.CommandText = "Select id_turno where descripcion='" + turno + "'";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = miConexion;
-
-            miConexion.Open();
-
-            reader = cmd.ExecuteReader();
-
-            // miConexion.Close();
-
-            while (reader.Read())
+            foreach (DataRow row in tablaChoferes.Rows)
             {
-                return Convert.ToInt32(reader["id_turno"]);
+                if (row["nombre"].ToString() + " " +row["apellido"].ToString() == cmbTurno.SelectedItem.ToString())
+                {
+                    id_chofer = int.Parse(row["id_usuario"].ToString());
+                }
             }
-            return 0;
+
+
+            lblImporteTotal.Show();
+            lblImporteTotalTexto.Show();
+            tablaRendicion.DataSource = SQLRendicionViajes.rendirConDetalle(id_chofer, id_turno, selectorFecha.Value);
+            lblImporteTotal.Text = SQLRendicionViajes.rendirElTotal(id_chofer, id_turno, selectorFecha.Value).ToString();
         }
     }
 }
