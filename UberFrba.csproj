@@ -68,11 +68,29 @@
     <Compile Include="Abm Automovil\ListadoAutomoviles.Designer.cs">
       <DependentUpon>ListadoAutomoviles.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm Chofer\Form1.cs">
+    <Compile Include="Abm Chofer\AbmChofer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Abm Chofer\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Abm Chofer\AbmChofer.Designer.cs">
+      <DependentUpon>AbmChofer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Chofer\AltaChofer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Chofer\AltaChofer.Designer.cs">
+      <DependentUpon>AltaChofer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Chofer\ListaChoferes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Chofer\ListaChoferes.Designer.cs">
+      <DependentUpon>ListaChoferes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Chofer\ModificacionChofer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Chofer\ModificacionChofer.Designer.cs">
+      <DependentUpon>ModificacionChofer.cs</DependentUpon>
     </Compile>
     <Compile Include="Abm Cliente\AbmCliente.cs">
       <SubType>Form</SubType>
@@ -148,18 +166,12 @@
     </Compile>
     <Compile Include="ConexionBD\ConexionSQL.cs" />
     <Compile Include="ConexionBD\SQLAutomovil.cs" />
+    <Compile Include="ConexionBD\SQLChofer.cs" />
     <Compile Include="ConexionBD\SQLCliente.cs" />
     <Compile Include="ConexionBD\SQLListadoEstadistico.cs" />
     <Compile Include="ConexionBD\SQLLogin.cs" />
     <Compile Include="ConexionBD\SQLRoles.cs" />
     <Compile Include="ConexionBD\SQLTurno.cs" />
-    <Compile Include="Enum.cs" />
-    <Compile Include="Facturacion\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Facturacion\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Listado Estadistico\ListadoEstadistico.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,6 +197,7 @@
       <DependentUpon>MenuAcciones.cs</DependentUpon>
     </Compile>
     <Compile Include="Objetos\Automovil.cs" />
+    <Compile Include="Objetos\Chofer.cs" />
     <Compile Include="Objetos\Cliente.cs" />
     <Compile Include="Objetos\Rol.cs" />
     <Compile Include="Objetos\Turno.cs" />
@@ -213,6 +226,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Automovil\ModificacionAutomovil.resx">
       <DependentUpon>ModificacionAutomovil.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Chofer\AbmChofer.resx">
+      <DependentUpon>AbmChofer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Cliente\AbmCliente.resx">
       <DependentUpon>AbmCliente.cs</DependentUpon>
@@ -287,7 +303,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Facturacion\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
