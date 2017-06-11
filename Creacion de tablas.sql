@@ -194,6 +194,12 @@ EXEC NONAME.DROP_FK
 	IF OBJECT_ID('NONAME.sp_detelle_rendicion') IS NOT NULL
 		DROP PROCEDURE NONAME.sp_detelle_rendicion
 	
+	IF OBJECT_ID('NONAME.sp_importe_rendicion') IS NOT NULL
+		DROP PROCEDURE NONAME.sp_importe_rendicion
+
+	IF OBJECT_ID('NONAME.sproc_login_usuario') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_login_usuario
+	
 
 --User-Defined Data & Table Types
 
@@ -553,19 +559,22 @@ GO
 EXEC [NONAME].sp_migra_funcion @id_funcion = 1, @descripcion = 'Alta Rol';
 EXEC [NONAME].sp_migra_funcion @id_funcion = 2, @descripcion = 'Modificacion Rol';
 EXEC [NONAME].sp_migra_funcion @id_funcion = 3, @descripcion = 'Baja Rol';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 4, @descripcion = 'Alta Usuario';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 5, @descripcion = 'Modificacion Usuario';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 6, @descripcion = 'Baja Usuario';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 7, @descripcion = 'Alta Auto';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 8, @descripcion = 'Modificacion Auto';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 9, @descripcion = 'Baja Auto';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 10, @descripcion = 'Alta Turno';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 11, @descripcion = 'Modificacion Turno';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 12, @descripcion = 'Baja Turno';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 13, @descripcion = 'Registro de Viajes';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 14, @descripcion = 'Pago al Chofer';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 15, @descripcion = 'Facturacion del Cliente';
-EXEC [NONAME].sp_migra_funcion @id_funcion = 16, @descripcion = 'Listado Estadistico';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 4, @descripcion = 'Alta Cliente';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 5, @descripcion = 'Modificacion Cliente';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 6, @descripcion = 'Baja Cliente';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 7, @descripcion = 'Alta Chofer';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 8, @descripcion = 'Modificacion Chofer';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 9, @descripcion = 'Baja Chofer';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 10, @descripcion = 'Alta Auto';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 11, @descripcion = 'Modificacion Auto';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 12, @descripcion = 'Baja Auto';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 13, @descripcion = 'Alta Turno';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 14, @descripcion = 'Modificacion Turno';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 15, @descripcion = 'Baja Turno';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 16, @descripcion = 'Registro de Viajes';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 17, @descripcion = 'Pago al Chofer';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 18, @descripcion = 'Facturacion del Cliente';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 19, @descripcion = 'Listado Estadistico';
 GO
 
 
@@ -602,7 +611,10 @@ EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 13;
 EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 14;
 EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 15;
 EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 16;
-EXEC [NONAME].sp_migra_funcion_rol @id_rol = 2, @id_funcion = 13;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 17;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 18;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 19;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 2, @id_funcion = 16;
 GO
 
 
@@ -645,12 +657,6 @@ VALUES (
 	0)
 GO
 
-
-INSERT INTO [NONAME].Rol_Usuario
-SELECT Rol.id_rol, Usuario.id_usuario
-FROM NONAME.Rol, NONAME.Usuario
-WHERE Rol.tipo LIKE '_dmin%' AND Usuario.nombre_de_usuario = 'admin'
-GO
 
 -- Chofer
 

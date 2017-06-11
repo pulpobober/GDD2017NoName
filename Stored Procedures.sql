@@ -53,7 +53,13 @@ IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
 IF OBJECT_ID('NONAME.sp_detelle_rendicion') IS NOT NULL
 	DROP PROCEDURE NONAME.sp_detelle_rendicion
 	
-GO
+IF OBJECT_ID('NONAME.sp_importe_rendicion') IS NOT NULL
+	DROP PROCEDURE NONAME.sp_importe_rendicion
+
+IF OBJECT_ID('NONAME.sproc_login_usuario') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_login_usuario
+	
+GO  
 
 
 CREATE TYPE NONAME.ListaFuncionalidadesRol
@@ -807,7 +813,7 @@ END
 GO
 
 
-CREATE PROCEDURE sp_detelle_rendicion
+CREATE PROCEDURE NONAME.sp_detelle_rendicion
 	@id_usuario int, -- (id_usuario = id_chofer)
 	@id_turno int,
 	@fecha datetime
@@ -820,9 +826,9 @@ BEGIN
 	where v.id_chofer = @id_usuario
 	and v.fecha_hora_inicio = @fecha
 END
+GO
 
-
-CREATE PROCEDURE sp_importe_rendicion
+CREATE PROCEDURE NONAME.sp_importe_rendicion
 	@id_usuario int, -- (id_usuario = id_chofer)
 	@id_turno int,
 	@fecha datetime
@@ -834,4 +840,7 @@ BEGIN
 	and id_turno = @id_turno
 	and fecha = @fecha
 END
+GO
+
+
 
