@@ -44,6 +44,7 @@
             this.btnModificar.TabIndex = 5;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // ModificacionRol
             // 
@@ -53,6 +54,7 @@
             this.Controls.Add(this.btnModificar);
             this.Name = "ModificacionRol";
             this.Text = "ModificacionRol";
+            this.Controls.SetChildIndex(this.ckbHabilitado, 0);
             this.Controls.SetChildIndex(this.lblTitulo, 0);
             this.Controls.SetChildIndex(this.lblNombre, 0);
             this.Controls.SetChildIndex(this.txtNombreRol, 0);

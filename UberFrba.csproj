@@ -122,27 +122,49 @@
     <Compile Include="Abm Rol\ModificacionRol.Designer.cs">
       <DependentUpon>ModificacionRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm Turno\AbmTurno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Turno\AbmTurno.Designer.cs">
+      <DependentUpon>AbmTurno.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Turno\AltaTurno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Turno\AltaTurno.Designer.cs">
+      <DependentUpon>AltaTurno.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Turno\ListaTurnos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Turno\ListaTurnos.Designer.cs">
+      <DependentUpon>ListaTurnos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Turno\ModificacionTurno.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Turno\ModificacionTurno.Designer.cs">
+      <DependentUpon>ModificacionTurno.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConexionBD\ConexionSQL.cs" />
     <Compile Include="ConexionBD\SQLAutomovil.cs" />
     <Compile Include="ConexionBD\SQLCliente.cs" />
+    <Compile Include="ConexionBD\SQLListadoEstadistico.cs" />
+    <Compile Include="ConexionBD\SQLLogin.cs" />
     <Compile Include="ConexionBD\SQLRoles.cs" />
+    <Compile Include="ConexionBD\SQLTurno.cs" />
+    <Compile Include="Enum.cs" />
     <Compile Include="Facturacion\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Facturacion\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="Listado Estadistico\ListadoEstadistico.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Listado Estadistico\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Listado Estadistico\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Listado Estadistico\ListadoEstadistico.Designer.cs">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\Login.cs">
       <SubType>Form</SubType>
@@ -165,6 +187,7 @@
     <Compile Include="Objetos\Automovil.cs" />
     <Compile Include="Objetos\Cliente.cs" />
     <Compile Include="Objetos\Rol.cs" />
+    <Compile Include="Objetos\Turno.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registro Viajes\Form1.cs">
@@ -215,6 +238,21 @@
     <EmbeddedResource Include="Abm Rol\ModificacionRol.resx">
       <DependentUpon>ModificacionRol.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Abm Turno\AbmTurno.resx">
+      <DependentUpon>AbmTurno.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Turno\AltaTurno.resx">
+      <DependentUpon>AltaTurno.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Turno\ListaTurnos.resx">
+      <DependentUpon>ListaTurnos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Turno\ModificacionTurno.resx">
+      <DependentUpon>ModificacionTurno.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listado Estadistico\ListadoEstadistico.resx">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
@@ -233,6 +271,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Registro Viajes\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UberFrba.ConexionBD;
 
 namespace UberFrba.Login
 {
     public partial class RolesUsuario : Form
     {
-
-        int user_id;
+        int id_usuario;
+        string nombre_usuario;
         DataTable rolesUsuario;
 
         public RolesUsuario()
@@ -21,43 +22,78 @@ namespace UberFrba.Login
             InitializeComponent();
         }
 
-        public RolesUsuario(int userId)
+        public RolesUsuario(string nombreUsuario)
         {
-            user_id = userId;
             InitializeComponent();
-
+            nombre_usuario  = nombreUsuario;
             //rolesUsuario me deberia devolver todos los roles que tiene el usuario
-            //rolesUsuario = DAO.DAOLogin.roles_x_usuario(userId);
+            rolesUsuario = SQLLogin.obtenerRolesUsuario(nombreUsuario);
+            id_usuario = obtenerIdUsuario();
 
             //Aca va recorriendo la tabla y los va agregando al cmbRoles
             foreach (DataRow row in rolesUsuario.Rows)
             {
-                cmbRoles.Items.Add(row["Nombre"].ToString());
+                cmbRoles.Items.Add(row["tipo"].ToString());
                 cmbRoles.SelectedIndex = 0;
             }
         }
 
+        
         private void btnRol_Click(object sender, EventArgs e)
         {
-            DataRow[] row = rolesUsuario.Select("Nombre='" + cmbRoles.Text + "'");
-            new Menu_Acciones.MenuAcciones(int.Parse(row[0]["Rol_id"].ToString()), user_id).ShowDialog();
+
+            new Menu_Acciones.MenuAcciones(obtenerIdRolSeleccionado(cmbRoles.SelectedItem.ToString()), id_usuario).ShowDialog();
             this.Close();
         }
 
-        //Cuando se carga la pantalla, verifica si hay uno o mas roles
+        //Cuando se carga la pantalla, verifica si hay un solo rol o mas roles
         private void RolesUsuario_Load(object sender, EventArgs e)
         {
+            //ESTO LO PUSE PAARA PODER PROBAR, DESPUES HAY QUE BORRARLO
+            ////////////////////////////////////////////////////////////////////////
+            //rolesUsuario me deberia devolver todos los roles que tiene el usuario
+            rolesUsuario = SQLLogin.obtenerRolesUsuario(nombre_usuario);
+            id_usuario = obtenerIdUsuario();
+
+            //Aca va recorriendo la tabla y los va agregando al cmbRoles
+            foreach (DataRow row in rolesUsuario.Rows)
+            {
+                cmbRoles.Items.Add(row["tipo"].ToString());
+            }
+            cmbRoles.SelectedIndex = 0;
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+
             if (cmbRoles.Items.Count == 1)
             {
-                DataRow[] row = rolesUsuario.Select("Nombre='" + cmbRoles.Text + "'");
-                new Menu_Acciones.MenuAcciones(int.Parse(row[0]["Rol_id"].ToString()), user_id).ShowDialog();
+                new Menu_Acciones.MenuAcciones(obtenerIdRolSeleccionado(cmbRoles.SelectedItem.ToString()), id_usuario).ShowDialog();
                 this.Close();
             }
             if (cmbRoles.Items.Count == 0)
             {
-                MessageBox.Show("Usted no posee un rol asignado", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Usted no posee un rol asignado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
+            } 
+        }
+
+        private int obtenerIdRolSeleccionado(string tipo) { 
+            foreach (DataRow row in rolesUsuario.Rows)
+            {
+                if (row["tipo"].ToString() == tipo){
+                    return int.Parse(row["id_rol"].ToString());
+                }
             }
+            return -1;
+        }
+
+        private int obtenerIdUsuario()
+        {
+            foreach (DataRow row in rolesUsuario.Rows)
+            {
+                //Me devuelve el primer ID que encuentra porque siempre es el mismo usuario
+                return int.Parse(row["id_usuario"].ToString());
+            }
+            return -1;
         }
     }
 }

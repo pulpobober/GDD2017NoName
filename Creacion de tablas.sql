@@ -2,67 +2,71 @@ USE [GD1C2017]
 GO
 
 	IF OBJECT_ID('NONAME.DROP_FK') IS NOT NULL
-	DROP PROCEDURE NONAME.DROP_FK
+		DROP PROCEDURE NONAME.DROP_FK
+	GO
+
+	IF OBJECT_ID('NONAME.sp_migra_auto_marca') IS NOT NULL
+		DROP PROCEDURE NONAME.sp_migra_auto_marca
 	GO
 
 CREATE PROCEDURE NONAME.DROP_FK
 as
 	IF OBJECT_ID('NONAME.FK_Viaje_Turno') IS NOT NULL
-	ALTER TABLE [NONAME].[Viaje] DROP CONSTRAINT [FK_Viaje_Turno]
+		ALTER TABLE [NONAME].[Viaje] DROP CONSTRAINT [FK_Viaje_Turno]
 	
 	IF OBJECT_ID('NONAME.FK_Viaje_Cliente') IS NOT NULL
-	ALTER TABLE [NONAME].[Viaje] DROP CONSTRAINT [FK_Viaje_Cliente]
+		ALTER TABLE [NONAME].[Viaje] DROP CONSTRAINT [FK_Viaje_Cliente]
 	
 	IF OBJECT_ID('NONAME.FK_Viaje_Chofer') IS NOT NULL
-	ALTER TABLE [NONAME].[Viaje] DROP CONSTRAINT [FK_Viaje_Chofer]
+		ALTER TABLE [NONAME].[Viaje] DROP CONSTRAINT [FK_Viaje_Chofer]
 	
 	IF OBJECT_ID('NONAME.FK_Rol_Usuario_Usuario') IS NOT NULL
-	ALTER TABLE [NONAME].[Rol_Usuario] DROP CONSTRAINT [FK_Rol_Usuario_Usuario]
+		ALTER TABLE [NONAME].[Rol_Usuario] DROP CONSTRAINT [FK_Rol_Usuario_Usuario]
 	
 	IF OBJECT_ID('NONAME.FK_Rol_Usuario_Rol') IS NOT NULL
-	ALTER TABLE [NONAME].[Rol_Usuario] DROP CONSTRAINT [FK_Rol_Usuario_Rol]
+		ALTER TABLE [NONAME].[Rol_Usuario] DROP CONSTRAINT [FK_Rol_Usuario_Rol]
 	
 	IF OBJECT_ID('NONAME.FK_Rendicion_Viaje_Viaje') IS NOT NULL
-	ALTER TABLE [NONAME].[Rendicion_Viaje] DROP CONSTRAINT [FK_Rendicion_Viaje_Viaje]
+		ALTER TABLE [NONAME].[Rendicion_Viaje] DROP CONSTRAINT [FK_Rendicion_Viaje_Viaje]
 	
 	IF OBJECT_ID('NONAME.FK_Rendicion_Viaje_Rendicion') IS NOT NULL
-	ALTER TABLE [NONAME].[Rendicion_Viaje] DROP CONSTRAINT [FK_Rendicion_Viaje_Rendicion]
+		ALTER TABLE [NONAME].[Rendicion_Viaje] DROP CONSTRAINT [FK_Rendicion_Viaje_Rendicion]
 	
 	IF OBJECT_ID('NONAME.FK_Rendicion_Turno') IS NOT NULL
-	ALTER TABLE [NONAME].[Rendicion] DROP CONSTRAINT [FK_Rendicion_Turno]
+		ALTER TABLE [NONAME].[Rendicion] DROP CONSTRAINT [FK_Rendicion_Turno]
 	
 	IF OBJECT_ID('NONAME.FK_Rendicion_Chofer') IS NOT NULL
-	ALTER TABLE [NONAME].[Rendicion] DROP CONSTRAINT [FK_Rendicion_Chofer]
+		ALTER TABLE [NONAME].[Rendicion] DROP CONSTRAINT [FK_Rendicion_Chofer]
 	
 	IF OBJECT_ID('NONAME.FK_Funcion_Rol_Rol') IS NOT NULL
-	ALTER TABLE [NONAME].[Funcion_Rol] DROP CONSTRAINT [FK_Funcion_Rol_Rol]
+		ALTER TABLE [NONAME].[Funcion_Rol] DROP CONSTRAINT [FK_Funcion_Rol_Rol]
 	
 	IF OBJECT_ID('NONAME.FK_Funcion_Rol_Funcion') IS NOT NULL
-	ALTER TABLE [NONAME].[Funcion_Rol] DROP CONSTRAINT [FK_Funcion_Rol_Funcion]
+		ALTER TABLE [NONAME].[Funcion_Rol] DROP CONSTRAINT [FK_Funcion_Rol_Funcion]
 	
 	IF OBJECT_ID('NONAME.FK_Factura_Cliente') IS NOT NULL
-	ALTER TABLE [NONAME].[Factura] DROP CONSTRAINT [FK_Factura_Cliente]
+		ALTER TABLE [NONAME].[Factura] DROP CONSTRAINT [FK_Factura_Cliente]
 	
 	IF OBJECT_ID('NONAME.FK_Cliente_Usuario') IS NOT NULL
-	ALTER TABLE [NONAME].[Cliente] DROP CONSTRAINT [FK_Cliente_Usuario]
+		ALTER TABLE [NONAME].[Cliente] DROP CONSTRAINT [FK_Cliente_Usuario]
 	
 	IF OBJECT_ID('NONAME.FK_Chofer_Usuario') IS NOT NULL
-	ALTER TABLE [NONAME].[Chofer] DROP CONSTRAINT [FK_Chofer_Usuario]
+		ALTER TABLE [NONAME].[Chofer] DROP CONSTRAINT [FK_Chofer_Usuario]
 
 	IF OBJECT_ID('NONAME.FK_Auto_Chofer_Chofer') IS NOT NULL
-	ALTER TABLE [NONAME].[Auto_Chofer] DROP CONSTRAINT [FK_Auto_Chofer_Chofer]
+		ALTER TABLE [NONAME].[Auto_Chofer] DROP CONSTRAINT [FK_Auto_Chofer_Chofer]
 	
 	IF OBJECT_ID('NONAME.FK_Auto_Chofer_Auto') IS NOT NULL
-	ALTER TABLE [NONAME].[Auto_Chofer] DROP CONSTRAINT [FK_Auto_Chofer_Auto]
+		ALTER TABLE [NONAME].[Auto_Chofer] DROP CONSTRAINT [FK_Auto_Chofer_Auto]
 	
 	IF OBJECT_ID('NONAME.FK_Auto_Marca') IS NOT NULL
-	ALTER TABLE [NONAME].[Auto] DROP CONSTRAINT [FK_Auto_Marca]
+		ALTER TABLE [NONAME].[Auto] DROP CONSTRAINT [FK_Auto_Marca]
 	
 	IF OBJECT_ID('NONAME.FK_Factura_Viaje_Factura') IS NOT NULL
-	ALTER TABLE [NONAME].[Factura_Viaje] DROP CONSTRAINT [FK_Factura_Viaje_Factura]
+		ALTER TABLE [NONAME].[Factura_Viaje] DROP CONSTRAINT [FK_Factura_Viaje_Factura]
 
 	IF OBJECT_ID('NONAME.FK_Factura_Viaje_Viaje') IS NOT NULL
-	ALTER TABLE [NONAME].[Factura_Viaje] DROP CONSTRAINT [FK_Factura_Viaje_Viaje]
+		ALTER TABLE [NONAME].[Factura_Viaje] DROP CONSTRAINT [FK_Factura_Viaje_Viaje]
 GO
 
 
@@ -71,63 +75,64 @@ GO
 IF SCHEMA_ID('NONAME') IS NOT NULL
 BEGIN
 
---constraints
+--FK
 	
 EXEC NONAME.DROP_FK
 
---tablas
+--Tablas
 
-  IF OBJECT_ID('NONAME.Viaje') IS NOT NULL
-	DROP TABLE [NONAME].[Viaje]
+	IF OBJECT_ID('NONAME.Viaje') IS NOT NULL
+		DROP TABLE [NONAME].[Viaje]
 
-  IF OBJECT_ID('NONAME.Usuario') IS NOT NULL
-	DROP TABLE [NONAME].[Usuario]
+	IF OBJECT_ID('NONAME.Usuario') IS NOT NULL
+		DROP TABLE [NONAME].[Usuario]
 
-  IF OBJECT_ID('NONAME.Turno') IS NOT NULL
-	DROP TABLE [NONAME].[Turno]
+	IF OBJECT_ID('NONAME.Turno') IS NOT NULL
+		DROP TABLE [NONAME].[Turno]
 
-  IF OBJECT_ID('NONAME.Rol_Usuario') IS NOT NULL
-	DROP TABLE [NONAME].[Rol_Usuario]
+	IF OBJECT_ID('NONAME.Rol_Usuario') IS NOT NULL
+		DROP TABLE [NONAME].[Rol_Usuario]
 
-  IF OBJECT_ID('NONAME.Rol') IS NOT NULL
-	DROP TABLE [NONAME].[Rol]
+	IF OBJECT_ID('NONAME.Rol') IS NOT NULL
+		DROP TABLE [NONAME].[Rol]
 
-  IF OBJECT_ID('NONAME.Rendicion_Viaje') IS NOT NULL
-	DROP TABLE [NONAME].[Rendicion_Viaje]
+	IF OBJECT_ID('NONAME.Rendicion_Viaje') IS NOT NULL
+		DROP TABLE [NONAME].[Rendicion_Viaje]
 
-  IF OBJECT_ID('NONAME.Rendicion') IS NOT NULL
-	DROP TABLE [NONAME].[Rendicion]
+	IF OBJECT_ID('NONAME.Rendicion') IS NOT NULL
+		DROP TABLE [NONAME].[Rendicion]
 
-  IF OBJECT_ID('NONAME.Marca') IS NOT NULL
-	DROP TABLE [NONAME].[Marca]
+	IF OBJECT_ID('NONAME.Marca') IS NOT NULL
+		DROP TABLE [NONAME].[Marca]
 
-  IF OBJECT_ID('NONAME.Funcion_Rol') IS NOT NULL
-	DROP TABLE [NONAME].[Funcion_Rol]
+	IF OBJECT_ID('NONAME.Funcion_Rol') IS NOT NULL
+		DROP TABLE [NONAME].[Funcion_Rol]
 
-  IF OBJECT_ID('NONAME.Funcion') IS NOT NULL
-	DROP TABLE [NONAME].[Funcion]
+	IF OBJECT_ID('NONAME.Funcion') IS NOT NULL
+		DROP TABLE [NONAME].[Funcion]
 
-  IF OBJECT_ID('NONAME.Factura') IS NOT NULL
-	DROP TABLE [NONAME].[Factura]
+	IF OBJECT_ID('NONAME.Factura') IS NOT NULL
+		DROP TABLE [NONAME].[Factura]
 
-  IF OBJECT_ID('NONAME.Cliente') IS NOT NULL
-	DROP TABLE [NONAME].[Cliente]
+	IF OBJECT_ID('NONAME.Cliente') IS NOT NULL
+		DROP TABLE [NONAME].[Cliente]
 
-  IF OBJECT_ID('NONAME.Chofer') IS NOT NULL
-	DROP TABLE [NONAME].[Chofer]
+	IF OBJECT_ID('NONAME.Chofer') IS NOT NULL
+		DROP TABLE [NONAME].[Chofer]
 
-  IF OBJECT_ID('NONAME.Auto_Chofer') IS NOT NULL
-	DROP TABLE [NONAME].[Auto_Chofer]
+	IF OBJECT_ID('NONAME.Auto_Chofer') IS NOT NULL
+		DROP TABLE [NONAME].[Auto_Chofer]
 
-  IF OBJECT_ID('NONAME.Auto') IS NOT NULL
-	DROP TABLE [NONAME].[Auto]
+	IF OBJECT_ID('NONAME.Auto') IS NOT NULL
+		DROP TABLE [NONAME].[Auto]
 
-  IF OBJECT_ID('NONAME.Factura_Viaje') IS NOT NULL
-	DROP TABLE [NONAME].[Factura_Viaje]
+	IF OBJECT_ID('NONAME.Factura_Viaje') IS NOT NULL
+		DROP TABLE [NONAME].[Factura_Viaje]
 
 --Stored Procedures
-  IF OBJECT_ID('NONAME.DROP_FK') IS NOT NULL
-	DROP PROCEDURE NONAME.DROP_FK
+
+	IF OBJECT_ID('NONAME.DROP_FK') IS NOT NULL
+		DROP PROCEDURE NONAME.DROP_FK
 
 	IF OBJECT_ID('NONAME.sproc_rol_alta') IS NOT NULL
 		DROP PROCEDURE NONAME.sproc_rol_alta
@@ -156,16 +161,38 @@ EXEC NONAME.DROP_FK
 	IF OBJECT_ID('NONAME.sproc_automovil_modificacion') IS NOT NULL
 		DROP PROCEDURE NONAME.sproc_automovil_modificacion
 
+	IF OBJECT_ID('NONAME.sproc_turno_alta') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_turno_alta
+
+	IF OBJECT_ID('NONAME.sproc_turno_baja') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_turno_baja
+
+	IF OBJECT_ID('NONAME.sproc_turno_modificacion') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_turno_modificacion
+
+	IF OBJECT_ID('NONAME.sproc_chofer_alta') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_chofer_alta
+
+	IF OBJECT_ID('NONAME.sproc_chofer_baja') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_chofer_baja
+
+	IF OBJECT_ID('NONAME.sproc_chofer_modificacion') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_chofer_modificacion
+
+
+	
+
 --User-Defined Data & Table Types
+
 	IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
 		DROP TYPE NONAME.ListaFuncionalidadesRol
 
---Ahora sí, el Schema
-  DROP SCHEMA [NONAME]
+--Schema
+
+	DROP SCHEMA [NONAME]
 
 END
 GO
- 
 
 --Creacion de Esquema 
 
@@ -293,7 +320,7 @@ CREATE TABLE [NONAME].[Funcion](
  GO
 
 CREATE TABLE [NONAME].[Turno](
-	[id_turno] [int] NOT NULL,
+	[id_turno] [int] IDENTITY(4,1) NOT NULL,
 	[hora_inicio] [numeric](18, 0) NOT NULL,
 	[hora_fin] [numeric](18, 0) NOT NULL,
 	[descripcion] [varchar](255) NOT NULL,
@@ -478,24 +505,43 @@ CHECK CONSTRAINT [FK_Funcion_Rol_Funcion]
 --CONSTRAINT
 
 ALTER TABLE [NONAME].[Usuario]  ADD CONSTRAINT [dni_unico] UNIQUE (usuario_dni);
+GO
 
 ALTER TABLE [NONAME].[Usuario]  ADD CONSTRAINT [telefono_unico] UNIQUE (telefono);
+GO
 
 ALTER TABLE [NONAME].[Auto]  ADD CONSTRAINT [patente_unico] UNIQUE (patente_auto);
-
-
+GO
 
 --inserts
 
-INSERT INTO [NONAME].Marca (nombre, id_marca)
-  VALUES 
-		('Fiat', 1),
-		('Peugeot', 2),
-		('Ford', 3),
-		('Renault', 4),
-		('Volkswagen', 5),
-		('Chevrolet', 6)
+
+
+CREATE PROCEDURE NONAME.sp_migra_auto_marca (@nombre_auto varchar(255), @id_marca int) 
+AS
+	INSERT INTO NONAME.Marca (nombre, id_marca)
+	VALUES (@nombre_auto, @id_marca)
 GO
+
+EXEC NONAME.sp_migra_auto_marca
+	@nombre_auto = 'Fiat', @id_marca = 1;
+
+EXEC NONAME.sp_migra_auto_marca
+	@nombre_auto = 'Peugeot', @id_marca = 2;
+
+EXEC NONAME.sp_migra_auto_marca
+	@nombre_auto = 'Ford', @id_marca = 3;
+
+EXEC NONAME.sp_migra_auto_marca
+	@nombre_auto = 'Renault', @id_marca = 4;
+
+EXEC NONAME.sp_migra_auto_marca
+	@nombre_auto = 'Volkswagen', @id_marca = 5;
+
+EXEC NONAME.sp_migra_auto_marca
+	@nombre_auto = 'Chevrolet', @id_marca = 6;
+
+
 
 INSERT INTO [NONAME].Funcion (descripcion, id_funcion)
  VALUES 
@@ -547,17 +593,25 @@ INSERT INTO [NONAME].Funcion_Rol (id_rol, id_funcion)
 		(1, 11),
 		(1, 12),
 		(1, 13),
-		(1, 14)
+		(1, 14),
+		(2, 13)
 GO
 
 -- todavia no tienen asiganads funcionalidades los clientes y los choferes...
+
+--Seteo IDENTITY_INSERT temporariamente en ON para que permita el ingreso de los 3 turnos iniciales (id_turno es de tipo IDENTITY).
+SET IDENTITY_INSERT NONAME.Turno ON;
 
 INSERT INTO [NONAME].Turno (hora_inicio, hora_fin, descripcion, valor_km, precio_base, id_turno, habilitado)
  VALUES 
 		(0, 8, 'Turno Mañna', 0.73, 7.30, 1, 1),
 		(8, 16, 'Turno Tarde', 0.73, 7.30, 2, 1),
 		(16, 24, 'Turno Noche', 0.85, 8.50, 3, 1)
+
+--Reseteo IDENTITY_INSERT de vuelta en OFF (id_turno = IDENTITY(4,1)).
+SET IDENTITY_INSERT NONAME.Turno OFF;
 GO
+
 
 --Administrador
 
@@ -742,3 +796,40 @@ SELECT DISTINCT
 	join [NONAME].Usuario c ON m.Cliente_Dni = c.usuario_dni
 	where Factura_Nro is not null
 
+
+INSERT INTO [NONAME].Factura_Viaje
+	SELECT DISTINCT
+	f.nro_factura,
+	v.id_viaje
+	from [gd_esquema].[Maestra] m
+	join [NONAME].Factura f ON m.Factura_Nro = f.nro_factura
+	join [NONAME].Viaje v ON v.fecha_hora_inicio >= m.Factura_Fecha_Inicio
+						and v.fecha_hora_fin <= m.Factura_Fecha_Fin
+
+
+-- con el porcentaje de la tabla Rendicion_Viaje se supone que tengo que calcular el importe????
+-- se podra hacer el porcentaje dinamico??
+						  
+
+INSERT INTO [NONAME].Rendicion
+	SELECT DISTINCT
+	m.Rendicion_Nro,
+	c.id_usuario,
+	m.Rendicion_Fecha,
+	t.id_turno,
+	sum(m.Rendicion_Importe)
+	from [gd_esquema].[Maestra] m
+	join [NONAME].Usuario c ON m.Chofer_Dni = c.usuario_dni 
+	join [NONAME].Turno t ON m.Turno_Descripcion = t.descripcion
+	where m.Rendicion_Nro is not null 
+	group by m.Rendicion_Nro, c.id_usuario, m.Rendicion_Fecha, t.id_turno
+
+
+INSERT INTO [NONAME].Rendicion_Viaje
+	SELECT DISTINCT
+	id_viaje,
+	m.Rendicion_Nro,
+	(100*m.Rendicion_Importe/(m.Viaje_Cant_Kilometros*m.Turno_Valor_Kilometro+m.Turno_Precio_Base))
+	FROM [gd_esquema].[Maestra] m
+	join [NONAME].Viaje v ON v.fecha_hora_inicio = m.Rendicion_Fecha
+	where Rendicion_Nro is not null

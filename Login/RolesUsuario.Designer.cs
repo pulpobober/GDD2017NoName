@@ -47,10 +47,6 @@
             // 
             this.cmbRoles.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbRoles.FormattingEnabled = true;
-            this.cmbRoles.Items.AddRange(new object[] {
-            "Administrador",
-            "Chofer",
-            "Cliente"});
             this.cmbRoles.Location = new System.Drawing.Point(42, 82);
             this.cmbRoles.Name = "cmbRoles";
             this.cmbRoles.Size = new System.Drawing.Size(356, 28);

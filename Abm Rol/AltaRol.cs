@@ -21,15 +21,21 @@ namespace UberFrba.Abm_Rol
 
         private void btnAlta_Click(object sender, EventArgs e)
         {
-            Dictionary<int, Boolean> diccionarioFunciones = new Dictionary<int, bool>();
-            foreach (String key in checkListFuncionalidades.Items)
+            if (verificarDatosRol(txtNombreRol.Text))
             {
-                DataRow[] row = funcionalidades.Select("Nombre = '" + key + "'");
-                diccionarioFunciones.Add(int.Parse(row[0]["Funcionabilidad_id"].ToString()), checkListFuncionalidades.GetItemChecked(checkListFuncionalidades.FindStringExact(key)));
+                DataTable funcionalidadesHabilitadas = obtenerFuncionalidadesHabilitadas();
+                Rol unRol = new Rol(txtNombreRol.Text, ckbHabilitado.Checked ? true : false, funcionalidadesHabilitadas);
+                SQLRoles.insertarRol(unRol);
             }
+        }
 
-            Rol unRol = new Rol(txtNombreRol.Text, cmbEstado.SelectedItem.ToString() == "Habilitado" ? false : true, diccionarioFunciones);
-            SQLRoles.insertarRol(unRol);
+        private void AltaRol_Load(object sender, EventArgs e)
+        {
+            InitializeComponent();
+            foreach (DataRow row in funcionalidades.Rows)
+            {
+                checkListFuncionalidades.Items.Add(row["descripcion"].ToString());
+            }
         }
     }
 }

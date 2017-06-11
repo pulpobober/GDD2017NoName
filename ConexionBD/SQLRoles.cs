@@ -22,38 +22,11 @@ namespace UberFrba.ConexionBD
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
-                sqlCommand.Parameters.AddWithValue("@nombre", unRol.nombre);
+                sqlCommand.Parameters.AddWithValue("@tipo", unRol.nombre);
                 sqlCommand.Parameters.AddWithValue("@habilitado", unRol.estado);
-
-                //int id = 
-                /*
-       
-                id = int.Parse((AdaptadorSQL.SQLHelper_ExecuteScalar("NONAME.alta_Rol", parameters)).ToString());
-
-                // Como barro un map?
-                foreach (KeyValuePair<int, bool> funcionabilidad in funciones)
-                {
-
-
-                    parameters.Clear();
-
-                    parameter = new SqlParameter("@idRol", SqlDbType.Int);
-                    parameter.Value = id;
-                    parameters.Add(parameter);
-
-                    parameter = new SqlParameter("@idFuncionabilidad", SqlDbType.Int);
-                    parameter.Value = funcionabilidad.Key;
-                    parameters.Add(parameter);
-
-                    if (funcionabilidad.Value == true) AdaptadorSQL.SQLHelper_ExecuteNonQuery("NONAME.alta_funcionabiliad_x_rol", parameters);
-                    else AdaptadorSQL.SQLHelper_ExecuteNonQuery("NONAME.baja_funcionablilida_x_rol", parameters);
-
-                }
-
-                 */
-
-
-                sqlCommand.ExecuteNonQuery();
+                DataTable columna = unRol.tablaFuncionalidades.DefaultView.ToTable(false, unRol.tablaFuncionalidades.Columns[0].ColumnName);
+                sqlCommand.Parameters.AddWithValue("ids_funciones", columna);
+               sqlCommand.ExecuteNonQuery();
 
             }
             catch (Exception ex)
@@ -73,21 +46,17 @@ namespace UberFrba.ConexionBD
             try
             {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.obtener_todos_los_roles");
-                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_rol, tipo, habilitado FROM NONAME.Rol";
+                sqlCommand.CommandType = CommandType.Text; //opcional
                 sqlCommand.Connection = miConexion;
-
-                sqlCommand.ExecuteNonQuery();
-
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableRoles = new DataTable();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand);
-                dataAdapter.Fill(dataTableRoles);
+                dataTableRoles.Load(sqlReader);
                 return dataTableRoles;
-
             }
             catch (Exception ex)
             {
-                //hacer algo con las exepciones
                 return null;
                 throw ex;
             }
@@ -97,23 +66,29 @@ namespace UberFrba.ConexionBD
             }
         }
 
+       
+
         public static void modificarRol(Rol unRol)
         {
+
             try
             {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.modificar_rol");
+                sqlCommand = new SqlCommand("NONAME.sproc_rol_modificacion");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
-                sqlCommand.Parameters.AddWithValue("@nombre", unRol.nombre);
-                //sqlCommand.Parameters.AddWithValue("@apellido", clie.apellido);
-
+                sqlCommand.Parameters.AddWithValue("@id_rol", unRol.id_rol);
+                sqlCommand.Parameters.AddWithValue("@tipo", unRol.nombre);
+                sqlCommand.Parameters.AddWithValue("@habilitado", unRol.estado);
+                DataTable columna = unRol.tablaFuncionalidades.DefaultView.ToTable(false, unRol.tablaFuncionalidades.Columns[0].ColumnName);
+                sqlCommand.Parameters.AddWithValue("ids_funciones", columna);
                 sqlCommand.ExecuteNonQuery();
+
             }
             catch (Exception ex)
             {
-                //manejar exepciones
+                //Manejar errores
                 throw ex;
             }
             finally
@@ -127,11 +102,11 @@ namespace UberFrba.ConexionBD
             try
             {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.baja_rol");
+                sqlCommand = new SqlCommand("NONAME.sproc_rol_baja");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
-                sqlCommand.Parameters.AddWithValue("@nombre", unRol.nombre);
+                sqlCommand.Parameters.AddWithValue("@id_rol", unRol.id_rol);
 
                 sqlCommand.ExecuteNonQuery();
             }
@@ -152,21 +127,42 @@ namespace UberFrba.ConexionBD
             try
             {
                 conectar();
-                sqlCommand = new SqlCommand("NONAME.obtener_todas_las_funcionalidades");
-                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_funcion, descripcion FROM NONAME.Funcion";
+                sqlCommand.CommandType = CommandType.Text; //opcional
                 sqlCommand.Connection = miConexion;
-
-                sqlCommand.ExecuteNonQuery();
-
-                DataTable dataTableFuncionalidades = new DataTable();
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlCommand);
-                dataAdapter.Fill(dataTableFuncionalidades);
-                return dataTableFuncionalidades;
-
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableRoles = new DataTable();
+                dataTableRoles.Load(sqlReader);
+                return dataTableRoles;
             }
             catch (Exception ex)
             {
-                //hacer algo con las exepciones
+                return null;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static DataTable obtenerTodasLasFuncionalidadesHabilitadasDelRol(int id_rol)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT f.id_funcion, f.descripcion FROM NONAME.Funcion_Rol fr Join NONAME.Funcion f on f.id_funcion = fr.id_funcion, NONAME.Rol r WHERE r.id_rol = fr.id_rol AND r.id_rol =" + id_rol.ToString();
+                sqlCommand.CommandType = CommandType.Text; //opcional
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableRoles = new DataTable();
+                dataTableRoles.Load(sqlReader);
+                return dataTableRoles;
+            }
+            catch (Exception ex)
+            {
                 return null;
                 throw ex;
             }
@@ -177,5 +173,3 @@ namespace UberFrba.ConexionBD
         }
     }
 }
-
-
