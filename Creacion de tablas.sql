@@ -206,6 +206,9 @@ EXEC NONAME.DROP_FK
 	IF OBJECT_ID('NONAME.sp_detalle_facturacion') IS NOT NULL
 		DROP PROCEDURE NONAME.sp_detalle_facturacion	
 
+	IF OBJECT_ID('NONAME.sp_RegistroViaje') IS NOT NULL
+		DROP PROCEDURE NONAME.sp_RegistroViaje	
+
 --User-Defined Data & Table Types
 
 	IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
@@ -833,7 +836,7 @@ INSERT INTO [NONAME].Rendicion
 	c.id_usuario,
 	m.Rendicion_Fecha,
 	t.id_turno,
-	sum(m.Rendicion_Importe)
+	sum(m.Rendicion_Importe)  -- aca hay que sumar todos los viajes que realizo en el dia !!!!
 	from [gd_esquema].[Maestra] m
 	join [NONAME].Usuario c ON m.Chofer_Dni = c.usuario_dni 
 	join [NONAME].Turno t ON m.Turno_Descripcion = t.descripcion

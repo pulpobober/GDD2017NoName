@@ -65,6 +65,9 @@ IF OBJECT_ID('NONAME.sp_importe_facturacion') IS NOT NULL
 IF OBJECT_ID('NONAME.sp_detalle_facturacion') IS NOT NULL
 	DROP PROCEDURE NONAME.sp_detalle_facturacion	
 
+IF OBJECT_ID('NONAME.sp_RegistroViaje') IS NOT NULL
+	DROP PROCEDURE NONAME.sp_RegistroViaje	
+	
 GO  
 
 
@@ -818,6 +821,7 @@ END
 
 GO
 
+-- quedo detelle 
 
 CREATE PROCEDURE NONAME.sp_detelle_rendicion
 	@id_usuario int, -- (id_usuario = id_chofer)
@@ -877,3 +881,92 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE sp_RegistroViaje
+	@id_chofer int,
+	@id_auto int,
+	@id_turno int,
+	@cant_km numeric(18,0),
+	@fecha_inicio datetime,
+	@fecha_fin datetime,
+	@id_cliente int
+AS
+BEGIN
+	DECLARE @id_viaje int
+
+	INSERT INTO NONAME.Viaje (
+		fecha_hora_inicio,
+		fecha_hora_fin,
+		cantidad_km,
+		id_turno,
+		id_chofer,
+		id_cliente)
+	VALUES (
+		@fecha_inicio,
+		@fecha_fin,
+		@cant_km,
+		@id_turno,
+		@id_chofer,
+		@id_cliente)
+
+	SET @id_viaje = SCOPE_IDENTITY()
+
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Factura_Viaje WHERE id_viaje = @id_viaje)
+		BEGIN
+			IF NOT EXISTS (SELECT 1 FROM NONAME.Factura re WHERE re.fecha = @fecha_inicio and re.id_cliente = @id_cliente)
+				BEGIN
+					DECLARE @nro_factura INT
+					SET @nro_factura = SCOPE_IDENTITY()
+					INSERT INTO [NONAME].Factura (nro_factura, id_cliente, fecha_fin, fecha_inicio, fecha, importe)
+					VALUES (
+						@nro_factura,
+						@id_cliente,
+						@fecha_fin,
+						@fecha_inicio,
+						@fecha_inicio,
+						(@cant_km * (SELECT valor_km from NONAME.Turno where id_turno = @id_turno)))
+				
+					INSERT INTO [NONAME].Factura_Viaje
+					SELECT f.nro_factura, v.id_viaje
+					FROM NONAME.Factura f, NONAME.Viaje v 
+					WHERE f.nro_factura = @nro_factura and v.id_viaje = @id_viaje
+				END
+			ELSE
+				BEGIN
+					INSERT INTO [NONAME].Factura_Viaje
+					SELECT f.nro_factura, v.id_viaje
+					FROM NONAME.Factura f, NONAME.Viaje v 
+					WHERE f.fecha = @fecha_fin and f.id_cliente = @id_cliente and v.id_viaje = @id_viaje	
+				END
+		END
+
+
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion_Viaje WHERE id_viaje = @id_viaje)
+		BEGIN
+			IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion re WHERE re.fecha = @fecha_inicio and re.id_chofer = @id_chofer)
+				BEGIN
+					DECLARE @nro_rendicion INT
+					SET @nro_rendicion = SCOPE_IDENTITY()
+					INSERT INTO [NONAME].Rendicion (nro_rendicion, id_chofer, fecha, id_turno, importe)
+					VALUES (
+						@nro_rendicion,
+						@id_chofer,
+						@fecha_inicio,
+						@id_turno,
+						(@cant_km * (SELECT valor_km from NONAME.Turno where id_turno = @id_turno)))
+
+					INSERT INTO [NONAME].Rendicion_Viaje 
+					SELECT v.id_viaje, r.nro_rendicion, (100*r.importe/(v.cantidad_km * t.valor_km + t.precio_base))
+					FROM NONAME.Rendicion r, NONAME.Viaje v, NONAME.Turno t
+					WHERE v.id_viaje = @id_viaje and t.id_turno = @id_turno and r.nro_rendicion = @nro_rendicion
+				END
+			ELSE
+				BEGIN
+					INSERT INTO [NONAME].Rendicion_Viaje 
+					SELECT v.id_viaje, r.nro_rendicion, (100*r.importe/(v.cantidad_km * t.valor_km + t.precio_base))
+					FROM NONAME.Rendicion r, NONAME.Viaje v, NONAME.Turno t
+					WHERE v.id_viaje = @id_viaje and t.id_turno = @id_turno and r.id_chofer = @id_chofer 
+					and r.fecha = @fecha_inicio and r.id_turno = @id_turno
+				END
+		END
+END
+GO
