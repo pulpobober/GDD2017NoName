@@ -5,9 +5,18 @@ GO
 		DROP PROCEDURE NONAME.DROP_FK
 	GO
 
-	IF OBJECT_ID('NONAME.sp_migra_auto_marca') IS NOT NULL
-		DROP PROCEDURE NONAME.sp_migra_auto_marca
+	IF OBJECT_ID('NONAME.sp_migra_marca') IS NOT NULL
+		DROP PROCEDURE NONAME.sp_migra_marca
 	GO
+
+	IF OBJECT_ID('NONAME.sp_migra_funcion') IS NOT NULL
+		DROP PROCEDURE NONAME.sp_migra_funcion
+	GO
+
+	IF OBJECT_ID('NONAME.sp_migra_funcion_rol') IS NOT NULL
+		DROP PROCEDURE NONAME.sp_migra_funcion_rol
+	GO
+
 
 CREATE PROCEDURE NONAME.DROP_FK
 as
@@ -145,6 +154,9 @@ EXEC NONAME.DROP_FK
 
 	IF OBJECT_ID('NONAME.sproc_cliente_alta') IS NOT NULL
 		DROP PROCEDURE NONAME.sproc_cliente_alta
+
+	IF OBJECT_ID('NONAME.sproc_login_usuario') IS NOT NULL
+		DROP PROCEDURE NONAME.sproc_login_usuario
 
 	IF OBJECT_ID('NONAME.sproc_cliente_baja') IS NOT NULL
 		DROP PROCEDURE NONAME.sproc_cliente_baja
@@ -513,59 +525,49 @@ GO
 ALTER TABLE [NONAME].[Auto]  ADD CONSTRAINT [patente_unico] UNIQUE (patente_auto);
 GO
 
---inserts
 
 
+-- Datos iniciales
 
-CREATE PROCEDURE NONAME.sp_migra_auto_marca (@nombre_auto varchar(255), @id_marca int) 
+CREATE PROCEDURE NONAME.sp_migra_marca (@nombre_auto varchar(255), @id_marca int) 
 AS
 	INSERT INTO NONAME.Marca (nombre, id_marca)
 	VALUES (@nombre_auto, @id_marca)
 GO
 
-EXEC NONAME.sp_migra_auto_marca
-	@nombre_auto = 'Fiat', @id_marca = 1;
-
-EXEC NONAME.sp_migra_auto_marca
-	@nombre_auto = 'Peugeot', @id_marca = 2;
-
-EXEC NONAME.sp_migra_auto_marca
-	@nombre_auto = 'Ford', @id_marca = 3;
-
-EXEC NONAME.sp_migra_auto_marca
-	@nombre_auto = 'Renault', @id_marca = 4;
-
-EXEC NONAME.sp_migra_auto_marca
-	@nombre_auto = 'Volkswagen', @id_marca = 5;
-
-EXEC NONAME.sp_migra_auto_marca
-	@nombre_auto = 'Chevrolet', @id_marca = 6;
-
-
-
-INSERT INTO [NONAME].Funcion (descripcion, id_funcion)
- VALUES 
-		('Alta Rol', 1),
-		('Modificacion Rol', 2),
-		('Baja Rol', 3),
-		('Alta Usuario', 4),
-		('Modificacion Usuario', 5),
-		('Baja Usuario', 6),
-		('Alta Auto', 7),
-		('Modificacion Auto', 8),
-		('Baja Auto', 9),
-		('Alta Turno', 10),
-		('Modificacion Turno', 11),
-		('Baja Turno', 12),
-		('Registro de Viajes', 13),
-		('Pago al Chofer', 14),
-		('Facturacion del Cliente', 15),
-		('Listado Estadistico', 16)
+EXEC NONAME.sp_migra_marca @nombre_auto = 'Fiat', @id_marca = 1;
+EXEC NONAME.sp_migra_marca @nombre_auto = 'Peugeot', @id_marca = 2;
+EXEC NONAME.sp_migra_marca @nombre_auto = 'Ford', @id_marca = 3;
+EXEC NONAME.sp_migra_marca @nombre_auto = 'Renault', @id_marca = 4;
+EXEC NONAME.sp_migra_marca @nombre_auto = 'Volkswagen', @id_marca = 5;
+EXEC NONAME.sp_migra_marca @nombre_auto = 'Chevrolet', @id_marca = 6;
 GO
 
---chequear las funcionalidades que faltan 
+CREATE PROCEDURE [NONAME].sp_migra_funcion (@id_funcion int, @descripcion varchar(255)) 
+AS
+	INSERT INTO [NONAME].Funcion
+	VALUES (@id_funcion, @descripcion)
+GO
 
---Seteo IDENTITY_INSERT temporariamente en ON para que permita el ingreso de los 3 roles iniciales (id_rol es de tipo IDENTITY).
+EXEC [NONAME].sp_migra_funcion @id_funcion = 1, @descripcion = 'Alta Rol';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 2, @descripcion = 'Modificacion Rol';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 3, @descripcion = 'Baja Rol';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 4, @descripcion = 'Alta Usuario';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 5, @descripcion = 'Modificacion Usuario';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 6, @descripcion = 'Baja Usuario';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 7, @descripcion = 'Alta Auto';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 8, @descripcion = 'Modificacion Auto';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 9, @descripcion = 'Baja Auto';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 10, @descripcion = 'Alta Turno';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 11, @descripcion = 'Modificacion Turno';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 12, @descripcion = 'Baja Turno';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 13, @descripcion = 'Registro de Viajes';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 14, @descripcion = 'Pago al Chofer';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 15, @descripcion = 'Facturacion del Cliente';
+EXEC [NONAME].sp_migra_funcion @id_funcion = 16, @descripcion = 'Listado Estadistico';
+GO
+
+
 SET IDENTITY_INSERT NONAME.Rol ON;
 
 INSERT INTO [NONAME].Rol (tipo, id_rol, habilitado)
@@ -574,44 +576,45 @@ INSERT INTO [NONAME].Rol (tipo, id_rol, habilitado)
 		('Cliente', 2, 1),
 		('Chofer', 3, 1)
 
---Reseteo IDENTITY_INSERT de vuelta en OFF (id_rol = IDENTITY(4,1)).
 SET IDENTITY_INSERT NONAME.Rol OFF;
 GO
 
-INSERT INTO [NONAME].Funcion_Rol (id_rol, id_funcion)
- VALUES 
-		(1, 1),
-		(1, 2),
-		(1, 3),
-		(1, 4),
-		(1, 5),
-		(1, 6),
-		(1, 7),
-		(1, 8),
-		(1, 9),
-		(1, 10),
-		(1, 11),
-		(1, 12),
-		(1, 13),
-		(1, 14),
-		(2, 13)
+CREATE PROCEDURE [NONAME].sp_migra_funcion_rol (@id_rol int, @id_funcion int) 
+AS
+	INSERT INTO [NONAME].Funcion_Rol
+	VALUES (@id_rol, @id_funcion)
 GO
 
--- todavia no tienen asiganads funcionalidades los clientes y los choferes...
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 1;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 2;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 3;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 4;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 5;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 6;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 7;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 8;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 9;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 10;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 11;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 12;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 13;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 14;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 15;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 1, @id_funcion = 16;
+EXEC [NONAME].sp_migra_funcion_rol @id_rol = 2, @id_funcion = 13;
+GO
 
---Seteo IDENTITY_INSERT temporariamente en ON para que permita el ingreso de los 3 turnos iniciales (id_turno es de tipo IDENTITY).
+
 SET IDENTITY_INSERT NONAME.Turno ON;
-
+GO
 INSERT INTO [NONAME].Turno (hora_inicio, hora_fin, descripcion, valor_km, precio_base, id_turno, habilitado)
  VALUES 
 		(0, 8, 'Turno Mañna', 0.73, 7.30, 1, 1),
 		(8, 16, 'Turno Tarde', 0.73, 7.30, 2, 1),
 		(16, 24, 'Turno Noche', 0.85, 8.50, 3, 1)
 
---Reseteo IDENTITY_INSERT de vuelta en OFF (id_turno = IDENTITY(4,1)).
 SET IDENTITY_INSERT NONAME.Turno OFF;
 GO
-
 
 --Administrador
 
@@ -636,10 +639,11 @@ VALUES (
 	'N/A',
 	GETDATE(),
 	'admin',
-	HASHBYTES('SHA2_256', 'w23e'),
+	HASHBYTES('SHA2_256', cast('w23e' as nvarchar(255))),
 	1,
 	0)
 GO
+
 
 INSERT INTO [NONAME].Rol_Usuario
 SELECT Rol.id_rol, Usuario.id_usuario
