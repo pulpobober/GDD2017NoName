@@ -133,7 +133,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //Manejar errores
                 return "Fallo al modificar el turno: " + unTurno.descripcion;
                 throw ex;
             }
@@ -166,7 +165,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //manejar exepciones
                 return "Fallo al dar de baja el turno: " + unTurno.descripcion;
                 throw ex;
             }
