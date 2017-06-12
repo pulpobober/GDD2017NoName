@@ -68,9 +68,5 @@ namespace UberFrba.ConexionBD
                 desconectar();
             }
         }
-
-
-
-
     }
 }

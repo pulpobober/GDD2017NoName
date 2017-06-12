@@ -42,7 +42,6 @@ namespace UberFrba.ConexionBD
             }
  
         } catch(Exception ex){
-           //Manejar errores
             return "Fallo al dar de alta el cliente: " + clie.nombre + " " + clie.apellido;
             throw ex;
         }finally{
@@ -66,7 +65,6 @@ namespace UberFrba.ConexionBD
                 return dataTableClientes;
           
             }catch(Exception ex){
-                //hacer algo con las exepciones
                 return null;
                 throw ex;
             }finally{
@@ -90,7 +88,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //hacer algo con las exepciones
                 return null;
                 throw ex;
             }
@@ -130,7 +127,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //manejar exepciones
                 return "Fallo modificar el cliente: " + clie.nombre + " " + clie.apellido;
                 throw ex;
             }
@@ -163,7 +159,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //manejar exepciones
                 return "Fallo al dar de baja el cliente: " + clie.nombre + " " + clie.apellido;
                 throw ex;
             }

@@ -32,7 +32,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //Manejar errores
                 throw ex;
             }
             finally
@@ -62,7 +61,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //hacer algo con las exepciones
                 return null;
                 throw ex;
             }
@@ -123,7 +121,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //hacer algo con las exepciones
                 return null;
                 throw ex;
             }

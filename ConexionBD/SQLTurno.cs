@@ -41,7 +41,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //Manejar errores
                 return "Fallo al dar de alta el turno: " + unTurno.descripcion;
                 throw ex;
             }
