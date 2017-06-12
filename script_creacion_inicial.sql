@@ -18,6 +18,7 @@ GO
 	GO
 
 
+
 CREATE PROCEDURE NONAME.DROP_FK
 as
 	IF OBJECT_ID('NONAME.FK_Viaje_Turno') IS NOT NULL
@@ -538,6 +539,9 @@ ALTER TABLE [NONAME].[Usuario]  ADD CONSTRAINT [telefono_unico] UNIQUE (telefono
 GO
 
 ALTER TABLE [NONAME].[Auto]  ADD CONSTRAINT [patente_unico] UNIQUE (patente_auto);
+GO
+
+ALTER TABLE [NONAME].[Viaje]  ADD CONSTRAINT [viaje_unico] UNIQUE (cantidad_km, id_cliente, id_chofer, fecha_hora_inicio ,id_turno);
 GO
 
 -- Creacion de Store Procedures
