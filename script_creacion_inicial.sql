@@ -1704,7 +1704,7 @@ INSERT INTO [NONAME].Rol_Usuario
 	1,
     id_usuario
   FROM NONAME.Usuario
-  WHERE Usuario.nombre = 'Admin'
+  WHERE Usuario.nombre = 'Administrador'
 
 GO
 
