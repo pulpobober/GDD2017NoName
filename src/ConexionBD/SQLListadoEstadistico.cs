@@ -18,7 +18,7 @@ namespace UberFrba.ConexionBD
             {
                 conectar();
 
-                sqlCommand = new SqlCommand("NONAME.choferes_con_mas_recaudacion");
+                sqlCommand = new SqlCommand("NONAME.sproc_top5_choferesConMayorRecaudacion");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
@@ -46,7 +46,7 @@ namespace UberFrba.ConexionBD
             {
                 conectar();
 
-                sqlCommand = new SqlCommand("NONAME.choferes_con_viaje_mas_largo");
+                sqlCommand = new SqlCommand("NONAME.sproc_top5_choferesConViajeMasLargoRealizado");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
@@ -76,7 +76,7 @@ namespace UberFrba.ConexionBD
             {
                 conectar();
 
-                sqlCommand = new SqlCommand("NONAME.clientes_con_mayor_consumo");
+                sqlCommand = new SqlCommand("NONAME.sproc_top5_clientesConMayorConsumo");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
@@ -106,7 +106,7 @@ namespace UberFrba.ConexionBD
             {
                 conectar();
 
-                sqlCommand = new SqlCommand("NONAME.cliente_que_utilizo_automovil");
+                sqlCommand = new SqlCommand("NONAME.sproc_top1_clienteQueUtilizoMasVecesMismoAuto");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
