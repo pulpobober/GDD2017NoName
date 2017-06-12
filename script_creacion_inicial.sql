@@ -229,8 +229,8 @@ GO
 CREATE TABLE [NONAME].[Factura](
 	[nro_factura] [numeric](18, 0) NOT NULL,
 	[id_cliente] [int] NOT NULL,
-	[fecha_fin] [datetime] NOT NULL,
 	[fecha_inicio] [datetime] NOT NULL,
+	[fecha_fin] [datetime] NOT NULL,
 	[fecha] [datetime] NOT NULL,
 	[importe] [numeric](18, 0) NOT NULL
 )

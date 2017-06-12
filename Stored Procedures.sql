@@ -60,13 +60,26 @@ IF OBJECT_ID('NONAME.sp_importe_facturacion') IS NOT NULL
 	DROP PROCEDURE NONAME.sp_importe_facturacion	
 
 IF OBJECT_ID('NONAME.sp_detalle_facturacion') IS NOT NULL
-	DROP PROCEDURE NONAME.sp_detalle_facturacion	
+	DROP PROCEDURE NONAME.sp_detalle_facturacion
+
+IF OBJECT_ID('NONAME.sp_RegistroViaje') IS NOT NULL
+	DROP PROCEDURE NONAME.sp_RegistroViaje	
+
+IF OBJECT_ID('NONAME.sproc_top5_choferesConMayorRecaudacion') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_top5_choferesConMayorRecaudacion
+	
+IF OBJECT_ID('NONAME.sproc_top5_choferesConViajeMasLargoRealizado') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_top5_choferesConViajeMasLargoRealizado
+
+IF OBJECT_ID('NONAME.sproc_top5_clientesConMayorConsumo') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_top5_clientesConMayorConsumo
+
+IF OBJECT_ID('NONAME.sproc_top1_clienteQueUtilizoMasVecesMismoAuto') IS NOT NULL
+	DROP PROCEDURE NONAME.sproc_top1_clienteQueUtilizoMasVecesMismoAuto
 
 IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
 	DROP TYPE NONAME.ListaFuncionalidadesRol
-IF OBJECT_ID('NONAME.sp_RegistroViaje') IS NOT NULL
-	DROP PROCEDURE NONAME.sp_RegistroViaje	
-GO  
+GO
 
 
 CREATE TYPE NONAME.ListaFuncionalidadesRol
@@ -902,6 +915,7 @@ BEGIN
 END
 GO
 
+
 CREATE PROCEDURE NONAME.sp_RegistroViaje
 	@id_chofer int,
 	@id_auto int,
@@ -989,5 +1003,62 @@ SET @id_viaje = SCOPE_IDENTITY()
 					and r.fecha = @fecha_inicio and r.id_turno = @id_turno
 				END
 		END
+END
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_top5_choferesConMayorRecaudacion
+	@anio INT,
+	@trimestre INT
+
+AS
+BEGIN
+
+	SELECT TOP 5 (U.apellido + ', ' + U.nombre) AS Chofer, U.nombre_de_usuario AS 'Nombre De Usuario', R.importe AS 'Importe Total Recaudado ($)'
+	FROM NONAME.Usuario AS U JOIN NONAME.Rendicion AS R ON U.id_usuario = R.id_chofer
+	WHERE YEAR(R.fecha) = @anio AND DATEPART(QUARTER, R.fecha) = @trimestre
+--	GROUP BY (falta pulir y SUMar valor total)
+	ORDER BY R.importe DESC
+
+END
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_top5_choferesConViajeMasLargoRealizado
+	@anio INT,
+	@trimestre INT
+
+AS
+BEGIN
+
+	SELECT TOP 5 (U.apellido + ', ' + U.nombre) AS Chofer, U.nombre_de_usuario AS 'Nombre De Usuario', V.id_viaje AS 'Nro. De Viaje', V.fecha_hora_inicio AS Fecha, DATEDIFF(MINUTE, V.fecha_hora_inicio, V.fecha_hora_fin) AS 'Duracion (Minutos)', V.cantidad_km AS 'Cantidad De Kms'
+	FROM NONAME.Usuario AS U JOIN NONAME.Viaje AS V ON U.id_usuario = V.id_chofer
+	WHERE YEAR(V.fecha_hora_inicio) = @anio AND DATEPART(QUARTER, V.fecha_hora_inicio) = @trimestre
+	ORDER BY V.cantidad_km DESC
+
+END
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_top5_clientesConMayorConsumo
+	@anio INT,
+	@trimestre INT
+
+AS
+
+GO
+
+
+CREATE PROCEDURE NONAME.sproc_top1_clienteQueUtilizoMasVecesMismoAuto
+	@anio INT,
+	@trimestre INT
+
+AS
+BEGIN
+	SELECT TOP 1 (U.apellido + ', ' + U.nombre) AS Cliente, U.nombre_de_usuario AS 'Nombre De Usuario', A.id_auto AS 'ID de Auto', A.patente_auto AS Patente, M.nombre AS Marca, A.modelo AS Modelo, COUNT(V.id_viaje) AS 'Cantidad de Viajes'
+	FROM NONAME.Usuario AS U JOIN NONAME.Viaje AS V ON U.id_usuario = V.id_cliente JOIN NONAME.Chofer AS C ON V.id_chofer = C.id_chofer JOIN NONAME.Auto_Chofer AS A_C ON C.id_chofer = A_C.id_chofer JOIN NONAME.Auto AS A ON A_C.id_auto = A.id_auto JOIN NONAME.Marca AS M ON A.id_marca = M.id_marca
+	WHERE YEAR(V.fecha_hora_inicio) = @anio AND DATEPART(QUARTER, V.fecha_hora_inicio) = @trimestre
+	GROUP BY Cliente
+	ORDER BY V.id_viaje DESC
 END
 GO
