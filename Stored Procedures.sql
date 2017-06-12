@@ -842,14 +842,14 @@ END
 
 GO
 
-
+-- quedo detelle
 CREATE PROCEDURE NONAME.sp_detelle_rendicion
 	@id_usuario int, -- (id_usuario = id_chofer)
 	@id_turno int,
 	@fecha datetime
 AS
 BEGIN
-	SELECT DISTINCT renvi.id_viaje
+	SELECT DISTINCT renvi.id_viaje, v.cantidad_km, v.fecha_hora_inicio
 	FROM [NONAME].Rendicion_Viaje renvi
 	JOIN [NONAME].Viaje v ON renvi.id_viaje = v.id_viaje
 	JOIN [NONAME].Rendicion r ON renvi.nro_rendicion = r.nro_rendicion
@@ -879,7 +879,7 @@ CREATE PROCEDURE NONAME.sp_detalle_facturacion
 	@fecha datetime
 AS
 BEGIN
-	SELECT fv.id_viaje
+	SELECT fv.id_viaje, v.cantidad_km, v.fecha_hora_inicio
 	FROM Factura_Viaje fv
 	JOIN Viaje v ON fv.id_viaje = v.id_viaje
 	JOIN Factura f ON fv.nro_factura = f.nro_factura
@@ -950,13 +950,15 @@ BEGIN
 					SELECT f.nro_factura, v.id_viaje
 					FROM NONAME.Factura f, NONAME.Viaje v 
 					WHERE f.nro_factura = @nro_factura and v.id_viaje = @id_viaje
+					and nro_factura is not null	
 				END
 			ELSE
 				BEGIN
 					INSERT INTO [NONAME].Factura_Viaje
 					SELECT f.nro_factura, v.id_viaje
 					FROM NONAME.Factura f, NONAME.Viaje v 
-					WHERE f.fecha = @fecha_fin and f.id_cliente = @id_cliente and v.id_viaje = @id_viaje	
+					WHERE f.fecha = @fecha_fin and f.id_cliente = @id_cliente and v.id_viaje = @id_viaje
+					and nro_factura is not null	
 				END
 		END
 
@@ -979,6 +981,7 @@ BEGIN
 					SELECT v.id_viaje, r.nro_rendicion, (100*r.importe/(v.cantidad_km * t.valor_km + t.precio_base))
 					FROM NONAME.Rendicion r, NONAME.Viaje v, NONAME.Turno t
 					WHERE v.id_viaje = @id_viaje and t.id_turno = @id_turno and r.nro_rendicion = @nro_rendicion
+					and nro_rendicion is not null	
 				END
 			ELSE
 				BEGIN
@@ -987,6 +990,7 @@ BEGIN
 					FROM NONAME.Rendicion r, NONAME.Viaje v, NONAME.Turno t
 					WHERE v.id_viaje = @id_viaje and t.id_turno = @id_turno and r.id_chofer = @id_chofer 
 					and r.fecha = @fecha_inicio and r.id_turno = @id_turno
+					and nro_rendicion is not null	
 				END
 		END
 END
