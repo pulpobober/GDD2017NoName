@@ -1701,8 +1701,8 @@ INSERT INTO [NONAME].Auto_Chofer
 
 INSERT INTO [NONAME].Rol_Usuario
   SELECT
-    id_usuario,
-    1
+	1,
+    id_usuario
   FROM NONAME.Usuario
   WHERE Usuario.nombre = 'Admin'
 
