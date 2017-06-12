@@ -824,11 +824,7 @@ INSERT INTO [NONAME].Factura_Viaje
 	join [NONAME].Factura f ON m.Factura_Nro = f.nro_factura
 	join [NONAME].Viaje v ON v.fecha_hora_inicio >= m.Factura_Fecha_Inicio
 						and v.fecha_hora_fin <= m.Factura_Fecha_Fin
-
-
--- con el porcentaje de la tabla Rendicion_Viaje se supone que tengo que calcular el importe????
--- se podra hacer el porcentaje dinamico??
-						  
+												  
 
 INSERT INTO [NONAME].Rendicion
 	SELECT DISTINCT
@@ -836,7 +832,7 @@ INSERT INTO [NONAME].Rendicion
 	c.id_usuario,
 	m.Rendicion_Fecha,
 	t.id_turno,
-	sum(m.Rendicion_Importe)  -- aca hay que sumar todos los viajes que realizo en el dia !!!!
+	sum(m.Rendicion_Importe) 
 	from [gd_esquema].[Maestra] m
 	join [NONAME].Usuario c ON m.Chofer_Dni = c.usuario_dni 
 	join [NONAME].Turno t ON m.Turno_Descripcion = t.descripcion
