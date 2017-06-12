@@ -42,6 +42,8 @@ namespace UberFrba.Abm_Cliente
             DataTable clientes = SQLCliente.obtenerTodosLosClientes();
             tablaClientes.DataSource = clientes;
             this.tablaClientes.Columns[0].Visible = false; //usuarioID
+            DataGridViewRow clieRow = tablaClientes.Rows[0];
+            clienteSeleccionado = new Cliente(clieRow);
 
         }
 

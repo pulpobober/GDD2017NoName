@@ -37,6 +37,8 @@ namespace UberFrba.Abm_Turno
             DataTable turnos = SQLTurno.obtenerTodosLosTurnos();
             tablaTurnos.DataSource = turnos;
             this.tablaTurnos.Columns[0].Visible = false; //turnoId
+            DataGridViewRow turnoRow = tablaTurnos.Rows[0];
+            turnoSeleccionado = new Turno(turnoRow);
         }
 
         private void bnBuscar_Click(object sender, EventArgs e)

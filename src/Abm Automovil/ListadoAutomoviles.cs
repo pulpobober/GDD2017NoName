@@ -40,6 +40,9 @@ namespace UberFrba.Abm_Automovil
             //Obtener todos los automoviles cuando se carga el formulario
             DataTable autos = SQLAutomovil.obtenerTodosLosAutomoviles();
             tablaAutomoviles.DataSource = autos;
+
+            DataGridViewRow autoRow = tablaAutomoviles.Rows[0];
+            autoSeleccionado = new Automovil(autoRow);
         }
         private int obtainIdMarca(string marca)
         {

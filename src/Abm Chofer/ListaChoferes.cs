@@ -40,6 +40,8 @@ namespace UberFrba.Abm_Chofer
             DataTable Choferes = SQLChofer.obtenerTodosLosChoferes();
             tablaChoferes.DataSource = Choferes;
             this.tablaChoferes.Columns[0].Visible = false; //usuarioID
+            DataGridViewRow clieRow = tablaChoferes.Rows[0];
+            choferSeleccionado = new Chofer(clieRow);
 
         }
 
