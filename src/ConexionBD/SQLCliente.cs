@@ -55,7 +55,7 @@ namespace UberFrba.ConexionBD
 
                 sqlCommand = new SqlCommand();
            
-                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Cliente join NONAME.Usuario on id_cliente = id_usuario WHERE " + (String.IsNullOrEmpty(clie.nombre) ? "1=1" : ("nombre ='" + clie.nombre) + "'") + (clie.dni == 0  ? " And 1=1" : ( " And id_usuario_dni =" + clie.dni.ToString())) + (String.IsNullOrEmpty(clie.apellido) ? " And 1=1" : (" And apellido ='" + clie.apellido.ToString() + "'")) ;
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Cliente join NONAME.Usuario on id_cliente = id_usuario WHERE " + (String.IsNullOrEmpty(clie.nombre) ? "1=1" : ("nombre like '%" + clie.nombre) + "%'") + (clie.dni == 0  ? " And 1=1" : ( " And id_usuario_dni =" + clie.dni.ToString())) + (String.IsNullOrEmpty(clie.apellido) ? " And 1=1" : (" And apellido like '%" + clie.apellido.ToString() + "%'")) ;
                 sqlCommand.CommandType = CommandType.Text; //Esto es opcional porque de base es un texto
                 sqlCommand.Connection = miConexion;
 
@@ -160,6 +160,31 @@ namespace UberFrba.ConexionBD
             catch (Exception ex)
             {
                 return "Fallo al dar de baja el cliente: " + clie.nombre + " " + clie.apellido;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static DataTable obtenerTodosLosClientesHabilitados()
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Usuario join NONAME.Cliente on id_usuario = id_cliente WHERE habilitado = 1";
+                sqlCommand.CommandType = CommandType.Text; //opcional
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableClientes = new DataTable();
+                dataTableClientes.Load(sqlReader);
+                return dataTableClientes;
+            }
+            catch (Exception ex)
+            {
+                return null;
                 throw ex;
             }
             finally

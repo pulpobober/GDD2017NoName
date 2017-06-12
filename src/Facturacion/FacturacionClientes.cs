@@ -23,7 +23,7 @@ namespace UberFrba.Facturacion
         private void FacturacionClientes_Load(object sender, EventArgs e)
         {
             //llenar con los nombres de los clientes
-            clientes = SQLCliente.obtenerTodosLosClientes();
+            clientes = SQLCliente.obtenerTodosLosClientesHabilitados();
 
             foreach (DataRow row in clientes.Rows)
             {
