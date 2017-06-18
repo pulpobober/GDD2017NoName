@@ -32,7 +32,6 @@ namespace UberFrba.Registro_Viajes
             lblAutomovil.Hide();
             lblTurno.Hide();
             cmbTurnos.Hide();
-
             
             tablaChoferes = SQLChofer.obtenerTodosLosChoferes();
 
@@ -40,27 +39,10 @@ namespace UberFrba.Registro_Viajes
             {
                 cmbChoferes.Items.Add(row["nombre"].ToString() + " " + row["apellido"].ToString());
             }
-
-
         }
 
         private void RegistroViaje_Load(object sender, EventArgs e)
         {
-
-            ////ESTO LO PONGO PARA PROBAR MIENTRAS SE SOLUCIONA EL LOGIN, DESPUES BORRAR
-
-            cmbAutomovil.Hide();
-            lblAutomovil.Hide();
-            lblTurno.Hide();
-            cmbTurnos.Hide();
-
-            tablaChoferes = SQLChofer.obtenerTodosLosChoferes();
-
-            foreach (DataRow row in tablaChoferes.Rows)
-            {
-                cmbChoferes.Items.Add(row["nombre"].ToString() + " " + row["apellido"].ToString());
-            }
-
         }
 
         private int obtenerIDChofer(string nombreYApellido) {
@@ -134,6 +116,16 @@ namespace UberFrba.Registro_Viajes
                 MessageBox.Show("No se puede dejar el campo cantidad de kilometros vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+            else if (DateTime.Compare(dataTimeInicio.Value, dateTimeFin.Value) >= 0)
+            {
+                MessageBox.Show("La fecha de inicio es mayor o igual que la del fin", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            else if ((int.Parse(txtCantidadKm.Text)) <= 0)  {
+                MessageBox.Show("La cantidad de kilometros tiene que ser mayor a 0", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+           
             return true;
         }
 
@@ -146,10 +138,8 @@ namespace UberFrba.Registro_Viajes
             cmbTurnos.Items.Clear();
             cmbTurnos.Text = "";
 
-
             cmbAutomovil.Items.Clear();
             cmbAutomovil.Text = "";
-
 
             tablaTurnos = SQLTurno.obtenerTodosLosTurnosDelChofer(obtenerIDChofer(cmbChoferes.SelectedItem.ToString()));
 
@@ -157,8 +147,6 @@ namespace UberFrba.Registro_Viajes
             {
                 cmbTurnos.Items.Add(row["descripcion"].ToString());
             }
-
-
         }
 
         private void cmbTurnos_SelectedIndexChanged(object sender, EventArgs e)
@@ -171,6 +159,16 @@ namespace UberFrba.Registro_Viajes
             foreach (DataRow row in tablaAutomoviles.Rows)
             {
                 cmbAutomovil.Items.Add(row["patente_auto"].ToString());
+            }
+        }
+
+        private void txtCantidadKm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
+            {
+                MessageBox.Show("Solo se permiten numeros", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                e.Handled = true;
+                return;
             }
         }
     }

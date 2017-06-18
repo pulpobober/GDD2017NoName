@@ -158,6 +158,7 @@
             this.txtCantidadKm.Name = "txtCantidadKm";
             this.txtCantidadKm.Size = new System.Drawing.Size(45, 20);
             this.txtCantidadKm.TabIndex = 12;
+            this.txtCantidadKm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCantidadKm_KeyPress);
             // 
             // btnRegistrarViaje
             // 

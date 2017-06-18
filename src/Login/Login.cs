@@ -33,9 +33,6 @@ namespace UberFrba.Login
                 {
                     this.Hide();
                     new RolesUsuario(resultadoLogin, txtUsuario.Text).ShowDialog();
-                   // new SeleccionarRol(resultadoLogin).ShowDialog();
-                   // MessageBox.Show("TODO OK", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
 
                 if (resultadoLogin == 0)
@@ -48,41 +45,7 @@ namespace UberFrba.Login
                 {
                     MessageBox.Show("Usuario Bloqueado", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
-               
-                
-                
-                
-                /*
-                //Estaria buenisimo que me traiga el tipo y hacer un enum de dependiendo de que me venga 1-cliente, 2... etnc y un enum de eso
-                resultadoLogin = SQLLogin.verificarLogin(txtUsuario.Text, txtContrasenia.Text);
-                if (resultadoLogin == 1) {
-                    new RolesUsuario(resultadoLogin).ShowDialog();
-                }
-                else if (resultadoLogin == -1) {
-                    MessageBox.Show("Usuario y contrasena incorrectos", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                 */ 
             }
-            
-            /*if (txtUsuario.Text == "admin" && txtContrasenia.Text == "admin")
-            {
-                resulLogin = 1;
-            }
-            else {
-                resulLogin = 0;
-            }
-
-            if (resulLogin == 1)
-            {
-                new RolesUsuario(resulLogin).ShowDialog();
-            }
-
-            if (resulLogin == 0)
-            {
-                MessageBox.Show("Usuario o contrasena incorrecto", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            }*/
         }
     }
 }
