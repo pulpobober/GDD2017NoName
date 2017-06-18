@@ -17,16 +17,20 @@ namespace UberFrba.Registro_Viajes
         DataTable tablaTurnos;
         DataTable tablaChoferes;
         DataTable tablaAutomoviles;
+        DataTable tablaClientes;
+        bool esRolAdministrador;
 
         public RegistroViaje()
         {
             InitializeComponent();
         }
 
-        public RegistroViaje(int id_cliente)
+        public RegistroViaje(int id_cliente, int id_rol)
         {
             InitializeComponent();
             idCliente = id_cliente;
+
+            esRolAdministrador = id_rol == 1;
 
             cmbAutomovil.Hide();
             lblAutomovil.Hide();
@@ -39,10 +43,31 @@ namespace UberFrba.Registro_Viajes
             {
                 cmbChoferes.Items.Add(row["nombre"].ToString() + " " + row["apellido"].ToString());
             }
-        }
 
-        private void RegistroViaje_Load(object sender, EventArgs e)
-        {
+            tablaClientes = SQLCliente.obtenerTodosLosClientes();
+
+            if (esRolAdministrador)
+            {
+                cmbCliente.Enabled = true;
+                foreach (DataRow row in tablaClientes.Rows)
+                {
+                    cmbCliente.Items.Add(row["nombre"].ToString() + " " + row["apellido"].ToString());
+                }
+
+            }
+            else
+            {
+                cmbCliente.Enabled = false;
+                foreach (DataRow row in tablaClientes.Rows)
+                {
+                    if (int.Parse(row["id_usuario"].ToString()) == id_cliente)
+                    {
+                        cmbCliente.Items.Add(row["nombre"].ToString() + " " + row["apellido"].ToString());
+                        cmbCliente.SelectedIndex = 0;
+                        break;
+                    }
+                }
+            }
         }
 
         private int obtenerIDChofer(string nombreYApellido) {
@@ -79,22 +104,31 @@ namespace UberFrba.Registro_Viajes
             return -1;
         }
 
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dateTimeFin_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnRegistrarViaje_Click(object sender, EventArgs e)
         {
             if (verificarDatosRegistro()) {
-               string respuesta = SQLRegistroViaje.registrarViaje(obtenerIDChofer(cmbChoferes.SelectedItem.ToString()), obtenerIDAuto(cmbAutomovil.SelectedItem.ToString()), obtenerIDTurno(cmbTurnos.SelectedItem.ToString()), int.Parse(txtCantidadKm.Text), dataTimeInicio.Value, dateTimeFin.Value,idCliente);
+                string respuesta = SQLRegistroViaje.registrarViaje(obtenerIDChofer(cmbChoferes.SelectedItem.ToString()), obtenerIDAuto(cmbAutomovil.SelectedItem.ToString()), obtenerIDTurno(cmbTurnos.SelectedItem.ToString()), int.Parse(txtCantidadKm.Text), dataTimeInicio.Value, dateTimeFin.Value, obtenerIDCliente(cmbCliente.SelectedItem.ToString()));
                MessageBox.Show(respuesta);
             }
+        }
+
+        private int obtenerIDCliente(string nombreYApellido)
+        {
+            if (esRolAdministrador)
+            {
+                foreach (DataRow row in tablaClientes.Rows)
+                {
+                    if (row["nombre"].ToString() + " " + row["apellido"].ToString() == nombreYApellido)
+                    {
+                        return int.Parse(row["id_usuario"].ToString());
+                    }
+                }
+                return -1;
+            }
+            else {
+                return idCliente;
+            }
+            
         }
 
         private bool verificarDatosRegistro() { 
@@ -123,6 +157,11 @@ namespace UberFrba.Registro_Viajes
             }
             else if ((int.Parse(txtCantidadKm.Text)) <= 0)  {
                 MessageBox.Show("La cantidad de kilometros tiene que ser mayor a 0", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (cmbCliente.SelectedItem == null)
+            {
+                MessageBox.Show("No se puede dejar el campo clientes vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
            

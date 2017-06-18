@@ -45,9 +45,8 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //Manejar errores
-                throw ex;
                 return "Fallo al dar de alta un el chofer: " + chofer.nombre + " " + chofer.apellido;
+                throw ex;
             }
             finally
             {
@@ -75,7 +74,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //hacer algo con las exepciones
                 return null;
                 throw ex;
             }
@@ -101,7 +99,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //hacer algo con las exepciones
                 return null;
                 throw ex;
             }
@@ -142,7 +139,6 @@ namespace UberFrba.ConexionBD
             catch (Exception ex)
             {
                 return "Fallo al modificar el chofer: "+chofer.nombre+" "+chofer.apellido;
-                //manejar exepciones
                 throw ex;
             }
             finally

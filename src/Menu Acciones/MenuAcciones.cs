@@ -105,11 +105,10 @@ namespace UberFrba.Menu_Acciones
 
                  case "Baja Chofer":
                     new Abm_Chofer.ListaChoferes(false).ShowDialog();
-                   //  new Abm_Chofer.ListaChoferBaja().ShowDialog();
                      break;
  //////////////////////////////////////////////////////////////////////////////////////////////////////
                  case "Registro de Viajes":
-                     new Registro_Viajes.RegistroViaje(user_id).ShowDialog();
+                     new Registro_Viajes.RegistroViaje(user_id, rol_id).ShowDialog();
                      break;
  //////////////////////////////////////////////////////////////////////////////////////////////////////
                  case "Pago al Chofer":
