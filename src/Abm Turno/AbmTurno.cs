@@ -29,14 +29,14 @@ namespace UberFrba.Abm_Turno
             }
         }
 
-        public bool verificarDatosTurno(object inicio, object fin, string descripcion, string valorKm, string precioBase)
+        public bool verificarDatosTurno(string descripcion, string valorKm, string precioBase)
         {
-            if (inicio == null)
+            if (cmbInicio.Text.Length == 0)
             {
                 MessageBox.Show("No se puede dejar el campo hora inicio vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (fin == null)
+            if (cmbFinal.Text.Length == 0)
             {
                 MessageBox.Show("No se puede dejar el campo hora finalizacion vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;

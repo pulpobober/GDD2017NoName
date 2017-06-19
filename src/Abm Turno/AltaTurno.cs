@@ -21,12 +21,17 @@ namespace UberFrba.Abm_Turno
 
         private void btnAlta_Click(object sender, EventArgs e)
         {
-            if (verificarDatosTurno(cmbInicio.SelectedItem, cmbFinal.SelectedItem, txtDescripcion.Text, txtValorKm.Text, txtPrecioBase.Text))
+            if (verificarDatosTurno(txtDescripcion.Text, txtValorKm.Text, txtPrecioBase.Text))
             {
                 Turno nuevoTurno = new Turno(Int32.Parse(sacarHoraReal(cmbInicio.SelectedItem.ToString())), Int32.Parse(sacarHoraReal(cmbFinal.SelectedItem.ToString())), txtDescripcion.Text, Int32.Parse(txtValorKm.Text), Int32.Parse(txtPrecioBase.Text), ckbHabilitado.Checked);
                 string response=SQLTurno.insertarTurno(nuevoTurno);
                 MessageBox.Show(response);
             }
+        }
+
+        private void AltaTurno_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

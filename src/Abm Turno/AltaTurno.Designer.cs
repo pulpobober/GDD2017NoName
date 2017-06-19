@@ -31,6 +31,64 @@
             this.btnAlta = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
+            // cmbInicio
+            // 
+            this.cmbInicio.Items.AddRange(new object[] {
+            "0:00",
+            "1:00",
+            "2:00",
+            "3:00",
+            "4:00",
+            "5:00",
+            "6:00",
+            "7:00",
+            "8:00",
+            "9:00",
+            "10:00",
+            "11:00",
+            "12:00",
+            "13:00",
+            "14:00",
+            "15:00",
+            "16:00",
+            "17:00",
+            "18:00",
+            "19:00",
+            "20:00",
+            "21:00",
+            "22:00",
+            "23:00",
+            "24:00"});
+            // 
+            // cmbFinal
+            // 
+            this.cmbFinal.Items.AddRange(new object[] {
+            "0:00",
+            "1:00",
+            "2:00",
+            "3:00",
+            "4:00",
+            "5:00",
+            "6:00",
+            "7:00",
+            "8:00",
+            "9:00",
+            "10:00",
+            "11:00",
+            "12:00",
+            "13:00",
+            "14:00",
+            "15:00",
+            "16:00",
+            "17:00",
+            "18:00",
+            "19:00",
+            "20:00",
+            "21:00",
+            "22:00",
+            "23:00",
+            "24:00"});
+            // 
             // btnAlta
             // 
             this.btnAlta.Location = new System.Drawing.Point(47, 290);
@@ -49,6 +107,12 @@
             this.Controls.Add(this.btnAlta);
             this.Name = "AltaTurno";
             this.Text = "AltaTurno";
+            this.Load += new System.EventHandler(this.AltaTurno_Load);
+            this.Controls.SetChildIndex(this.cmbInicio, 0);
+            this.Controls.SetChildIndex(this.cmbFinal, 0);
+            this.Controls.SetChildIndex(this.txtDescripcion, 0);
+            this.Controls.SetChildIndex(this.txtValorKm, 0);
+            this.Controls.SetChildIndex(this.txtPrecioBase, 0);
             this.Controls.SetChildIndex(this.lblTitulo, 0);
             this.Controls.SetChildIndex(this.lblHoraInicio, 0);
             this.Controls.SetChildIndex(this.lblHoraFinalizacion, 0);

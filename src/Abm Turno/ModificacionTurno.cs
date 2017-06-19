@@ -22,9 +22,9 @@ namespace UberFrba.Abm_Turno
 
         private void btnModificacion_Click(object sender, EventArgs e)
         {
-            if (verificarDatosTurno(cmbInicio.SelectedItem, cmbFinal.SelectedItem, txtDescripcion.Text, txtValorKm.Text, txtPrecioBase.Text))
+            if (verificarDatosTurno(txtDescripcion.Text, txtValorKm.Text, txtPrecioBase.Text))
             {
-                Turno nuevoTurno = new Turno(idTurno, Int32.Parse(sacarHoraReal(cmbInicio.SelectedItem.ToString())), Int32.Parse(sacarHoraReal(cmbFinal.SelectedItem.ToString())), txtDescripcion.Text, double.Parse(txtValorKm.Text), double.Parse(txtPrecioBase.Text), ckbHabilitado.Checked);
+                Turno nuevoTurno = new Turno(idTurno, Int32.Parse(sacarHoraReal(cmbInicio.Text)), Int32.Parse(sacarHoraReal(cmbFinal.Text)), txtDescripcion.Text, double.Parse(txtValorKm.Text), double.Parse(txtPrecioBase.Text), ckbHabilitado.Checked);
                 string response=SQLTurno.modificarTurno(nuevoTurno);
                 MessageBox.Show(response);
             }
@@ -48,6 +48,11 @@ namespace UberFrba.Abm_Turno
          }
 
          private void cmbInicio_SelectedIndexChanged(object sender, EventArgs e)
+         {
+
+         }
+
+         private void ModificacionTurno_Load_1(object sender, EventArgs e)
          {
 
          }
