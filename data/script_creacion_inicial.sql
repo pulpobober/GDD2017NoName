@@ -361,7 +361,7 @@ CREATE TABLE [NONAME].[Funcion](
 CREATE TABLE [NONAME].[Turno](
 	[id_turno] [int] IDENTITY(4,1) NOT NULL,
 	[hora_inicio] [numeric](18, 0) NOT NULL,
-	[hora_fin] [numeric](18, 2) NOT NULL,
+	[hora_fin] [numeric](18, 0) NOT NULL,
 	[descripcion] [varchar](255) NOT NULL,
 	[valor_km] [numeric](18, 2) NOT NULL,
 	[precio_base] [numeric](18, 0) NOT NULL,
