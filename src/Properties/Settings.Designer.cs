@@ -35,5 +35,16 @@ namespace UberFrba.Properties {
                 this["conector"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime fecha_sistema {
+            get {
+                return ((global::System.DateTime)(this["fecha_sistema"]));
+            }
+            set {
+                this["fecha_sistema"] = value;
+            }
+        }
     }
 }

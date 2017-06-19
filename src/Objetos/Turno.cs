@@ -42,9 +42,9 @@ namespace UberFrba.Objetos
 
         public Turno(DataGridViewRow datosTurno)
         {
-            this.id_turno = Int32.Parse(datosTurno.Cells["id_turno"].Value.ToString());
-            this.hora_inicio = Int32.Parse(datosTurno.Cells["hora_inicio"].Value.ToString());
-            this.hora_fin = Int32.Parse(datosTurno.Cells["hora_fin"].Value.ToString());
+            this.id_turno = int.Parse(datosTurno.Cells["id_turno"].Value.ToString());
+            this.hora_inicio = int.Parse(datosTurno.Cells["hora_inicio"].Value.ToString());
+            this.hora_fin = int.Parse(datosTurno.Cells["hora_fin"].Value.ToString());
             this.descripcion = datosTurno.Cells["descripcion"].Value.ToString();
             this.valor_km = Double.Parse(datosTurno.Cells["valor_km"].Value.ToString());
             this.precio_base = Double.Parse(datosTurno.Cells["precio_base"].Value.ToString());
