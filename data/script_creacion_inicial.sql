@@ -239,7 +239,7 @@ CREATE SCHEMA [NONAME] AUTHORIZATION [gd]
 GO
 
 CREATE TABLE [NONAME].[Factura](
-	[nro_factura] [numeric](18, 0) NOT NULL,
+	[nro_factura] [numeric](18, 0) IDENTITY(10000, 1) NOT NULL,
 	[id_cliente] [int] NOT NULL,
 	[fecha_fin] [datetime] NOT NULL,
 	[fecha_inicio] [datetime] NOT NULL,
@@ -295,7 +295,7 @@ CREATE TABLE [NONAME].[Rendicion_Viaje](
 GO
 
 CREATE TABLE [NONAME].[Rendicion](
-	[nro_rendicion] [numeric](18, 0) NOT NULL,
+	[nro_rendicion] [numeric](18, 0) IDENTITY(10000, 1) NOT NULL,
 	[id_chofer] [int] NOT NULL,
 	[fecha] [datetime] NOT NULL,
 	[id_turno] [int] NOT NULL,
@@ -1415,20 +1415,21 @@ BEGIN
 
 SET @id_viaje = SCOPE_IDENTITY()
 
-	IF NOT EXISTS (SELECT 1 FROM NONAME.Factura_Viaje WHERE id_viaje = @id_viaje)
-		BEGIN
-			IF NOT EXISTS (SELECT 1 FROM NONAME.Factura re WHERE re.fecha = @fecha_inicio and re.id_cliente = @id_cliente)
-				BEGIN
+
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Factura re WHERE re.fecha = @fecha_inicio and re.id_cliente = @id_cliente)
+			BEGIN
 					DECLARE @nro_factura INT
 					
-					INSERT INTO [NONAME].Factura (id_cliente, fecha_fin, fecha_inicio, fecha, importe)
+					INSERT INTO [NONAME].Factura 
 					VALUES (
 						@id_cliente,
 						@fecha_fin,
 						@fecha_inicio,
 						@fecha_inicio,
 						(@cant_km * (SELECT valor_km from NONAME.Turno where id_turno = @id_turno)))
-				SET @nro_factura = SCOPE_IDENTITY()
+
+					SET @nro_factura = SCOPE_IDENTITY()
+
 					INSERT INTO [NONAME].Factura_Viaje
 					SELECT f.nro_factura, v.id_viaje
 					FROM NONAME.Factura f, NONAME.Viaje v 
@@ -1441,22 +1442,22 @@ SET @id_viaje = SCOPE_IDENTITY()
 					FROM NONAME.Factura f, NONAME.Viaje v 
 					WHERE f.fecha = @fecha_fin and f.id_cliente = @id_cliente and v.id_viaje = @id_viaje	
 				END
-		END
 
 
-	IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion_Viaje WHERE id_viaje = @id_viaje)
-		BEGIN
-			IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion re WHERE re.fecha = @fecha_inicio and re.id_chofer = @id_chofer)
-				BEGIN
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion re WHERE re.fecha = @fecha_inicio and re.id_chofer = @id_chofer)
+			BEGIN
+
 					DECLARE @nro_rendicion INT
 					
-					INSERT INTO [NONAME].Rendicion ( id_chofer, fecha, id_turno, importe)
+					INSERT INTO [NONAME].Rendicion 
 					VALUES (
 						@id_chofer,
 						@fecha_inicio,
 						@id_turno,
 						(@cant_km * (SELECT valor_km from NONAME.Turno where id_turno = @id_turno)))
+
 						SET @nro_rendicion = SCOPE_IDENTITY()
+
 					INSERT INTO [NONAME].Rendicion_Viaje 
 					SELECT v.id_viaje, r.nro_rendicion, (100*r.importe/(v.cantidad_km * t.valor_km + t.precio_base))
 					FROM NONAME.Rendicion r, NONAME.Viaje v, NONAME.Turno t
@@ -1470,7 +1471,6 @@ SET @id_viaje = SCOPE_IDENTITY()
 					WHERE v.id_viaje = @id_viaje and t.id_turno = @id_turno and r.id_chofer = @id_chofer 
 					and r.fecha = @fecha_inicio and r.id_turno = @id_turno
 				END
-		END
 END
 GO
 
@@ -1804,7 +1804,10 @@ GO
 -- El importe se calcula con la cantidad de kilometros recorridos y el valor del km por turno
 -- el monto da valores muy altos manana chequeo la cuenta besis
 
-INSERT INTO [NONAME].Factura
+SET IDENTITY_INSERT [NONAME].Factura ON;
+GO
+
+INSERT INTO [NONAME].Factura (nro_factura, id_cliente, fecha_fin, fecha_inicio, fecha, importe)
 SELECT DISTINCT
 	m.Factura_Nro,
 	c.id_usuario,
@@ -1819,6 +1822,8 @@ SELECT DISTINCT
 	join [NONAME].Usuario c ON m.Cliente_Dni = c.usuario_dni
 	where Factura_Nro is not null
 
+SET IDENTITY_INSERT NONAME.Factura OFF;
+GO
 
 INSERT INTO [NONAME].Factura_Viaje
 	SELECT DISTINCT
@@ -1828,10 +1833,13 @@ INSERT INTO [NONAME].Factura_Viaje
 	join [NONAME].Factura f ON m.Factura_Nro = f.nro_factura
 	join [NONAME].Viaje v ON v.fecha_hora_fin = m.Viaje_Fecha
 							and v.fecha_hora_inicio <= m.Factura_Fecha_Inicio
-							and v.fecha_hora_fin <= m.Factura_Fecha_Fin
+							and v.fecha_hora_fin <= m.Factura_Fecha_Fin					
+				
 												  
+SET IDENTITY_INSERT NONAME.Rendicion ON;
+GO
 
-INSERT INTO [NONAME].Rendicion
+INSERT INTO [NONAME].Rendicion (nro_rendicion, id_chofer, fecha, id_turno, importe)
 	SELECT DISTINCT
 	m.Rendicion_Nro,
 	c.id_usuario,
@@ -1844,8 +1852,10 @@ INSERT INTO [NONAME].Rendicion
 	where m.Rendicion_Nro is not null 
 	group by m.Rendicion_Nro, c.id_usuario, m.Rendicion_Fecha, t.id_turno
 	order by m.Rendicion_Nro
+GO
 
-
+SET IDENTITY_INSERT NONAME.Rendicion OFF;
+GO
 
 INSERT INTO [NONAME].Rendicion_Viaje
 	SELECT DISTINCT
@@ -1860,3 +1870,6 @@ INSERT INTO [NONAME].Rendicion_Viaje
 		and m.Cliente_Dni = Cliente.usuario_dni 
 		and Rendicion_Nro is not null
 
+
+DBCC CHECKIDENT ('[NONAME].[Factura]', RESEED, 10700)
+DBCC CHECKIDENT ('[NONAME].[Rendicion]', RESEED, 46500)
