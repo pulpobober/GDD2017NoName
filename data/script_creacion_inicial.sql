@@ -814,7 +814,6 @@ END
 
 GO
 
-
 CREATE PROCEDURE NONAME.sproc_automovil_alta
 	@id_marca INT,
 	@modelo VARCHAR(255),
@@ -859,7 +858,6 @@ END
 
 GO
 
-
 CREATE PROCEDURE NONAME.sproc_automovil_baja
 	@id_auto INT
 
@@ -880,7 +878,6 @@ BEGIN
 END
 
 GO
-
 
 CREATE PROCEDURE NONAME.sproc_automovil_modificacion
 	@id_auto INT,
@@ -943,7 +940,6 @@ END
 
 GO
 
-
 CREATE PROCEDURE NONAME.sproc_turno_alta
 	@hora_inicio NUMERIC(18, 0),
 	@hora_fin NUMERIC(18, 0),
@@ -978,7 +974,6 @@ BEGIN
 
 END
 GO
-
 
 CREATE PROCEDURE NONAME.sproc_turno_baja
 	@id_turno INT
@@ -1124,7 +1119,6 @@ BEGIN
 
 END
 GO
-
 
 CREATE PROCEDURE NONAME.sproc_chofer_alta
 	@nombre VARCHAR(255),
