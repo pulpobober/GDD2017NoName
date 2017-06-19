@@ -58,9 +58,6 @@ namespace UberFrba.Objetos
 
            this.rodado = datosAutomovil.Cells["rodado"].Value.ToString();
            this.licencia = datosAutomovil.Cells["licencia"].Value.ToString();
-        //   this.nombreChofer = datosAutomovil.Cells["nombre"].Value.ToString();
-         //  this.apellidoChofer = datosAutomovil.Cells["apellido"].Value.ToString();
-
 
         }
         public Automovil(int idauto,int idturno, string patente, string modelo, int idmarca, int idchofer, string rodado, string licencia, int habilitado)

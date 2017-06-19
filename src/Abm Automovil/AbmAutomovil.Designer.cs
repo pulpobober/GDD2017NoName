@@ -211,11 +211,11 @@ namespace UberFrba.Abm_Automovil
         protected System.Windows.Forms.TextBox txtPatente;
         protected System.Windows.Forms.Label lblTitulo;
         protected System.Windows.Forms.Label lblMarca;
-        protected System.Windows.Forms.ComboBox cmbChofer;
         protected System.Windows.Forms.ComboBox cmbTurno;
         protected System.Windows.Forms.Label lblLicencia;
         protected System.Windows.Forms.Label lblRodado;
         protected System.Windows.Forms.TextBox txtLicencia;
         protected System.Windows.Forms.TextBox txtRodado;
+        public System.Windows.Forms.ComboBox cmbChofer;
     }
 }

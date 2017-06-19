@@ -64,6 +64,12 @@
             "Ford",
             "Renault",
             "Volkswagen",
+            "Chevrolet",
+            "Fiat",
+            "Peugeot",
+            "Ford",
+            "Renault",
+            "Volkswagen",
             "Chevrolet"});
             this.selectMarca.Location = new System.Drawing.Point(188, 188);
             // 
@@ -72,10 +78,6 @@
             this.lblTitulo.Location = new System.Drawing.Point(30, 19);
             this.lblTitulo.Size = new System.Drawing.Size(367, 37);
             this.lblTitulo.Text = "Modificacion Automovil";
-            // 
-            // cmbChofer
-            // 
-            this.cmbChofer.SelectedIndexChanged += new System.EventHandler(this.cmbChofer_SelectedIndexChanged);
             // 
             // cmbTurno
             // 
@@ -103,23 +105,56 @@
             "Turno Noche",
             "Turno Mañna",
             "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
             "Turno Noche"});
             // 
-            // lblLicencia
+            // cmbChofer
             // 
-            this.lblLicencia.Visible = false;
-            // 
-            // lblRodado
-            // 
-            this.lblRodado.Visible = false;
-            // 
-            // txtLicencia
-            // 
-            this.txtLicencia.Visible = false;
-            // 
-            // txtRodado
-            // 
-            this.txtRodado.Visible = false;
+            this.cmbChofer.Items.AddRange(new object[] {
+            "EDILIO Maldonado",
+            "SILVERIO Campos",
+            "DE FATIMA Rojas",
+            "ATANASIO Ortiz",
+            "ONAN Vargas",
+            "CLAUS García",
+            "RONALDO Jiménez",
+            "THEO Maldonado",
+            "MIKI Córdoba",
+            "NICOLE Toro",
+            "PAMPA Ledesma",
+            "MATIAS Zúñiga",
+            "ANICETO Fernández",
+            "JUANA Alonso",
+            "MARISA Ledesma",
+            "DELFINA Valdéz",
+            "ROSENDO Muñoz",
+            "AGOSTINA Torres",
+            "ISAAC Contreras",
+            "KAPRIEL Escobar",
+            "PERSEO Saavedra",
+            "MEULÉN González",
+            "HADA Correa",
+            "GINA Álvarez",
+            "ORIA Rojas",
+            "ARÍSTIDES García",
+            "MIRELLA López",
+            "NAVILA Vera",
+            "EDELINA Soto",
+            "FARAS Franco",
+            "FAVIO Sepúlveda",
+            "MIGUEL Donoso",
+            "AMAIKE Martínez",
+            "INARA Farías",
+            "NAHUEL Maidana",
+            "BERTILDA Gutiérrez",
+            "ZUAHIR Contreras",
+            "MIGUEL Carvajal",
+            "CHEVY Núñez",
+            "IBERO Vera",
+            "SELENA López"});
+            this.cmbChofer.SelectedIndexChanged += new System.EventHandler(this.cmbChofer_SelectedIndexChanged);
             // 
             // btnModificacion
             // 

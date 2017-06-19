@@ -56,9 +56,9 @@ namespace UberFrba.Abm_Automovil
         private void btnModificacion_Click(object sender, EventArgs e)
         {
             if(verificarDatosAutomovil(txtPatente.Text,txtModelo.Text)){
-                int idmarca = obtenerIDMarca(selectMarca.SelectedItem.ToString());
-                int idturno = obtenerIDTurno(cmbTurno.SelectedItem.ToString());
-                int idchofer = obtenerIDChofer(cmbChofer.SelectedItem.ToString());
+                int idmarca = obtenerIDMarca(selectMarca.Text);
+                int idturno = obtenerIDTurno(cmbTurno.Text);
+                int idchofer = obtenerIDChofer(cmbChofer.Text);
 
                 Automovil auto = new Automovil(idautomovil, idturno, txtPatente.Text, txtModelo.Text, idmarca, idchofer, txtRodado.Text, txtLicencia.Text, 1);
                 string response = SQLAutomovil.modificarAutomovil(auto);
@@ -78,17 +78,17 @@ namespace UberFrba.Abm_Automovil
                 MessageBox.Show("No se puede dejar el campo modelo vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (selectMarca.SelectedItem == null)
+            if (selectMarca.Text.Length == 0)
             {
                 MessageBox.Show("No se puede dejar el campo marca vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (cmbChofer.SelectedItem == null)
+            if (cmbChofer.Text.Length == 0)
             {
                 MessageBox.Show("No se puede dejar el campo chofer vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (cmbTurno.SelectedItem == null)
+            if (cmbTurno.Text.Length == 0)
             {
                 MessageBox.Show("No se puede dejar el campo turno vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
