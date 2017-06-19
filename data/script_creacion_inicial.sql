@@ -1828,8 +1828,9 @@ INSERT INTO [NONAME].Factura_Viaje
 	v.id_viaje
 	from [gd_esquema].[Maestra] m
 	join [NONAME].Factura f ON m.Factura_Nro = f.nro_factura
-	join [NONAME].Viaje v ON v.fecha_hora_inicio >= m.Factura_Fecha_Inicio
-						and v.fecha_hora_fin <= m.Factura_Fecha_Fin
+	join [NONAME].Viaje v ON v.fecha_hora_fin = m.Viaje_Fecha
+							and v.fecha_hora_inicio <= m.Factura_Fecha_Inicio
+							and v.fecha_hora_fin <= m.Factura_Fecha_Fin
 												  
 
 INSERT INTO [NONAME].Rendicion
