@@ -30,16 +30,15 @@ namespace UberFrba.Abm_Automovil
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListadoAutomoviles));
             this.lblMarca = new System.Windows.Forms.Label();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.lblModelo = new System.Windows.Forms.Label();
             this.lblPatente = new System.Windows.Forms.Label();
-            this.lblChofer = new System.Windows.Forms.Label();
+            this.lblChoferNombre = new System.Windows.Forms.Label();
             this.selectMarca = new System.Windows.Forms.ComboBox();
             this.txtModelo = new System.Windows.Forms.TextBox();
             this.txtPatente = new System.Windows.Forms.TextBox();
-            this.txtChofer = new System.Windows.Forms.TextBox();
+            this.txtChoferNombre = new System.Windows.Forms.TextBox();
             this.btnFiltrar = new System.Windows.Forms.Button();
             this.tablaAutomoviles = new System.Windows.Forms.DataGridView();
             this.btnLimpiar = new System.Windows.Forms.Button();
@@ -47,6 +46,8 @@ namespace UberFrba.Abm_Automovil
             this.lbSeleccionar = new System.Windows.Forms.Label();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
+            this.lblApellidoChofer = new System.Windows.Forms.Label();
+            this.txtApellidoChofer = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.tablaAutomoviles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -73,29 +74,28 @@ namespace UberFrba.Abm_Automovil
             // 
             this.lblModelo.Location = new System.Drawing.Point(238, 63);
             this.lblModelo.Name = "lblModelo";
-            this.lblModelo.Size = new System.Drawing.Size(100, 23);
+            this.lblModelo.Size = new System.Drawing.Size(57, 23);
             this.lblModelo.TabIndex = 15;
             this.lblModelo.Text = "Modelo: ";
             // 
             // lblPatente
             // 
-            this.lblPatente.Location = new System.Drawing.Point(21, 101);
+            this.lblPatente.Location = new System.Drawing.Point(425, 60);
             this.lblPatente.Name = "lblPatente";
-            this.lblPatente.Size = new System.Drawing.Size(87, 23);
+            this.lblPatente.Size = new System.Drawing.Size(52, 23);
             this.lblPatente.TabIndex = 16;
             this.lblPatente.Text = "Patente: ";
             // 
-            // lblChofer
+            // lblChoferNombre
             // 
-            this.lblChofer.Location = new System.Drawing.Point(238, 95);
-            this.lblChofer.Name = "lblChofer";
-            this.lblChofer.Size = new System.Drawing.Size(100, 23);
-            this.lblChofer.TabIndex = 17;
-            this.lblChofer.Text = "Chofer: ";
+            this.lblChoferNombre.Location = new System.Drawing.Point(195, 95);
+            this.lblChoferNombre.Name = "lblChoferNombre";
+            this.lblChoferNombre.Size = new System.Drawing.Size(86, 23);
+            this.lblChoferNombre.TabIndex = 17;
+            this.lblChoferNombre.Text = "Nombre Chofer:";
             // 
             // selectMarca
             // 
-            this.selectMarca.DataSource = ((object)(resources.GetObject("selectMarca.DataSource")));
             this.selectMarca.Location = new System.Drawing.Point(70, 63);
             this.selectMarca.Name = "selectMarca";
             this.selectMarca.Size = new System.Drawing.Size(121, 21);
@@ -103,24 +103,24 @@ namespace UberFrba.Abm_Automovil
             // 
             // txtModelo
             // 
-            this.txtModelo.Location = new System.Drawing.Point(344, 60);
+            this.txtModelo.Location = new System.Drawing.Point(301, 63);
             this.txtModelo.Name = "txtModelo";
             this.txtModelo.Size = new System.Drawing.Size(100, 20);
             this.txtModelo.TabIndex = 19;
             // 
             // txtPatente
             // 
-            this.txtPatente.Location = new System.Drawing.Point(114, 101);
+            this.txtPatente.Location = new System.Drawing.Point(483, 60);
             this.txtPatente.Name = "txtPatente";
             this.txtPatente.Size = new System.Drawing.Size(100, 20);
             this.txtPatente.TabIndex = 20;
             // 
-            // txtChofer
+            // txtChoferNombre
             // 
-            this.txtChofer.Location = new System.Drawing.Point(344, 98);
-            this.txtChofer.Name = "txtChofer";
-            this.txtChofer.Size = new System.Drawing.Size(100, 20);
-            this.txtChofer.TabIndex = 21;
+            this.txtChoferNombre.Location = new System.Drawing.Point(287, 92);
+            this.txtChoferNombre.Name = "txtChoferNombre";
+            this.txtChoferNombre.Size = new System.Drawing.Size(100, 20);
+            this.txtChoferNombre.TabIndex = 21;
             // 
             // btnFiltrar
             // 
@@ -151,9 +151,9 @@ namespace UberFrba.Abm_Automovil
             // 
             this.btnLimpiar.BackColor = System.Drawing.Color.Red;
             this.btnLimpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLimpiar.Location = new System.Drawing.Point(473, 79);
+            this.btnLimpiar.Location = new System.Drawing.Point(431, 129);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(155, 23);
+            this.btnLimpiar.Size = new System.Drawing.Size(155, 41);
             this.btnLimpiar.TabIndex = 9;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = false;
@@ -197,22 +197,39 @@ namespace UberFrba.Abm_Automovil
             this.btnEliminar.UseVisualStyleBackColor = true;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click_1);
             // 
+            // lblApellidoChofer
+            // 
+            this.lblApellidoChofer.Location = new System.Drawing.Point(405, 92);
+            this.lblApellidoChofer.Name = "lblApellidoChofer";
+            this.lblApellidoChofer.Size = new System.Drawing.Size(86, 20);
+            this.lblApellidoChofer.TabIndex = 22;
+            this.lblApellidoChofer.Text = "Apellido Chofer:";
+            // 
+            // txtApellidoChofer
+            // 
+            this.txtApellidoChofer.Location = new System.Drawing.Point(497, 92);
+            this.txtApellidoChofer.Name = "txtApellidoChofer";
+            this.txtApellidoChofer.Size = new System.Drawing.Size(100, 20);
+            this.txtApellidoChofer.TabIndex = 23;
+            // 
             // ListadoAutomoviles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 591);
+            this.Controls.Add(this.lblApellidoChofer);
+            this.Controls.Add(this.txtApellidoChofer);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.lbSeleccionar);
             this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.lblModelo);
             this.Controls.Add(this.lblPatente);
-            this.Controls.Add(this.lblChofer);
+            this.Controls.Add(this.lblChoferNombre);
             this.Controls.Add(this.selectMarca);
             this.Controls.Add(this.txtModelo);
             this.Controls.Add(this.txtPatente);
-            this.Controls.Add(this.txtChofer);
+            this.Controls.Add(this.txtChoferNombre);
             this.Controls.Add(this.lblMarca);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnLimpiar);
@@ -233,12 +250,12 @@ namespace UberFrba.Abm_Automovil
         protected System.Windows.Forms.Label lblMarca;
         protected System.Windows.Forms.Label lblModelo;
         protected System.Windows.Forms.Label lblPatente;
-        protected System.Windows.Forms.Label lblChofer;
+        protected System.Windows.Forms.Label lblChoferNombre;
         protected System.Windows.Forms.Label lblTitulo;
         protected System.Windows.Forms.ComboBox selectMarca;
         protected System.Windows.Forms.TextBox txtModelo;
         protected System.Windows.Forms.TextBox txtPatente;
-        protected System.Windows.Forms.TextBox txtChofer;
+        protected System.Windows.Forms.TextBox txtChoferNombre;
 
         protected System.Windows.Forms.Button btnFiltrar;
         protected System.Windows.Forms.Button btnLimpiar;
@@ -249,6 +266,8 @@ namespace UberFrba.Abm_Automovil
         protected System.Windows.Forms.Label lblDni;
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnEliminar;
+        protected System.Windows.Forms.Label lblApellidoChofer;
+        protected System.Windows.Forms.TextBox txtApellidoChofer;
 
     }
 

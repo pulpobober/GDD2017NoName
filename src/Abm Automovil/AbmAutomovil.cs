@@ -7,44 +7,121 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UberFrba.ConexionBD;
 
 namespace UberFrba.Abm_Automovil
 {
     public partial class AbmAutomovil : Form
     {
+        public DataTable tablaChoferes;
+        public DataTable tablaTurnos;
+        public DataTable tablaMarcas;
+
         public AbmAutomovil()
         {
             InitializeComponent();
         }
 
-        public bool verificarDatosAutomovil(string turno, string patente, string modelo, string marca, string chofer)
+      
+
+        private void AbmAutomovil_Load(object sender, EventArgs e)
         {
-            if (turno.Length == 0)
+            cargarForm();
+        }
+
+        public void cargarForm() {
+            cmbChofer.Items.Clear();
+            tablaChoferes = SQLChofer.obtenerTodosLosChoferes();
+            foreach (DataRow row in tablaChoferes.Rows)
             {
-                MessageBox.Show("No se puede dejar el campo turno vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                cmbChofer.Items.Add(row["nombre"].ToString() + " " + row["apellido"].ToString());
             }
-            if (patente.Length == 0)
+
+            cmbTurno.Items.Clear();
+            tablaTurnos = SQLTurno.obtenerTodosLosTurnos();
+            foreach (DataRow row in tablaTurnos.Rows)
             {
-                MessageBox.Show("No se puede dejar el campo patente vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                cmbTurno.Items.Add(row["descripcion"].ToString());
             }
-            if (modelo.Length == 0)
+
+            selectMarca.Items.Clear();
+            tablaMarcas = SQLAutomovil.obtenerTodasLasMarcas();
+            foreach (DataRow row in tablaMarcas.Rows)
             {
-                MessageBox.Show("No se puede dejar el campo modelo vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                selectMarca.Items.Add(row["nombre"].ToString());
             }
-            if (marca.Length == 0)
+        }
+
+        public int obtenerIDChofer(string nombreYApellido)
+        {
+            foreach (DataRow row in tablaChoferes.Rows)
             {
-                MessageBox.Show("No se puede dejar el campo marca vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                if (row["nombre"].ToString() + " " + row["apellido"].ToString() == nombreYApellido)
+                {
+                    return int.Parse(row["id_usuario"].ToString());
+                }
             }
-            if (chofer.Length == 0)
+            return -1;
+        }
+
+        public int obtenerIDTurno(string turno)
+        {
+            foreach (DataRow row in tablaTurnos.Rows)
             {
-                MessageBox.Show("No se puede dejar el campo chofer vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                if (row["descripcion"].ToString() == turno)
+                {
+                    return int.Parse(row["id_turno"].ToString());
+                }
             }
-            return true;
+            return -1;
+        }
+
+        public int obtenerIDMarca(string marca)
+        {
+            foreach (DataRow row in tablaMarcas.Rows)
+            {
+                if (row["nombre"].ToString() == marca)
+                {
+                    return int.Parse(row["id_marca"].ToString());
+                }
+            }
+            return -1;
+        }
+
+        public string obtenerNombreYApellidoChofer(int id_chofer)
+        {
+            foreach (DataRow row in tablaChoferes.Rows)
+            {
+                if (int.Parse(row["id_usuario"].ToString()) == id_chofer)
+                {
+                    return row["nombre"].ToString() + " " + row["apellido"].ToString();
+                }
+            }
+            return "";
+        }
+
+        public string obtenerNombreTurno(int id_turno)
+        {
+            foreach (DataRow row in tablaTurnos.Rows)
+            {
+                if (int.Parse(row["id_turno"].ToString()) == id_turno)
+                {
+                    return row["descripcion"].ToString();
+                }
+            }
+            return "";
+        }
+
+        public string obtenerNombreMarca(int id_marca)
+        {
+            foreach (DataRow row in tablaMarcas.Rows)
+            {
+                if (int.Parse(row["id_marca"].ToString()) == id_marca)
+                {
+                    return row["nombre"].ToString();
+                }
+            }
+            return "";
         }
     }
 }

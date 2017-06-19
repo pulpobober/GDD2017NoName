@@ -30,5 +30,10 @@ namespace UberFrba.Abm_Cliente
                 MessageBox.Show(response);
             }
         }
+
+        private void AltaCliente_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -33,6 +33,31 @@
             // 
             // selectMarca
             // 
+            this.selectMarca.Items.AddRange(new object[] {
+            "Fiat",
+            "Peugeot",
+            "Ford",
+            "Renault",
+            "Volkswagen",
+            "Chevrolet",
+            "Fiat",
+            "Peugeot",
+            "Ford",
+            "Renault",
+            "Volkswagen",
+            "Chevrolet",
+            "Fiat",
+            "Peugeot",
+            "Ford",
+            "Renault",
+            "Volkswagen",
+            "Chevrolet",
+            "[1] Fiat",
+            "[2] Peugeot",
+            "[3] Ford",
+            "[4] Renault",
+            "[5] Volkswagen",
+            "[6] Chevrolet"});
             this.selectMarca.Location = new System.Drawing.Point(188, 180);
             // 
             // lblModelo
@@ -42,10 +67,6 @@
             // lblChofer
             // 
             this.lblChofer.Location = new System.Drawing.Point(34, 210);
-            // 
-            // txtChofer
-            // 
-            this.txtChofer.Location = new System.Drawing.Point(188, 210);
             // 
             // lblTitulo
             // 
@@ -57,25 +78,342 @@
             this.lblMarca.Location = new System.Drawing.Point(34, 180);
             this.lblMarca.Text = "Marca:";
             // 
-            // lblRodado
+            // cmbChofer
             // 
-            this.lblRodado.Location = new System.Drawing.Point(34, 243);
+            this.cmbChofer.Items.AddRange(new object[] {
+            "EDILIO Maldonado",
+            "SILVERIO Campos",
+            "DE FATIMA Rojas",
+            "ATANASIO Ortiz",
+            "ONAN Vargas",
+            "CLAUS García",
+            "RONALDO Jiménez",
+            "THEO Maldonado",
+            "MIKI Córdoba",
+            "NICOLE Toro",
+            "PAMPA Ledesma",
+            "MATIAS Zúñiga",
+            "ANICETO Fernández",
+            "JUANA Alonso",
+            "MARISA Ledesma",
+            "DELFINA Valdéz",
+            "ROSENDO Muñoz",
+            "AGOSTINA Torres",
+            "ISAAC Contreras",
+            "KAPRIEL Escobar",
+            "PERSEO Saavedra",
+            "MEULÉN González",
+            "HADA Correa",
+            "GINA Álvarez",
+            "ORIA Rojas",
+            "ARÍSTIDES García",
+            "MIRELLA López",
+            "NAVILA Vera",
+            "EDELINA Soto",
+            "FARAS Franco",
+            "FAVIO Sepúlveda",
+            "MIGUEL Donoso",
+            "AMAIKE Martínez",
+            "INARA Farías",
+            "NAHUEL Maidana",
+            "BERTILDA Gutiérrez",
+            "ZUAHIR Contreras",
+            "MIGUEL Carvajal",
+            "CHEVY Núñez",
+            "IBERO Vera",
+            "SELENA López",
+            "EDILIO Maldonado",
+            "SILVERIO Campos",
+            "DE FATIMA Rojas",
+            "ATANASIO Ortiz",
+            "ONAN Vargas",
+            "CLAUS García",
+            "RONALDO Jiménez",
+            "THEO Maldonado",
+            "MIKI Córdoba",
+            "NICOLE Toro",
+            "PAMPA Ledesma",
+            "MATIAS Zúñiga",
+            "ANICETO Fernández",
+            "JUANA Alonso",
+            "MARISA Ledesma",
+            "DELFINA Valdéz",
+            "ROSENDO Muñoz",
+            "AGOSTINA Torres",
+            "ISAAC Contreras",
+            "KAPRIEL Escobar",
+            "PERSEO Saavedra",
+            "MEULÉN González",
+            "HADA Correa",
+            "GINA Álvarez",
+            "ORIA Rojas",
+            "ARÍSTIDES García",
+            "MIRELLA López",
+            "NAVILA Vera",
+            "EDELINA Soto",
+            "FARAS Franco",
+            "FAVIO Sepúlveda",
+            "MIGUEL Donoso",
+            "AMAIKE Martínez",
+            "INARA Farías",
+            "NAHUEL Maidana",
+            "BERTILDA Gutiérrez",
+            "ZUAHIR Contreras",
+            "MIGUEL Carvajal",
+            "CHEVY Núñez",
+            "IBERO Vera",
+            "SELENA López",
+            "EDILIO Maldonado",
+            "SILVERIO Campos",
+            "DE FATIMA Rojas",
+            "ATANASIO Ortiz",
+            "ONAN Vargas",
+            "CLAUS García",
+            "RONALDO Jiménez",
+            "THEO Maldonado",
+            "MIKI Córdoba",
+            "NICOLE Toro",
+            "PAMPA Ledesma",
+            "MATIAS Zúñiga",
+            "ANICETO Fernández",
+            "JUANA Alonso",
+            "MARISA Ledesma",
+            "DELFINA Valdéz",
+            "ROSENDO Muñoz",
+            "AGOSTINA Torres",
+            "ISAAC Contreras",
+            "KAPRIEL Escobar",
+            "PERSEO Saavedra",
+            "MEULÉN González",
+            "HADA Correa",
+            "GINA Álvarez",
+            "ORIA Rojas",
+            "ARÍSTIDES García",
+            "MIRELLA López",
+            "NAVILA Vera",
+            "EDELINA Soto",
+            "FARAS Franco",
+            "FAVIO Sepúlveda",
+            "MIGUEL Donoso",
+            "AMAIKE Martínez",
+            "INARA Farías",
+            "NAHUEL Maidana",
+            "BERTILDA Gutiérrez",
+            "ZUAHIR Contreras",
+            "MIGUEL Carvajal",
+            "CHEVY Núñez",
+            "IBERO Vera",
+            "SELENA López",
+            "EDILIO Maldonado",
+            "SILVERIO Campos",
+            "DE FATIMA Rojas",
+            "ATANASIO Ortiz",
+            "ONAN Vargas",
+            "CLAUS García",
+            "RONALDO Jiménez",
+            "THEO Maldonado",
+            "MIKI Córdoba",
+            "NICOLE Toro",
+            "PAMPA Ledesma",
+            "MATIAS Zúñiga",
+            "ANICETO Fernández",
+            "JUANA Alonso",
+            "MARISA Ledesma",
+            "DELFINA Valdéz",
+            "ROSENDO Muñoz",
+            "AGOSTINA Torres",
+            "ISAAC Contreras",
+            "KAPRIEL Escobar",
+            "PERSEO Saavedra",
+            "MEULÉN González",
+            "HADA Correa",
+            "GINA Álvarez",
+            "ORIA Rojas",
+            "ARÍSTIDES García",
+            "MIRELLA López",
+            "NAVILA Vera",
+            "EDELINA Soto",
+            "FARAS Franco",
+            "FAVIO Sepúlveda",
+            "MIGUEL Donoso",
+            "AMAIKE Martínez",
+            "INARA Farías",
+            "NAHUEL Maidana",
+            "BERTILDA Gutiérrez",
+            "ZUAHIR Contreras",
+            "MIGUEL Carvajal",
+            "CHEVY Núñez",
+            "IBERO Vera",
+            "SELENA López",
+            "EDILIO Maldonado",
+            "SILVERIO Campos",
+            "DE FATIMA Rojas",
+            "ATANASIO Ortiz",
+            "ONAN Vargas",
+            "CLAUS García",
+            "RONALDO Jiménez",
+            "THEO Maldonado",
+            "MIKI Córdoba",
+            "NICOLE Toro",
+            "PAMPA Ledesma",
+            "MATIAS Zúñiga",
+            "ANICETO Fernández",
+            "JUANA Alonso",
+            "MARISA Ledesma",
+            "DELFINA Valdéz",
+            "ROSENDO Muñoz",
+            "AGOSTINA Torres",
+            "ISAAC Contreras",
+            "KAPRIEL Escobar",
+            "PERSEO Saavedra",
+            "MEULÉN González",
+            "HADA Correa",
+            "GINA Álvarez",
+            "ORIA Rojas",
+            "ARÍSTIDES García",
+            "MIRELLA López",
+            "NAVILA Vera",
+            "EDELINA Soto",
+            "FARAS Franco",
+            "FAVIO Sepúlveda",
+            "MIGUEL Donoso",
+            "AMAIKE Martínez",
+            "INARA Farías",
+            "NAHUEL Maidana",
+            "BERTILDA Gutiérrez",
+            "ZUAHIR Contreras",
+            "MIGUEL Carvajal",
+            "CHEVY Núñez",
+            "IBERO Vera",
+            "SELENA López",
+            "EDILIO Maldonado",
+            "SILVERIO Campos",
+            "DE FATIMA Rojas",
+            "ATANASIO Ortiz",
+            "ONAN Vargas",
+            "CLAUS García",
+            "RONALDO Jiménez",
+            "THEO Maldonado",
+            "MIKI Córdoba",
+            "NICOLE Toro",
+            "PAMPA Ledesma",
+            "MATIAS Zúñiga",
+            "ANICETO Fernández",
+            "JUANA Alonso",
+            "MARISA Ledesma",
+            "DELFINA Valdéz",
+            "ROSENDO Muñoz",
+            "AGOSTINA Torres",
+            "ISAAC Contreras",
+            "KAPRIEL Escobar",
+            "PERSEO Saavedra",
+            "MEULÉN González",
+            "HADA Correa",
+            "GINA Álvarez",
+            "ORIA Rojas",
+            "ARÍSTIDES García",
+            "MIRELLA López",
+            "NAVILA Vera",
+            "EDELINA Soto",
+            "FARAS Franco",
+            "FAVIO Sepúlveda",
+            "MIGUEL Donoso",
+            "AMAIKE Martínez",
+            "INARA Farías",
+            "NAHUEL Maidana",
+            "BERTILDA Gutiérrez",
+            "ZUAHIR Contreras",
+            "MIGUEL Carvajal",
+            "CHEVY Núñez",
+            "IBERO Vera",
+            "SELENA López",
+            "EDILIO Maldonado",
+            "SILVERIO Campos",
+            "DE FATIMA Rojas",
+            "ATANASIO Ortiz",
+            "ONAN Vargas",
+            "CLAUS García",
+            "RONALDO Jiménez",
+            "THEO Maldonado",
+            "MIKI Córdoba",
+            "NICOLE Toro",
+            "PAMPA Ledesma",
+            "MATIAS Zúñiga",
+            "ANICETO Fernández",
+            "JUANA Alonso",
+            "MARISA Ledesma",
+            "DELFINA Valdéz",
+            "ROSENDO Muñoz",
+            "AGOSTINA Torres",
+            "ISAAC Contreras",
+            "KAPRIEL Escobar",
+            "PERSEO Saavedra",
+            "MEULÉN González",
+            "HADA Correa",
+            "GINA Álvarez",
+            "ORIA Rojas",
+            "ARÍSTIDES García",
+            "MIRELLA López",
+            "NAVILA Vera",
+            "EDELINA Soto",
+            "FARAS Franco",
+            "FAVIO Sepúlveda",
+            "MIGUEL Donoso",
+            "AMAIKE Martínez",
+            "INARA Farías",
+            "NAHUEL Maidana",
+            "BERTILDA Gutiérrez",
+            "ZUAHIR Contreras",
+            "MIGUEL Carvajal",
+            "CHEVY Núñez",
+            "IBERO Vera",
+            "SELENA López"});
+            this.cmbChofer.Location = new System.Drawing.Point(188, 210);
+            // 
+            // cmbTurno
+            // 
+            this.cmbTurno.Items.AddRange(new object[] {
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche"});
             // 
             // lblLicencia
             // 
-            this.lblLicencia.Location = new System.Drawing.Point(34, 269);
+            this.lblLicencia.Location = new System.Drawing.Point(34, 271);
+            // 
+            // lblRodado
+            // 
+            this.lblRodado.Location = new System.Drawing.Point(34, 242);
             // 
             // txtLicencia
             // 
-            this.txtLicencia.Location = new System.Drawing.Point(188, 266);
+            this.txtLicencia.Location = new System.Drawing.Point(188, 268);
             // 
             // txtRodado
             // 
-            this.txtRodado.Location = new System.Drawing.Point(188, 240);
+            this.txtRodado.Location = new System.Drawing.Point(188, 239);
             // 
             // btnAlta
             // 
-            this.btnAlta.Location = new System.Drawing.Point(161, 308);
+            this.btnAlta.Location = new System.Drawing.Point(161, 311);
             this.btnAlta.Name = "btnAlta";
             this.btnAlta.Size = new System.Drawing.Size(75, 23);
             this.btnAlta.TabIndex = 12;
@@ -86,22 +424,23 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(450, 493);
+            this.ClientSize = new System.Drawing.Size(450, 381);
             this.Controls.Add(this.btnAlta);
             this.Name = "AltaAutomovil";
             this.Text = "AltaAutomovil";
-            this.Controls.SetChildIndex(this.lblLicencia, 0);
-            this.Controls.SetChildIndex(this.lblRodado, 0);
-            this.Controls.SetChildIndex(this.txtLicencia, 0);
+            this.Load += new System.EventHandler(this.AltaAutomovil_Load);
             this.Controls.SetChildIndex(this.txtRodado, 0);
-            this.Controls.SetChildIndex(this.txtChofer, 0);
+            this.Controls.SetChildIndex(this.txtLicencia, 0);
+            this.Controls.SetChildIndex(this.lblRodado, 0);
+            this.Controls.SetChildIndex(this.lblLicencia, 0);
+            this.Controls.SetChildIndex(this.cmbChofer, 0);
+            this.Controls.SetChildIndex(this.cmbTurno, 0);
             this.Controls.SetChildIndex(this.btnAlta, 0);
             this.Controls.SetChildIndex(this.lblChofer, 0);
             this.Controls.SetChildIndex(this.lblTurno, 0);
             this.Controls.SetChildIndex(this.lblPatente, 0);
             this.Controls.SetChildIndex(this.lblModelo, 0);
             this.Controls.SetChildIndex(this.selectMarca, 0);
-            this.Controls.SetChildIndex(this.txtTurno, 0);
             this.Controls.SetChildIndex(this.txtPatente, 0);
             this.Controls.SetChildIndex(this.txtModelo, 0);
             this.Controls.SetChildIndex(this.lblMarca, 0);

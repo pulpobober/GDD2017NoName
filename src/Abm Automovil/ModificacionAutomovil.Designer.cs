@@ -29,9 +29,42 @@
         private void InitializeComponent()
         {
             this.btnModificacion = new System.Windows.Forms.Button();
-            this.lblHabilitado = new System.Windows.Forms.Label();
-            this.selectHabilitado = new System.Windows.Forms.ComboBox();
+            this.ckbHabilitado = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
+            // 
+            // selectMarca
+            // 
+            this.selectMarca.Items.AddRange(new object[] {
+            "Fiat",
+            "Peugeot",
+            "Ford",
+            "Renault",
+            "Volkswagen",
+            "Chevrolet",
+            "Fiat",
+            "Peugeot",
+            "Ford",
+            "Renault",
+            "Volkswagen",
+            "Chevrolet",
+            "Fiat",
+            "Peugeot",
+            "Ford",
+            "Renault",
+            "Volkswagen",
+            "Chevrolet",
+            "Fiat",
+            "Peugeot",
+            "Ford",
+            "Renault",
+            "Volkswagen",
+            "Chevrolet",
+            "Fiat",
+            "Peugeot",
+            "Ford",
+            "Renault",
+            "Volkswagen",
+            "Chevrolet"});
             this.selectMarca.Location = new System.Drawing.Point(188, 188);
             // 
             // lblTitulo
@@ -40,9 +73,57 @@
             this.lblTitulo.Size = new System.Drawing.Size(367, 37);
             this.lblTitulo.Text = "Modificacion Automovil";
             // 
+            // cmbChofer
+            // 
+            this.cmbChofer.SelectedIndexChanged += new System.EventHandler(this.cmbChofer_SelectedIndexChanged);
+            // 
+            // cmbTurno
+            // 
+            this.cmbTurno.Items.AddRange(new object[] {
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche",
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche"});
+            // 
+            // lblLicencia
+            // 
+            this.lblLicencia.Visible = false;
+            // 
+            // lblRodado
+            // 
+            this.lblRodado.Visible = false;
+            // 
+            // txtLicencia
+            // 
+            this.txtLicencia.Visible = false;
+            // 
+            // txtRodado
+            // 
+            this.txtRodado.Visible = false;
+            // 
             // btnModificacion
             // 
-            this.btnModificacion.Location = new System.Drawing.Point(140, 292);
+            this.btnModificacion.Location = new System.Drawing.Point(140, 353);
             this.btnModificacion.Name = "btnModificacion";
             this.btnModificacion.Size = new System.Drawing.Size(98, 34);
             this.btnModificacion.TabIndex = 29;
@@ -50,52 +131,42 @@
             this.btnModificacion.UseVisualStyleBackColor = true;
             this.btnModificacion.Click += new System.EventHandler(this.btnModificacion_Click);
             // 
-            // lblHabilitado
+            // ckbHabilitado
             // 
-            this.lblHabilitado.Location = new System.Drawing.Point(34, 255);
-            this.lblHabilitado.Name = "lblHabilitado";
-            this.lblHabilitado.Size = new System.Drawing.Size(58, 23);
-            this.lblHabilitado.TabIndex = 30;
-            this.lblHabilitado.Text = "Habilitado";
-            // 
-            // selectHabilitado
-            // 
-            this.selectHabilitado.DropDownWidth = 179;
-            this.selectHabilitado.Items.AddRange(new object[] {
-            "SI",
-            "NO"});
-            this.selectHabilitado.Location = new System.Drawing.Point(188, 255);
-            this.selectHabilitado.Name = "selectHabilitado";
-            this.selectHabilitado.Size = new System.Drawing.Size(171, 21);
-            this.selectHabilitado.TabIndex = 1;
+            this.ckbHabilitado.AutoSize = true;
+            this.ckbHabilitado.Location = new System.Drawing.Point(140, 321);
+            this.ckbHabilitado.Name = "ckbHabilitado";
+            this.ckbHabilitado.Size = new System.Drawing.Size(73, 17);
+            this.ckbHabilitado.TabIndex = 31;
+            this.ckbHabilitado.Text = "Habilitado";
+            this.ckbHabilitado.UseVisualStyleBackColor = true;
             // 
             // ModificacionAutomovil
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(405, 338);
+            this.ClientSize = new System.Drawing.Size(405, 399);
+            this.Controls.Add(this.ckbHabilitado);
             this.Controls.Add(this.btnModificacion);
-            this.Controls.Add(this.lblHabilitado);
-            this.Controls.Add(this.selectHabilitado);
             this.Name = "ModificacionAutomovil";
-            this.Controls.SetChildIndex(this.selectHabilitado, 0);
-            this.Controls.SetChildIndex(this.lblHabilitado, 0);
-            this.Controls.SetChildIndex(this.btnModificacion, 0);
-            this.Controls.SetChildIndex(this.lblLicencia, 0);
+            this.Load += new System.EventHandler(this.ModificacionAutomovil_Load);
+            this.Controls.SetChildIndex(this.txtRodado, 0);
+            this.Controls.SetChildIndex(this.txtLicencia, 0);
             this.Controls.SetChildIndex(this.lblRodado, 0);
+            this.Controls.SetChildIndex(this.lblLicencia, 0);
+            this.Controls.SetChildIndex(this.cmbChofer, 0);
+            this.Controls.SetChildIndex(this.cmbTurno, 0);
+            this.Controls.SetChildIndex(this.btnModificacion, 0);
             this.Controls.SetChildIndex(this.lblChofer, 0);
             this.Controls.SetChildIndex(this.lblTurno, 0);
             this.Controls.SetChildIndex(this.lblPatente, 0);
             this.Controls.SetChildIndex(this.lblModelo, 0);
             this.Controls.SetChildIndex(this.selectMarca, 0);
-            this.Controls.SetChildIndex(this.txtLicencia, 0);
-            this.Controls.SetChildIndex(this.txtRodado, 0);
-            this.Controls.SetChildIndex(this.txtChofer, 0);
-            this.Controls.SetChildIndex(this.txtTurno, 0);
             this.Controls.SetChildIndex(this.txtPatente, 0);
             this.Controls.SetChildIndex(this.txtModelo, 0);
             this.Controls.SetChildIndex(this.lblMarca, 0);
             this.Controls.SetChildIndex(this.lblTitulo, 0);
+            this.Controls.SetChildIndex(this.ckbHabilitado, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -104,7 +175,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnModificacion;
-        private System.Windows.Forms.Label lblHabilitado;
-        private System.Windows.Forms.ComboBox selectHabilitado;
+        private System.Windows.Forms.CheckBox ckbHabilitado;
     }
 }

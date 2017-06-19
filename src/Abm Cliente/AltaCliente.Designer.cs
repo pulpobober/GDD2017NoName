@@ -54,6 +54,12 @@
             this.Controls.Add(this.btnAlta2);
             this.Name = "AltaCliente";
             this.Text = "AltaCliente";
+            this.Load += new System.EventHandler(this.AltaCliente_Load);
+            this.Controls.SetChildIndex(this.lblLocalidad, 0);
+            this.Controls.SetChildIndex(this.lblPiso, 0);
+            this.Controls.SetChildIndex(this.lblDepartamento, 0);
+            this.Controls.SetChildIndex(this.txtPiso, 0);
+            this.Controls.SetChildIndex(this.txtDepto, 0);
             this.Controls.SetChildIndex(this.lblTitulo, 0);
             this.Controls.SetChildIndex(this.txtNombre, 0);
             this.Controls.SetChildIndex(this.txtApellido, 0);

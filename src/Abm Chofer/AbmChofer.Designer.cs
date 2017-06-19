@@ -176,7 +176,6 @@
             this.txtLocalidad.Size = new System.Drawing.Size(100, 20);
             this.txtLocalidad.TabIndex = 23;
             // 
-            // 
             // dateTimeNacimiento
             // 
             this.dateTimeNacimiento.Location = new System.Drawing.Point(153, 383);
@@ -198,9 +197,9 @@
             this.lblTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitulo.Location = new System.Drawing.Point(103, 22);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(191, 37);
+            this.lblTitulo.Size = new System.Drawing.Size(189, 37);
             this.lblTitulo.TabIndex = 28;
-            this.lblTitulo.Text = "Abm Cliente";
+            this.lblTitulo.Text = "Abm Chofer";
             // 
             // lblPiso
             // 
@@ -234,7 +233,7 @@
             this.txtDepto.Size = new System.Drawing.Size(100, 20);
             this.txtDepto.TabIndex = 32;
             // 
-            // AbmCliente
+            // AbmChofer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -246,7 +245,6 @@
             this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dateTimeNacimiento);
-           
             this.Controls.Add(this.txtLocalidad);
             this.Controls.Add(this.txtDireccion);
             this.Controls.Add(this.txtTelefono);
@@ -256,14 +254,13 @@
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblLocalidad);
             this.Controls.Add(this.lblFechaNacimiento);
-            
             this.Controls.Add(this.lblDireccion);
             this.Controls.Add(this.lblTelefono);
             this.Controls.Add(this.lblMail);
             this.Controls.Add(this.lblDNI);
             this.Controls.Add(this.lblApellido);
             this.Controls.Add(this.lblNombre);
-            this.Name = "AbmCliente";
+            this.Name = "AbmChofer";
             this.Text = "AbmCliente";
             this.ResumeLayout(false);
             this.PerformLayout();

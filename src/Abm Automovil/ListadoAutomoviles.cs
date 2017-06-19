@@ -17,6 +17,8 @@ namespace UberFrba.Abm_Automovil
     public partial class ListadoAutomoviles : Form
     {
         Automovil autoSeleccionado = new Automovil();
+
+        DataTable tablaMarcas;
         public ListadoAutomoviles()
         {
             InitializeComponent();
@@ -41,69 +43,25 @@ namespace UberFrba.Abm_Automovil
             DataTable autos = SQLAutomovil.obtenerTodosLosAutomoviles();
             tablaAutomoviles.DataSource = autos;
 
+            selectMarca.Items.Clear();
+            tablaMarcas = SQLAutomovil.obtenerTodasLasMarcas();
+            foreach (DataRow row in tablaMarcas.Rows)
+            {
+                selectMarca.Items.Add(row["nombre"].ToString());
+            }
+
+            this.tablaAutomoviles.Columns[0].Visible = false; //autoID
+            this.tablaAutomoviles.Columns[3].Visible = false; //marcaID
+            this.tablaAutomoviles.Columns[9].Visible = false; //turnoID
+            this.tablaAutomoviles.Columns[10].Visible = false; //choferID
+
             DataGridViewRow autoRow = tablaAutomoviles.Rows[0];
             autoSeleccionado = new Automovil(autoRow);
         }
-        private int obtainIdMarca(string marca)
+
+        private bool verificarDatosAutomovil(string patente, string modelo, string marca, string nombreChofer, string apellidoChofer)
         {
-            int length_substring = marca.IndexOf("]");
-            int idMarca = Convert.ToInt32(marca.Substring(1, length_substring - 1));
-            return idMarca;
-        }
-        private int obtainIdTurno(string turno)
-        {
-            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
-
-            cmd.CommandText = "SELECT id_turno FROM Noname.Turno where descripcion='" + turno + "'";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = miConexion;
-
-            miConexion.Open();
-
-            reader = cmd.ExecuteReader();
-
-            // miConexion.Close();
-
-            while (reader.Read())
-            {
-                return Convert.ToInt32(reader["id_turno"]);
-            }
-            return 0;
-        }
-        private int obtainIdChofer(string chofer)
-        {
-            chofer = chofer.Replace(' ', '_');
-            int indexof_whitspace = chofer.IndexOf("_");
-            string nombre = chofer.Substring(0, indexof_whitspace);
-            string apellido = chofer.Substring(indexof_whitspace + 1);
-
-            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
-
-            cmd.CommandText = "Select id_usuario from NONAME.Usuario inner join NONAME.Chofer on id_usuario=id_chofer where nombre='" + nombre + "' and apellido='" + apellido + "'";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = miConexion;
-
-            miConexion.Open();
-
-            reader = cmd.ExecuteReader();
-
-            // miConexion.Close();
-
-            while (reader.Read())
-            {
-                return Convert.ToInt32(reader["id_usuario"]);
-            }
-            return 0;
-
-        }
-
-        private bool verificarDatosAutomovil(string patente, string modelo, string marca, string chofer)
-        {
-            if (patente.Length == 0 && modelo.Length == 0 && marca.Length == 0 && chofer.Length == 0)
+            if (patente.Length == 0 && modelo.Length == 0 && marca.Length == 0 && nombreChofer.Length == 0 && apellidoChofer.Length == 0)
             {
                 MessageBox.Show("Debe escribir algun campo para filtrar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -124,18 +82,16 @@ namespace UberFrba.Abm_Automovil
                 else{
                     MessageBox.Show("El automovil " + autoSeleccionado.idautomovil + " no ha podido eliminarse");
                 }
-
-                
             }
         }
 
         private void btnFiltrar_Click(object sender, EventArgs e)
         {
-            if (verificarDatosAutomovil(txtPatente.Text, txtModelo.Text, selectMarca.GetItemText(selectMarca.SelectedItem), txtChofer.Text))
+            if (verificarDatosAutomovil(txtPatente.Text, txtModelo.Text, selectMarca.GetItemText(selectMarca.SelectedItem), txtChoferNombre.Text, txtApellidoChofer.Text))
             {   
-                int idmarca = selectMarca.Text!=""?obtainIdMarca(selectMarca.Text):0;
-                int idchofer = txtChofer.Text!=""?obtainIdChofer(txtChofer.Text):0;
-                Automovil autoABuscar = new Automovil(idmarca, txtModelo.Text, txtPatente.Text, idchofer);
+                int idmarca = selectMarca.SelectedItem == null ? 0 : obtenerIDMarca(selectMarca.SelectedItem.ToString());
+
+                Automovil autoABuscar = new Automovil(idmarca, txtModelo.Text, txtPatente.Text, txtChoferNombre.Text, txtApellidoChofer.Text);
                 tablaAutomoviles.DataSource = SQLAutomovil.filtrarAutomoviles(autoABuscar);
             }
         }
@@ -152,8 +108,11 @@ namespace UberFrba.Abm_Automovil
             selectMarca.Text = "";
             txtModelo.Text = "";
             txtPatente.Text = "";
-            txtChofer.Text = "";
-            //this.tablaAutomoviles.Columns[0].Visible = false; //autoID
+            txtChoferNombre.Text = "";
+            this.tablaAutomoviles.Columns[0].Visible = false; //autoID
+            this.tablaAutomoviles.Columns[3].Visible = false; //marcaID
+            this.tablaAutomoviles.Columns[9].Visible = false; //turnoID
+            this.tablaAutomoviles.Columns[10].Visible = false; //choferID
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
@@ -167,5 +126,16 @@ namespace UberFrba.Abm_Automovil
             autoSeleccionado = new Automovil(autoRow);
         }
 
+        public int obtenerIDMarca(string marca)
+        {
+            foreach (DataRow row in tablaMarcas.Rows)
+            {
+                if (row["nombre"].ToString() == marca)
+                {
+                    return int.Parse(row["id_marca"].ToString());
+                }
+            }
+            return -1;
+        }
     }
 }
