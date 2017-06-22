@@ -78,7 +78,7 @@ namespace UberFrba.ConexionBD
             {
                 conectar();
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Usuario join NONAME.Cliente on id_usuario = id_cliente";
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento, habilitado FROM NONAME.Usuario join NONAME.Cliente on id_usuario = id_cliente";
                 sqlCommand.CommandType = CommandType.Text; //opcional
                 sqlCommand.Connection = miConexion;
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
@@ -114,6 +114,7 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@direccion", clie.direccion);
                 sqlCommand.Parameters.AddWithValue("@codigo_postal", clie.codPostal);
                 sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", clie.fechaNacimiento);
+                sqlCommand.Parameters.AddWithValue("@habilitado", clie.habilitado);
 
                 int response=sqlCommand.ExecuteNonQuery();
                 if (response > 0)

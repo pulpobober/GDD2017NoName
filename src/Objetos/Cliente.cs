@@ -35,10 +35,11 @@ namespace UberFrba.Objetos
            this.direccion = datosCliente.Cells["direccion"].Value.ToString();
            this.codPostal = datosCliente.Cells["codigo_postal"].Value.ToString();
            this.fechaNacimiento = Convert.ToDateTime(datosCliente.Cells["fecha_nacimiento"].Value.ToString());
+           this.habilitado = Convert.ToBoolean(datosCliente.Cells["habilitado"].Value.ToString());
        }
 
        //Este cliente se crea cuando voy a modificar el cliente
-       public Cliente(int idCliente,string nom, string ape, int Dni, string email, int tel, string dir, string codPost, DateTime fechaNac)
+       public Cliente(int idCliente,string nom, string ape, int Dni, string email, int tel, string dir, string codPost, DateTime fechaNac, bool hab)
        {
            this.id_cliente = idCliente;
            this.nombre = nom;
@@ -49,6 +50,7 @@ namespace UberFrba.Objetos
            this.direccion = dir;
            this.codPostal = codPost;
            this.fechaNacimiento = fechaNac;
+           this.habilitado = hab;
        }
 
        //Este cliente se crea cuando se de alta un usuario
@@ -72,5 +74,7 @@ namespace UberFrba.Objetos
         public string direccion { get; set; }
         public string codPostal { get; set; }
         public DateTime fechaNacimiento { get; set; }
+        public bool habilitado { get; set; }
+
    }
 }

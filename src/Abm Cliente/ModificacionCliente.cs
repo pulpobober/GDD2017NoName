@@ -30,6 +30,7 @@ namespace UberFrba.Abm_Cliente
             txtTelefono.Text = clie.telefono.ToString();
             txtCodPostal.Text = clie.codPostal.ToString();
             dateTimeNacimiento.Value = clie.fechaNacimiento;
+            ckbHabilitado.Checked = clie.habilitado;
             depurarDireccion(clie.direccion);
         }
 
@@ -76,7 +77,7 @@ namespace UberFrba.Abm_Cliente
             if (verificarDatosCliente(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtLocalidad.Text, txtCodPostal.Text))
             {
                 string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
-                Cliente clienteAModificar = new Cliente(idCliente,txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, txtCodPostal.Text, dateTimeNacimiento.Value);
+                Cliente clienteAModificar = new Cliente(idCliente,txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, txtCodPostal.Text, dateTimeNacimiento.Value, ckbHabilitado.Checked);
                 string response=SQLCliente.modificarCliente(clienteAModificar);
                 MessageBox.Show(response);
                 this.Close();

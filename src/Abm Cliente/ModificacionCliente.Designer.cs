@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.btnModificacion = new System.Windows.Forms.Button();
+            this.ckbHabilitado = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblTitulo
@@ -39,7 +40,7 @@
             // 
             // btnModificacion
             // 
-            this.btnModificacion.Location = new System.Drawing.Point(96, 420);
+            this.btnModificacion.Location = new System.Drawing.Point(96, 449);
             this.btnModificacion.Name = "btnModificacion";
             this.btnModificacion.Size = new System.Drawing.Size(182, 56);
             this.btnModificacion.TabIndex = 29;
@@ -47,14 +48,32 @@
             this.btnModificacion.UseVisualStyleBackColor = true;
             this.btnModificacion.Click += new System.EventHandler(this.btnModificacion_Click);
             // 
+            // ckbHabilitado
+            // 
+            this.ckbHabilitado.AutoSize = true;
+            this.ckbHabilitado.Checked = true;
+            this.ckbHabilitado.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckbHabilitado.Location = new System.Drawing.Point(153, 419);
+            this.ckbHabilitado.Name = "ckbHabilitado";
+            this.ckbHabilitado.Size = new System.Drawing.Size(73, 17);
+            this.ckbHabilitado.TabIndex = 33;
+            this.ckbHabilitado.Text = "Habilitado";
+            this.ckbHabilitado.UseVisualStyleBackColor = true;
+            // 
             // ModificacionCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(405, 488);
+            this.ClientSize = new System.Drawing.Size(405, 517);
+            this.Controls.Add(this.ckbHabilitado);
             this.Controls.Add(this.btnModificacion);
             this.Name = "ModificacionCliente";
             this.Text = "ModificacionCliente";
+            this.Controls.SetChildIndex(this.lblLocalidad, 0);
+            this.Controls.SetChildIndex(this.lblPiso, 0);
+            this.Controls.SetChildIndex(this.lblDepartamento, 0);
+            this.Controls.SetChildIndex(this.txtPiso, 0);
+            this.Controls.SetChildIndex(this.txtDepto, 0);
             this.Controls.SetChildIndex(this.txtNombre, 0);
             this.Controls.SetChildIndex(this.txtApellido, 0);
             this.Controls.SetChildIndex(this.txtDNI, 0);
@@ -66,6 +85,7 @@
             this.Controls.SetChildIndex(this.dateTimeNacimiento, 0);
             this.Controls.SetChildIndex(this.lblTitulo, 0);
             this.Controls.SetChildIndex(this.btnModificacion, 0);
+            this.Controls.SetChildIndex(this.ckbHabilitado, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -74,5 +94,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnModificacion;
+        private System.Windows.Forms.CheckBox ckbHabilitado;
     }
 }
