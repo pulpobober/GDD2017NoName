@@ -131,7 +131,7 @@
             this.Controls.Add(this.btnMostrarListado);
             this.Controls.Add(this.cmbListado);
             this.Name = "ListadoEstadistico";
-            this.Text = "Form1";
+            this.Text = "Listado Estadistico";
             this.Load += new System.EventHandler(this.ListadoEstadistico_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tablaListado)).EndInit();
             this.ResumeLayout(false);

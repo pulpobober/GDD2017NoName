@@ -35,12 +35,13 @@
             this.lblFacturacionCliente = new System.Windows.Forms.Label();
             this.lblFacturacionClientesTexto = new System.Windows.Forms.Label();
             this.lblFacturacionTotal = new System.Windows.Forms.Label();
+            this.lblAclaracion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tablaFacturacion)).BeginInit();
             this.SuspendLayout();
             // 
             // btnFacturacion
             // 
-            this.btnFacturacion.Location = new System.Drawing.Point(378, 13);
+            this.btnFacturacion.Location = new System.Drawing.Point(378, 88);
             this.btnFacturacion.Name = "btnFacturacion";
             this.btnFacturacion.Size = new System.Drawing.Size(205, 66);
             this.btnFacturacion.TabIndex = 0;
@@ -51,7 +52,7 @@
             // lblCliente
             // 
             this.lblCliente.AutoSize = true;
-            this.lblCliente.Location = new System.Drawing.Point(12, 61);
+            this.lblCliente.Location = new System.Drawing.Point(14, 115);
             this.lblCliente.Name = "lblCliente";
             this.lblCliente.Size = new System.Drawing.Size(47, 13);
             this.lblCliente.TabIndex = 1;
@@ -60,7 +61,7 @@
             // cmbClientes
             // 
             this.cmbClientes.FormattingEnabled = true;
-            this.cmbClientes.Location = new System.Drawing.Point(65, 58);
+            this.cmbClientes.Location = new System.Drawing.Point(67, 112);
             this.cmbClientes.Name = "cmbClientes";
             this.cmbClientes.Size = new System.Drawing.Size(287, 21);
             this.cmbClientes.TabIndex = 3;
@@ -70,7 +71,7 @@
             this.tablaFacturacion.AllowUserToAddRows = false;
             this.tablaFacturacion.AllowUserToDeleteRows = false;
             this.tablaFacturacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaFacturacion.Location = new System.Drawing.Point(12, 111);
+            this.tablaFacturacion.Location = new System.Drawing.Point(12, 170);
             this.tablaFacturacion.Name = "tablaFacturacion";
             this.tablaFacturacion.ReadOnly = true;
             this.tablaFacturacion.Size = new System.Drawing.Size(571, 178);
@@ -80,7 +81,7 @@
             // 
             this.lblFacturacionCliente.AutoSize = true;
             this.lblFacturacionCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFacturacionCliente.Location = new System.Drawing.Point(123, 13);
+            this.lblFacturacionCliente.Location = new System.Drawing.Point(205, 13);
             this.lblFacturacionCliente.Name = "lblFacturacionCliente";
             this.lblFacturacionCliente.Size = new System.Drawing.Size(178, 24);
             this.lblFacturacionCliente.TabIndex = 5;
@@ -90,7 +91,7 @@
             // 
             this.lblFacturacionClientesTexto.AutoSize = true;
             this.lblFacturacionClientesTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFacturacionClientesTexto.Location = new System.Drawing.Point(12, 315);
+            this.lblFacturacionClientesTexto.Location = new System.Drawing.Point(12, 374);
             this.lblFacturacionClientesTexto.Name = "lblFacturacionClientesTexto";
             this.lblFacturacionClientesTexto.Size = new System.Drawing.Size(185, 25);
             this.lblFacturacionClientesTexto.TabIndex = 6;
@@ -100,17 +101,29 @@
             // 
             this.lblFacturacionTotal.AutoSize = true;
             this.lblFacturacionTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFacturacionTotal.Location = new System.Drawing.Point(203, 315);
+            this.lblFacturacionTotal.Location = new System.Drawing.Point(203, 374);
             this.lblFacturacionTotal.Name = "lblFacturacionTotal";
-            this.lblFacturacionTotal.Size = new System.Drawing.Size(70, 25);
+            this.lblFacturacionTotal.Size = new System.Drawing.Size(24, 25);
             this.lblFacturacionTotal.TabIndex = 7;
-            this.lblFacturacionTotal.Text = "label2";
+            this.lblFacturacionTotal.Text = "0";
+            // 
+            // lblAclaracion
+            // 
+            this.lblAclaracion.AutoSize = true;
+            this.lblAclaracion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAclaracion.Location = new System.Drawing.Point(9, 48);
+            this.lblAclaracion.Name = "lblAclaracion";
+            this.lblAclaracion.Size = new System.Drawing.Size(594, 16);
+            this.lblAclaracion.TabIndex = 8;
+            this.lblAclaracion.Text = "Se generara la factura del mes en curso para el cliente seleccionado, hasta la fe" +
+    "cha del dia de hoy";
             // 
             // FacturacionClientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(595, 357);
+            this.ClientSize = new System.Drawing.Size(613, 422);
+            this.Controls.Add(this.lblAclaracion);
             this.Controls.Add(this.lblFacturacionTotal);
             this.Controls.Add(this.lblFacturacionClientesTexto);
             this.Controls.Add(this.lblFacturacionCliente);
@@ -119,7 +132,7 @@
             this.Controls.Add(this.lblCliente);
             this.Controls.Add(this.btnFacturacion);
             this.Name = "FacturacionClientes";
-            this.Text = "Form1";
+            this.Text = "Facturacion Cliente";
             this.Load += new System.EventHandler(this.FacturacionClientes_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tablaFacturacion)).EndInit();
             this.ResumeLayout(false);
@@ -136,5 +149,6 @@
         private System.Windows.Forms.Label lblFacturacionCliente;
         private System.Windows.Forms.Label lblFacturacionClientesTexto;
         private System.Windows.Forms.Label lblFacturacionTotal;
+        private System.Windows.Forms.Label lblAclaracion;
     }
 }

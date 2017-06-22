@@ -209,7 +209,7 @@
             this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.lblChofer);
             this.Name = "RegistroViaje";
-            this.Text = "Form1";
+            this.Text = "Registro Viaje";
             this.ResumeLayout(false);
             this.PerformLayout();
 

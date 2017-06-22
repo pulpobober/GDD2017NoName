@@ -104,7 +104,7 @@
             this.Controls.Add(this.lblNombre);
             this.Controls.Add(this.lblTitulo);
             this.Name = "AbmRol";
-            this.Text = "Form1";
+            this.Text = "Abm Rol";
             this.Load += new System.EventHandler(this.AbmRol_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

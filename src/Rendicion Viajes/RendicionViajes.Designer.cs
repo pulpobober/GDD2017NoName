@@ -130,9 +130,9 @@
             this.lblImporteTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblImporteTotal.Location = new System.Drawing.Point(356, 440);
             this.lblImporteTotal.Name = "lblImporteTotal";
-            this.lblImporteTotal.Size = new System.Drawing.Size(70, 25);
+            this.lblImporteTotal.Size = new System.Drawing.Size(24, 25);
             this.lblImporteTotal.TabIndex = 14;
-            this.lblImporteTotal.Text = "label1";
+            this.lblImporteTotal.Text = "0";
             // 
             // RendicionViajes
             // 
@@ -151,7 +151,7 @@
             this.Controls.Add(this.btnRendir);
             this.Controls.Add(this.tablaRendicion);
             this.Name = "RendicionViajes";
-            this.Text = "Form1";
+            this.Text = "Rendicion Viaje";
             this.Load += new System.EventHandler(this.RendicionViajes_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tablaRendicion)).EndInit();
             this.ResumeLayout(false);

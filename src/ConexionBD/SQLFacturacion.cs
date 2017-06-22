@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UberFrba.Properties;
 
 namespace UberFrba.ConexionBD
 {
@@ -14,7 +15,7 @@ namespace UberFrba.ConexionBD
 
         public static DataTable ObtenerFacturacionCliente(int id_cliente)
         {
-            DateTime fecha = DateTime.Today.Date;
+            DateTime fecha = Settings.Default.fecha_sistema;
             try
             {
                 conectar();
@@ -44,7 +45,6 @@ namespace UberFrba.ConexionBD
 
         public static double rendirElTotal(int id_cliente)
         {
-            DateTime fecha = DateTime.Today.Date;
             try
             {
                 conectar();
@@ -53,13 +53,19 @@ namespace UberFrba.ConexionBD
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = miConexion;
 
-                sqlCommand.Parameters.AddWithValue("@id_cliente", id_cliente);
-                sqlCommand.Parameters.AddWithValue("@fecha", fecha.Date);
+                sqlCommand.Parameters.AddWithValue("@id_usuario", id_cliente);
+                sqlCommand.Parameters.AddWithValue("@fecha", fecha);
 
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableListado = new DataTable();
                 dataTableListado.Load(sqlReader);
-                return double.Parse(dataTableListado.Rows[0][0].ToString());
+                if (dataTableListado.Rows.Count == 0) {
+                    return 0;
+                }
+                else
+                {
+                    return double.Parse(dataTableListado.Rows[0][0].ToString());
+                }
             }
             catch (Exception ex)
             {
