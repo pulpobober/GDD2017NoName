@@ -45,6 +45,7 @@ namespace UberFrba.ConexionBD
 
         public static double rendirElTotal(int id_cliente)
         {
+            DateTime fecha = Settings.Default.fecha_sistema;
             try
             {
                 conectar();
