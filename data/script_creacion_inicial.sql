@@ -621,7 +621,7 @@ GO
 CREATE PROCEDURE NONAME.sproc_rol_modificacion
 	@id_rol INT,
 	@tipo VARCHAR(255) = NULL,
-	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,--Lista opcional de tipo Tabla (Table-Valued Parameters) que contiene (o no) uno o más valores de id_funcion
+	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY, --Lista de tipo Tabla (Table-Valued Parameters) que contiene (o no) valores de id_funcion a asignar (deshabilitar)
 	@habilitado BIT = NULL
 
 /*
@@ -652,7 +652,7 @@ BEGIN
 
 /* En caso de haber algun id_funcion en la lista de funciones @ids_funciones,
 actualizo la lista de funcionalidades del Rol en base a lo que me llegó por parametro.
-Caso contrario, dejo todo igual */
+Caso contrario (no llegan ids_funciones / vacio), le quito todos los permisos */
 	IF EXISTS (SELECT 1 FROM @ids_funciones) --Me llegó al menos un id_funcion ==> AGREGO Y/O QUITO FUNCIONALIDADES
 		BEGIN
 			
@@ -662,14 +662,18 @@ Caso contrario, dejo todo igual */
 			INSERT INTO NONAME.Funcion_Rol
 			SELECT @id_rol, id_funcion
 			FROM @ids_funciones
-			WHERE NOT EXISTS (SELECT 1 FROM NONAME.Funcion_Rol WHERE id_rol = @id_rol AND id_funcion = @id_funcion)
+			WHERE id_funcion NOT IN (SELECT id_funcion FROM NONAME.Funcion_Rol WHERE id_rol = @id_rol)
 			
 			--Quito aquellas funcionalidades viejas que ya no le corresponden al Rol
 			DELETE FROM NONAME.Funcion_Rol
-			WHERE Funcion_Rol.id_rol = @id_rol AND Funcion_Rol.id_funcion NOT IN (SELECT * FROM @ids_funciones)
+			WHERE Funcion_Rol.id_rol = @id_rol AND (Funcion_Rol.id_funcion NOT IN (SELECT * FROM @ids_funciones))
 
 		END
-		
+	ELSE --tabla de ids_funciones vacia --> le quito todos los permisos que tenia
+		BEGIN
+			DELETE FROM NONAME.Funcion_Rol
+			WHERE Funcion_Rol.id_rol = @id_rol
+		END
 END
 GO
 
