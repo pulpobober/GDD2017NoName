@@ -1538,14 +1538,19 @@ CREATE PROCEDURE NONAME.sproc_top5_clientesConMayorConsumo
 
 AS
 begin
- 	SELECT  top 5 (C.apellido + ', ' + C.nombre) AS Cliente, (SELECT sum(v.cantidad_km * t.valor_km) 
-																FROM NONAME.Factura f
-																join Factura_Viaje fv ON fv.nro_factura = f.nro_factura
-																join Viaje v ON fv.id_viaje = v.id_viaje
-																join NONAME.Turno t on t.id_turno = v.id_turno) as Consumo
+ 	SELECT  top 5 (C.apellido + ', ' + C.nombre) AS Cliente, F.nro_factura, (SELECT sum(v.cantidad_km * t.valor_km) 
+																FROM NONAME.Factura ff
+																join noname.Factura_Viaje fv ON fv.nro_factura = ff.nro_factura
+																join noname.Viaje v ON fv.id_viaje = v.id_viaje
+																join NONAME.Turno t on t.id_turno = v.id_turno
+																where ff.nro_factura = F.nro_factura 
+
+																
+																) as Consumo
+																
 	FROM NONAME.Usuario as C join NONAME.Factura F on C.id_usuario = F.id_cliente
 	where YEAR(F.fecha) = @anio AND DATEPART(QUARTER, f.fecha) = @trimestre
-	group by (C.apellido + ', ' + C.nombre)
+	order by Consumo Desc
 	
 
 end 
@@ -1559,7 +1564,7 @@ CREATE PROCEDURE NONAME.sproc_top1_clienteQueUtilizoMasVecesMismoAuto
 
 AS
 BEGIN
-SELECT TOP 5 (U.apellido + ', ' + U.nombre) as 'Nombre Cliente', count(patente_auto) as 'Mas veces mismo automobil', patente_auto as 'Patente auto'
+SELECT TOP 5 (U.apellido + ', ' + U.nombre) as 'Nombre Cliente', count(patente_auto) as 'Mas veces mismo automovil', patente_auto as 'Patente auto'
 FROM NONAME.Usuario U join NONAME.Viaje V on U.id_usuario = v.id_cliente
 join NONAME.Auto_Chofer AC on AC.id_chofer = v.id_chofer AND AC.id_turno = v.id_turno
 join NONAME.Auto A on A.id_auto = AC.id_auto
@@ -1851,9 +1856,7 @@ INSERT INTO [NONAME].Factura_Viaje
 	v.id_viaje
 	from [gd_esquema].[Maestra] m
 	join [NONAME].Factura f ON m.Factura_Nro = f.nro_factura
-	join [NONAME].Viaje v ON v.fecha_hora_fin = m.Viaje_Fecha
-							and v.fecha_hora_inicio <= m.Factura_Fecha_Inicio
-							and v.fecha_hora_fin <= m.Factura_Fecha_Fin					
+	join [NONAME].Viaje v ON v.fecha_hora_inicio = m.Viaje_Fecha			
 				
 												  
 SET IDENTITY_INSERT NONAME.Rendicion ON;
