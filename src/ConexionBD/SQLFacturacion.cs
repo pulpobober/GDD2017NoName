@@ -24,7 +24,7 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Connection = miConexion;
 
                 sqlCommand.Parameters.AddWithValue("@id_usuario", id_cliente);
-                sqlCommand.Parameters.AddWithValue("@fecha", fecha);
+                sqlCommand.Parameters.AddWithValue("@fecha", fecha.Date);
 
 
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
@@ -55,12 +55,13 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Connection = miConexion;
 
                 sqlCommand.Parameters.AddWithValue("@id_usuario", id_cliente);
-                sqlCommand.Parameters.AddWithValue("@fecha", fecha);
+                sqlCommand.Parameters.AddWithValue("@fecha", fecha.Date);
 
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableListado = new DataTable();
                 dataTableListado.Load(sqlReader);
-                if (dataTableListado.Rows.Count == 0) {
+                if (dataTableListado.Rows[0][0].ToString() == "")
+                {
                     return 0;
                 }
                 else

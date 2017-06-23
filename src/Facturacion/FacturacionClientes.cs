@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using UberFrba.ConexionBD;
+using UberFrba.Properties;
 
 namespace UberFrba.Facturacion
 {
@@ -38,10 +39,28 @@ namespace UberFrba.Facturacion
         private void btnFacturacion_Click(object sender, EventArgs e)
         {
             tablaFacturacion.DataSource = SQLFacturacion.ObtenerFacturacionCliente(obtenerIDCliente(cmbClientes.SelectedItem.ToString()));
-            lblFacturacionClientesTexto.Show();
-            lblFacturacionTotal.Show();
-
+            
             lblFacturacionTotal.Text = SQLFacturacion.rendirElTotal(obtenerIDCliente(cmbClientes.SelectedItem.ToString())).ToString();
+
+            if (lblFacturacionTotal.Text != "0")
+            {
+                lblFacturacionClientesTexto.Show();
+                lblFacturacionTotal.Show();
+                lblFechaFinFacturacion.Show();
+                lblFechaInicioFacturacion.Show();
+                lblFechaFinFacturacionTexto.Show();
+                lblFechaInicioFacturacionTexto.Show();
+                tablaFacturacion.Columns[2].Visible = false; //fecha_hora_inicio
+                lblFechaInicioFacturacion.Text = tablaFacturacion.Rows[0].Cells["fecha_hora_inicio"].Value.ToString();
+                lblFechaFinFacturacion.Text = Settings.Default.fecha_sistema.ToString();
+            }
+            else {
+                MessageBox.Show("No tiene nada para facturar en este mes el cliente seleccionado");
+
+            }
+           
+            
+
         }
 
         private int obtenerIDCliente(string nombreUsuario)

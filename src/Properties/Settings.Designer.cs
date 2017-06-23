@@ -38,7 +38,7 @@ namespace UberFrba.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2015-11-29")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2017-06-30")]
         public global::System.DateTime fecha_sistema {
             get {
                 return ((global::System.DateTime)(this["fecha_sistema"]));

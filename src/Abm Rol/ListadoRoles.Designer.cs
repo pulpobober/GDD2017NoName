@@ -39,7 +39,7 @@
             // 
             this.lblTitulo.AutoSize = true;
             this.lblTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(81, 9);
+            this.lblTitulo.Location = new System.Drawing.Point(56, 9);
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Size = new System.Drawing.Size(119, 25);
             this.lblTitulo.TabIndex = 0;
@@ -57,7 +57,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(184, 211);
+            this.btnEliminar.Location = new System.Drawing.Point(133, 211);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(88, 39);
             this.btnEliminar.TabIndex = 3;
@@ -73,7 +73,7 @@
             this.listaRoles.Location = new System.Drawing.Point(17, 46);
             this.listaRoles.Name = "listaRoles";
             this.listaRoles.ReadOnly = true;
-            this.listaRoles.Size = new System.Drawing.Size(240, 150);
+            this.listaRoles.Size = new System.Drawing.Size(204, 150);
             this.listaRoles.TabIndex = 4;
             this.listaRoles.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.listaRoles_CellClick);
             // 
@@ -81,7 +81,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(231, 262);
             this.Controls.Add(this.listaRoles);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnModificar);
