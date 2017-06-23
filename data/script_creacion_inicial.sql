@@ -1385,13 +1385,14 @@ AS
 BEGIN
 	set @nro_factura = (select nro_factura 
 						from Factura where id_cliente = @id_usuario
-						and fecha_inicio <= @fecha and fecha_fin is null)
+						and fecha_inicio <= @fecha and fecha_fin >= @fecha)
 END
 BEGIN
 	-- la fecha corresponde a l a creacion de la factura y esta coincide con fecha fin
 	UPDATE NONAME.Factura 
 	SET fecha_fin = @fecha , fecha = @fecha
 	WHERE nro_factura = @nro_factura
+	and fecha_fin is null and fecha is null
 END
 BEGIN 
 	SELECT sum(v.cantidad_km * t.valor_km) as  'Monto total'
