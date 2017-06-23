@@ -243,8 +243,7 @@ CREATE TABLE [NONAME].[Factura](
 	[id_cliente] [int] NOT NULL,
 	[fecha_fin] [datetime] NOT NULL,
 	[fecha_inicio] [datetime] NOT NULL,
-	[fecha] [datetime] NOT NULL,
-	[importe] [numeric](18, 2) NOT NULL
+	[fecha] [datetime] NOT NULL
 )
 GO
 
@@ -1371,7 +1370,7 @@ BEGIN
 	FROM Factura_Viaje fv
 	JOIN Viaje v ON fv.id_viaje = v.id_viaje
 	JOIN Factura f ON fv.nro_factura = f.nro_factura
-	WHERE f.fecha = @fecha 
+	WHERE f.fecha_inicio <= @fecha and f.fecha_fin >= @fecha 
 	and f.id_cliente = @id_usuario
 	
 END
@@ -1383,12 +1382,17 @@ CREATE PROCEDURE NONAME.sp_importe_facturacion
 	@fecha datetime
 AS
 BEGIN
-	SELECT f.importe
+	SELECT sum(v.cantidad_km * t.valor_km) 
 	FROM NONAME.Factura f
+	join Factura_Viaje fv ON fv.nro_factura = f.nro_factura
+	join Viaje v ON fv.id_viaje = v.id_viaje
+	join NONAME.Turno t on t.id_turno = v.id_turno
 	where f.id_cliente = @id_usuario
-	and f.fecha = @fecha
+	and f.fecha_inicio <= @fecha and f.fecha_fin >= @fecha
 END
 GO
+
+
 
 CREATE PROCEDURE NONAME.sp_RegistroViaje
 	@id_chofer int,
@@ -1429,8 +1433,8 @@ SET @id_viaje = SCOPE_IDENTITY()
 						@id_cliente,
 						@fecha_fin,
 						@fecha_inicio,
-						@fecha_inicio,
-						(@cant_km * (SELECT valor_km from NONAME.Turno where id_turno = @id_turno)))
+						@fecha_inicio
+					)
 
 					SET @nro_factura = SCOPE_IDENTITY()
 
@@ -1514,7 +1518,7 @@ BEGIN
 END
 GO
 
-
+-- arreglar esta estadistica, esta mal calculada la parte del monto maximo
 CREATE PROCEDURE NONAME.sproc_top5_clientesConMayorConsumo
 	@anio INT,
 	@trimestre INT
@@ -1522,7 +1526,11 @@ CREATE PROCEDURE NONAME.sproc_top5_clientesConMayorConsumo
 
 AS
 begin
- 	SELECT  top 5 (C.apellido + ', ' + C.nombre) AS Cliente, sum(f.importe) as Consumo
+ 	SELECT  top 5 (C.apellido + ', ' + C.nombre) AS Cliente, (SELECT sum(v.cantidad_km * t.valor_km) 
+																FROM NONAME.Factura f
+																join Factura_Viaje fv ON fv.nro_factura = f.nro_factura
+																join Viaje v ON fv.id_viaje = v.id_viaje
+																join NONAME.Turno t on t.id_turno = v.id_turno) as Consumo
 	FROM NONAME.Usuario as C join NONAME.Factura F on C.id_usuario = F.id_cliente
 	where YEAR(F.fecha) = @anio AND DATEPART(QUARTER, f.fecha) = @trimestre
 	group by (C.apellido + ', ' + C.nombre)
@@ -1811,17 +1819,13 @@ GO
 SET IDENTITY_INSERT [NONAME].Factura ON;
 GO
 
-INSERT INTO [NONAME].Factura (nro_factura, id_cliente, fecha_fin, fecha_inicio, fecha, importe)
+INSERT INTO [NONAME].Factura (nro_factura, id_cliente, fecha_fin, fecha_inicio, fecha)
 SELECT DISTINCT
 	m.Factura_Nro,
 	c.id_usuario,
 	m.Factura_Fecha_Fin,
 	m.Factura_Fecha_Inicio,
-	m.Factura_Fecha,
-	(select sum(v.cantidad_km * t.valor_km) from NONAME.Viaje v, NONAME.Turno t 
-											  where v.id_turno = t.id_turno
-											  and v.fecha_hora_inicio >= m.Factura_Fecha_Inicio
-											  and v.fecha_hora_fin <= m.Factura_Fecha_Fin)
+	m.Factura_Fecha
 	FROM [gd_esquema].[Maestra] m
 	join [NONAME].Usuario c ON m.Cliente_Dni = c.usuario_dni
 	where Factura_Nro is not null
