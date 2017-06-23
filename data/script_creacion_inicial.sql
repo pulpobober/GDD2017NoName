@@ -241,9 +241,9 @@ GO
 CREATE TABLE [NONAME].[Factura](
 	[nro_factura] [numeric](18, 0) IDENTITY(10000, 1) NOT NULL,
 	[id_cliente] [int] NOT NULL,
-	[fecha_fin] [datetime] NOT NULL,
+	[fecha_fin] [datetime],
 	[fecha_inicio] [datetime] NOT NULL,
-	[fecha] [datetime] NOT NULL
+	[fecha] [datetime] 
 )
 GO
 
@@ -1381,17 +1381,26 @@ CREATE PROCEDURE NONAME.sp_importe_facturacion
 	@id_usuario int, -- (id_usuario = id_cliente)
 	@fecha datetime
 AS
+	DECLARE @nro_factura numeric(18, 0)
 BEGIN
-	SELECT sum(v.cantidad_km * t.valor_km) 
-	FROM NONAME.Factura f
-	join Factura_Viaje fv ON fv.nro_factura = f.nro_factura
-	join Viaje v ON fv.id_viaje = v.id_viaje
-	join NONAME.Turno t on t.id_turno = v.id_turno
-	where f.id_cliente = @id_usuario
-	and f.fecha_inicio <= @fecha and f.fecha_fin >= @fecha
+	set @nro_factura = (select nro_factura 
+						from Factura where id_cliente = @id_usuario
+						and fecha_inicio <= @fecha and fecha_fin is null)
+END
+BEGIN
+	-- la fecha corresponde a l a creacion de la factura y esta coincide con fecha fin
+	UPDATE NONAME.Factura 
+	SET fecha_fin = @fecha , fecha = @fecha
+	WHERE nro_factura = @nro_factura
+END
+BEGIN 
+	SELECT sum(v.cantidad_km * t.valor_km) as  'Monto total'
+	FROM Viaje v
+	join Factura_Viaje fv ON v.id_viaje = fv.id_viaje
+	join Turno t ON v.id_turno = t.id_turno 
+	where fv.nro_factura = @nro_factura
 END
 GO
-
 
 
 CREATE PROCEDURE NONAME.sp_RegistroViaje
@@ -1423,17 +1432,19 @@ BEGIN
 
 SET @id_viaje = SCOPE_IDENTITY()
 
-
-	IF NOT EXISTS (SELECT 1 FROM NONAME.Factura re WHERE re.fecha = @fecha_inicio and re.id_cliente = @id_cliente)
+ -- Si el id de una factura para ese mes ya esta creada la fecha de finalizacion se encuentra en null 
+ -- hasta que a fin de mes la factura sea creada
+ -- el administrad updetea la fecha fin de factura el dia que la crea
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Factura re WHERE re.fecha_inicio <= @fecha_inicio and @fecha_fin = null and re.id_cliente = @id_cliente)
 			BEGIN
 					DECLARE @nro_factura INT
 					
 					INSERT INTO [NONAME].Factura 
 					VALUES (
 						@id_cliente,
-						@fecha_fin,
+						NULL,
 						@fecha_inicio,
-						@fecha_inicio
+						NULL
 					)
 
 					SET @nro_factura = SCOPE_IDENTITY()
