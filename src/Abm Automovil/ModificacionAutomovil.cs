@@ -60,7 +60,7 @@ namespace UberFrba.Abm_Automovil
                 int idturno = obtenerIDTurno(cmbTurno.Text);
                 int idchofer = obtenerIDChofer(cmbChofer.Text);
 
-                Automovil auto = new Automovil(idautomovil, idturno, txtPatente.Text, txtModelo.Text, idmarca, idchofer, txtRodado.Text, txtLicencia.Text, 1);
+                Automovil auto = new Automovil(idautomovil, idturno, txtPatente.Text, txtModelo.Text, idmarca, idchofer, txtRodado.Text, txtLicencia.Text, ckbHabilitado.Checked ? 1 : 0);
                 string response = SQLAutomovil.modificarAutomovil(auto);
                 MessageBox.Show(response);
             }
