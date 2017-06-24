@@ -1385,7 +1385,7 @@ AS
 BEGIN
 	set @nro_factura = (select nro_factura 
 						from Factura where id_cliente = @id_usuario
-						and fecha_inicio <= @fecha and fecha_fin is null)
+						and fecha_fin is null)
 END
 BEGIN
 	-- la fecha corresponde a l a creacion de la factura y esta coincide con fecha fin
@@ -1436,7 +1436,7 @@ SET @id_viaje = SCOPE_IDENTITY()
  -- Si el id de una factura para ese mes ya esta creada la fecha de finalizacion se encuentra en null 
  -- hasta que a fin de mes la factura sea creada
  -- el administrad updetea la fecha fin de factura el dia que la crea
-	IF NOT EXISTS (SELECT 1 FROM NONAME.Factura re WHERE re.fecha_inicio <= @fecha_inicio and @fecha_fin is null and re.id_cliente = @id_cliente)
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Factura re WHERE re.fecha_fin is null and re.id_cliente = @id_cliente)
 			BEGIN
 					DECLARE @nro_factura INT
 					
@@ -1460,7 +1460,7 @@ SET @id_viaje = SCOPE_IDENTITY()
 					INSERT INTO [NONAME].Factura_Viaje
 					SELECT f.nro_factura, v.id_viaje
 					FROM NONAME.Factura f, NONAME.Viaje v 
-					WHERE f.fecha = @fecha_fin and f.id_cliente = @id_cliente and v.id_viaje = @id_viaje	
+					WHERE f.fecha_fin is null  and f.id_cliente = @id_cliente and v.id_viaje = @id_viaje	
 				END
 
 
