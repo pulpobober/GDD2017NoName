@@ -198,5 +198,30 @@ namespace UberFrba.ConexionBD
                 desconectar();
             }
         }
+
+        public static DataTable obtenerHoraInicioYFinDelTurno(int idTurno)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT hora_inicio, hora_fin FROM NONAME.Turno WHERE id_turno = '" + idTurno + "'";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableTurnos = new DataTable();
+                dataTableTurnos.Load(sqlReader);
+                return dataTableTurnos;
+            }
+            catch (Exception ex)
+            {
+                return null;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
     }
 }

@@ -159,12 +159,35 @@ namespace UberFrba.Registro_Viajes
                 MessageBox.Show("La cantidad de kilometros tiene que ser mayor a 0", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (cmbCliente.SelectedItem == null)
+            else if (cmbCliente.SelectedItem == null)
             {
                 MessageBox.Show("No se puede dejar el campo clientes vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-           
+            else if (!verificarHoraConTurno()) {
+                MessageBox.Show("La hora del viaje no coincide con el turno elegido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
+        }
+
+        private bool verificarHoraConTurno() {
+            DataTable turnoElegido;
+            turnoElegido = SQLTurno.obtenerHoraInicioYFinDelTurno(obtenerIDTurno(cmbTurnos.SelectedItem.ToString()));
+            DataRow row = turnoElegido.Rows[0];
+
+            int hora_inicio = int.Parse(row["hora_inicio"].ToString());
+            int hora_fin = int.Parse(row["hora_fin"].ToString());
+            int hora_viaje_inicio =  dataTimeInicio.Value.Hour;
+            int hora_viaje_fin =  dateTimeFin.Value.Hour;
+
+            if (hora_viaje_inicio < hora_inicio || hora_viaje_inicio > hora_fin) { 
+                return false;
+            }
+            else if (hora_viaje_fin < hora_inicio || hora_viaje_fin > hora_fin)
+            {
+                return false;
+            }
             return true;
         }
 
@@ -209,6 +232,11 @@ namespace UberFrba.Registro_Viajes
                 e.Handled = true;
                 return;
             }
+        }
+
+        private void RegistroViaje_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
