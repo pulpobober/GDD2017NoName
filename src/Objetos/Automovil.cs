@@ -53,7 +53,7 @@ namespace UberFrba.Objetos
                 this.habilitado = 1;
             }
             else{
-                this.habilitado = 1;
+                this.habilitado = 0;
             }
 
            this.rodado = datosAutomovil.Cells["rodado"].Value.ToString();

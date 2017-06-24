@@ -32,7 +32,6 @@ namespace UberFrba.Abm_Automovil
             txtPatente.Text = auto.patente;
             txtModelo.Text = auto.modelo;
 
-
             string nombreYApellido = obtenerNombreYApellidoChofer(auto.idchofer);
             cmbChofer.SelectedIndex = cmbChofer.FindStringExact(nombreYApellido);
            // cmbChofer.SelectedText = nombreYApellido;

@@ -40,6 +40,7 @@ namespace UberFrba.Abm_Turno
             txtDescripcion.Text = tur.descripcion;
             txtValorKm.Text = tur.valor_km.ToString();
             txtPrecioBase.Text = tur.precio_base.ToString();
+            ckbHabilitado.Checked = tur.habilitado;
         }
 
          private void ModificacionTurno_Load(object sender, EventArgs e)
