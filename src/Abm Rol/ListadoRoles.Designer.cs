@@ -32,6 +32,7 @@
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.listaRoles = new System.Windows.Forms.DataGridView();
+            this.btnRecargar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.listaRoles)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,7 +48,7 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(17, 211);
+            this.btnModificar.Location = new System.Drawing.Point(17, 267);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(84, 39);
             this.btnModificar.TabIndex = 2;
@@ -57,7 +58,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(133, 211);
+            this.btnEliminar.Location = new System.Drawing.Point(133, 267);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(88, 39);
             this.btnEliminar.TabIndex = 3;
@@ -77,11 +78,23 @@
             this.listaRoles.TabIndex = 4;
             this.listaRoles.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.listaRoles_CellClick);
             // 
+            // btnRecargar
+            // 
+            this.btnRecargar.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.btnRecargar.Location = new System.Drawing.Point(36, 210);
+            this.btnRecargar.Name = "btnRecargar";
+            this.btnRecargar.Size = new System.Drawing.Size(166, 42);
+            this.btnRecargar.TabIndex = 15;
+            this.btnRecargar.Text = "Recargar Tabla";
+            this.btnRecargar.UseVisualStyleBackColor = false;
+            this.btnRecargar.Click += new System.EventHandler(this.btnRecargar_Click);
+            // 
             // ListadoRoles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(231, 262);
+            this.ClientSize = new System.Drawing.Size(231, 318);
+            this.Controls.Add(this.btnRecargar);
             this.Controls.Add(this.listaRoles);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnModificar);
@@ -101,5 +114,6 @@
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.DataGridView listaRoles;
+        private System.Windows.Forms.Button btnRecargar;
     }
 }

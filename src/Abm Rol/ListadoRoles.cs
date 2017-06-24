@@ -67,5 +67,15 @@ namespace UberFrba.Abm_Rol
 
 
         }
+
+        private void btnRecargar_Click(object sender, EventArgs e)
+        {
+            DataTable roles = SQLRoles.obtenerTodosLosRoles();
+            listaRoles.DataSource = roles;
+            this.listaRoles.Columns[0].Visible = false; //rol_id
+            this.listaRoles.Columns[2].Visible = false; //habilitado
+            DataGridViewRow listaRow = listaRoles.Rows[0];
+            rolSeleccionado = new Rol(listaRow);
+        }
     }
 }

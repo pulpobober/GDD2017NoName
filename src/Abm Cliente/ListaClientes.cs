@@ -125,5 +125,18 @@ namespace UberFrba.Abm_Cliente
             txtNombre.Text = "";
             this.tablaClientes.Columns[0].Visible = false; //usuarioID
         }
+
+        private void btnRecargar_Click(object sender, EventArgs e)
+        {
+            DataTable clientes = SQLCliente.obtenerTodosLosClientes();
+            tablaClientes.DataSource = clientes;
+            this.tablaClientes.Columns[0].Visible = false; //usuarioID
+            DataGridViewRow clieRow = tablaClientes.Rows[0];
+            clienteSeleccionado = new Cliente(clieRow);
+
+            txtDNI.Text = "";
+            txtApellido.Text = "";
+            txtNombre.Text = "";
+        }
     }
 }

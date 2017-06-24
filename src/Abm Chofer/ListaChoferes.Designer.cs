@@ -42,6 +42,7 @@
             this.lbSeleccionar = new System.Windows.Forms.Label();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
+            this.btnRecargar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tablaChoferes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -90,7 +91,7 @@
             this.lblTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitulo.Location = new System.Drawing.Point(208, 9);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(223, 33);
+            this.lblTitulo.Size = new System.Drawing.Size(235, 33);
             this.lblTitulo.TabIndex = 4;
             this.lblTitulo.Text = "Listado Choferes";
             // 
@@ -113,7 +114,7 @@
             // 
             // btnFiltrar
             // 
-            this.btnFiltrar.Location = new System.Drawing.Point(193, 142);
+            this.btnFiltrar.Location = new System.Drawing.Point(193, 132);
             this.btnFiltrar.Name = "btnFiltrar";
             this.btnFiltrar.Size = new System.Drawing.Size(238, 37);
             this.btnFiltrar.TabIndex = 7;
@@ -126,7 +127,7 @@
             this.tablaChoferes.AllowUserToAddRows = false;
             this.tablaChoferes.AllowUserToDeleteRows = false;
             this.tablaChoferes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaChoferes.Location = new System.Drawing.Point(21, 247);
+            this.tablaChoferes.Location = new System.Drawing.Point(21, 218);
             this.tablaChoferes.MultiSelect = false;
             this.tablaChoferes.Name = "tablaChoferes";
             this.tablaChoferes.ReadOnly = true;
@@ -160,15 +161,15 @@
             // 
             this.lbSeleccionar.AutoSize = true;
             this.lbSeleccionar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSeleccionar.Location = new System.Drawing.Point(19, 208);
+            this.lbSeleccionar.Location = new System.Drawing.Point(19, 179);
             this.lbSeleccionar.Name = "lbSeleccionar";
-            this.lbSeleccionar.Size = new System.Drawing.Size(318, 25);
+            this.lbSeleccionar.Size = new System.Drawing.Size(315, 25);
             this.lbSeleccionar.TabIndex = 11;
             this.lbSeleccionar.Text = "Seleccione el chofer que quiere";
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(24, 445);
+            this.btnModificar.Location = new System.Drawing.Point(24, 461);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(167, 51);
             this.btnModificar.TabIndex = 12;
@@ -178,7 +179,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(408, 445);
+            this.btnEliminar.Location = new System.Drawing.Point(408, 461);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(175, 51);
             this.btnEliminar.TabIndex = 13;
@@ -186,11 +187,23 @@
             this.btnEliminar.UseVisualStyleBackColor = true;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
+            // btnRecargar
+            // 
+            this.btnRecargar.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.btnRecargar.Location = new System.Drawing.Point(21, 406);
+            this.btnRecargar.Name = "btnRecargar";
+            this.btnRecargar.Size = new System.Drawing.Size(562, 43);
+            this.btnRecargar.TabIndex = 25;
+            this.btnRecargar.Text = "Recargar Tabla";
+            this.btnRecargar.UseVisualStyleBackColor = false;
+            this.btnRecargar.Click += new System.EventHandler(this.btnRecargar_Click);
+            // 
             // ListaChoferes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 508);
+            this.ClientSize = new System.Drawing.Size(640, 524);
+            this.Controls.Add(this.btnRecargar);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.lbSeleccionar);
@@ -231,5 +244,6 @@
         protected System.Windows.Forms.Label lblDni;
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnEliminar;
+        private System.Windows.Forms.Button btnRecargar;
     }
 }

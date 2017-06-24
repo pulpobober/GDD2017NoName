@@ -74,13 +74,8 @@ namespace UberFrba.Abm_Chofer
             }
         }
 
-        //Por ahora no hago nada con el doble ckick
         public void tablaChoferes_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            //este es el Chofer, nose como me viene de la tabla, quizas tenga que hacer uno x uno los datos de las columnas
-           // DataGridViewRow clieRow = tablaChoferes.Rows[e.RowIndex];
-           // Chofer Chofer = new Chofere(clieRow);
-            //seleccionoChofer(Chofer);
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -105,15 +100,6 @@ namespace UberFrba.Abm_Chofer
             new ModificacionChofer(choferSeleccionado).ShowDialog();
         }
 
-        /*public static void recargar() {
-            DataTable Choferes = SQLChofere.obtenerTodosLosChoferes();
-            tablaChoferes.DataSource = Choferes;
-            txtDNI.Text = "";
-            txtApellido.Text = "";
-            txtNombre.Text = "";
-            this.tablaChoferes.Columns[0].Visible = false; //usuarioID
-        }*/
-
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             DataTable Choferes = SQLChofer.obtenerTodosLosChoferes();
@@ -122,6 +108,19 @@ namespace UberFrba.Abm_Chofer
             txtApellido.Text = "";
             txtNombre.Text = "";
             this.tablaChoferes.Columns[0].Visible = false; //usuarioID
+        }
+
+        private void btnRecargar_Click(object sender, EventArgs e)
+        {
+            DataTable Choferes = SQLChofer.obtenerTodosLosChoferes();
+            tablaChoferes.DataSource = Choferes;
+            this.tablaChoferes.Columns[0].Visible = false; //usuarioID
+            DataGridViewRow clieRow = tablaChoferes.Rows[0];
+            choferSeleccionado = new Chofer(clieRow);
+
+            txtDNI.Text = "";
+            txtApellido.Text = "";
+            txtNombre.Text = "";
         }
     }
 }

@@ -42,14 +42,13 @@ namespace UberFrba.Abm_Automovil
             this.btnFiltrar = new System.Windows.Forms.Button();
             this.tablaAutomoviles = new System.Windows.Forms.DataGridView();
             this.btnLimpiar = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.lbSeleccionar = new System.Windows.Forms.Label();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.lblApellidoChofer = new System.Windows.Forms.Label();
             this.txtApellidoChofer = new System.Windows.Forms.TextBox();
+            this.btnRecargar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tablaAutomoviles)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblMarca
@@ -124,7 +123,7 @@ namespace UberFrba.Abm_Automovil
             // 
             // btnFiltrar
             // 
-            this.btnFiltrar.Location = new System.Drawing.Point(138, 157);
+            this.btnFiltrar.Location = new System.Drawing.Point(43, 133);
             this.btnFiltrar.Name = "btnFiltrar";
             this.btnFiltrar.Size = new System.Drawing.Size(238, 37);
             this.btnFiltrar.TabIndex = 7;
@@ -137,7 +136,7 @@ namespace UberFrba.Abm_Automovil
             this.tablaAutomoviles.AllowUserToAddRows = false;
             this.tablaAutomoviles.AllowUserToDeleteRows = false;
             this.tablaAutomoviles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaAutomoviles.Location = new System.Drawing.Point(24, 317);
+            this.tablaAutomoviles.Location = new System.Drawing.Point(24, 233);
             this.tablaAutomoviles.MultiSelect = false;
             this.tablaAutomoviles.Name = "tablaAutomoviles";
             this.tablaAutomoviles.ReadOnly = true;
@@ -151,7 +150,7 @@ namespace UberFrba.Abm_Automovil
             // 
             this.btnLimpiar.BackColor = System.Drawing.Color.Red;
             this.btnLimpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLimpiar.Location = new System.Drawing.Point(431, 129);
+            this.btnLimpiar.Location = new System.Drawing.Point(330, 131);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(155, 41);
             this.btnLimpiar.TabIndex = 9;
@@ -159,19 +158,11 @@ namespace UberFrba.Abm_Automovil
             this.btnLimpiar.UseVisualStyleBackColor = false;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(34, 286);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(8, 8);
-            this.dataGridView1.TabIndex = 10;
-            // 
             // lbSeleccionar
             // 
             this.lbSeleccionar.AutoSize = true;
             this.lbSeleccionar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSeleccionar.Location = new System.Drawing.Point(29, 258);
+            this.lbSeleccionar.Location = new System.Drawing.Point(19, 192);
             this.lbSeleccionar.Name = "lbSeleccionar";
             this.lbSeleccionar.Size = new System.Drawing.Size(347, 25);
             this.lbSeleccionar.TabIndex = 11;
@@ -179,7 +170,7 @@ namespace UberFrba.Abm_Automovil
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(24, 516);
+            this.btnModificar.Location = new System.Drawing.Point(24, 481);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(167, 51);
             this.btnModificar.TabIndex = 12;
@@ -189,7 +180,7 @@ namespace UberFrba.Abm_Automovil
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(408, 516);
+            this.btnEliminar.Location = new System.Drawing.Point(408, 481);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(175, 51);
             this.btnEliminar.TabIndex = 13;
@@ -212,11 +203,23 @@ namespace UberFrba.Abm_Automovil
             this.txtApellidoChofer.Size = new System.Drawing.Size(100, 20);
             this.txtApellidoChofer.TabIndex = 23;
             // 
+            // btnRecargar
+            // 
+            this.btnRecargar.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.btnRecargar.Location = new System.Drawing.Point(24, 420);
+            this.btnRecargar.Name = "btnRecargar";
+            this.btnRecargar.Size = new System.Drawing.Size(562, 43);
+            this.btnRecargar.TabIndex = 24;
+            this.btnRecargar.Text = "Recargar Tabla";
+            this.btnRecargar.UseVisualStyleBackColor = false;
+            this.btnRecargar.Click += new System.EventHandler(this.btnRecargar_Click);
+            // 
             // ListadoAutomoviles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 591);
+            this.ClientSize = new System.Drawing.Size(640, 543);
+            this.Controls.Add(this.btnRecargar);
             this.Controls.Add(this.lblApellidoChofer);
             this.Controls.Add(this.txtApellidoChofer);
             this.Controls.Add(this.btnEliminar);
@@ -231,7 +234,6 @@ namespace UberFrba.Abm_Automovil
             this.Controls.Add(this.txtPatente);
             this.Controls.Add(this.txtChoferNombre);
             this.Controls.Add(this.lblMarca);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.tablaAutomoviles);
             this.Controls.Add(this.btnFiltrar);
@@ -239,7 +241,6 @@ namespace UberFrba.Abm_Automovil
             this.Text = "ListaAutomoviles";
             this.Load += new System.EventHandler(this.ListaAutomoviles_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tablaAutomoviles)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -259,7 +260,6 @@ namespace UberFrba.Abm_Automovil
 
         protected System.Windows.Forms.Button btnFiltrar;
         protected System.Windows.Forms.Button btnLimpiar;
-        private System.Windows.Forms.DataGridView dataGridView1;
         protected System.Windows.Forms.Label lbSeleccionar;
         protected System.Windows.Forms.DataGridView tablaAutomoviles;
         protected System.Windows.Forms.Label lblNombre;
@@ -268,6 +268,7 @@ namespace UberFrba.Abm_Automovil
         private System.Windows.Forms.Button btnEliminar;
         protected System.Windows.Forms.Label lblApellidoChofer;
         protected System.Windows.Forms.TextBox txtApellidoChofer;
+        private System.Windows.Forms.Button btnRecargar;
 
     }
 

@@ -35,6 +35,7 @@
             this.bnBuscar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
+            this.btnRecargar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tablaTurnos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -89,9 +90,9 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(257, 307);
+            this.btnEliminar.Location = new System.Drawing.Point(257, 356);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(129, 33);
+            this.btnEliminar.Size = new System.Drawing.Size(129, 45);
             this.btnEliminar.TabIndex = 5;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
@@ -99,19 +100,31 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(12, 307);
+            this.btnModificar.Location = new System.Drawing.Point(12, 356);
             this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(124, 33);
+            this.btnModificar.Size = new System.Drawing.Size(124, 45);
             this.btnModificar.TabIndex = 6;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
             this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
+            // btnRecargar
+            // 
+            this.btnRecargar.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.btnRecargar.Location = new System.Drawing.Point(12, 298);
+            this.btnRecargar.Name = "btnRecargar";
+            this.btnRecargar.Size = new System.Drawing.Size(374, 42);
+            this.btnRecargar.TabIndex = 16;
+            this.btnRecargar.Text = "Recargar Tabla";
+            this.btnRecargar.UseVisualStyleBackColor = false;
+            this.btnRecargar.Click += new System.EventHandler(this.btnRecargar_Click);
+            // 
             // ListaTurnos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(398, 357);
+            this.ClientSize = new System.Drawing.Size(398, 418);
+            this.Controls.Add(this.btnRecargar);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.bnBuscar);
@@ -137,5 +150,6 @@
         private System.Windows.Forms.Button bnBuscar;
         private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.Button btnModificar;
+        private System.Windows.Forms.Button btnRecargar;
     }
 }

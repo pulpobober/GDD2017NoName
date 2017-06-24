@@ -137,5 +137,31 @@ namespace UberFrba.Abm_Automovil
             }
             return -1;
         }
+
+        private void btnRecargar_Click(object sender, EventArgs e)
+        {
+            DataTable autos = SQLAutomovil.obtenerTodosLosAutomoviles();
+            tablaAutomoviles.DataSource = autos;
+
+            selectMarca.Items.Clear();
+            tablaMarcas = SQLAutomovil.obtenerTodasLasMarcas();
+            foreach (DataRow row in tablaMarcas.Rows)
+            {
+                selectMarca.Items.Add(row["nombre"].ToString());
+            }
+
+            this.tablaAutomoviles.Columns[0].Visible = false; //autoID
+            this.tablaAutomoviles.Columns[3].Visible = false; //marcaID
+            this.tablaAutomoviles.Columns[9].Visible = false; //turnoID
+            this.tablaAutomoviles.Columns[10].Visible = false; //choferID
+
+            DataGridViewRow autoRow = tablaAutomoviles.Rows[0];
+            autoSeleccionado = new Automovil(autoRow);
+
+            selectMarca.Text = "";
+            txtModelo.Text = "";
+            txtPatente.Text = "";
+            txtChoferNombre.Text = "";
+        }
     }
 }
