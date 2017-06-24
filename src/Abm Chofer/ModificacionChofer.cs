@@ -29,6 +29,7 @@ namespace UberFrba.Abm_Chofer
             txtMail.Text = chofer.mail;
             txtTelefono.Text = chofer.telefono.ToString();
             dateTimeNacimiento.Value = chofer.fechaNacimiento;
+            ckbHabilitado.Checked = chofer.habilitado;
             depurarDireccion(chofer.direccion);
         }
 
@@ -75,7 +76,7 @@ namespace UberFrba.Abm_Chofer
             if (verificarDatosChofer(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtLocalidad.Text))
             {
                 string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
-                Chofer ChoferAModificar = new Chofer(idChofer,txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, dateTimeNacimiento.Value);
+                Chofer ChoferAModificar = new Chofer(idChofer,txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, dateTimeNacimiento.Value, ckbHabilitado.Checked);
                 string response=SQLChofer.modificarChofer(ChoferAModificar);
                 MessageBox.Show(response);
                 this.Close();

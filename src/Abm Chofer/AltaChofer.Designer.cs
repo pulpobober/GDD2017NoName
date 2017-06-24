@@ -33,12 +33,12 @@
             // 
             // lblTitulo
             // 
-            this.lblTitulo.Size = new System.Drawing.Size(180, 37);
+            this.lblTitulo.Size = new System.Drawing.Size(178, 37);
             this.lblTitulo.Text = "Alta Chofer";
             // 
             // btnAlta2
             // 
-            this.btnAlta2.Location = new System.Drawing.Point(100, 417);
+            this.btnAlta2.Location = new System.Drawing.Point(96, 375);
             this.btnAlta2.Name = "btnAlta2";
             this.btnAlta2.Size = new System.Drawing.Size(193, 53);
             this.btnAlta2.TabIndex = 28;
@@ -50,10 +50,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(450, 493);
+            this.ClientSize = new System.Drawing.Size(450, 442);
             this.Controls.Add(this.btnAlta2);
             this.Name = "AltaChofer";
             this.Text = "AltaChofer";
+            this.Controls.SetChildIndex(this.lblLocalidad, 0);
+            this.Controls.SetChildIndex(this.lblPiso, 0);
+            this.Controls.SetChildIndex(this.lblDepartamento, 0);
+            this.Controls.SetChildIndex(this.txtPiso, 0);
+            this.Controls.SetChildIndex(this.txtDepto, 0);
             this.Controls.SetChildIndex(this.lblTitulo, 0);
             this.Controls.SetChildIndex(this.txtNombre, 0);
             this.Controls.SetChildIndex(this.txtApellido, 0);

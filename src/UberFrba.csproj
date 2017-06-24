@@ -239,8 +239,14 @@
     <EmbeddedResource Include="Abm Chofer\AbmChofer.resx">
       <DependentUpon>AbmChofer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Abm Chofer\AltaChofer.resx">
+      <DependentUpon>AltaChofer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Abm Chofer\ListaChoferes.resx">
       <DependentUpon>ListaChoferes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Chofer\ModificacionChofer.resx">
+      <DependentUpon>ModificacionChofer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Cliente\AbmCliente.resx">
       <DependentUpon>AbmCliente.cs</DependentUpon>

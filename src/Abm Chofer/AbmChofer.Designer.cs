@@ -92,7 +92,7 @@
             // lblFechaNacimiento
             // 
             this.lblFechaNacimiento.AutoSize = true;
-            this.lblFechaNacimiento.Location = new System.Drawing.Point(36, 383);
+            this.lblFechaNacimiento.Location = new System.Drawing.Point(34, 340);
             this.lblFechaNacimiento.Name = "lblFechaNacimiento";
             this.lblFechaNacimiento.Size = new System.Drawing.Size(111, 13);
             this.lblFechaNacimiento.TabIndex = 11;
@@ -178,7 +178,7 @@
             // 
             // dateTimeNacimiento
             // 
-            this.dateTimeNacimiento.Location = new System.Drawing.Point(153, 383);
+            this.dateTimeNacimiento.Location = new System.Drawing.Point(151, 340);
             this.dateTimeNacimiento.Name = "dateTimeNacimiento";
             this.dateTimeNacimiento.Size = new System.Drawing.Size(206, 20);
             this.dateTimeNacimiento.TabIndex = 25;
@@ -262,7 +262,6 @@
             this.Controls.Add(this.lblNombre);
             this.Name = "AbmChofer";
             this.Text = "AbmCliente";
-            this.Load += new System.EventHandler(this.AbmChofer_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

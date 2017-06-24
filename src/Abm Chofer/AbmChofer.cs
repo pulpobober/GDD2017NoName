@@ -72,14 +72,5 @@ namespace UberFrba.Abm_Chofer
                 return;
             }
         }
-
-        private void txtCodPostal_KeyPress(object sender, KeyPressEventArgs e)
-        {
-        }
-
-        private void AbmChofer_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

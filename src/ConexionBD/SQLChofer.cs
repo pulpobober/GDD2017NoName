@@ -62,8 +62,8 @@ namespace UberFrba.ConexionBD
 
                 sqlCommand = new SqlCommand();
 
-                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, fecha_nacimiento FROM NONAME.Chofer join NONAME.Usuario on id_Chofer = id_usuario WHERE " + (String.IsNullOrEmpty(chofer.nombre) ? "1=1" : ("nombre ='" + chofer.nombre) + "'") + (chofer.dni == 0 ? " And 1=1" : (" And usuario_dni =" + chofer.dni.ToString())) + (String.IsNullOrEmpty(chofer.apellido) ? " And 1=1" : (" And apellido ='" + chofer.apellido.ToString() + "'"));
-                sqlCommand.CommandType = CommandType.Text; //Esto es opcional porque de base es un texto
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, fecha_nacimiento, habilitado FROM NONAME.Chofer join NONAME.Usuario on id_Chofer = id_usuario WHERE " + (String.IsNullOrEmpty(chofer.nombre) ? "1=1" : ("nombre ='" + chofer.nombre) + "'") + (chofer.dni == 0 ? " And 1=1" : (" And usuario_dni ='" + chofer.dni.ToString() + "'")) + (String.IsNullOrEmpty(chofer.apellido) ? " And 1=1" : (" And apellido ='" + chofer.apellido.ToString() + "'"));
+                sqlCommand.CommandType = CommandType.Text;
                 sqlCommand.Connection = miConexion;
 
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
@@ -89,8 +89,8 @@ namespace UberFrba.ConexionBD
             {
                 conectar();
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, fecha_nacimiento FROM NONAME.Usuario join NONAME.Chofer on id_usuario = id_Chofer";
-                sqlCommand.CommandType = CommandType.Text; //opcional
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, fecha_nacimiento, habilitado FROM NONAME.Usuario join NONAME.Chofer on id_usuario = id_Chofer";
+                sqlCommand.CommandType = CommandType.Text;
                 sqlCommand.Connection = miConexion;
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableChoferes = new DataTable();
@@ -124,7 +124,8 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@telefono", chofer.telefono);
                 sqlCommand.Parameters.AddWithValue("@direccion", chofer.direccion);
                 sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", chofer.fechaNacimiento);
-
+                sqlCommand.Parameters.AddWithValue("@habilitado", chofer.habilitado);
+                
                 int response = sqlCommand.ExecuteNonQuery();
 
                 if (response > 0)

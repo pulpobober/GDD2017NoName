@@ -34,10 +34,11 @@ namespace UberFrba.Objetos
            this.telefono = Int32.Parse(datosChofer.Cells["telefono"].Value.ToString());
            this.direccion = datosChofer.Cells["direccion"].Value.ToString();
            this.fechaNacimiento = Convert.ToDateTime(datosChofer.Cells["fecha_nacimiento"].Value.ToString());
+           this.habilitado = Convert.ToBoolean(datosChofer.Cells["habilitado"].Value.ToString());
        }
 
        //Este Chofer se crea cuando voy a modificar el Chofer
-       public Chofer(int idChofer,string nom, string ape, int Dni, string email, int tel, string dir, DateTime fechaNac)
+       public Chofer(int idChofer,string nom, string ape, int Dni, string email, int tel, string dir, DateTime fechaNac, bool hab)
        {
            this.id_Chofer = idChofer;
            this.nombre = nom;
@@ -47,6 +48,7 @@ namespace UberFrba.Objetos
            this.telefono = tel;
            this.direccion = dir;
            this.fechaNacimiento = fechaNac;
+           this.habilitado = hab;
        }
 
        //Este Chofer se crea cuando se de alta un usuario
@@ -68,5 +70,6 @@ namespace UberFrba.Objetos
         public int telefono { get; set; }
         public string direccion { get; set; }
         public DateTime fechaNacimiento { get; set; }
+        public bool habilitado { get; set; }
    }
 }
