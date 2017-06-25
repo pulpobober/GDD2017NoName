@@ -83,7 +83,7 @@ namespace UberFrba.ConexionBD
             {
                 conectar();
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT id_turno, hora_inicio, hora_fin, descripcion, valor_km, precio_base, habilitado FROM NONAME.Turno WHERE descripcion = '" + unTurno.descripcion + "'";
+                sqlCommand.CommandText = "SELECT id_turno, hora_inicio, hora_fin, descripcion, valor_km, precio_base, habilitado FROM NONAME.Turno WHERE descripcion like '%" + unTurno.descripcion + "%'";
                 sqlCommand.CommandType = CommandType.Text;
                 sqlCommand.Connection = miConexion;
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
@@ -119,6 +119,11 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@valor_km", unTurno.valor_km);
                 sqlCommand.Parameters.AddWithValue("@precio_base", unTurno.precio_base);
                 sqlCommand.Parameters.AddWithValue("@habilitado", unTurno.habilitado);
+
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableTurnos = new DataTable();
+                dataTableTurnos.Load(sqlReader);
+                //return dataTableTurnos;
 
                 int response = sqlCommand.ExecuteNonQuery();
                 if (response > 0)
