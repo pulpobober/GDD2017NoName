@@ -1017,6 +1017,9 @@ Un turno no debe exceder las 24hs y además debe comenzar y finalizar dentro del 
 AS
 BEGIN
 
+	DECLARE @valorRetorno INT
+	SET @valorRetorno = 0
+
 --se precisa modificar tanto hora_inicio como hora_fin	
 	IF((@hora_inicio IS NOT NULL) AND (@hora_fin IS NOT NULL))
 		BEGIN
@@ -1029,6 +1032,8 @@ BEGIN
 					SET hora_inicio = @hora_inicio,
 						hora_fin = @hora_fin
 					WHERE id_turno = @id_turno
+
+					SET @valorRetorno = 1
 				END
 		END
 	
@@ -1047,6 +1052,8 @@ BEGIN
 					UPDATE [NONAME].Turno
 					SET hora_inicio = @hora_inicio
 					WHERE id_turno = @id_turno
+
+					SET @valorRetorno = 1
 				END
 		END
 
@@ -1065,6 +1072,8 @@ BEGIN
 					UPDATE [NONAME].Turno
 					SET hora_fin = @hora_fin
 					WHERE id_turno = @id_turno
+
+					SET @valorRetorno = 1
 				END
 		END
 	
@@ -1074,6 +1083,8 @@ BEGIN
 			UPDATE [NONAME].Turno
 			SET descripcion = @descripcion
 			WHERE id_turno = @id_turno
+
+			SET @valorRetorno = 1
 		END
 
 
@@ -1082,6 +1093,8 @@ BEGIN
 			UPDATE [NONAME].Turno
 			SET valor_km = @valor_km
 			WHERE id_turno = @id_turno
+
+			SET @valorRetorno = 1
 		END
 
 
@@ -1090,6 +1103,8 @@ BEGIN
 			UPDATE [NONAME].Turno
 			SET precio_base = @precio_base
 			WHERE id_turno = @id_turno
+
+			SET @valorRetorno = 1
 		END
 
 
@@ -1098,6 +1113,8 @@ BEGIN
 			UPDATE [NONAME].Turno
 			SET habilitado = @habilitado
 			WHERE id_turno = @id_turno
+
+			SET @valorRetorno = 1
 		END
 
 --Valida si cumple las restricciones antes de volver a habilitarlo
@@ -1117,9 +1134,12 @@ BEGIN
 					UPDATE [NONAME].Turno
 					SET habilitado = @habilitado
 					WHERE id_turno = @id_turno
+
+					SET @valorRetorno = 1
 				END
 		END
 
+	RETURN @valorRetorno
 END
 GO
 
@@ -1563,14 +1583,18 @@ CREATE PROCEDURE NONAME.sproc_top1_clienteQueUtilizoMasVecesMismoAuto
 	@trimestre INT
 
 AS
+
 BEGIN
-SELECT TOP 5 (U.apellido + ', ' + U.nombre) as 'Nombre Cliente', count(patente_auto) as 'Mas veces mismo automovil', patente_auto as 'Patente auto'
-FROM NONAME.Usuario U join NONAME.Viaje V on U.id_usuario = v.id_cliente
-join NONAME.Auto_Chofer AC on AC.id_chofer = v.id_chofer AND AC.id_turno = v.id_turno
-join NONAME.Auto A on A.id_auto = AC.id_auto
-where YEAR(v.fecha_hora_inicio) = @anio AND DATEPART(QUARTER, v.fecha_hora_inicio) = @trimestre
-group by (U.apellido + ', ' + U.nombre), patente_auto
-order by count(patente_auto) desc
+
+	SELECT TOP 5 (U.apellido + ', ' + U.nombre) AS 'Cliente', COUNT(patente_auto) AS 'Cantidad de Viajes', patente_auto AS 'Patente Auto', M.nombre AS 'Marca Auto', A.modelo AS 'Modelo Auto'
+	FROM NONAME.Usuario U JOIN NONAME.Viaje V ON U.id_usuario = v.id_cliente
+		JOIN NONAME.Auto_Chofer AC ON AC.id_chofer = v.id_chofer AND AC.id_turno = v.id_turno
+		JOIN NONAME.Auto A ON A.id_auto = AC.id_auto 
+		JOIN NONAME.Marca AS M ON M.id_marca = A.id_marca
+	WHERE YEAR(v.fecha_hora_inicio) = @anio AND DATEPART(QUARTER, v.fecha_hora_inicio) = @trimestre
+	GROUP BY (U.apellido + ', ' + U.nombre), patente_auto, M.nombre, A.modelo
+	ORDER BY COUNT(patente_auto) DESC
+
 END
 GO
 
