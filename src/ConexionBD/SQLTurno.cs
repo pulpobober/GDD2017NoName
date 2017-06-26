@@ -148,7 +148,7 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return "Fallo al modificar el turno: " + unTurno.descripcion;
+                return "FALLO POR EXEPCION Fallo al modificar el turno: " + unTurno.descripcion;
                 throw ex;
             }
             finally
