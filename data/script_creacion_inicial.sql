@@ -1127,7 +1127,7 @@ BEGIN
 					SET habilitado = @habilitado
 					WHERE id_turno = @id_turno
 
-					SET @horarioCorrecto = 1
+					--SET @horarioCorrecto = 1
 				END
 		END
 
@@ -1135,6 +1135,7 @@ BEGIN
 	RETURN @horarioCorrecto
 END
 GO
+
 
 CREATE PROCEDURE NONAME.sproc_chofer_alta
 	@nombre VARCHAR(255),

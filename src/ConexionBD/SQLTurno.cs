@@ -130,7 +130,7 @@ namespace UberFrba.ConexionBD
                     return "Turno modificado correctamente";
                 }
                 else {
-                    return "El turno se ha modificado pero hubo un problema con la hora ya que se superpone con otro turno";
+                    return "No se pudo modificar el horario, el mismo se superpone con el de otro turno";
                 }
 
                 //return dataTableTurnos;
