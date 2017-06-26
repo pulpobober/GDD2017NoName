@@ -123,17 +123,27 @@ namespace UberFrba.ConexionBD
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableTurnos = new DataTable();
                 dataTableTurnos.Load(sqlReader);
-                //return dataTableTurnos;
+                int response = int.Parse(dataTableTurnos.Rows[0][0].ToString());
 
-                int response = sqlCommand.ExecuteNonQuery();
-                if (response > 0)
+                if (response == 1)
                 {
                     return "Turno modificado correctamente";
                 }
-                else
-                {
-                    return "Fallo al modificar el turno: " + unTurno.descripcion;
+                else {
+                    return "El turno se ha modificado pero hubo un problema con la hora ya que se superpone con otro turno";
                 }
+
+                //return dataTableTurnos;
+
+              //  int response = sqlCommand.ExecuteNonQuery();
+               // if (response > 0)
+               // {
+               //     return "Turno modificado correctamente";
+               // }
+               // else
+                //{
+                //    return "Fallo al modificar el turno: " + unTurno.descripcion;
+                //}
 
             }
             catch (Exception ex)
