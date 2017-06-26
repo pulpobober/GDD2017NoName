@@ -1017,8 +1017,8 @@ Un turno no debe exceder las 24hs y además debe comenzar y finalizar dentro del 
 AS
 BEGIN
 
-	DECLARE @valorRetorno INT
-	SET @valorRetorno = 0
+	DECLARE @horarioCorrecto INT
+	SET @horarioCorrecto = 0
 
 --se precisa modificar tanto hora_inicio como hora_fin	
 	IF((@hora_inicio IS NOT NULL) AND (@hora_fin IS NOT NULL))
@@ -1033,7 +1033,7 @@ BEGIN
 						hora_fin = @hora_fin
 					WHERE id_turno = @id_turno
 
-					SET @valorRetorno = 1
+					SET @horarioCorrecto = 1
 				END
 		END
 	
@@ -1053,7 +1053,7 @@ BEGIN
 					SET hora_inicio = @hora_inicio
 					WHERE id_turno = @id_turno
 
-					SET @valorRetorno = 1
+					SET @horarioCorrecto = 1
 				END
 		END
 
@@ -1073,7 +1073,7 @@ BEGIN
 					SET hora_fin = @hora_fin
 					WHERE id_turno = @id_turno
 
-					SET @valorRetorno = 1
+					SET @horarioCorrecto = 1
 				END
 		END
 	
@@ -1083,8 +1083,6 @@ BEGIN
 			UPDATE [NONAME].Turno
 			SET descripcion = @descripcion
 			WHERE id_turno = @id_turno
-
-			SET @valorRetorno = 1
 		END
 
 
@@ -1093,8 +1091,6 @@ BEGIN
 			UPDATE [NONAME].Turno
 			SET valor_km = @valor_km
 			WHERE id_turno = @id_turno
-
-			SET @valorRetorno = 1
 		END
 
 
@@ -1103,8 +1099,6 @@ BEGIN
 			UPDATE [NONAME].Turno
 			SET precio_base = @precio_base
 			WHERE id_turno = @id_turno
-
-			SET @valorRetorno = 1
 		END
 
 
@@ -1113,8 +1107,6 @@ BEGIN
 			UPDATE [NONAME].Turno
 			SET habilitado = @habilitado
 			WHERE id_turno = @id_turno
-
-			SET @valorRetorno = 1
 		END
 
 --Valida si cumple las restricciones antes de volver a habilitarlo
@@ -1135,11 +1127,12 @@ BEGIN
 					SET habilitado = @habilitado
 					WHERE id_turno = @id_turno
 
-					SET @valorRetorno = 1
+					SET @horarioCorrecto = 1
 				END
 		END
 
-	RETURN @valorRetorno
+	SELECT @horarioCorrecto
+	RETURN @horarioCorrecto
 END
 GO
 
