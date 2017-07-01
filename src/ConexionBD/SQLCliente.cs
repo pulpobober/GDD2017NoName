@@ -63,6 +63,35 @@ namespace UberFrba.ConexionBD
             }
         }
 
+        public static DataTable filtrarClientesHabilitados(Cliente clie)
+        {
+            try
+            {
+                conectar();
+
+                sqlCommand = new SqlCommand();
+
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento, habilitado FROM NONAME.Cliente join NONAME.Usuario on id_cliente = id_usuario WHERE habilitado = 1 And " + (String.IsNullOrEmpty(clie.nombre) ? "1=1" : ("nombre like '%" + clie.nombre) + "%'") + (clie.dni == 0 ? " And 1=1" : (" And usuario_dni ='" + clie.dni.ToString() + "'")) + (String.IsNullOrEmpty(clie.apellido) ? " And 1=1" : (" And apellido like '%" + clie.apellido.ToString() + "%'"));
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableClientes = new DataTable();
+                dataTableClientes.Load(sqlReader);
+                return dataTableClientes;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
         public static DataTable obtenerTodosLosClientes()
         {
             try
@@ -79,7 +108,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return null;
                 throw ex;
             }
             finally
@@ -141,7 +169,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return "Fallo al dar de baja el cliente: " + clie.nombre + " " + clie.apellido;
                 throw ex;
             }
             finally
@@ -166,7 +193,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return null;
                 throw ex;
             }
             finally

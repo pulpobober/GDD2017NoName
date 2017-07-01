@@ -37,14 +37,14 @@ namespace UberFrba.Registro_Viajes
             lblTurno.Hide();
             cmbTurnos.Hide();
             
-            tablaChoferes = SQLChofer.obtenerTodosLosChoferes();
+            tablaChoferes = SQLChofer.obtenerTodosLosChoferesHabilitados();
 
             foreach (DataRow row in tablaChoferes.Rows)
             {
                 cmbChoferes.Items.Add(row["nombre"].ToString() + " " + row["apellido"].ToString());
             }
 
-            tablaClientes = SQLCliente.obtenerTodosLosClientes();
+            tablaClientes = SQLCliente.obtenerTodosLosClientesHabilitados();
 
             if (esRolAdministrador)
             {

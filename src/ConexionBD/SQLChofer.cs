@@ -65,7 +65,34 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static DataTable filtrarChoferesHabilitados(Chofer chofer)
+        {
+            try
+            {
+                conectar();
+
+                sqlCommand = new SqlCommand();
+
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, fecha_nacimiento, habilitado FROM NONAME.Chofer join NONAME.Usuario on id_Chofer = id_usuario WHERE habilitado = 1 And " + (String.IsNullOrEmpty(chofer.nombre) ? "1=1" : ("nombre like '%" + chofer.nombre) + "%'") + (chofer.dni == 0 ? " And 1=1" : (" And usuario_dni ='" + chofer.dni.ToString() + "'")) + (String.IsNullOrEmpty(chofer.apellido) ? " And 1=1" : (" And apellido like '%" + chofer.apellido.ToString() + "%'"));
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableChoferes = new DataTable();
+                dataTableChoferes.Load(sqlReader);
+                return dataTableChoferes;
+
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
             finally
@@ -90,7 +117,30 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static DataTable obtenerTodosLosChoferesHabilitados()
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, fecha_nacimiento, habilitado FROM NONAME.Usuario join NONAME.Chofer on id_usuario = id_Chofer WHERE habilitado = 1";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableChoferes = new DataTable();
+                dataTableChoferes.Load(sqlReader);
+                return dataTableChoferes;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
             finally
@@ -129,36 +179,10 @@ namespace UberFrba.ConexionBD
             }
         }
 
-        public int obtainIdChofer(string chofer)
-        {
-            chofer = chofer.Replace(' ', '_');
-            int indexof_whitspace = chofer.IndexOf("_");
-            string nombre = chofer.Substring(0, indexof_whitspace);
-            string apellido = chofer.Substring(indexof_whitspace + 1);
-
-            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
-
-            cmd.CommandText = "Select id_usuario from NONAME.Usuario inner join NONAME.Chofer on id_usuario=id_chofer where nombre='" + nombre + "' and apellido='" + apellido + "'";
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = miConexion;
-
-            miConexion.Open();
-
-            reader = cmd.ExecuteReader();
-
-            // miConexion.Close();
-
-            while (reader.Read())
-            {
-                return Convert.ToInt32(reader["id_usuario"]);
-            }
-            return 0;
-        }
-
         public static string eliminarChofer(Chofer chofer)
         {
+            try
+            {
                 conectar();
                 sqlCommand = new SqlCommand("NONAME.sproc_chofer_baja");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
@@ -166,7 +190,7 @@ namespace UberFrba.ConexionBD
 
                 sqlCommand.Parameters.AddWithValue("@id_usuario", chofer.id_Chofer);
 
-                int response=sqlCommand.ExecuteNonQuery();
+                int response = sqlCommand.ExecuteNonQuery();
                 if (response > 0)
                 {
                     return "Chofer eliminado correctamente";
@@ -175,6 +199,15 @@ namespace UberFrba.ConexionBD
                 {
                     return "Fallo al eliminar el chofer: " + chofer.nombre + " " + chofer.apellido;
                 }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
         }
 
         public static bool verificarTelefono(int telefono, int idChofer)

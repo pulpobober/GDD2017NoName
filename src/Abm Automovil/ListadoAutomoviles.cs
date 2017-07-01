@@ -71,17 +71,25 @@ namespace UberFrba.Abm_Automovil
 
         private void btnEliminar_Click_1(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este Automovil?", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            if (autoSeleccionado.habilitado == 1)
             {
-                int response=SQLAutomovil.eliminarAutomovil(autoSeleccionado);
-                if (response > 0)
+                DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este Automovil?", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
                 {
-                    MessageBox.Show("El automovil "+autoSeleccionado.idautomovil+" ha sido eliminado");
+                    int response = SQLAutomovil.eliminarAutomovil(autoSeleccionado);
+                    if (response > 0)
+                    {
+                        MessageBox.Show("El automovil " + autoSeleccionado.idautomovil + " ha sido eliminado");
+                    }
+                    else
+                    {
+                        MessageBox.Show("El automovil " + autoSeleccionado.idautomovil + " no ha podido eliminarse");
+                    }
                 }
-                else{
-                    MessageBox.Show("El automovil " + autoSeleccionado.idautomovil + " no ha podido eliminarse");
-                }
+            }
+            else
+            {
+                MessageBox.Show("El auto ya esta eliminado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 

@@ -34,32 +34,14 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@id_chofer", auto.idchofer);
                 sqlCommand.ExecuteNonQuery();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw ex;
             }
-    }
-
-        public static string obtainHabilitado(int idautomovil)
-        {
-            SqlConnection miConexion = new SqlConnection(ConexionSQL.cadenaConexion());
-            SqlCommand cmd = new SqlCommand();
-            SqlDataReader reader;
-
-            cmd.CommandText = "select habilitado from NONAME.Auto where id_auto=" + idautomovil;
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = miConexion;
-
-
-            System.Console.Write(cmd.CommandText);
-
-            miConexion.Open();
-
-            reader = cmd.ExecuteReader();
-            while (reader.Read())
+            finally
             {
-                return reader["habilitado"].ToString();
+                desconectar();
             }
-            return "";
         }
 
         public static DataTable filtrarAutomoviles(Automovil auto) {
@@ -79,8 +61,11 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return null;
                 throw ex;
+            }
+            finally
+            {
+                desconectar();
             }
         }
 
@@ -100,7 +85,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return null;
                 throw ex;
             }
             finally
@@ -134,10 +118,16 @@ namespace UberFrba.ConexionBD
             catch (Exception ex) {
                 throw ex;
             }
+            finally
+            {
+                desconectar();
+            }
         }
 
         public static int eliminarAutomovil(Automovil auto)
         {
+            try
+            {
                 conectar();
                 sqlCommand = new SqlCommand("NONAME.sproc_automovil_baja");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
@@ -145,10 +135,17 @@ namespace UberFrba.ConexionBD
 
                 sqlCommand.Parameters.AddWithValue("@id_auto", auto.idautomovil);
 
-                int response=sqlCommand.ExecuteNonQuery();
+                int response = sqlCommand.ExecuteNonQuery();
 
                 return response;
-                
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
         }
 
         public static DataTable obtenerAutomovilDelChofer(int id_chofer, int id_turno)
@@ -196,7 +193,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return null;
                 throw ex;
             }
             finally

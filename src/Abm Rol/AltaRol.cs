@@ -25,8 +25,9 @@ namespace UberFrba.Abm_Rol
             {
                 DataTable funcionalidadesHabilitadas = obtenerFuncionalidadesHabilitadas();
                 Rol unRol = new Rol(txtNombreRol.Text, ckbHabilitado.Checked ? true : false, funcionalidadesHabilitadas);
-                string response=SQLRoles.insertarRol(unRol);
-                MessageBox.Show(response);
+                SQLRoles.insertarRol(unRol);
+                MessageBox.Show("Rol dado de alta correctamente");
+                this.Close();
             }
         }
 

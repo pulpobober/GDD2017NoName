@@ -17,14 +17,16 @@ namespace UberFrba.Abm_Cliente
     {
 
         Cliente clienteSeleccionado;
+        bool modificacion;
         public ListaClientes()
         {
             InitializeComponent();
         }
 
-        public ListaClientes(bool modificacion)
+        public ListaClientes(bool modif)
         {
             InitializeComponent();
+            modificacion = modif;
             if (modificacion)
             {
                 btnEliminar.Hide();
@@ -38,13 +40,19 @@ namespace UberFrba.Abm_Cliente
 
         private void ListaClientes_Load(object sender, EventArgs e)
         {
-            //Obtener todos los clientes cuando se carga el formulario
-            DataTable clientes = SQLCliente.obtenerTodosLosClientes();
+            DataTable clientes;
+            if (modificacion){
+                //Obtener todos los clientes cuando se carga el formulario
+                clientes = SQLCliente.obtenerTodosLosClientes();
+            }
+            else {
+                clientes = SQLCliente.obtenerTodosLosClientesHabilitados();
+
+            }
             tablaClientes.DataSource = clientes;
             this.tablaClientes.Columns[0].Visible = false; //usuarioID
             DataGridViewRow clieRow = tablaClientes.Rows[0];
             clienteSeleccionado = new Cliente(clieRow);
-
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -52,7 +60,15 @@ namespace UberFrba.Abm_Cliente
             if (verificarDatosBusqueda(txtNombre.Text, txtApellido.Text, txtDNI.Text))
             {
                 Cliente clieABuscar = new Cliente(txtNombre.Text, txtApellido.Text, String.IsNullOrEmpty(txtDNI.Text) ?  0 : Int32.Parse(txtDNI.Text));
-                tablaClientes.DataSource = SQLCliente.filtrarClientes(clieABuscar);
+
+                if (modificacion)
+                {
+                    tablaClientes.DataSource = SQLCliente.filtrarClientes(clieABuscar);
+                }
+                else
+                {
+                    tablaClientes.DataSource = SQLCliente.filtrarClientesHabilitados(clieABuscar);
+                }
             }
         }
 
@@ -87,12 +103,17 @@ namespace UberFrba.Abm_Cliente
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este cliente?", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            if (clienteSeleccionado.habilitado == true)
             {
-               string response= SQLCliente.eliminarCliente(clienteSeleccionado);
-               MessageBox.Show(response);
-
+                DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este cliente?", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    string response = SQLCliente.eliminarCliente(clienteSeleccionado);
+                    MessageBox.Show(response);
+                }
+            }
+            else {
+                MessageBox.Show("El cliente ya esta eliminado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -107,28 +128,41 @@ namespace UberFrba.Abm_Cliente
             new ModificacionCliente(clienteSeleccionado).ShowDialog();
         }
 
-        /*public static void recargar() {
-            DataTable clientes = SQLCliente.obtenerTodosLosClientes();
-            tablaClientes.DataSource = clientes;
-            txtDNI.Text = "";
-            txtApellido.Text = "";
-            txtNombre.Text = "";
-            this.tablaClientes.Columns[0].Visible = false; //usuarioID
-        }*/
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            DataTable clientes = SQLCliente.obtenerTodosLosClientes();
+            DataTable clientes;
+            if (modificacion)
+            {
+                //Obtener todos los clientes cuando se carga el formulario
+                clientes = SQLCliente.obtenerTodosLosClientes();
+            }
+            else
+            {
+                clientes = SQLCliente.obtenerTodosLosClientesHabilitados();
+
+            }
             tablaClientes.DataSource = clientes;
+            this.tablaClientes.Columns[0].Visible = false; //usuarioID
+            DataGridViewRow clieRow = tablaClientes.Rows[0];
+            clienteSeleccionado = new Cliente(clieRow);
+
             txtDNI.Text = "";
             txtApellido.Text = "";
             txtNombre.Text = "";
-            this.tablaClientes.Columns[0].Visible = false; //usuarioID
         }
 
         private void btnRecargar_Click(object sender, EventArgs e)
         {
-            DataTable clientes = SQLCliente.obtenerTodosLosClientes();
+            DataTable clientes;
+            if (modificacion){
+                //Obtener todos los clientes cuando se carga el formulario
+                clientes = SQLCliente.obtenerTodosLosClientes();
+            }
+            else {
+                clientes = SQLCliente.obtenerTodosLosClientesHabilitados();
+
+            }
             tablaClientes.DataSource = clientes;
             this.tablaClientes.Columns[0].Visible = false; //usuarioID
             DataGridViewRow clieRow = tablaClientes.Rows[0];

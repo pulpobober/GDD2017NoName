@@ -13,7 +13,7 @@ namespace UberFrba.ConexionBD
     {
         static SqlCommand sqlCommand = new SqlCommand();
 
-        public static string insertarRol(Rol unRol)
+        public static void insertarRol(Rol unRol)
         {
             try
             {
@@ -26,20 +26,10 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@habilitado", unRol.estado);
                 DataTable columna = unRol.tablaFuncionalidades.DefaultView.ToTable(false, unRol.tablaFuncionalidades.Columns[0].ColumnName);
                 sqlCommand.Parameters.AddWithValue("ids_funciones", columna);
-                int response=sqlCommand.ExecuteNonQuery();
-                if (response > 0)
-                {
-                    return "Rol dado de alta correctamente";
-                }
-                else
-                {
-                    return "Fallo al dar de alta el rol: " + unRol.nombre;
-                }
-
+                sqlCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                return "Fallo al dar de alta el rol: " + unRol.nombre;
                 throw ex;
             }
             finally
@@ -47,7 +37,6 @@ namespace UberFrba.ConexionBD
                 desconectar();
             }
         }
-
 
         public static DataTable obtenerTodosLosRoles()
         {
@@ -65,7 +54,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return null;
                 throw ex;
             }
             finally
@@ -74,9 +62,7 @@ namespace UberFrba.ConexionBD
             }
         }
 
-       
-
-        public static string modificarRol(Rol unRol)
+        public static void modificarRol(Rol unRol)
         {
 
             try
@@ -91,21 +77,11 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@habilitado", unRol.estado);
                 DataTable columna = unRol.tablaFuncionalidades.DefaultView.ToTable(false, unRol.tablaFuncionalidades.Columns[0].ColumnName);
                 sqlCommand.Parameters.AddWithValue("ids_funciones", columna);
-                int response=sqlCommand.ExecuteNonQuery();
-                if (response > 0)
-                {
-                    return "Rol modificado exitosamente";
-                }
-                else
-                {
-                    return "Fallo al modificar el rol: " + unRol.nombre;
-                }
+                sqlCommand.ExecuteNonQuery();
 
             }
             catch (Exception ex)
             {
-                //Manejar errores
-                return "Fallo al modificar el rol: " + unRol.nombre;
                 throw ex;
             }
             finally
@@ -137,8 +113,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //manejar exepciones
-                return "Fallo al dar de baja el rol: " + unRol.nombre;
                 throw ex;
             }
             finally
@@ -164,7 +138,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return null;
                 throw ex;
             }
             finally
@@ -189,7 +162,30 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static DataTable obtenerTodosLosRolesHabilitados()
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_rol, tipo, habilitado FROM NONAME.Rol WHERE habilitado = 1";
+                sqlCommand.CommandType = CommandType.Text; //opcional
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableRoles = new DataTable();
+                dataTableRoles.Load(sqlReader);
+                return dataTableRoles;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
             finally

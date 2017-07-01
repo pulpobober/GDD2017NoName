@@ -16,14 +16,17 @@ namespace UberFrba.Abm_Chofer
     public partial class ListaChoferes : Form
     {
         Chofer choferSeleccionado;
+        bool modificacion;
         public ListaChoferes()
         {
             InitializeComponent();
         }
 
-        public ListaChoferes(bool modificacion)
+        public ListaChoferes(bool modif)
         {
             InitializeComponent();
+            modificacion = modif;
+
             if (modificacion)
             {
                 btnEliminar.Hide();
@@ -37,12 +40,19 @@ namespace UberFrba.Abm_Chofer
         private void ListaChoferes_Load(object sender, EventArgs e)
         {
             //Obtener todos los Choferes cuando se carga el formulario
-            DataTable Choferes = SQLChofer.obtenerTodosLosChoferes();
+            DataTable Choferes;
+            if (modificacion)
+            {
+                Choferes = SQLChofer.obtenerTodosLosChoferes();
+            }
+            else
+            {
+                Choferes = SQLChofer.obtenerTodosLosChoferesHabilitados();
+            }
             tablaChoferes.DataSource = Choferes;
             this.tablaChoferes.Columns[0].Visible = false; //usuarioID
             DataGridViewRow clieRow = tablaChoferes.Rows[0];
             choferSeleccionado = new Chofer(clieRow);
-
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -50,7 +60,14 @@ namespace UberFrba.Abm_Chofer
             if (verificarDatosBusqueda(txtNombre.Text, txtApellido.Text, txtDNI.Text))
             {
                 Chofer clieABuscar = new Chofer(txtNombre.Text, txtApellido.Text, String.IsNullOrEmpty(txtDNI.Text) ?  0 : Int32.Parse(txtDNI.Text));
-                tablaChoferes.DataSource = SQLChofer.filtrarChoferes(clieABuscar);
+
+                if (modificacion)
+                {
+                    tablaChoferes.DataSource = SQLChofer.filtrarChoferes(clieABuscar);
+                }
+                else {
+                    tablaChoferes.DataSource = SQLChofer.filtrarChoferesHabilitados(clieABuscar);
+                }
             }
         }
 
@@ -80,12 +97,18 @@ namespace UberFrba.Abm_Chofer
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este chofer?", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            if (choferSeleccionado.habilitado == true)
             {
-                string response= SQLChofer.eliminarChofer(choferSeleccionado);
-                MessageBox.Show(response);
-
+                DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este chofer?", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    string response = SQLChofer.eliminarChofer(choferSeleccionado);
+                    MessageBox.Show(response);
+                }
+            }
+            else
+            {
+                MessageBox.Show("El chofer ya esta eliminado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -102,17 +125,36 @@ namespace UberFrba.Abm_Chofer
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            DataTable Choferes = SQLChofer.obtenerTodosLosChoferes();
+            DataTable Choferes;
+            if (modificacion)
+            {
+                Choferes = SQLChofer.obtenerTodosLosChoferes();
+            }
+            else
+            {
+                Choferes = SQLChofer.obtenerTodosLosChoferesHabilitados();
+            }
             tablaChoferes.DataSource = Choferes;
+            this.tablaChoferes.Columns[0].Visible = false; //usuarioID
+            DataGridViewRow clieRow = tablaChoferes.Rows[0];
+            choferSeleccionado = new Chofer(clieRow);
+
             txtDNI.Text = "";
             txtApellido.Text = "";
             txtNombre.Text = "";
-            this.tablaChoferes.Columns[0].Visible = false; //usuarioID
         }
 
         private void btnRecargar_Click(object sender, EventArgs e)
         {
-            DataTable Choferes = SQLChofer.obtenerTodosLosChoferes();
+            DataTable Choferes;
+            if (modificacion)
+            {
+                Choferes = SQLChofer.obtenerTodosLosChoferes();
+            }
+            else
+            {
+                Choferes = SQLChofer.obtenerTodosLosChoferesHabilitados();
+            }
             tablaChoferes.DataSource = Choferes;
             this.tablaChoferes.Columns[0].Visible = false; //usuarioID
             DataGridViewRow clieRow = tablaChoferes.Rows[0];
