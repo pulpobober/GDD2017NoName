@@ -24,10 +24,22 @@ namespace UberFrba.Abm_Cliente
         {
             if (verificarDatosCliente(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtLocalidad.Text, txtCodPostal.Text))
             {
-                string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
-                Cliente nuevoCliente = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, txtCodPostal.Text, dateTimeNacimiento.Value);
-                string response=SQLCliente.insertarCliente(nuevoCliente);
-                MessageBox.Show(response);
+                if (SQLCliente.verificarTelefono(int.Parse(txtTelefono.Text), -1))
+                {
+                    if (SQLCliente.verificarDNI(int.Parse(txtDNI.Text), -1))
+                    {
+                        string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
+                        Cliente nuevoCliente = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, txtCodPostal.Text, dateTimeNacimiento.Value);
+                        string response = SQLCliente.insertarCliente(nuevoCliente);
+                        MessageBox.Show(response);
+                    }
+                    else {
+                        MessageBox.Show("Ese DNI ya esta en uso", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else {
+                    MessageBox.Show("Ese telefono ya esta en uso", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

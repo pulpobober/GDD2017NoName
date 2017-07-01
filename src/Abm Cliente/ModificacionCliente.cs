@@ -88,7 +88,6 @@ namespace UberFrba.Abm_Cliente
                     }
                     else {
                         MessageBox.Show("Ese DNI ya esta en uso", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                     }
                 }
                 else {
