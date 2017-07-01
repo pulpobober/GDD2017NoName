@@ -19,14 +19,16 @@ namespace UberFrba.Abm_Automovil
         Automovil autoSeleccionado = new Automovil();
 
         DataTable tablaMarcas;
+        bool modificacion;
         public ListadoAutomoviles()
         {
             InitializeComponent();
         }
 
-        public ListadoAutomoviles(bool modificacion)
+        public ListadoAutomoviles(bool modif)
         {
             InitializeComponent();
+            modificacion = modif;
             if (modificacion)
             {
                 btnEliminar.Hide();
@@ -40,9 +42,15 @@ namespace UberFrba.Abm_Automovil
         private void ListaAutomoviles_Load(object sender, EventArgs e)
         {
             //Obtener todos los automoviles cuando se carga el formulario
-            DataTable autos = SQLAutomovil.obtenerTodosLosAutomoviles();
+            DataTable autos;
+            if (modificacion)
+            {
+                autos = SQLAutomovil.obtenerTodosLosAutomoviles();
+            }
+            else {
+                autos = SQLAutomovil.obtenerTodosLosAutomovilesHabilitados();
+            }
             tablaAutomoviles.DataSource = autos;
-
             selectMarca.Items.Clear();
             tablaMarcas = SQLAutomovil.obtenerTodasLasMarcas();
             foreach (DataRow row in tablaMarcas.Rows)
@@ -100,7 +108,13 @@ namespace UberFrba.Abm_Automovil
                 int idmarca = selectMarca.SelectedItem == null ? 0 : obtenerIDMarca(selectMarca.SelectedItem.ToString());
 
                 Automovil autoABuscar = new Automovil(idmarca, txtModelo.Text, txtPatente.Text, txtChoferNombre.Text, txtApellidoChofer.Text);
-                tablaAutomoviles.DataSource = SQLAutomovil.filtrarAutomoviles(autoABuscar);
+                if (modificacion)
+                {
+                    tablaAutomoviles.DataSource = SQLAutomovil.filtrarAutomoviles(autoABuscar);
+                }
+                else {
+                    tablaAutomoviles.DataSource = SQLAutomovil.filtrarAutomovilesHabilitados(autoABuscar);
+                }
             }
         }
         private void tablaAutomoviles_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -111,12 +125,22 @@ namespace UberFrba.Abm_Automovil
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            DataTable autos = SQLAutomovil.obtenerTodosLosAutomoviles();
+            DataTable autos;
+            if (modificacion)
+            {
+                autos = SQLAutomovil.obtenerTodosLosAutomoviles();
+            }
+            else
+            {
+                autos = SQLAutomovil.obtenerTodosLosAutomovilesHabilitados();
+            } 
             tablaAutomoviles.DataSource = autos;
             selectMarca.Text = "";
             txtModelo.Text = "";
             txtPatente.Text = "";
             txtChoferNombre.Text = "";
+            txtApellidoChofer.Text = "";
+
             this.tablaAutomoviles.Columns[0].Visible = false; //autoID
             this.tablaAutomoviles.Columns[3].Visible = false; //marcaID
             this.tablaAutomoviles.Columns[9].Visible = false; //turnoID
@@ -148,8 +172,15 @@ namespace UberFrba.Abm_Automovil
 
         private void btnRecargar_Click(object sender, EventArgs e)
         {
-            DataTable autos = SQLAutomovil.obtenerTodosLosAutomoviles();
-            tablaAutomoviles.DataSource = autos;
+            DataTable autos;
+            if (modificacion)
+            {
+                autos = SQLAutomovil.obtenerTodosLosAutomoviles();
+            }
+            else
+            {
+                autos = SQLAutomovil.obtenerTodosLosAutomovilesHabilitados();
+            } tablaAutomoviles.DataSource = autos;
 
             selectMarca.Items.Clear();
             tablaMarcas = SQLAutomovil.obtenerTodasLasMarcas();

@@ -15,13 +15,15 @@ namespace UberFrba.Abm_Turno
     public partial class ListaTurnos : Form
     {
         Turno turnoSeleccionado;
+        bool modificacion;
         public ListaTurnos()
         {
             InitializeComponent();
         }
 
-        public ListaTurnos(bool modificacion){
+        public ListaTurnos(bool modif){
             InitializeComponent();
+            modificacion = modif;
             if (modificacion)
             {
                 btnEliminar.Hide();
@@ -34,7 +36,15 @@ namespace UberFrba.Abm_Turno
         private void ListaTurnos_Load(object sender, EventArgs e)
         {
             //Obtener todos los turnos cuando se carga el formulario
-            DataTable turnos = SQLTurno.obtenerTodosLosTurnos();
+            DataTable turnos;
+            if (modificacion)
+            {
+                turnos = SQLTurno.obtenerTodosLosTurnos();
+            }
+            else
+            {
+                turnos = SQLTurno.obtenerTodosLosTurnosHabilitados();
+            }
             tablaTurnos.DataSource = turnos;
             this.tablaTurnos.Columns[0].Visible = false; //turnoId
             DataGridViewRow turnoRow = tablaTurnos.Rows[0];
@@ -48,7 +58,14 @@ namespace UberFrba.Abm_Turno
             }
             else {
                 Turno turnoABuscar = new Turno(txtDescripcion.Text);
-                tablaTurnos.DataSource = SQLTurno.filtarTurnos(turnoABuscar);
+                if (modificacion)
+                {
+                    tablaTurnos.DataSource = SQLTurno.filtarTurnos(turnoABuscar);
+                }
+                else
+                {
+                    tablaTurnos.DataSource = SQLTurno.filtarTurnosHabilitados(turnoABuscar);
+                }
             }
         }
 
@@ -64,7 +81,6 @@ namespace UberFrba.Abm_Turno
             {
                 string response=SQLTurno.eliminarTurno(turnoSeleccionado);
                 MessageBox.Show(response);
-
             }
         }
 
@@ -76,7 +92,15 @@ namespace UberFrba.Abm_Turno
 
         private void btnRecargar_Click(object sender, EventArgs e)
         {
-            DataTable turnos = SQLTurno.obtenerTodosLosTurnos();
+            DataTable turnos;
+            if (modificacion)
+            {
+                turnos = SQLTurno.obtenerTodosLosTurnos();
+            }
+            else
+            {
+                turnos = SQLTurno.obtenerTodosLosTurnosHabilitados();
+            } 
             tablaTurnos.DataSource = turnos;
             this.tablaTurnos.Columns[0].Visible = false; //turnoId
             DataGridViewRow turnoRow = tablaTurnos.Rows[0];

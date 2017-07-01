@@ -27,6 +27,7 @@ namespace UberFrba.Abm_Turno
                 Turno nuevoTurno = new Turno(idTurno, Int32.Parse(sacarHoraReal(cmbInicio.Text)), Int32.Parse(sacarHoraReal(cmbFinal.Text)), txtDescripcion.Text, double.Parse(txtValorKm.Text), double.Parse(txtPrecioBase.Text), ckbHabilitado.Checked);
                 string response=SQLTurno.modificarTurno(nuevoTurno);
                 MessageBox.Show(response);
+                this.Close();
             }
         }
 

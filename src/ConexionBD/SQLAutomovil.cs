@@ -69,6 +69,32 @@ namespace UberFrba.ConexionBD
             }
         }
 
+        public static DataTable filtrarAutomovilesHabilitados(Automovil auto)
+        {
+            try
+            {
+                conectar();
+
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT AC.id_auto, A.patente_auto, A.modelo, A.id_marca, M.nombre, A.rodado, A.licencia, U.nombre, U.apellido, AC.id_turno, AC.id_chofer, A.habilitado FROM NONAME.Auto A join NONAME.Auto_Chofer AC on A.id_auto = AC.id_auto, NONAME.Usuario U, NONAME.Marca M WHERE U.id_usuario = AC.id_chofer And M.id_marca = A.id_marca And A.habilitado = 1 And " + ((auto.idmarca == 0) ? "1=1" : ("A.id_marca ='" + auto.idmarca) + "'") + (String.IsNullOrEmpty(auto.modelo) ? " And 1=1" : (" And A.modelo ='" + auto.modelo + "'")) + (String.IsNullOrEmpty(auto.patente) ? " And 1=1" : (" And A.patente_auto ='" + auto.patente + "'")) + (String.IsNullOrEmpty(auto.nombreChofer) ? " And 1=1" : (" And U.nombre ='" + auto.nombreChofer + "' ")) + (String.IsNullOrEmpty(auto.apellidoChofer) ? " And 1=1" : (" And U.apellido ='" + auto.apellidoChofer + "' "));
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableAutos = new DataTable();
+                dataTableAutos.Load(sqlReader);
+                return dataTableAutos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
         public static DataTable obtenerTodosLosAutomoviles()
         {
             try
@@ -76,6 +102,30 @@ namespace UberFrba.ConexionBD
                 conectar();
                 sqlCommand = new SqlCommand();
                 sqlCommand.CommandText = "SELECT AC.id_auto, A.patente_auto, A.modelo, A.id_marca, M.nombre, A.rodado, A.licencia, U.nombre, U.apellido, AC.id_turno, AC.id_chofer, A.habilitado FROM NONAME.Auto A join NONAME.Auto_Chofer AC on A.id_auto = AC.id_auto, NONAME.Usuario U, NONAME.Marca M WHERE U.id_usuario = AC.id_chofer And M.id_marca = A.id_marca";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableAutos = new DataTable();
+                dataTableAutos.Load(sqlReader);
+                return dataTableAutos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static DataTable obtenerTodosLosAutomovilesHabilitados()
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT AC.id_auto, A.patente_auto, A.modelo, A.id_marca, M.nombre, A.rodado, A.licencia, U.nombre, U.apellido, AC.id_turno, AC.id_chofer, A.habilitado FROM NONAME.Auto A join NONAME.Auto_Chofer AC on A.id_auto = AC.id_auto, NONAME.Usuario U, NONAME.Marca M WHERE A.habilitado = 1 And U.id_usuario = AC.id_chofer And M.id_marca = A.id_marca";
                 sqlCommand.CommandType = CommandType.Text;
                 sqlCommand.Connection = miConexion;
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();

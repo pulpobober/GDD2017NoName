@@ -76,6 +76,30 @@ namespace UberFrba.ConexionBD
             }
         }
 
+        public static DataTable obtenerTodosLosTurnosHabilitados()
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_turno, hora_inicio, hora_fin, descripcion, valor_km, precio_base, habilitado FROM NONAME.Turno WHERE habilitado = 1";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableTurnos = new DataTable();
+                dataTableTurnos.Load(sqlReader);
+                return dataTableTurnos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
 
         public static DataTable filtarTurnos(Turno unTurno)
         {
@@ -93,7 +117,30 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static DataTable filtarTurnosHabilitados(Turno unTurno)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_turno, hora_inicio, hora_fin, descripcion, valor_km, precio_base, habilitado FROM NONAME.Turno WHERE habilitado = 1 And descripcion like '%" + unTurno.descripcion + "%'";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableTurnos = new DataTable();
+                dataTableTurnos.Load(sqlReader);
+                return dataTableTurnos;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
             finally
