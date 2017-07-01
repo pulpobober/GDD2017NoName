@@ -37,28 +37,50 @@ namespace UberFrba.Abm_Rol
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            new ModificacionRol(rolSeleccionado).ShowDialog();
-        }
-
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            if (rolSeleccionado.estado == true)
+            if (listaRoles.Rows.Count > 0)
             {
-                DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este rol?", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                ModificacionRol modificacionRol = new ModificacionRol(rolSeleccionado);
+                modificacionRol.ShowDialog();
+
+                if (modificacionRol.DialogResult == DialogResult.OK)
                 {
-                    string response = SQLRoles.eliminarRol(rolSeleccionado);
-                    MessageBox.Show(response);
+                    recargar();
                 }
             }
             else
             {
-                MessageBox.Show("El rol ya esta eliminado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Debe seleccionar algun rol", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (listaRoles.Rows.Count > 0)
+            {
+                if (rolSeleccionado.estado == true)
+                {
+                    DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este rol?", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        string response = SQLRoles.eliminarRol(rolSeleccionado);
+                        MessageBox.Show(response);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("El rol ya esta eliminado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+            else {
+                MessageBox.Show("Debe seleccionar algun rol", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void ListadoRoles_Load(object sender, EventArgs e)
         {
+            recargar();
+        }
+        private void recargar() {
             DataTable roles;
             if (modificacion)
             {
@@ -84,20 +106,7 @@ namespace UberFrba.Abm_Rol
 
         private void btnRecargar_Click(object sender, EventArgs e)
         {
-            DataTable roles;
-            if (modificacion)
-            {
-                roles = SQLRoles.obtenerTodosLosRoles();
-            }
-            else
-            {
-                roles = SQLRoles.obtenerTodosLosRolesHabilitados();
-            }
-            listaRoles.DataSource = roles;
-            this.listaRoles.Columns[0].Visible = false; //rol_id
-            this.listaRoles.Columns[2].Visible = false; //habilitado
-            DataGridViewRow listaRow = listaRoles.Rows[0];
-            rolSeleccionado = new Rol(listaRow);
+            recargar();
         }
     }
 }
