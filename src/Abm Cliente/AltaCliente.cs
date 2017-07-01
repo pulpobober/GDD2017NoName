@@ -30,8 +30,8 @@ namespace UberFrba.Abm_Cliente
                     {
                         string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
                         Cliente nuevoCliente = new Cliente(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, txtCodPostal.Text, dateTimeNacimiento.Value);
-                        string response = SQLCliente.insertarCliente(nuevoCliente);
-                        MessageBox.Show(response);
+                        SQLCliente.insertarCliente(nuevoCliente);
+                        MessageBox.Show("El cliente ha sido dado de alta correctamente");
                     }
                     else {
                         MessageBox.Show("Ese DNI ya esta en uso", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);

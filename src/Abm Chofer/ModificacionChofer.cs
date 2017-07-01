@@ -75,11 +75,23 @@ namespace UberFrba.Abm_Chofer
         {
             if (verificarDatosChofer(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtLocalidad.Text))
             {
-                string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
-                Chofer ChoferAModificar = new Chofer(idChofer,txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, dateTimeNacimiento.Value, ckbHabilitado.Checked);
-                string response=SQLChofer.modificarChofer(ChoferAModificar);
-                MessageBox.Show(response);
-                this.Close();
+                if (SQLChofer.verificarTelefono(int.Parse(txtTelefono.Text), idChofer))
+                {
+                    if (SQLChofer.verificarDNI(int.Parse(txtDNI.Text), idChofer))
+                    {
+                        string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
+                        Chofer ChoferAModificar = new Chofer(idChofer,txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, dateTimeNacimiento.Value, ckbHabilitado.Checked);
+                        SQLChofer.modificarChofer(ChoferAModificar);
+                        MessageBox.Show("El chofer ha sido modificado correctamente");
+                        this.Close();
+                    }
+                    else {
+                        MessageBox.Show("Ese DNI ya esta en uso", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else {
+                    MessageBox.Show("Ese telefono ya esta en uso", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }        
     }

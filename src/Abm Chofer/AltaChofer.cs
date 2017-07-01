@@ -23,10 +23,22 @@ namespace UberFrba.Abm_Chofer
         {
             if (verificarDatosChofer(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtLocalidad.Text))
             {
-                string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
-                Chofer nuevoChofer = new Chofer(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion,dateTimeNacimiento.Value);
-                string response=SQLChofer.insertarChofer(nuevoChofer);
-                MessageBox.Show(response);
+                if (SQLChofer.verificarTelefono(int.Parse(txtTelefono.Text), -1))
+                {
+                    if (SQLChofer.verificarDNI(int.Parse(txtDNI.Text), -1))
+                    {
+                        string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
+                        Chofer nuevoChofer = new Chofer(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, dateTimeNacimiento.Value);
+                        SQLChofer.insertarChofer(nuevoChofer);
+                        MessageBox.Show("El chofer ha sido dado de alta correctamente");
+                    }
+                    else {
+                        MessageBox.Show("Ese DNI ya esta en uso", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else {
+                    MessageBox.Show("Ese telefono ya esta en uso", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

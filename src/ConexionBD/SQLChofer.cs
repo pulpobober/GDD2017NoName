@@ -14,7 +14,7 @@ namespace UberFrba.ConexionBD
         static SqlCommand sqlCommand = new SqlCommand();
 
 
-        public static string insertarChofer(Chofer chofer)
+        public static void insertarChofer(Chofer chofer)
         {
             try
             {
@@ -32,20 +32,11 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@direccion", chofer.direccion);
                 sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", chofer.fechaNacimiento);
 
-               int result=sqlCommand.ExecuteNonQuery();
-               if (result > 0)
-               {
-                   return "Chofer dado de alta exitosamente";
-               }
-               else
-               {
-                   return "Fallo al dar de alta un el chofer: " + chofer.nombre + " " + chofer.apellido;
-               }
+                sqlCommand.ExecuteNonQuery();
 
             }
             catch (Exception ex)
             {
-                return "Fallo al dar de alta un el chofer: " + chofer.nombre + " " + chofer.apellido;
                 throw ex;
             }
             finally
@@ -108,7 +99,7 @@ namespace UberFrba.ConexionBD
             }
         }
 
-        public static string modificarChofer(Chofer chofer)
+        public static void modificarChofer(Chofer chofer)
         {
             try
             {
@@ -126,20 +117,10 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", chofer.fechaNacimiento);
                 sqlCommand.Parameters.AddWithValue("@habilitado", chofer.habilitado);
                 
-                int response = sqlCommand.ExecuteNonQuery();
-
-                if (response > 0)
-                {
-                    return "Chofer modificado correctamente";
-                }
-                else
-                {
-                    return "Fallo al modificar el chofer: " + chofer.nombre + " " + chofer.apellido;
-                }
+                sqlCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                return "Fallo al modificar el chofer: "+chofer.nombre+" "+chofer.apellido;
                 throw ex;
             }
             finally
@@ -194,6 +175,64 @@ namespace UberFrba.ConexionBD
                 {
                     return "Fallo al eliminar el chofer: " + chofer.nombre + " " + chofer.apellido;
                 }
+        }
+
+        public static bool verificarTelefono(int telefono, int idChofer)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_usuario FROM NONAME.Usuario join NONAME.Chofer on id_usuario = id_chofer Where telefono = '" + telefono + "' And id_usuario <> '" + idChofer + "'";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableClientes = new DataTable();
+                dataTableClientes.Load(sqlReader);
+
+                if (dataTableClientes.Rows.Count > 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static bool verificarDNI(int dni, int idChofer)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_usuario FROM NONAME.Usuario join NONAME.Chofer on id_usuario = id_chofer Where usuario_dni = '" + dni + "' And id_usuario <> '" + idChofer + "'";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableClientes = new DataTable();
+                dataTableClientes.Load(sqlReader);
+
+                if (dataTableClientes.Rows.Count > 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
         }
     }
 }

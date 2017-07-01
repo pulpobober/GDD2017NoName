@@ -13,7 +13,7 @@ namespace UberFrba.ConexionBD
     {
         static SqlCommand sqlCommand = new SqlCommand();
 
-        public static string insertarCliente(Cliente clie) {
+        public static void insertarCliente(Cliente clie) {
         try
         {
             conectar();
@@ -31,18 +31,9 @@ namespace UberFrba.ConexionBD
             sqlCommand.Parameters.AddWithValue("@codigo_postal", clie.codPostal);
             sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", clie.fechaNacimiento);
 
-            int response=sqlCommand.ExecuteNonQuery();
-            if (response > 0)
-            {
-                return "Cliente dado de alta correctamente";
-            }
-            else
-            {
-                return "Fallo al dar de alta el cliente: " + clie.nombre + " " + clie.apellido;
-            }
+            sqlCommand.ExecuteNonQuery();
  
         } catch(Exception ex){
-            return "Fallo al dar de alta el cliente: " + clie.nombre + " " + clie.apellido;
             throw ex;
         }finally{
             desconectar();
