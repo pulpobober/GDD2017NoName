@@ -65,6 +65,7 @@ namespace UberFrba.Abm_Automovil
 
                         Automovil auto = new Automovil(idautomovil, idturno, txtPatente.Text, txtModelo.Text, idmarca, idchofer, txtRodado.Text, txtLicencia.Text, ckbHabilitado.Checked ? 1 : 0);
                         SQLAutomovil.modificarAutomovil(auto);
+                        this.DialogResult = DialogResult.OK;
                         MessageBox.Show("El auto ha sido modificado correctamente");
                         this.Close();
                     }

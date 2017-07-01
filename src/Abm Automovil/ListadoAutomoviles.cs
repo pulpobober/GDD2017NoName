@@ -88,6 +88,7 @@ namespace UberFrba.Abm_Automovil
                     if (response > 0)
                     {
                         MessageBox.Show("El automovil " + autoSeleccionado.idautomovil + " ha sido eliminado");
+                        tablaAutomoviles.DataSource = SQLAutomovil.obtenerTodosLosAutomovilesHabilitados();
                     }
                     else
                     {
@@ -149,7 +150,13 @@ namespace UberFrba.Abm_Automovil
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            new ModificacionAutomovil(autoSeleccionado).ShowDialog();
+            ModificacionAutomovil modificacionAutomovil = new ModificacionAutomovil(autoSeleccionado);
+            modificacionAutomovil.ShowDialog();
+
+            if (modificacionAutomovil.DialogResult == DialogResult.OK)
+            {
+                recargar();
+            }
         }
 
         private void tablaAutomoviles_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -172,6 +179,9 @@ namespace UberFrba.Abm_Automovil
 
         private void btnRecargar_Click(object sender, EventArgs e)
         {
+            recargar();
+        }
+        private void recargar() {
             DataTable autos;
             if (modificacion)
             {
@@ -180,7 +190,8 @@ namespace UberFrba.Abm_Automovil
             else
             {
                 autos = SQLAutomovil.obtenerTodosLosAutomovilesHabilitados();
-            } tablaAutomoviles.DataSource = autos;
+            } 
+            tablaAutomoviles.DataSource = autos;
 
             selectMarca.Items.Clear();
             tablaMarcas = SQLAutomovil.obtenerTodasLasMarcas();

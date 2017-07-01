@@ -110,6 +110,7 @@ namespace UberFrba.Abm_Cliente
                 {
                     string response = SQLCliente.eliminarCliente(clienteSeleccionado);
                     MessageBox.Show(response);
+                    tablaClientes.DataSource = SQLCliente.obtenerTodosLosClientesHabilitados();
                 }
             }
             else {
@@ -125,12 +126,27 @@ namespace UberFrba.Abm_Cliente
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            new ModificacionCliente(clienteSeleccionado).ShowDialog();
+            ModificacionCliente modificacionCliente = new ModificacionCliente(clienteSeleccionado);
+            modificacionCliente.ShowDialog();
+
+            if (modificacionCliente.DialogResult == DialogResult.OK)
+            {
+                recargar();
+            }
         }
 
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
+            recargar();
+        }
+
+        private void btnRecargar_Click(object sender, EventArgs e)
+        {
+            recargar();
+        }
+
+        private void recargar() {
             DataTable clientes;
             if (modificacion)
             {
@@ -139,27 +155,6 @@ namespace UberFrba.Abm_Cliente
             }
             else
             {
-                clientes = SQLCliente.obtenerTodosLosClientesHabilitados();
-
-            }
-            tablaClientes.DataSource = clientes;
-            this.tablaClientes.Columns[0].Visible = false; //usuarioID
-            DataGridViewRow clieRow = tablaClientes.Rows[0];
-            clienteSeleccionado = new Cliente(clieRow);
-
-            txtDNI.Text = "";
-            txtApellido.Text = "";
-            txtNombre.Text = "";
-        }
-
-        private void btnRecargar_Click(object sender, EventArgs e)
-        {
-            DataTable clientes;
-            if (modificacion){
-                //Obtener todos los clientes cuando se carga el formulario
-                clientes = SQLCliente.obtenerTodosLosClientes();
-            }
-            else {
                 clientes = SQLCliente.obtenerTodosLosClientesHabilitados();
 
             }

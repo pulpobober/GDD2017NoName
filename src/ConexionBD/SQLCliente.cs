@@ -183,7 +183,8 @@ namespace UberFrba.ConexionBD
             {
                 conectar();
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento FROM NONAME.Usuario join NONAME.Cliente on id_usuario = id_cliente WHERE habilitado = 1";
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento, habilitado FROM NONAME.Usuario join NONAME.Cliente on id_usuario = id_cliente WHERE habilitado = 1";
+
                 sqlCommand.CommandType = CommandType.Text; //opcional
                 sqlCommand.Connection = miConexion;
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();

@@ -83,6 +83,7 @@ namespace UberFrba.Abm_Cliente
                         string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
                         Cliente clienteAModificar = new Cliente(idCliente, txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, txtCodPostal.Text, dateTimeNacimiento.Value, ckbHabilitado.Checked);
                         SQLCliente.modificarCliente(clienteAModificar);
+                        this.DialogResult = DialogResult.OK;
                         MessageBox.Show("El cliente se ha modificado correctamente");
                         this.Close();
                     }
