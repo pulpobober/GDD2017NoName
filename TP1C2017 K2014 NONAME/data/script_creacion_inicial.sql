@@ -293,7 +293,7 @@ GO
 CREATE TABLE [NONAME].[Rendicion_Viaje](
 	[id_viaje] [int] NOT NULL,
 	[nro_rendicion] [numeric](18, 0) NOT NULL,
-	[porcentaje] [numeric](18, 0) NOT NULL
+	[porcentaje] [numeric](18, 0)
 )
 GO
 
@@ -302,7 +302,7 @@ CREATE TABLE [NONAME].[Rendicion](
 	[id_chofer] [int] NOT NULL,
 	[fecha] [datetime] NOT NULL,
 	[id_turno] [int] NOT NULL,
-	[importe] [numeric](18, 2) NOT NULL,
+	[importe] [numeric](18, 2),
 	[rendida] [bit]
 )
 GO
@@ -368,7 +368,7 @@ CREATE TABLE [NONAME].[Turno](
 	[hora_fin] [numeric](18, 0) NOT NULL,
 	[descripcion] [varchar](255) NOT NULL,
 	[valor_km] [numeric](18, 2) NOT NULL,
-	[precio_base] [numeric](18, 0) NOT NULL,
+	[precio_base] [numeric](18, 2) NOT NULL,
 	[habilitado] [bit] NOT NULL
  )
  GO
@@ -1369,21 +1369,52 @@ CREATE PROCEDURE NONAME.sp_importe_rendicion
 	@fecha datetime
 AS
 BEGIN
-	SELECT importe, nro_rendicion
-	FROM [NONAME].Rendicion 
-	where id_chofer = @id_usuario
-	and id_turno = @id_turno
-	and fecha = @fecha
+	 DECLARE @valorTurno numeric(18,2) = (SELECT valor_km from NONAME.Turno where id_turno = @id_turno)
+	SELECT sum((v.cantidad_km * @valorTurno)) as importe, r.nro_rendicion
+	FROM [NONAME].Rendicion r
+	join [NONAME].Rendicion_Viaje rv ON r.nro_rendicion = rv.nro_rendicion
+	join [NONAME].Viaje v ON rv.id_viaje = v.id_viaje
+	where r.id_chofer = @id_usuario
+	and r.id_turno = @id_turno
+	and r.fecha = @fecha
+	group by r.nro_rendicion
 END
 GO
 
 CREATE PROCEDURE NONAME.sp_confirmacion_rendicion
-	@nro_rendicion NUMERIC(18,0)
+	@nro_rendicion NUMERIC(18,0),
+	@id_usuario int, -- (id_usuario = id_chofer)
+	@id_turno int,
+	@fecha datetime
+
 AS
 BEGIN
+	DECLARE @valorTurno numeric(18,2) = (SELECT valor_km from NONAME.Turno where id_turno = @id_turno)
+	DECLARE @importe numeric(18, 2) = (SELECT sum((v.cantidad_km * @valorTurno))
+					FROM [NONAME].Rendicion r
+					join [NONAME].Rendicion_Viaje rv ON r.nro_rendicion = rv.nro_rendicion
+					join [NONAME].Viaje v ON rv.id_viaje = v.id_viaje
+					where r.id_chofer = @id_usuario
+					and r.id_turno = @id_turno
+					and r.fecha = @fecha
+					and r.nro_rendicion = @nro_rendicion
+					group by r.nro_rendicion)
+
 	UPDATE [NONAME].Rendicion
-	SET rendida = 1
+	SET rendida = 1, 
+	importe = @importe
 	WHERE nro_rendicion = @nro_rendicion
+
+	DECLARE @valorKM numeric (18,2) = (select valor_km from NONAME.Turno where id_turno = @id_turno)
+	DECLARE @precioBase numeric (18,2) =  (select precio_base from NONAME.Turno where id_turno = @id_turno)
+	DECLARE @viajeKM numeric(18, 0) = (select sum(v.cantidad_km) FROM [NONAME].Rendicion r
+																 join [NONAME].Rendicion_Viaje rv ON r.nro_rendicion = rv.nro_rendicion
+																 join [NONAME].Viaje v ON rv.id_viaje = v.id_viaje
+																 and r.nro_rendicion = @nro_rendicion)
+
+	UPDATE [NONAME].Rendicion_Viaje
+	set porcentaje = (100*@importe/(@viajeKM * @valorKM + @precioBase)) where nro_rendicion = @nro_rendicion
+
 END
 GO
 
@@ -1501,7 +1532,7 @@ SET @id_viaje = SCOPE_IDENTITY()
 						@id_chofer,
 						@fecha_inicio,
 						@id_turno,
-						(@cant_km * (SELECT valor_km from NONAME.Turno where id_turno = @id_turno)),
+						null,
 						0)
 						
 
@@ -1515,7 +1546,7 @@ SET @id_viaje = SCOPE_IDENTITY()
 			ELSE
 				BEGIN
 					INSERT INTO [NONAME].Rendicion_Viaje 
-					SELECT v.id_viaje, r.nro_rendicion, (100*r.importe/(v.cantidad_km * t.valor_km + t.precio_base))
+					SELECT v.id_viaje, r.nro_rendicion, null
 					FROM NONAME.Rendicion r, NONAME.Viaje v, NONAME.Turno t
 					WHERE v.id_viaje = @id_viaje and t.id_turno = @id_turno and r.id_chofer = @id_chofer 
 					and r.fecha = @fecha_inicio and r.id_turno = @id_turno
