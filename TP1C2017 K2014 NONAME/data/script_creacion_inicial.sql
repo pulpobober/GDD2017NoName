@@ -221,6 +221,9 @@ EXEC NONAME.DROP_FK
 	IF OBJECT_ID('NONAME.sproc_top1_clienteQueUtilizoMasVecesMismoAuto') IS NOT NULL
 		DROP PROCEDURE NONAME.sproc_top1_clienteQueUtilizoMasVecesMismoAuto
 
+	IF OBJECT_ID('NONAME.sp_confirmacion_rendicion') IS NOT NULL
+	DROP PROCEDURE NONAME.sp_confirmacion_rendicion
+
 --User-Defined Data & Table Types
 
 	IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
@@ -243,7 +246,8 @@ CREATE TABLE [NONAME].[Factura](
 	[id_cliente] [int] NOT NULL,
 	[fecha_fin] [datetime],
 	[fecha_inicio] [datetime] NOT NULL,
-	[fecha] [datetime] 
+	[fecha] [datetime], 
+	[facturada] [bit]
 )
 GO
 
@@ -298,7 +302,8 @@ CREATE TABLE [NONAME].[Rendicion](
 	[id_chofer] [int] NOT NULL,
 	[fecha] [datetime] NOT NULL,
 	[id_turno] [int] NOT NULL,
-	[importe] [numeric](18, 2) NOT NULL
+	[importe] [numeric](18, 2) NOT NULL,
+	[rendida] [bit]
 )
 GO
 
@@ -1348,7 +1353,7 @@ CREATE PROCEDURE NONAME.sp_detelle_rendicion
 	@fecha datetime
 AS
 BEGIN
-	SELECT DISTINCT renvi.id_viaje, v.cantidad_km, v.fecha_hora_inicio
+	SELECT DISTINCT renvi.id_viaje, v.cantidad_km, v.fecha_hora_inicio, r.rendida
 	FROM [NONAME].Rendicion_Viaje renvi
 	JOIN [NONAME].Viaje v ON renvi.id_viaje = v.id_viaje
 	JOIN [NONAME].Rendicion r ON renvi.nro_rendicion = r.nro_rendicion
@@ -1364,7 +1369,7 @@ CREATE PROCEDURE NONAME.sp_importe_rendicion
 	@fecha datetime
 AS
 BEGIN
-	SELECT importe
+	SELECT importe, nro_rendicion
 	FROM [NONAME].Rendicion 
 	where id_chofer = @id_usuario
 	and id_turno = @id_turno
@@ -1372,6 +1377,15 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE NONAME.sp_confirmacion_rendicion
+	@nro_rendicion NUMERIC(18,0)
+AS
+BEGIN
+	UPDATE [NONAME].Rendicion
+	SET rendida = 1
+	WHERE nro_rendicion = @nro_rendicion
+END
+GO
 
 CREATE PROCEDURE NONAME.sp_detalle_facturacion
 	@id_usuario int, -- (id_usuario = id_cliente)
@@ -1457,7 +1471,8 @@ SET @id_viaje = SCOPE_IDENTITY()
 						@id_cliente,
 						NULL,
 						@fecha_inicio,
-						NULL
+						NULL,
+						0
 					)
 
 					SET @nro_factura = SCOPE_IDENTITY()
@@ -1486,7 +1501,9 @@ SET @id_viaje = SCOPE_IDENTITY()
 						@id_chofer,
 						@fecha_inicio,
 						@id_turno,
-						(@cant_km * (SELECT valor_km from NONAME.Turno where id_turno = @id_turno)))
+						(@cant_km * (SELECT valor_km from NONAME.Turno where id_turno = @id_turno)),
+						0)
+						
 
 						SET @nro_rendicion = SCOPE_IDENTITY()
 
@@ -1845,13 +1862,14 @@ GO
 SET IDENTITY_INSERT [NONAME].Factura ON;
 GO
 
-INSERT INTO [NONAME].Factura (nro_factura, id_cliente, fecha_fin, fecha_inicio, fecha)
+INSERT INTO [NONAME].Factura (nro_factura, id_cliente, fecha_fin, fecha_inicio, fecha, facturada)
 SELECT DISTINCT
 	m.Factura_Nro,
 	c.id_usuario,
 	m.Factura_Fecha_Fin,
 	m.Factura_Fecha_Inicio,
-	m.Factura_Fecha
+	m.Factura_Fecha,
+	1
 	FROM [gd_esquema].[Maestra] m
 	join [NONAME].Usuario c ON m.Cliente_Dni = c.usuario_dni
 	where Factura_Nro is not null
@@ -1873,13 +1891,14 @@ INSERT INTO [NONAME].Factura_Viaje
 SET IDENTITY_INSERT NONAME.Rendicion ON;
 GO
 
-INSERT INTO [NONAME].Rendicion (nro_rendicion, id_chofer, fecha, id_turno, importe)
+INSERT INTO [NONAME].Rendicion (nro_rendicion, id_chofer, fecha, id_turno, importe, rendida)
 	SELECT DISTINCT
 	m.Rendicion_Nro,
 	c.id_usuario,
 	m.Rendicion_Fecha,
 	t.id_turno,
-	sum(m.Rendicion_Importe) 
+	sum(m.Rendicion_Importe),
+	1 
 	from [gd_esquema].[Maestra] m
 	join [NONAME].Usuario c ON m.Chofer_Dni = c.usuario_dni 
 	join [NONAME].Turno t ON m.Turno_Descripcion = t.descripcion
