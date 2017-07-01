@@ -97,7 +97,7 @@ namespace UberFrba.ConexionBD
             }
         }
 
-        public static string modificarCliente(Cliente clie)
+        public static void modificarCliente(Cliente clie)
         {
             try
             {
@@ -115,20 +115,10 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@codigo_postal", clie.codPostal);
                 sqlCommand.Parameters.AddWithValue("@fecha_nacimiento", clie.fechaNacimiento);
                 sqlCommand.Parameters.AddWithValue("@habilitado", clie.habilitado);
-
-                int response=sqlCommand.ExecuteNonQuery();
-                if (response > 0)
-                {
-                    return "Cliente modificado correctamente";
-                }
-                else
-                {
-                    return "Fallo modificar el cliente: " + clie.nombre + " " + clie.apellido;
-                }
+                sqlCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                return "Fallo modificar el cliente: " + clie.nombre + " " + clie.apellido;
                 throw ex;
             }
             finally
@@ -186,6 +176,64 @@ namespace UberFrba.ConexionBD
             catch (Exception ex)
             {
                 return null;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static bool verificarTelefono(int telefono, int idCliente)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_usuario FROM NONAME.Usuario join NONAME.Cliente on id_usuario = id_cliente Where telefono = '" + telefono + "' And id_usuario <> '" + idCliente + "'";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableClientes = new DataTable();
+                dataTableClientes.Load(sqlReader);
+
+                if (dataTableClientes.Rows.Count > 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static bool verificarDNI(int dni, int idCliente)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_usuario FROM NONAME.Usuario join NONAME.Cliente on id_usuario = id_cliente Where usuario_dni = '" + dni + "' And id_usuario <> '" + idCliente + "'";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableClientes = new DataTable();
+                dataTableClientes.Load(sqlReader);
+
+                if (dataTableClientes.Rows.Count > 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
             finally

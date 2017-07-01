@@ -76,11 +76,24 @@ namespace UberFrba.Abm_Cliente
         {
             if (verificarDatosCliente(txtNombre.Text, txtApellido.Text, txtDNI.Text, txtMail.Text, txtTelefono.Text, txtDireccion.Text, txtLocalidad.Text, txtCodPostal.Text))
             {
-                string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
-                Cliente clienteAModificar = new Cliente(idCliente,txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, txtCodPostal.Text, dateTimeNacimiento.Value, ckbHabilitado.Checked);
-                string response=SQLCliente.modificarCliente(clienteAModificar);
-                MessageBox.Show(response);
-                this.Close();
+                if (SQLCliente.verificarTelefono(int.Parse(txtTelefono.Text), idCliente))
+                {
+                    if (SQLCliente.verificarDNI(int.Parse(txtDNI.Text), idCliente))
+                    {
+                        string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
+                        Cliente clienteAModificar = new Cliente(idCliente, txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, txtCodPostal.Text, dateTimeNacimiento.Value, ckbHabilitado.Checked);
+                        SQLCliente.modificarCliente(clienteAModificar);
+                        MessageBox.Show("El cliente se ha modificado correctamente");
+                        this.Close();
+                    }
+                    else {
+                        MessageBox.Show("Ese DNI ya esta en uso", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+                }
+                else {
+                    MessageBox.Show("Ese telefono ya esta en uso", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }        
     }
