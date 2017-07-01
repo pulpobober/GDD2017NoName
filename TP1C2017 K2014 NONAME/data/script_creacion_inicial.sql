@@ -18,7 +18,6 @@ GO
 	GO
 
 
-
 CREATE PROCEDURE NONAME.DROP_FK
 as
 	IF OBJECT_ID('NONAME.FK_Viaje_Turno') IS NOT NULL
@@ -240,12 +239,11 @@ CREATE SCHEMA [NONAME] AUTHORIZATION [gd]
 GO
 
 CREATE TABLE [NONAME].[Factura](
-	[nro_factura] [numeric](18, 0) NOT NULL,
+	[nro_factura] [numeric](18, 0) IDENTITY(10000, 1) NOT NULL,
 	[id_cliente] [int] NOT NULL,
-	[fecha_fin] [datetime] NOT NULL,
+	[fecha_fin] [datetime],
 	[fecha_inicio] [datetime] NOT NULL,
-	[fecha] [datetime] NOT NULL,
-	[importe] [numeric](18, 0) NOT NULL
+	[fecha] [datetime] 
 )
 GO
 
@@ -296,11 +294,11 @@ CREATE TABLE [NONAME].[Rendicion_Viaje](
 GO
 
 CREATE TABLE [NONAME].[Rendicion](
-	[nro_rendicion] [numeric](18, 0) NOT NULL,
+	[nro_rendicion] [numeric](18, 0) IDENTITY(10000, 1) NOT NULL,
 	[id_chofer] [int] NOT NULL,
 	[fecha] [datetime] NOT NULL,
 	[id_turno] [int] NOT NULL,
-	[importe] [numeric](18, 0) NOT NULL
+	[importe] [numeric](18, 2) NOT NULL
 )
 GO
 
@@ -364,7 +362,7 @@ CREATE TABLE [NONAME].[Turno](
 	[hora_inicio] [numeric](18, 0) NOT NULL,
 	[hora_fin] [numeric](18, 0) NOT NULL,
 	[descripcion] [varchar](255) NOT NULL,
-	[valor_km] [numeric](18, 0) NOT NULL,
+	[valor_km] [numeric](18, 2) NOT NULL,
 	[precio_base] [numeric](18, 0) NOT NULL,
 	[habilitado] [bit] NOT NULL
  )
@@ -622,7 +620,7 @@ GO
 CREATE PROCEDURE NONAME.sproc_rol_modificacion
 	@id_rol INT,
 	@tipo VARCHAR(255) = NULL,
-	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,--Lista opcional de tipo Tabla (Table-Valued Parameters) que contiene (o no) uno o más valores de id_funcion
+	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY, --Lista de tipo Tabla (Table-Valued Parameters) que contiene (o no) valores de id_funcion a asignar (deshabilitar)
 	@habilitado BIT = NULL
 
 /*
@@ -653,7 +651,7 @@ BEGIN
 
 /* En caso de haber algun id_funcion en la lista de funciones @ids_funciones,
 actualizo la lista de funcionalidades del Rol en base a lo que me llegó por parametro.
-Caso contrario, dejo todo igual */
+Caso contrario (no llegan ids_funciones / vacio), le quito todos los permisos */
 	IF EXISTS (SELECT 1 FROM @ids_funciones) --Me llegó al menos un id_funcion ==> AGREGO Y/O QUITO FUNCIONALIDADES
 		BEGIN
 			
@@ -663,14 +661,18 @@ Caso contrario, dejo todo igual */
 			INSERT INTO NONAME.Funcion_Rol
 			SELECT @id_rol, id_funcion
 			FROM @ids_funciones
-			WHERE NOT EXISTS (SELECT 1 FROM NONAME.Funcion_Rol WHERE id_rol = @id_rol AND id_funcion = @id_funcion)
+			WHERE id_funcion NOT IN (SELECT id_funcion FROM NONAME.Funcion_Rol WHERE id_rol = @id_rol)
 			
 			--Quito aquellas funcionalidades viejas que ya no le corresponden al Rol
 			DELETE FROM NONAME.Funcion_Rol
-			WHERE Funcion_Rol.id_rol = @id_rol AND Funcion_Rol.id_funcion NOT IN (SELECT * FROM @ids_funciones)
+			WHERE Funcion_Rol.id_rol = @id_rol AND (Funcion_Rol.id_funcion NOT IN (SELECT * FROM @ids_funciones))
 
 		END
-		
+	ELSE --tabla de ids_funciones vacia --> le quito todos los permisos que tenia
+		BEGIN
+			DELETE FROM NONAME.Funcion_Rol
+			WHERE Funcion_Rol.id_rol = @id_rol
+		END
 END
 GO
 
@@ -815,7 +817,6 @@ END
 
 GO
 
-
 CREATE PROCEDURE NONAME.sproc_automovil_alta
 	@id_marca INT,
 	@modelo VARCHAR(255),
@@ -860,7 +861,6 @@ END
 
 GO
 
-
 CREATE PROCEDURE NONAME.sproc_automovil_baja
 	@id_auto INT
 
@@ -881,7 +881,6 @@ BEGIN
 END
 
 GO
-
 
 CREATE PROCEDURE NONAME.sproc_automovil_modificacion
 	@id_auto INT,
@@ -944,7 +943,6 @@ END
 
 GO
 
-
 CREATE PROCEDURE NONAME.sproc_turno_alta
 	@hora_inicio NUMERIC(18, 0),
 	@hora_fin NUMERIC(18, 0),
@@ -979,7 +977,6 @@ BEGIN
 
 END
 GO
-
 
 CREATE PROCEDURE NONAME.sproc_turno_baja
 	@id_turno INT
@@ -1020,6 +1017,9 @@ Un turno no debe exceder las 24hs y además debe comenzar y finalizar dentro del 
 AS
 BEGIN
 
+	DECLARE @horarioCorrecto INT
+	SET @horarioCorrecto = 0
+
 --se precisa modificar tanto hora_inicio como hora_fin	
 	IF((@hora_inicio IS NOT NULL) AND (@hora_fin IS NOT NULL))
 		BEGIN
@@ -1032,10 +1032,11 @@ BEGIN
 					SET hora_inicio = @hora_inicio,
 						hora_fin = @hora_fin
 					WHERE id_turno = @id_turno
+
+					SET @horarioCorrecto = 1
 				END
 		END
 	
-
 --se precisa modificar hora_inicio unicamente
 	IF((@hora_inicio IS NOT NULL) AND (@hora_fin IS NULL))
 		BEGIN
@@ -1050,9 +1051,10 @@ BEGIN
 					UPDATE [NONAME].Turno
 					SET hora_inicio = @hora_inicio
 					WHERE id_turno = @id_turno
+
+					SET @horarioCorrecto = 1
 				END
 		END
-
 
 --se precisa modificar hora_fin unicamente
 	IF((@hora_inicio IS NULL) AND (@hora_fin IS NOT NULL))
@@ -1068,6 +1070,8 @@ BEGIN
 					UPDATE [NONAME].Turno
 					SET hora_fin = @hora_fin
 					WHERE id_turno = @id_turno
+
+					SET @horarioCorrecto = 1
 				END
 		END
 	
@@ -1120,9 +1124,13 @@ BEGIN
 					UPDATE [NONAME].Turno
 					SET habilitado = @habilitado
 					WHERE id_turno = @id_turno
+
+					--SET @horarioCorrecto = 1
 				END
 		END
 
+	SELECT @horarioCorrecto
+	RETURN @horarioCorrecto
 END
 GO
 
@@ -1374,7 +1382,7 @@ BEGIN
 	FROM Factura_Viaje fv
 	JOIN Viaje v ON fv.id_viaje = v.id_viaje
 	JOIN Factura f ON fv.nro_factura = f.nro_factura
-	WHERE f.fecha = @fecha 
+	WHERE f.fecha_inicio <= @fecha and (f.fecha_fin >= @fecha or f.fecha_fin is null)
 	and f.id_cliente = @id_usuario
 	
 END
@@ -1385,13 +1393,28 @@ CREATE PROCEDURE NONAME.sp_importe_facturacion
 	@id_usuario int, -- (id_usuario = id_cliente)
 	@fecha datetime
 AS
+	DECLARE @nro_factura numeric(18, 0)
 BEGIN
-	SELECT f.importe
-	FROM NONAME.Factura f
-	where f.id_cliente = @id_usuario
-	and f.fecha = @fecha
+	set @nro_factura = (select nro_factura 
+						from Factura where id_cliente = @id_usuario
+						and fecha_fin is null)
+END
+BEGIN
+	-- la fecha corresponde a l a creacion de la factura y esta coincide con fecha fin
+	UPDATE NONAME.Factura 
+	SET fecha_fin = @fecha , fecha = @fecha
+	WHERE nro_factura = @nro_factura
+	and fecha_fin is null and fecha is null
+END
+BEGIN 
+	SELECT sum(v.cantidad_km * t.valor_km) as  'Monto total'
+	FROM Viaje v
+	join Factura_Viaje fv ON v.id_viaje = fv.id_viaje
+	join Turno t ON v.id_turno = t.id_turno 
+	where fv.nro_factura = @nro_factura
 END
 GO
+
 
 CREATE PROCEDURE NONAME.sp_RegistroViaje
 	@id_chofer int,
@@ -1422,21 +1445,23 @@ BEGIN
 
 SET @id_viaje = SCOPE_IDENTITY()
 
-	IF NOT EXISTS (SELECT 1 FROM NONAME.Factura_Viaje WHERE id_viaje = @id_viaje)
-		BEGIN
-			IF NOT EXISTS (SELECT 1 FROM NONAME.Factura re WHERE re.fecha = @fecha_inicio and re.id_cliente = @id_cliente)
-				BEGIN
+ -- Si el id de una factura para ese mes ya esta creada la fecha de finalizacion se encuentra en null 
+ -- hasta que a fin de mes la factura sea creada
+ -- el administrad updetea la fecha fin de factura el dia que la crea
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Factura re WHERE re.fecha_fin is null and re.id_cliente = @id_cliente)
+			BEGIN
 					DECLARE @nro_factura INT
-					SET @nro_factura = SCOPE_IDENTITY()
-					INSERT INTO [NONAME].Factura (nro_factura, id_cliente, fecha_fin, fecha_inicio, fecha, importe)
+					
+					INSERT INTO [NONAME].Factura 
 					VALUES (
-						@nro_factura,
 						@id_cliente,
-						@fecha_fin,
+						NULL,
 						@fecha_inicio,
-						@fecha_inicio,
-						(@cant_km * (SELECT valor_km from NONAME.Turno where id_turno = @id_turno)))
-				
+						NULL
+					)
+
+					SET @nro_factura = SCOPE_IDENTITY()
+
 					INSERT INTO [NONAME].Factura_Viaje
 					SELECT f.nro_factura, v.id_viaje
 					FROM NONAME.Factura f, NONAME.Viaje v 
@@ -1447,24 +1472,23 @@ SET @id_viaje = SCOPE_IDENTITY()
 					INSERT INTO [NONAME].Factura_Viaje
 					SELECT f.nro_factura, v.id_viaje
 					FROM NONAME.Factura f, NONAME.Viaje v 
-					WHERE f.fecha = @fecha_fin and f.id_cliente = @id_cliente and v.id_viaje = @id_viaje	
+					WHERE f.fecha_fin is null  and f.id_cliente = @id_cliente and v.id_viaje = @id_viaje	
 				END
-		END
 
 
-	IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion_Viaje WHERE id_viaje = @id_viaje)
-		BEGIN
-			IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion re WHERE re.fecha = @fecha_inicio and re.id_chofer = @id_chofer)
-				BEGIN
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion re WHERE re.fecha = @fecha_inicio and re.id_chofer = @id_chofer)
+			BEGIN
+
 					DECLARE @nro_rendicion INT
-					SET @nro_rendicion = SCOPE_IDENTITY()
-					INSERT INTO [NONAME].Rendicion (nro_rendicion, id_chofer, fecha, id_turno, importe)
+					
+					INSERT INTO [NONAME].Rendicion 
 					VALUES (
-						@nro_rendicion,
 						@id_chofer,
 						@fecha_inicio,
 						@id_turno,
 						(@cant_km * (SELECT valor_km from NONAME.Turno where id_turno = @id_turno)))
+
+						SET @nro_rendicion = SCOPE_IDENTITY()
 
 					INSERT INTO [NONAME].Rendicion_Viaje 
 					SELECT v.id_viaje, r.nro_rendicion, (100*r.importe/(v.cantidad_km * t.valor_km + t.precio_base))
@@ -1479,7 +1503,6 @@ SET @id_viaje = SCOPE_IDENTITY()
 					WHERE v.id_viaje = @id_viaje and t.id_turno = @id_turno and r.id_chofer = @id_chofer 
 					and r.fecha = @fecha_inicio and r.id_turno = @id_turno
 				END
-		END
 END
 GO
 
@@ -1519,7 +1542,7 @@ BEGIN
 END
 GO
 
-
+-- arreglar esta estadistica, esta mal calculada la parte del monto maximo
 CREATE PROCEDURE NONAME.sproc_top5_clientesConMayorConsumo
 	@anio INT,
 	@trimestre INT
@@ -1527,10 +1550,19 @@ CREATE PROCEDURE NONAME.sproc_top5_clientesConMayorConsumo
 
 AS
 begin
- 	SELECT  top 5 (C.apellido + ', ' + C.nombre) AS Cliente, sum(f.importe) as Consumo
+ 	SELECT  top 5 (C.apellido + ', ' + C.nombre) AS Cliente, F.nro_factura, (SELECT sum(v.cantidad_km * t.valor_km) 
+																FROM NONAME.Factura ff
+																join noname.Factura_Viaje fv ON fv.nro_factura = ff.nro_factura
+																join noname.Viaje v ON fv.id_viaje = v.id_viaje
+																join NONAME.Turno t on t.id_turno = v.id_turno
+																where ff.nro_factura = F.nro_factura 
+
+																
+																) as Consumo
+																
 	FROM NONAME.Usuario as C join NONAME.Factura F on C.id_usuario = F.id_cliente
 	where YEAR(F.fecha) = @anio AND DATEPART(QUARTER, f.fecha) = @trimestre
-	group by (C.apellido + ', ' + C.nombre)
+	order by Consumo Desc
 	
 
 end 
@@ -1543,14 +1575,18 @@ CREATE PROCEDURE NONAME.sproc_top1_clienteQueUtilizoMasVecesMismoAuto
 	@trimestre INT
 
 AS
+
 BEGIN
-SELECT TOP 5 (U.apellido + ', ' + U.nombre) as 'Nombre Cliente', count(patente_auto) as 'Mas veces mismo automobil', patente_auto as 'Patente auto'
-FROM NONAME.Usuario U join NONAME.Viaje V on U.id_usuario = v.id_cliente
-join NONAME.Auto_Chofer AC on AC.id_chofer = v.id_chofer AND AC.id_turno = v.id_turno
-join NONAME.Auto A on A.id_auto = AC.id_auto
-where YEAR(v.fecha_hora_inicio) = @anio AND DATEPART(QUARTER, v.fecha_hora_inicio) = @trimestre
-group by (U.apellido + ', ' + U.nombre), patente_auto
-order by count(patente_auto) desc
+
+	SELECT TOP 5 (U.apellido + ', ' + U.nombre) AS 'Cliente', COUNT(patente_auto) AS 'Cantidad de Viajes', patente_auto AS 'Patente Auto', M.nombre AS 'Marca Auto', A.modelo AS 'Modelo Auto'
+	FROM NONAME.Usuario U JOIN NONAME.Viaje V ON U.id_usuario = v.id_cliente
+		JOIN NONAME.Auto_Chofer AC ON AC.id_chofer = v.id_chofer AND AC.id_turno = v.id_turno
+		JOIN NONAME.Auto A ON A.id_auto = AC.id_auto 
+		JOIN NONAME.Marca AS M ON M.id_marca = A.id_marca
+	WHERE YEAR(v.fecha_hora_inicio) = @anio AND DATEPART(QUARTER, v.fecha_hora_inicio) = @trimestre
+	GROUP BY (U.apellido + ', ' + U.nombre), patente_auto, M.nombre, A.modelo
+	ORDER BY COUNT(patente_auto) DESC
+
 END
 GO
 
@@ -1709,9 +1745,6 @@ INSERT INTO [NONAME].Chofer
 
 GO
 
--- seguin con chofer auto y chofer rendicion....
-
-
 --Cliente
 
 INSERT INTO [NONAME].Usuario
@@ -1809,25 +1842,22 @@ INSERT INTO [NONAME].Rol_Usuario
 
 GO
 
+SET IDENTITY_INSERT [NONAME].Factura ON;
+GO
 
--- El importe se calcula con la cantidad de kilometros recorridos y el valor del km por turno
--- el monto da valores muy altos manana chequeo la cuenta besis
-
-INSERT INTO [NONAME].Factura
+INSERT INTO [NONAME].Factura (nro_factura, id_cliente, fecha_fin, fecha_inicio, fecha)
 SELECT DISTINCT
 	m.Factura_Nro,
 	c.id_usuario,
 	m.Factura_Fecha_Fin,
 	m.Factura_Fecha_Inicio,
-	m.Factura_Fecha,
-	(select sum(v.cantidad_km * t.valor_km) from NONAME.Viaje v, NONAME.Turno t 
-											  where v.id_turno = t.id_turno
-											  and v.fecha_hora_inicio >= m.Factura_Fecha_Inicio
-											  and v.fecha_hora_fin <= m.Factura_Fecha_Fin)
+	m.Factura_Fecha
 	FROM [gd_esquema].[Maestra] m
 	join [NONAME].Usuario c ON m.Cliente_Dni = c.usuario_dni
 	where Factura_Nro is not null
 
+SET IDENTITY_INSERT NONAME.Factura OFF;
+GO
 
 INSERT INTO [NONAME].Factura_Viaje
 	SELECT DISTINCT
@@ -1835,11 +1865,15 @@ INSERT INTO [NONAME].Factura_Viaje
 	v.id_viaje
 	from [gd_esquema].[Maestra] m
 	join [NONAME].Factura f ON m.Factura_Nro = f.nro_factura
-	join [NONAME].Viaje v ON v.fecha_hora_inicio >= m.Factura_Fecha_Inicio
-						and v.fecha_hora_fin <= m.Factura_Fecha_Fin
+	join noname.usuario c on c.usuario_dni = m.Cliente_Dni
+	join noname.usuario ch on ch.usuario_dni = m.Chofer_Dni
+	join [NONAME].Viaje v ON v.fecha_hora_inicio = m.Viaje_Fecha
+	and c.id_usuario = v.id_cliente and ch.id_usuario = v.id_chofer			
 												  
+SET IDENTITY_INSERT NONAME.Rendicion ON;
+GO
 
-INSERT INTO [NONAME].Rendicion
+INSERT INTO [NONAME].Rendicion (nro_rendicion, id_chofer, fecha, id_turno, importe)
 	SELECT DISTINCT
 	m.Rendicion_Nro,
 	c.id_usuario,
@@ -1852,19 +1886,22 @@ INSERT INTO [NONAME].Rendicion
 	where m.Rendicion_Nro is not null 
 	group by m.Rendicion_Nro, c.id_usuario, m.Rendicion_Fecha, t.id_turno
 	order by m.Rendicion_Nro
+GO
 
-
+SET IDENTITY_INSERT NONAME.Rendicion OFF;
+GO
 
 INSERT INTO [NONAME].Rendicion_Viaje
 	SELECT DISTINCT
 	id_viaje,
 	m.Rendicion_Nro,
 	(100*m.Rendicion_Importe/(m.Viaje_Cant_Kilometros * m.Turno_Valor_Kilometro + m.Turno_Precio_Base))
-	from [NONAME].Viaje v 
-	join [NONAME].Usuario Cliente on v.id_cliente = Cliente.id_usuario
-	join [NONAME].Usuario Chofer on v.id_chofer = Chofer.id_usuario
-	join [gd_esquema].[Maestra] m on m.Viaje_Fecha = v.fecha_hora_inicio 
-		and m.Chofer_Dni = Chofer.usuario_dni
-		and m.Cliente_Dni = Cliente.usuario_dni 
-		and Rendicion_Nro is not null
+	from gd_esquema.Maestra m
+	join [NONAME].Rendicion r on r.nro_rendicion = m.Rendicion_Nro
+	join [NONAME].Viaje v on v.cantidad_km = m.Viaje_Cant_Kilometros
+	and v.fecha_hora_inicio = m.Viaje_Fecha
+	and v.id_chofer = r.id_chofer
+	where Rendicion_Nro is not null
 
+DBCC CHECKIDENT ('[NONAME].[Factura]', RESEED, 10700)
+DBCC CHECKIDENT ('[NONAME].[Rendicion]', RESEED, 46500)
