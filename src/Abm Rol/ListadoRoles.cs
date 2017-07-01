@@ -64,6 +64,7 @@ namespace UberFrba.Abm_Rol
                     {
                         string response = SQLRoles.eliminarRol(rolSeleccionado);
                         MessageBox.Show(response);
+                        listaRoles.DataSource = SQLRoles.obtenerTodosLosRolesHabilitados();
                     }
                 }
                 else

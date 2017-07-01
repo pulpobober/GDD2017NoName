@@ -35,20 +35,7 @@ namespace UberFrba.Abm_Turno
 
         private void ListaTurnos_Load(object sender, EventArgs e)
         {
-            //Obtener todos los turnos cuando se carga el formulario
-            DataTable turnos;
-            if (modificacion)
-            {
-                turnos = SQLTurno.obtenerTodosLosTurnos();
-            }
-            else
-            {
-                turnos = SQLTurno.obtenerTodosLosTurnosHabilitados();
-            }
-            tablaTurnos.DataSource = turnos;
-            this.tablaTurnos.Columns[0].Visible = false; //turnoId
-            DataGridViewRow turnoRow = tablaTurnos.Rows[0];
-            turnoSeleccionado = new Turno(turnoRow);
+            recargar();
         }
 
         private void bnBuscar_Click(object sender, EventArgs e)
@@ -71,7 +58,20 @@ namespace UberFrba.Abm_Turno
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            new ModificacionTurno(turnoSeleccionado).ShowDialog();
+            if (tablaTurnos.Rows.Count > 0)
+            {
+                ModificacionTurno modificacionTurno = new ModificacionTurno(turnoSeleccionado);
+                modificacionTurno.ShowDialog();
+
+                if (modificacionTurno.DialogResult == DialogResult.OK)
+                {
+                    recargar();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debe seleccionar algun rol", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -81,6 +81,7 @@ namespace UberFrba.Abm_Turno
             {
                 string response=SQLTurno.eliminarTurno(turnoSeleccionado);
                 MessageBox.Show(response);
+                tablaTurnos.DataSource = SQLTurno.obtenerTodosLosTurnosHabilitados();
             }
         }
 
@@ -90,8 +91,7 @@ namespace UberFrba.Abm_Turno
             turnoSeleccionado = new Turno(turnoRow);
         }
 
-        private void btnRecargar_Click(object sender, EventArgs e)
-        {
+        private void recargar() {
             DataTable turnos;
             if (modificacion)
             {
@@ -100,13 +100,18 @@ namespace UberFrba.Abm_Turno
             else
             {
                 turnos = SQLTurno.obtenerTodosLosTurnosHabilitados();
-            } 
+            }
             tablaTurnos.DataSource = turnos;
             this.tablaTurnos.Columns[0].Visible = false; //turnoId
             DataGridViewRow turnoRow = tablaTurnos.Rows[0];
             turnoSeleccionado = new Turno(turnoRow);
 
             txtDescripcion.Text = "";
+        }
+
+        private void btnRecargar_Click(object sender, EventArgs e)
+        {
+            recargar();
         }
     }
 }
