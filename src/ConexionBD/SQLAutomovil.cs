@@ -15,28 +15,27 @@ namespace UberFrba.ConexionBD
         static SqlCommand sqlCommand = new SqlCommand();
         
 
-        public static string insertarAutomovil(Automovil auto) {
-            conectar();
-
-            sqlCommand = new SqlCommand("NONAME.sproc_automovil_alta");
-            sqlCommand.CommandType = CommandType.StoredProcedure;
-            sqlCommand.Connection = miConexion;
-           
-            sqlCommand.Parameters.AddWithValue("@patente_auto", auto.patente);
-            sqlCommand.Parameters.AddWithValue("@modelo", auto.modelo);
-            sqlCommand.Parameters.AddWithValue("@id_turno", auto.idturno);
-            sqlCommand.Parameters.AddWithValue("@id_marca", auto.idmarca);
-            sqlCommand.Parameters.AddWithValue("@rodado", auto.rodado);
-            sqlCommand.Parameters.AddWithValue("@habilitado", auto.habilitado);
-            sqlCommand.Parameters.AddWithValue("@licencia", auto.licencia);
-            sqlCommand.Parameters.AddWithValue("@id_chofer", auto.idchofer);
-            int response=sqlCommand.ExecuteNonQuery();
-            if (response == 0)
+        public static void insertarAutomovil(Automovil auto) {
+            try
             {
-                return "No pudo realizarse la alta";
+                conectar();
+
+                sqlCommand = new SqlCommand("NONAME.sproc_automovil_alta");
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Connection = miConexion;
+
+                sqlCommand.Parameters.AddWithValue("@patente_auto", auto.patente);
+                sqlCommand.Parameters.AddWithValue("@modelo", auto.modelo);
+                sqlCommand.Parameters.AddWithValue("@id_turno", auto.idturno);
+                sqlCommand.Parameters.AddWithValue("@id_marca", auto.idmarca);
+                sqlCommand.Parameters.AddWithValue("@rodado", auto.rodado);
+                sqlCommand.Parameters.AddWithValue("@habilitado", auto.habilitado);
+                sqlCommand.Parameters.AddWithValue("@licencia", auto.licencia);
+                sqlCommand.Parameters.AddWithValue("@id_chofer", auto.idchofer);
+                sqlCommand.ExecuteNonQuery();
             }
-            else{
-                return "Alta realizada";
+            catch (Exception ex) {
+                throw ex;
             }
     }
 
@@ -111,8 +110,10 @@ namespace UberFrba.ConexionBD
         }
 
 
-        public static string modificarAutomovil(Automovil auto)
+        public static void modificarAutomovil(Automovil auto)
         {
+            try
+            {
                 conectar();
                 sqlCommand = new SqlCommand("NONAME.sproc_automovil_modificacion");
                 sqlCommand.CommandType = CommandType.StoredProcedure;
@@ -128,16 +129,11 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@id_chofer", auto.idchofer);
                 sqlCommand.Parameters.AddWithValue("@id_auto", auto.idautomovil);
 
-                int response=sqlCommand.ExecuteNonQuery();
-                if (response > 0)
-                {
-                    return "Se modifico correctamente el automovil: " + auto.idautomovil;
-                }
-                else
-                {
-                    return "No se pudo realizar la modificacion";
-                }
-           
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
         }
 
         public static int eliminarAutomovil(Automovil auto)
@@ -201,6 +197,64 @@ namespace UberFrba.ConexionBD
             catch (Exception ex)
             {
                 return null;
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static bool verificarPatente(string patente, int idAuto)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT id_auto FROM NONAME.Auto Where patente_auto = '" + patente + "' And id_auto <> '" + idAuto + "'";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableClientes = new DataTable();
+                dataTableClientes.Load(sqlReader);
+
+                if (dataTableClientes.Rows.Count > 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
+
+        public static bool verificarChofer(int idChofer, int idAuto)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT A.id_auto FROM NONAME.Auto A join NONAME.Auto_Chofer AC on AC.id_auto = A.id_auto WHERE AC.id_chofer = '" + idChofer + "' And AC.id_auto <> '" + idAuto + "'";
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableClientes = new DataTable();
+                dataTableClientes.Load(sqlReader);
+
+                if (dataTableClientes.Rows.Count > 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
             finally

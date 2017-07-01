@@ -55,13 +55,27 @@ namespace UberFrba.Abm_Automovil
         private void btnModificacion_Click(object sender, EventArgs e)
         {
             if(verificarDatosAutomovil(txtPatente.Text,txtModelo.Text)){
-                int idmarca = obtenerIDMarca(selectMarca.Text);
-                int idturno = obtenerIDTurno(cmbTurno.Text);
-                int idchofer = obtenerIDChofer(cmbChofer.Text);
+                if (SQLAutomovil.verificarPatente(txtPatente.Text, idautomovil))
+                {
+                    if (SQLAutomovil.verificarChofer(obtenerIDChofer(cmbChofer.Text), idautomovil))
+                    {
+                        int idmarca = obtenerIDMarca(selectMarca.Text);
+                        int idturno = obtenerIDTurno(cmbTurno.Text);
+                        int idchofer = obtenerIDChofer(cmbChofer.Text);
 
-                Automovil auto = new Automovil(idautomovil, idturno, txtPatente.Text, txtModelo.Text, idmarca, idchofer, txtRodado.Text, txtLicencia.Text, ckbHabilitado.Checked ? 1 : 0);
-                string response = SQLAutomovil.modificarAutomovil(auto);
-                MessageBox.Show(response);
+                        Automovil auto = new Automovil(idautomovil, idturno, txtPatente.Text, txtModelo.Text, idmarca, idchofer, txtRodado.Text, txtLicencia.Text, ckbHabilitado.Checked ? 1 : 0);
+                        SQLAutomovil.modificarAutomovil(auto);
+                        MessageBox.Show("El auto ha sido modificado correctamente");
+                        this.Close();
+                    }
+                    else {
+                        MessageBox.Show("Esta chofer ya tiene asignado un auto", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Esta patente ya esta en uso", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
