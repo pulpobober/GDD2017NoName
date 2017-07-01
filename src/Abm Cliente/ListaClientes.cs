@@ -103,18 +103,25 @@ namespace UberFrba.Abm_Cliente
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (clienteSeleccionado.habilitado == true)
+            if (tablaClientes.Rows.Count > 0)
             {
-                DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este cliente?", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                if (clienteSeleccionado.habilitado == true)
                 {
-                    string response = SQLCliente.eliminarCliente(clienteSeleccionado);
-                    MessageBox.Show(response);
-                    tablaClientes.DataSource = SQLCliente.obtenerTodosLosClientesHabilitados();
+                    DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este cliente?", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        string response = SQLCliente.eliminarCliente(clienteSeleccionado);
+                        MessageBox.Show(response);
+                        tablaClientes.DataSource = SQLCliente.obtenerTodosLosClientesHabilitados();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("El cliente ya esta eliminado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-            else {
-                MessageBox.Show("El cliente ya esta eliminado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            else { 
+                MessageBox.Show("Debe seleccionar algun cliente", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -126,12 +133,18 @@ namespace UberFrba.Abm_Cliente
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            ModificacionCliente modificacionCliente = new ModificacionCliente(clienteSeleccionado);
-            modificacionCliente.ShowDialog();
-
-            if (modificacionCliente.DialogResult == DialogResult.OK)
+            if (tablaClientes.Rows.Count > 0)
             {
-                recargar();
+                ModificacionCliente modificacionCliente = new ModificacionCliente(clienteSeleccionado);
+                modificacionCliente.ShowDialog();
+
+                if (modificacionCliente.DialogResult == DialogResult.OK)
+                {
+                    recargar();
+                }
+            }
+            else {
+                MessageBox.Show("Debe seleccionar algun cliente", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

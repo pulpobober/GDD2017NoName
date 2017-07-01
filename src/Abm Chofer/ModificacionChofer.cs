@@ -82,6 +82,7 @@ namespace UberFrba.Abm_Chofer
                         string direccion = obtenerDireccionEntera(txtDireccion.Text, txtPiso.Text, txtDepto.Text, txtLocalidad.Text);
                         Chofer ChoferAModificar = new Chofer(idChofer,txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, dateTimeNacimiento.Value, ckbHabilitado.Checked);
                         SQLChofer.modificarChofer(ChoferAModificar);
+                        this.DialogResult = DialogResult.OK;
                         MessageBox.Show("El chofer ha sido modificado correctamente");
                         this.Close();
                     }

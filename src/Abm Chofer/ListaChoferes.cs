@@ -97,19 +97,28 @@ namespace UberFrba.Abm_Chofer
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (choferSeleccionado.habilitado == true)
+            if (tablaChoferes.Rows.Count > 0)
             {
-                DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este chofer?", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                if (choferSeleccionado.habilitado == true)
                 {
-                    string response = SQLChofer.eliminarChofer(choferSeleccionado);
-                    MessageBox.Show(response);
+                    DialogResult dialogResult = MessageBox.Show("Esta seguro?", "Esta seguro que quiere dar de baja este chofer?", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        string response = SQLChofer.eliminarChofer(choferSeleccionado);
+                        MessageBox.Show(response);
+                        tablaChoferes.DataSource = SQLChofer.obtenerTodosLosChoferesHabilitados();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("El chofer ya esta eliminado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
             else
             {
-                MessageBox.Show("El chofer ya esta eliminado", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Debe seleccionar algun chofer", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private void tablaChoferes_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -120,11 +129,28 @@ namespace UberFrba.Abm_Chofer
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            new ModificacionChofer(choferSeleccionado).ShowDialog();
+            if (tablaChoferes.Rows.Count > 0)
+            {
+                ModificacionChofer modificacionChofer = new ModificacionChofer(choferSeleccionado);
+                modificacionChofer.ShowDialog();
+
+                if (modificacionChofer.DialogResult == DialogResult.OK)
+                {
+                    recargar();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debe seleccionar algun chofer", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
+            recargar();
+        }
+
+        private void recargar() {
             DataTable Choferes;
             if (modificacion)
             {
@@ -146,23 +172,7 @@ namespace UberFrba.Abm_Chofer
 
         private void btnRecargar_Click(object sender, EventArgs e)
         {
-            DataTable Choferes;
-            if (modificacion)
-            {
-                Choferes = SQLChofer.obtenerTodosLosChoferes();
-            }
-            else
-            {
-                Choferes = SQLChofer.obtenerTodosLosChoferesHabilitados();
-            }
-            tablaChoferes.DataSource = Choferes;
-            this.tablaChoferes.Columns[0].Visible = false; //usuarioID
-            DataGridViewRow clieRow = tablaChoferes.Rows[0];
-            choferSeleccionado = new Chofer(clieRow);
-
-            txtDNI.Text = "";
-            txtApellido.Text = "";
-            txtNombre.Text = "";
+            recargar();
         }
     }
 }
