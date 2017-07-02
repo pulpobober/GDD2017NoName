@@ -1477,15 +1477,8 @@ BEGIN
 						from Factura where id_cliente = @id_usuario
 						and fecha_fin is null)
 END
-BEGIN
-	-- la fecha corresponde a l a creacion de la factura y esta coincide con fecha fin
-	UPDATE NONAME.Factura 
-	SET fecha_fin = @fecha , fecha = @fecha
-	WHERE nro_factura = @nro_factura
-	and fecha_fin is null and fecha is null
-END
 BEGIN 
-	SELECT sum(v.cantidad_km * t.valor_km) as  'Monto total'
+	SELECT sum(v.cantidad_km * t.valor_km) as  'Monto total', @nro_factura
 	FROM Viaje v
 	join Factura_Viaje fv ON v.id_viaje = fv.id_viaje
 	join Turno t ON v.id_turno = t.id_turno 
@@ -1493,6 +1486,22 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE NONAME.sp_confirmacion_facturacion
+	@fecha datetime,
+	@nro_factura numeric(18, 0)
+AS
+BEGIN
+	-- la fecha corresponde a l a creacion de la factura y esta coincide con fecha fin
+	UPDATE NONAME.Factura 
+	SET fecha_fin = @fecha , fecha = @fecha
+	WHERE nro_factura = @nro_factura
+	and fecha_fin is null and fecha is null
+
+	UPDATE [NONAME].Factura
+	SET facturada = 1
+	WHERE nro_factura = @nro_factura
+END
+GO
 
 CREATE PROCEDURE NONAME.sp_RegistroViaje
 	@id_chofer int,
