@@ -73,7 +73,7 @@ namespace UberFrba.Rendicion_Viajes
             }
 
             DataTable previaRendicion = SQLRendicionViajes.previsualizarConDetalle(id_chofer, id_turno, selectorFecha.Value);
-            if (previaRendicion == null)
+            if (previaRendicion.Rows.Count == 0)
             {
                 MessageBox.Show("No hay nada para rendir", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
 

@@ -26,8 +26,8 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@id_auto", id_auto);
                 sqlCommand.Parameters.AddWithValue("@id_turno", id_turno);
                 sqlCommand.Parameters.AddWithValue("@cant_km", cantKM);
-                sqlCommand.Parameters.AddWithValue("@fecha_inicio", fechaYHoraInicio.Date);
-                sqlCommand.Parameters.AddWithValue("@fecha_fin", fechaYHoraFinal.Date);
+                sqlCommand.Parameters.AddWithValue("@fecha_inicio", fechaYHoraInicio);
+                sqlCommand.Parameters.AddWithValue("@fecha_fin", fechaYHoraFinal);
                 sqlCommand.Parameters.AddWithValue("@id_cliente", id_cliente);
 
 
