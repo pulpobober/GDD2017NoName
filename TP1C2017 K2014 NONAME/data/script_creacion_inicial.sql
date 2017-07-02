@@ -1389,7 +1389,7 @@ BEGIN
 	JOIN [NONAME].Viaje v ON renvi.id_viaje = v.id_viaje
 	JOIN [NONAME].Rendicion r ON renvi.nro_rendicion = r.nro_rendicion
 	where v.id_chofer = @id_usuario
-	and v.fecha_hora_inicio > @fecha
+	and v.fecha_hora_inicio >= @fecha
 	and r.id_turno = @id_turno
 END
 GO
