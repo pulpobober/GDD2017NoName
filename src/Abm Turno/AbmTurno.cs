@@ -60,7 +60,7 @@ namespace UberFrba.Abm_Turno
             return true;
         }
 
-        private void txtValorKm_KeyPress(object sender, KeyPressEventArgs e)
+        /*private void txtValorKm_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
             {
@@ -70,9 +70,9 @@ namespace UberFrba.Abm_Turno
                     return; 
                 }
             }
-        }
+        }*/
 
-        private void txtPrecioBase_KeyPress(object sender, KeyPressEventArgs e)
+        /*private void txtPrecioBase_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
             {
@@ -83,7 +83,7 @@ namespace UberFrba.Abm_Turno
                     return;
                 }
             }
-        }
+        }*/
 
         public string agregarHoraReal(string horaReal)
         {

@@ -23,7 +23,7 @@ namespace UberFrba.Abm_Turno
         {
             if (verificarDatosTurno(txtDescripcion.Text, txtValorKm.Text, txtPrecioBase.Text))
             {
-                Turno nuevoTurno = new Turno(Int32.Parse(sacarHoraReal(cmbInicio.SelectedItem.ToString())), Int32.Parse(sacarHoraReal(cmbFinal.SelectedItem.ToString())), txtDescripcion.Text, Int32.Parse(txtValorKm.Text), Int32.Parse(txtPrecioBase.Text), ckbHabilitado.Checked);
+                Turno nuevoTurno = new Turno(Int32.Parse(sacarHoraReal(cmbInicio.SelectedItem.ToString())), Int32.Parse(sacarHoraReal(cmbFinal.SelectedItem.ToString())), txtDescripcion.Text, decimal.Parse(txtValorKm.Text), decimal.Parse(txtPrecioBase.Text), ckbHabilitado.Checked);
                 string response=SQLTurno.insertarTurno(nuevoTurno);
                 MessageBox.Show(response);
             }

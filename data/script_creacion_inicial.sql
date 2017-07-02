@@ -947,8 +947,8 @@ CREATE PROCEDURE NONAME.sproc_turno_alta
 	@hora_inicio NUMERIC(18, 0),
 	@hora_fin NUMERIC(18, 0),
 	@descripcion VARCHAR(255),
-	@valor_km NUMERIC(18,0),
-	@precio_base NUMERIC(18,0),
+	@valor_km NUMERIC(18,2),
+	@precio_base NUMERIC(18,2),
 	@habilitado BIT
 
 AS
@@ -1003,8 +1003,8 @@ CREATE PROCEDURE NONAME.sproc_turno_modificacion
 	@hora_inicio NUMERIC(18, 0) = NULL,
 	@hora_fin NUMERIC(18, 0) = NULL,
 	@descripcion VARCHAR(255) = NULL,
-	@valor_km NUMERIC(18,0) = NULL,
-	@precio_base NUMERIC(18,0) = NULL,
+	@valor_km NUMERIC(18,2) = NULL,
+	@precio_base NUMERIC(18,2) = NULL,
 	@habilitado BIT = NULL
 
 /*

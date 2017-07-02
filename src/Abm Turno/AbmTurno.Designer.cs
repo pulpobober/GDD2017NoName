@@ -138,7 +138,7 @@
             this.txtValorKm.Name = "txtValorKm";
             this.txtValorKm.Size = new System.Drawing.Size(37, 20);
             this.txtValorKm.TabIndex = 10;
-            this.txtValorKm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtValorKm_KeyPress);
+            //this.txtValorKm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtValorKm_KeyPress);
             // 
             // txtPrecioBase
             // 
@@ -146,7 +146,7 @@
             this.txtPrecioBase.Name = "txtPrecioBase";
             this.txtPrecioBase.Size = new System.Drawing.Size(36, 20);
             this.txtPrecioBase.TabIndex = 11;
-            this.txtPrecioBase.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPrecioBase_KeyPress);
+            //this.txtPrecioBase.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPrecioBase_KeyPress);
             // 
             // AbmTurno
             // 
