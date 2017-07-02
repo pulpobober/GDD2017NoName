@@ -1153,7 +1153,7 @@ BEGIN
 		END
 	
 	
-	IF(@descripcion IS NOT NULL)
+	IF (@descripcion IS NOT NULL) AND (@horarioCorrecto = 1)
 		BEGIN
 			UPDATE [NONAME].Turno
 			SET descripcion = @descripcion
@@ -1161,7 +1161,7 @@ BEGIN
 		END
 
 
-	IF(@valor_km IS NOT NULL)
+	IF (@valor_km IS NOT NULL) AND (@horarioCorrecto = 1)
 		BEGIN
 			UPDATE [NONAME].Turno
 			SET valor_km = @valor_km
@@ -1169,7 +1169,7 @@ BEGIN
 		END
 
 
-	IF(@precio_base IS NOT NULL)
+	IF (@precio_base IS NOT NULL) AND (@horarioCorrecto = 1)
 		BEGIN
 			UPDATE [NONAME].Turno
 			SET precio_base = @precio_base
@@ -1177,7 +1177,7 @@ BEGIN
 		END
 
 
-	IF(@habilitado = 0)
+	IF (@habilitado = 0) AND (@horarioCorrecto = 1)
 		BEGIN
 			UPDATE [NONAME].Turno
 			SET habilitado = @habilitado
@@ -1185,7 +1185,7 @@ BEGIN
 		END
 
 --Valida si cumple las restricciones antes de volver a habilitarlo
-	IF(@habilitado = 1)
+	IF (@habilitado = 1)
 		BEGIN
 			DECLARE @hora_inicio_ NUMERIC(18,0)
 			DECLARE @hora_fin_ NUMERIC(18,0)
