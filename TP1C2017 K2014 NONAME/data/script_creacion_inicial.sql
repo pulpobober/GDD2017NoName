@@ -18,6 +18,9 @@ GO
 		DROP PROCEDURE NONAME.sp_migra_funcion_rol
 	GO
 
+	IF OBJECT_ID('NONAME.sp_confirmacion_facturacion') IS NOT NULL
+	DROP PROCEDURE NONAME.sp_confirmacion_facturacion
+	GO
 
 CREATE PROCEDURE NONAME.DROP_FK
 as
@@ -225,6 +228,11 @@ EXEC NONAME.DROP_FK
 	IF OBJECT_ID('NONAME.sp_confirmacion_rendicion') IS NOT NULL
 	DROP PROCEDURE NONAME.sp_confirmacion_rendicion
 
+--User-Defined Functions
+	
+	IF OBJECT_ID('NONAME.seSuperponeConOtrosTurnos') IS NOT NULL
+		DROP FUNCTION NONAME.seSuperponeConOtrosTurnos
+
 --User-Defined Data & Table Types
 
 	IF TYPE_ID('NONAME.ListaIDs') IS NOT NULL
@@ -232,6 +240,7 @@ EXEC NONAME.DROP_FK
 
 	IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
  		DROP TYPE NONAME.ListaFuncionalidadesRol
+
 
 --Schema
 
@@ -979,21 +988,58 @@ END
 
 GO
 
+
+CREATE FUNCTION NONAME.seSuperponeConOtrosTurnos (
+	@id_turno INT,
+	@hora_inicio NUMERIC(18,0),
+	@hora_fin NUMERIC(18,0))
+
+RETURNS BIT
+
+AS
+
+BEGIN
+	
+	DECLARE @valorDeRetorno BIT
+
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Turno WHERE (
+					(@hora_inicio < Turno.hora_fin AND @hora_fin > Turno.hora_fin) OR
+					(@hora_inicio < Turno.hora_inicio AND @hora_fin > Turno.hora_inicio) OR
+					(@hora_inicio > Turno.hora_inicio AND @hora_fin < Turno.hora_fin) OR
+					(@hora_inicio < Turno.hora_inicio AND @hora_fin > Turno.hora_fin))
+					AND (Turno.id_turno <> @id_turno)
+					AND (Turno.habilitado = 1))
+		BEGIN
+			SET @valorDeRetorno = 0
+		END
+	ELSE
+		BEGIN
+			SET @valorDeRetorno = 1
+		END
+
+	RETURN @valorDeRetorno
+END
+GO
+
+
 CREATE PROCEDURE NONAME.sproc_turno_alta
 	@hora_inicio NUMERIC(18, 0),
 	@hora_fin NUMERIC(18, 0),
 	@descripcion VARCHAR(255),
-	@valor_km NUMERIC(18,0),
-	@precio_base NUMERIC(18,0),
+	@valor_km NUMERIC(18,2),
+	@precio_base NUMERIC(18,2),
 	@habilitado BIT
 
 AS
 BEGIN
 
 	IF((@hora_inicio < @hora_fin) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
-		NOT EXISTS (SELECT 1  --los turnos no se superponen
-					FROM NONAME.Turno
-					WHERE (@hora_inicio > Turno.hora_inicio AND @hora_inicio < Turno.hora_fin) OR (@hora_fin > Turno.hora_inicio AND @hora_fin < Turno.hora_fin) AND (Turno.habilitado = 1)))
+		NOT EXISTS (SELECT 1 FROM NONAME.Turno WHERE (  --los turnos no se superponen
+					(@hora_inicio < Turno.hora_fin AND @hora_fin > Turno.hora_fin) OR
+					(@hora_inicio < Turno.hora_inicio AND @hora_fin > Turno.hora_inicio) OR
+					(@hora_inicio > Turno.hora_inicio AND @hora_fin < Turno.hora_fin) OR
+					(@hora_inicio < Turno.hora_inicio AND @hora_fin > Turno.hora_fin))
+					AND (Turno.habilitado = 1)))
 		BEGIN
 			INSERT INTO NONAME.Turno (
 				hora_inicio,
@@ -1039,8 +1085,8 @@ CREATE PROCEDURE NONAME.sproc_turno_modificacion
 	@hora_inicio NUMERIC(18, 0) = NULL,
 	@hora_fin NUMERIC(18, 0) = NULL,
 	@descripcion VARCHAR(255) = NULL,
-	@valor_km NUMERIC(18,0) = NULL,
-	@precio_base NUMERIC(18,0) = NULL,
+	@valor_km NUMERIC(18,2) = NULL,
+	@precio_base NUMERIC(18,2) = NULL,
 	@habilitado BIT = NULL
 
 /*
@@ -1059,10 +1105,9 @@ BEGIN
 --se precisa modificar tanto hora_inicio como hora_fin	
 	IF((@hora_inicio IS NOT NULL) AND (@hora_fin IS NOT NULL))
 		BEGIN
+
 			IF((@hora_inicio < @hora_fin) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
-				NOT EXISTS (SELECT 1  --los turnos no se superponen
-							FROM NONAME.Turno
-							WHERE ((@hora_inicio > Turno.hora_inicio AND @hora_inicio < Turno.hora_fin) OR (@hora_fin > Turno.hora_inicio AND @hora_fin < Turno.hora_fin)) AND (Turno.id_turno <> @id_turno) AND (Turno.habilitado = 1)))
+				NONAME.seSuperponeConOtrosTurnos(@id_turno, @hora_inicio, @hora_fin) <> 1) --los turnos no se superponen
 				BEGIN
 					UPDATE [NONAME].Turno
 					SET hora_inicio = @hora_inicio,
@@ -1080,9 +1125,7 @@ BEGIN
 			SET @hora_fin_orig = (SELECT Turno.hora_fin FROM NONAME.Turno WHERE id_turno = @id_turno)
 			
 			IF((@hora_inicio < @hora_fin_orig) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
-				NOT EXISTS (SELECT 1  --los turnos no se superponen
-							FROM NONAME.Turno
-							WHERE (@hora_inicio > Turno.hora_inicio AND @hora_inicio < Turno.hora_fin) AND (Turno.id_turno <> @id_turno) AND (Turno.habilitado = 1)))
+				NONAME.seSuperponeConOtrosTurnos(@id_turno, @hora_inicio, @hora_fin_orig) <> 1) --los turnos no se superponen
 				BEGIN
 					UPDATE [NONAME].Turno
 					SET hora_inicio = @hora_inicio
@@ -1099,9 +1142,7 @@ BEGIN
 			SET @hora_inicio_orig = (SELECT Turno.hora_inicio FROM NONAME.Turno WHERE id_turno = @id_turno)
 			
 			IF((@hora_inicio_orig < @hora_fin) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
-				NOT EXISTS (SELECT 1  --los turnos no se superponen
-							FROM NONAME.Turno
-							WHERE (@hora_fin > Turno.hora_inicio AND @hora_fin < Turno.hora_fin) AND (Turno.id_turno <> @id_turno) AND (Turno.habilitado = 1)))
+				NONAME.seSuperponeConOtrosTurnos(@id_turno, @hora_inicio_orig, @hora_fin) <> 1) --los turnos no se superponen
 				BEGIN
 					UPDATE [NONAME].Turno
 					SET hora_fin = @hora_fin
@@ -1153,9 +1194,7 @@ BEGIN
 			SET @hora_fin_ = (SELECT Turno.hora_fin FROM NONAME.Turno WHERE id_turno = @id_turno)
 			
 			IF((@hora_inicio_ < @hora_fin_) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
-				NOT EXISTS (SELECT 1  --los turnos no se superponen
-							FROM NONAME.Turno
-							WHERE ((@hora_inicio_ > Turno.hora_inicio AND @hora_inicio_ < Turno.hora_fin) OR (@hora_fin_ > Turno.hora_inicio AND @hora_fin_ < Turno.hora_fin)) AND (Turno.id_turno <> @id_turno) AND (Turno.habilitado = 1)))
+				NONAME.seSuperponeConOtrosTurnos(@id_turno, @hora_inicio_, @hora_fin_) <> 1) --los turnos no se superponen
 				BEGIN
 					UPDATE [NONAME].Turno
 					SET habilitado = @habilitado
@@ -1389,7 +1428,7 @@ BEGIN
 	JOIN [NONAME].Viaje v ON renvi.id_viaje = v.id_viaje
 	JOIN [NONAME].Rendicion r ON renvi.nro_rendicion = r.nro_rendicion
 	where v.id_chofer = @id_usuario
-	and v.fecha_hora_inicio > @fecha
+	and v.fecha_hora_inicio >= @fecha
 	and r.id_turno = @id_turno
 END
 GO
@@ -1477,15 +1516,8 @@ BEGIN
 						from Factura where id_cliente = @id_usuario
 						and fecha_fin is null)
 END
-BEGIN
-	-- la fecha corresponde a l a creacion de la factura y esta coincide con fecha fin
-	UPDATE NONAME.Factura 
-	SET fecha_fin = @fecha , fecha = @fecha
-	WHERE nro_factura = @nro_factura
-	and fecha_fin is null and fecha is null
-END
 BEGIN 
-	SELECT sum(v.cantidad_km * t.valor_km) as  'Monto total'
+	SELECT sum(v.cantidad_km * t.valor_km) as  'Monto total', @nro_factura
 	FROM Viaje v
 	join Factura_Viaje fv ON v.id_viaje = fv.id_viaje
 	join Turno t ON v.id_turno = t.id_turno 
@@ -1493,6 +1525,22 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE NONAME.sp_confirmacion_facturacion
+	@fecha datetime,
+	@nro_factura numeric(18, 0)
+AS
+BEGIN
+	-- la fecha corresponde a l a creacion de la factura y esta coincide con fecha fin
+	UPDATE NONAME.Factura 
+	SET fecha_fin = @fecha , fecha = @fecha
+	WHERE nro_factura = @nro_factura
+	and fecha_fin is null and fecha is null
+
+	UPDATE [NONAME].Factura
+	SET facturada = 1
+	WHERE nro_factura = @nro_factura
+END
+GO
 
 CREATE PROCEDURE NONAME.sp_RegistroViaje
 	@id_chofer int,
