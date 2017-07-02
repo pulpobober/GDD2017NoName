@@ -25,7 +25,7 @@ namespace UberFrba.Abm_Automovil
 
         #region Windows Form Designer generated code
 
-        /// <summary>
+        /// <summary>checkListFuncionalidades
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
@@ -35,13 +35,13 @@ namespace UberFrba.Abm_Automovil
             this.lblModelo = new System.Windows.Forms.Label();
             this.lblPatente = new System.Windows.Forms.Label();
             this.lblTurno = new System.Windows.Forms.Label();
+            this.checkListTurno = new System.Windows.Forms.CheckedListBox();
             this.lblChofer = new System.Windows.Forms.Label();
             this.lblMarca = new System.Windows.Forms.Label();
             this.txtModelo = new System.Windows.Forms.TextBox();
             this.txtPatente = new System.Windows.Forms.TextBox();
             this.selectMarca = new System.Windows.Forms.ComboBox();
             this.cmbChofer = new System.Windows.Forms.ComboBox();
-            this.cmbTurno = new System.Windows.Forms.ComboBox();
             this.lblLicencia = new System.Windows.Forms.Label();
             this.lblRodado = new System.Windows.Forms.Label();
             this.txtLicencia = new System.Windows.Forms.TextBox();
@@ -61,7 +61,7 @@ namespace UberFrba.Abm_Automovil
             // lblModelo
             // 
             this.lblModelo.AutoSize = true;
-            this.lblModelo.Location = new System.Drawing.Point(34, 158);
+            this.lblModelo.Location = new System.Drawing.Point(33, 229);
             this.lblModelo.Name = "lblModelo";
             this.lblModelo.Size = new System.Drawing.Size(45, 13);
             this.lblModelo.TabIndex = 2;
@@ -71,7 +71,7 @@ namespace UberFrba.Abm_Automovil
             // 
             this.lblPatente.AutoSize = true;
             this.lblPatente.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.lblPatente.Location = new System.Drawing.Point(34, 122);
+            this.lblPatente.Location = new System.Drawing.Point(34, 203);
             this.lblPatente.Name = "lblPatente";
             this.lblPatente.Size = new System.Drawing.Size(44, 13);
             this.lblPatente.TabIndex = 3;
@@ -80,16 +80,24 @@ namespace UberFrba.Abm_Automovil
             // lblTurno
             // 
             this.lblTurno.AutoSize = true;
-            this.lblTurno.Location = new System.Drawing.Point(34, 86);
+            this.lblTurno.Location = new System.Drawing.Point(40, 104);
             this.lblTurno.Name = "lblTurno";
             this.lblTurno.Size = new System.Drawing.Size(38, 13);
             this.lblTurno.TabIndex = 4;
             this.lblTurno.Text = "Turno:";
             // 
+            // checkListTurno
+            // 
+            this.checkListTurno.FormattingEnabled = true;
+            this.checkListTurno.Location = new System.Drawing.Point(188, 83);
+            this.checkListTurno.Name = "checkListTurno";
+            this.checkListTurno.Size = new System.Drawing.Size(186, 94);
+            this.checkListTurno.TabIndex = 13;
+            // 
             // lblChofer
             // 
             this.lblChofer.AutoSize = true;
-            this.lblChofer.Location = new System.Drawing.Point(34, 226);
+            this.lblChofer.Location = new System.Drawing.Point(33, 282);
             this.lblChofer.Name = "lblChofer";
             this.lblChofer.Size = new System.Drawing.Size(41, 13);
             this.lblChofer.TabIndex = 5;
@@ -97,7 +105,7 @@ namespace UberFrba.Abm_Automovil
             // 
             // lblMarca
             // 
-            this.lblMarca.Location = new System.Drawing.Point(34, 194);
+            this.lblMarca.Location = new System.Drawing.Point(34, 255);
             this.lblMarca.Name = "lblMarca";
             this.lblMarca.Size = new System.Drawing.Size(100, 20);
             this.lblMarca.TabIndex = 6;
@@ -105,21 +113,21 @@ namespace UberFrba.Abm_Automovil
             // 
             // txtModelo
             // 
-            this.txtModelo.Location = new System.Drawing.Point(188, 151);
+            this.txtModelo.Location = new System.Drawing.Point(188, 229);
             this.txtModelo.Name = "txtModelo";
             this.txtModelo.Size = new System.Drawing.Size(100, 20);
             this.txtModelo.TabIndex = 7;
             // 
             // txtPatente
             // 
-            this.txtPatente.Location = new System.Drawing.Point(188, 115);
+            this.txtPatente.Location = new System.Drawing.Point(188, 203);
             this.txtPatente.Name = "txtPatente";
             this.txtPatente.Size = new System.Drawing.Size(100, 20);
             this.txtPatente.TabIndex = 8;
             // 
             // selectMarca
             // 
-            this.selectMarca.Location = new System.Drawing.Point(188, 194);
+            this.selectMarca.Location = new System.Drawing.Point(188, 255);
             this.selectMarca.Name = "selectMarca";
             this.selectMarca.Size = new System.Drawing.Size(171, 21);
             this.selectMarca.TabIndex = 1;
@@ -127,23 +135,15 @@ namespace UberFrba.Abm_Automovil
             // cmbChofer
             // 
             this.cmbChofer.FormattingEnabled = true;
-            this.cmbChofer.Location = new System.Drawing.Point(188, 226);
+            this.cmbChofer.Location = new System.Drawing.Point(188, 282);
             this.cmbChofer.Name = "cmbChofer";
             this.cmbChofer.Size = new System.Drawing.Size(121, 21);
             this.cmbChofer.TabIndex = 12;
             // 
-            // cmbTurno
-            // 
-            this.cmbTurno.FormattingEnabled = true;
-            this.cmbTurno.Location = new System.Drawing.Point(188, 83);
-            this.cmbTurno.Name = "cmbTurno";
-            this.cmbTurno.Size = new System.Drawing.Size(121, 21);
-            this.cmbTurno.TabIndex = 13;
-            // 
             // lblLicencia
             // 
             this.lblLicencia.AutoSize = true;
-            this.lblLicencia.Location = new System.Drawing.Point(34, 288);
+            this.lblLicencia.Location = new System.Drawing.Point(34, 336);
             this.lblLicencia.Name = "lblLicencia";
             this.lblLicencia.Size = new System.Drawing.Size(50, 13);
             this.lblLicencia.TabIndex = 21;
@@ -152,7 +152,7 @@ namespace UberFrba.Abm_Automovil
             // lblRodado
             // 
             this.lblRodado.AutoSize = true;
-            this.lblRodado.Location = new System.Drawing.Point(34, 259);
+            this.lblRodado.Location = new System.Drawing.Point(33, 307);
             this.lblRodado.Name = "lblRodado";
             this.lblRodado.Size = new System.Drawing.Size(48, 13);
             this.lblRodado.TabIndex = 20;
@@ -160,14 +160,14 @@ namespace UberFrba.Abm_Automovil
             // 
             // txtLicencia
             // 
-            this.txtLicencia.Location = new System.Drawing.Point(188, 285);
+            this.txtLicencia.Location = new System.Drawing.Point(188, 336);
             this.txtLicencia.Name = "txtLicencia";
             this.txtLicencia.Size = new System.Drawing.Size(100, 20);
             this.txtLicencia.TabIndex = 19;
             // 
             // txtRodado
             // 
-            this.txtRodado.Location = new System.Drawing.Point(188, 256);
+            this.txtRodado.Location = new System.Drawing.Point(188, 307);
             this.txtRodado.Name = "txtRodado";
             this.txtRodado.Size = new System.Drawing.Size(100, 20);
             this.txtRodado.TabIndex = 18;
@@ -176,12 +176,12 @@ namespace UberFrba.Abm_Automovil
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(405, 355);
+            this.ClientSize = new System.Drawing.Size(405, 409);
             this.Controls.Add(this.lblLicencia);
             this.Controls.Add(this.lblRodado);
             this.Controls.Add(this.txtLicencia);
             this.Controls.Add(this.txtRodado);
-            this.Controls.Add(this.cmbTurno);
+            this.Controls.Add(this.checkListTurno);
             this.Controls.Add(this.cmbChofer);
             this.Controls.Add(this.lblTitulo);
             this.Controls.Add(this.lblMarca);
@@ -211,7 +211,7 @@ namespace UberFrba.Abm_Automovil
         protected System.Windows.Forms.TextBox txtPatente;
         protected System.Windows.Forms.Label lblTitulo;
         protected System.Windows.Forms.Label lblMarca;
-        protected System.Windows.Forms.ComboBox cmbTurno;
+        protected System.Windows.Forms.CheckedListBox checkListTurno;
         protected System.Windows.Forms.Label lblLicencia;
         protected System.Windows.Forms.Label lblRodado;
         protected System.Windows.Forms.TextBox txtLicencia;

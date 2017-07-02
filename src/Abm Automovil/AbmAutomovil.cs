@@ -17,6 +17,7 @@ namespace UberFrba.Abm_Automovil
         public DataTable tablaTurnos;
         public DataTable tablaMarcas;
 
+
         public AbmAutomovil()
         {
             InitializeComponent();
@@ -37,11 +38,11 @@ namespace UberFrba.Abm_Automovil
                 cmbChofer.Items.Add(row["nombre"].ToString() + " " + row["apellido"].ToString());
             }
 
-            cmbTurno.Items.Clear();
+            checkListTurno.Items.Clear();
             tablaTurnos = SQLTurno.obtenerTodosLosTurnos();
             foreach (DataRow row in tablaTurnos.Rows)
             {
-                cmbTurno.Items.Add(row["descripcion"].ToString());
+                checkListTurno.Items.Add(row["descripcion"].ToString());
             }
 
             selectMarca.Items.Clear();
@@ -63,6 +64,28 @@ namespace UberFrba.Abm_Automovil
             }
             return -1;
         }
+
+        public DataTable obtenerTurnosSeleccionados()
+        {
+            DataTable turnosSeleccionados = new DataTable();
+            turnosSeleccionados.Clear();
+            turnosSeleccionados.Columns.Add("id_turno");
+
+
+            int i;
+            for (i = 0; i <= (checkListTurno.Items.Count - 1); i++)
+            {
+                if (checkListTurno.GetItemChecked(i))
+                {
+                    DataRow newRow = turnosSeleccionados.NewRow();
+                    newRow["id_turno"] = obtenerIDTurno(checkListTurno.Items[i].ToString());
+                    turnosSeleccionados.Rows.Add(newRow);
+
+                }
+            }
+            return turnosSeleccionados;
+        }
+
 
         public int obtenerIDTurno(string turno)
         {

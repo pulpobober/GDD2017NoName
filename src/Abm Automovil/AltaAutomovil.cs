@@ -31,9 +31,9 @@ namespace UberFrba.Abm_Automovil
                     {
 
                         int idmarca = obtenerIDMarca(selectMarca.SelectedItem.ToString());
-                        int idturno = obtenerIDTurno(cmbTurno.SelectedItem.ToString());
+                        DataTable turnosSeleccionados = obtenerTurnosSeleccionados();
                         int idchofer = obtenerIDChofer(cmbChofer.SelectedItem.ToString());
-                        Automovil auto = new Automovil(idturno, txtPatente.Text, txtModelo.Text, idmarca, idchofer, txtRodado.Text, txtLicencia.Text, 1);
+                        Automovil auto = new Automovil(turnosSeleccionados, txtPatente.Text, txtModelo.Text, idmarca, idchofer, txtRodado.Text, txtLicencia.Text, 1);
                         SQLAutomovil.insertarAutomovil(auto);
                         MessageBox.Show("El Auto se ha dado de alta correctamente");
                         this.Close();
@@ -70,7 +70,7 @@ namespace UberFrba.Abm_Automovil
                 MessageBox.Show("No se puede dejar el campo chofer vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (cmbTurno.SelectedItem == null)
+            if (checkListTurno.SelectedItem == null)
             {
                 MessageBox.Show("No se puede dejar el campo turno vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;

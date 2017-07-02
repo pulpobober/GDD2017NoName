@@ -70,8 +70,30 @@
             "Ford",
             "Renault",
             "Volkswagen",
+            "Chevrolet",
+            "Fiat",
+            "Peugeot",
+            "Ford",
+            "Renault",
+            "Volkswagen",
             "Chevrolet"});
-            this.selectMarca.Location = new System.Drawing.Point(188, 188);
+            this.selectMarca.Location = new System.Drawing.Point(188, 260);
+            // 
+            // lblModelo
+            // 
+            this.lblModelo.Location = new System.Drawing.Point(33, 234);
+            // 
+            // lblPatente
+            // 
+            this.lblPatente.Location = new System.Drawing.Point(31, 203);
+            // 
+            // lblChofer
+            // 
+            this.lblChofer.Location = new System.Drawing.Point(34, 287);
+            // 
+            // txtModelo
+            // 
+            this.txtModelo.Location = new System.Drawing.Point(188, 234);
             // 
             // lblTitulo
             // 
@@ -79,40 +101,77 @@
             this.lblTitulo.Size = new System.Drawing.Size(367, 37);
             this.lblTitulo.Text = "Modificacion Automovil";
             // 
-            // cmbTurno
+            // lblMarca
             // 
-            this.cmbTurno.Items.AddRange(new object[] {
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
+            this.lblMarca.Location = new System.Drawing.Point(34, 260);
+            // 
+            // checkListTurno
+            // 
+            this.checkListTurno.Items.AddRange(new object[] {
             "Turno Mañna",
             "Turno Tarde",
             "Turno Noche"});
             // 
+            // lblLicencia
+            // 
+            this.lblLicencia.Location = new System.Drawing.Point(34, 340);
+            // 
+            // lblRodado
+            // 
+            this.lblRodado.Location = new System.Drawing.Point(34, 314);
+            // 
+            // txtLicencia
+            // 
+            this.txtLicencia.Location = new System.Drawing.Point(188, 340);
+            // 
+            // txtRodado
+            // 
+            this.txtRodado.Location = new System.Drawing.Point(188, 314);
+            // 
             // cmbChofer
             // 
             this.cmbChofer.Items.AddRange(new object[] {
+            "EDILIO Maldonado",
+            "SILVERIO Campos",
+            "DE FATIMA Rojas",
+            "ATANASIO Ortiz",
+            "ONAN Vargas",
+            "CLAUS García",
+            "RONALDO Jiménez",
+            "MIKI Córdoba",
+            "THEO Maldonado",
+            "PAMPA Ledesma",
+            "NICOLE Toro",
+            "MATIAS Zúñiga",
+            "JUANA Alonso",
+            "ANICETO Fernández",
+            "MARISA Ledesma",
+            "DELFINA Valdéz",
+            "AGOSTINA Torres",
+            "ROSENDO Muñoz",
+            "ISAAC Contreras",
+            "KAPRIEL Escobar",
+            "HADA Correa",
+            "MEULÉN González",
+            "PERSEO Saavedra",
+            "ARÍSTIDES García",
+            "ORIA Rojas",
+            "GINA Álvarez",
+            "FARAS Franco",
+            "EDELINA Soto",
+            "MIRELLA López",
+            "NAVILA Vera",
+            "FAVIO Sepúlveda",
+            "MIGUEL Donoso",
+            "INARA Farías",
+            "AMAIKE Martínez",
+            "NAHUEL Maidana",
+            "BERTILDA Gutiérrez",
+            "SELENA López",
+            "ZUAHIR Contreras",
+            "CHEVY Núñez",
+            "MIGUEL Carvajal",
+            "IBERO Vera",
             "EDILIO Maldonado",
             "SILVERIO Campos",
             "DE FATIMA Rojas",
@@ -154,11 +213,12 @@
             "CHEVY Núñez",
             "IBERO Vera",
             "SELENA López"});
+            this.cmbChofer.Location = new System.Drawing.Point(188, 287);
             this.cmbChofer.SelectedIndexChanged += new System.EventHandler(this.cmbChofer_SelectedIndexChanged);
             // 
             // btnModificacion
             // 
-            this.btnModificacion.Location = new System.Drawing.Point(140, 353);
+            this.btnModificacion.Location = new System.Drawing.Point(140, 384);
             this.btnModificacion.Name = "btnModificacion";
             this.btnModificacion.Size = new System.Drawing.Size(98, 34);
             this.btnModificacion.TabIndex = 29;
@@ -169,7 +229,7 @@
             // ckbHabilitado
             // 
             this.ckbHabilitado.AutoSize = true;
-            this.ckbHabilitado.Location = new System.Drawing.Point(140, 321);
+            this.ckbHabilitado.Location = new System.Drawing.Point(301, 203);
             this.ckbHabilitado.Name = "ckbHabilitado";
             this.ckbHabilitado.Size = new System.Drawing.Size(73, 17);
             this.ckbHabilitado.TabIndex = 31;
@@ -180,7 +240,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(405, 399);
+            this.ClientSize = new System.Drawing.Size(405, 447);
             this.Controls.Add(this.ckbHabilitado);
             this.Controls.Add(this.btnModificacion);
             this.Name = "ModificacionAutomovil";
@@ -190,7 +250,7 @@
             this.Controls.SetChildIndex(this.lblRodado, 0);
             this.Controls.SetChildIndex(this.lblLicencia, 0);
             this.Controls.SetChildIndex(this.cmbChofer, 0);
-            this.Controls.SetChildIndex(this.cmbTurno, 0);
+            this.Controls.SetChildIndex(this.checkListTurno, 0);
             this.Controls.SetChildIndex(this.btnModificacion, 0);
             this.Controls.SetChildIndex(this.lblChofer, 0);
             this.Controls.SetChildIndex(this.lblTurno, 0);

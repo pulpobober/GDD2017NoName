@@ -17,6 +17,7 @@ namespace UberFrba.Abm_Automovil
     public partial class ModificacionAutomovil : AbmAutomovil
     {
         int idautomovil;
+        DataTable turnosSeleccionados;
 
         public ModificacionAutomovil()
         {
@@ -27,7 +28,7 @@ namespace UberFrba.Abm_Automovil
         {
             InitializeComponent();
             cargarForm();
-
+            
             idautomovil = auto.idautomovil;
             txtPatente.Text = auto.patente;
             txtModelo.Text = auto.modelo;
@@ -35,9 +36,14 @@ namespace UberFrba.Abm_Automovil
             string nombreYApellido = obtenerNombreYApellidoChofer(auto.idchofer);
             cmbChofer.SelectedIndex = cmbChofer.FindStringExact(nombreYApellido);
            // cmbChofer.SelectedText = nombreYApellido;
-
-            string nombreTurno = obtenerNombreTurno(auto.idturno);
-            cmbTurno.SelectedIndex = cmbTurno.FindStringExact(nombreTurno);
+            turnosSeleccionados = SQLAutomovil.obtenerTurnosDefinidosAuto(auto.idautomovil);
+            foreach (DataRow row in turnosSeleccionados.Rows)
+            {
+                Boolean check = estaHabilitadoTurno(row["id_turno"].ToString());
+                checkListTurno.Items.Add(row["descripcion"].ToString(), check);
+            }
+            //string nombreTurno = obtenerNombreTurno(auto.idturno);
+            //checkListTurno.SelectedIndex = checkListTurno.FindStringExact(nombreTurno);
             
 
             string nombreMarca = obtenerNombreMarca(auto.idmarca);
@@ -50,7 +56,15 @@ namespace UberFrba.Abm_Automovil
             txtLicencia.Text = auto.licencia;
             txtRodado.Text = auto.rodado;
         }
-       
+       private Boolean estaHabilitadoTurno(String id_turno) { 
+            foreach (DataRow row in turnosSeleccionados.Rows)
+            {
+                if(row["id_turno"].ToString() == id_turno){
+                   return true;
+                }
+            }
+            return false;
+        }
 
         private void btnModificacion_Click(object sender, EventArgs e)
         {
@@ -60,10 +74,10 @@ namespace UberFrba.Abm_Automovil
                     if (SQLAutomovil.verificarChofer(obtenerIDChofer(cmbChofer.Text), idautomovil))
                     {
                         int idmarca = obtenerIDMarca(selectMarca.Text);
-                        int idturno = obtenerIDTurno(cmbTurno.Text);
+                        DataTable turnosSeleccionados = obtenerTurnosSeleccionados();
                         int idchofer = obtenerIDChofer(cmbChofer.Text);
 
-                        Automovil auto = new Automovil(idautomovil, idturno, txtPatente.Text, txtModelo.Text, idmarca, idchofer, txtRodado.Text, txtLicencia.Text, ckbHabilitado.Checked ? 1 : 0);
+                        Automovil auto = new Automovil(idautomovil, turnosSeleccionados, txtPatente.Text, txtModelo.Text, idmarca, idchofer, txtRodado.Text, txtLicencia.Text, ckbHabilitado.Checked ? 1 : 0);
                         SQLAutomovil.modificarAutomovil(auto);
                         this.DialogResult = DialogResult.OK;
                         MessageBox.Show("El auto ha sido modificado correctamente");
@@ -102,7 +116,7 @@ namespace UberFrba.Abm_Automovil
                 MessageBox.Show("No se puede dejar el campo chofer vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (cmbTurno.Text.Length == 0)
+            if (checkListTurno.Text.Length == 0)
             {
                 MessageBox.Show("No se puede dejar el campo turno vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;

@@ -52,6 +52,12 @@
             "Renault",
             "Volkswagen",
             "Chevrolet",
+            "Fiat",
+            "Peugeot",
+            "Ford",
+            "Renault",
+            "Volkswagen",
+            "Chevrolet",
             "[1] Fiat",
             "[2] Peugeot",
             "[3] Ford",
@@ -62,11 +68,19 @@
             // 
             // lblModelo
             // 
-            this.lblModelo.Location = new System.Drawing.Point(34, 151);
+            this.lblModelo.Location = new System.Drawing.Point(37, 271);
+            // 
+            // lblPatente
+            // 
+            this.lblPatente.Location = new System.Drawing.Point(34, 210);
             // 
             // lblChofer
             // 
-            this.lblChofer.Location = new System.Drawing.Point(34, 210);
+            this.lblChofer.Location = new System.Drawing.Point(37, 243);
+            // 
+            // txtModelo
+            // 
+            this.txtModelo.Location = new System.Drawing.Point(188, 271);
             // 
             // lblTitulo
             // 
@@ -78,6 +92,30 @@
             this.lblMarca.Location = new System.Drawing.Point(34, 180);
             this.lblMarca.Text = "Marca:";
             // 
+            // checkListTurno
+            // 
+            this.checkListTurno.Items.AddRange(new object[] {
+            "Turno Mañna",
+            "Turno Tarde",
+            "Turno Noche"});
+            this.checkListTurno.Size = new System.Drawing.Size(186, 79);
+            // 
+            // lblLicencia
+            // 
+            this.lblLicencia.Location = new System.Drawing.Point(34, 330);
+            // 
+            // lblRodado
+            // 
+            this.lblRodado.Location = new System.Drawing.Point(34, 305);
+            // 
+            // txtLicencia
+            // 
+            this.txtLicencia.Location = new System.Drawing.Point(188, 323);
+            // 
+            // txtRodado
+            // 
+            this.txtRodado.Location = new System.Drawing.Point(188, 297);
+            // 
             // cmbChofer
             // 
             this.cmbChofer.Items.AddRange(new object[] {
@@ -88,332 +126,45 @@
             "ONAN Vargas",
             "CLAUS García",
             "RONALDO Jiménez",
-            "THEO Maldonado",
             "MIKI Córdoba",
-            "NICOLE Toro",
+            "THEO Maldonado",
             "PAMPA Ledesma",
+            "NICOLE Toro",
             "MATIAS Zúñiga",
-            "ANICETO Fernández",
             "JUANA Alonso",
+            "ANICETO Fernández",
             "MARISA Ledesma",
             "DELFINA Valdéz",
-            "ROSENDO Muñoz",
             "AGOSTINA Torres",
+            "ROSENDO Muñoz",
             "ISAAC Contreras",
             "KAPRIEL Escobar",
-            "PERSEO Saavedra",
-            "MEULÉN González",
             "HADA Correa",
-            "GINA Álvarez",
-            "ORIA Rojas",
+            "MEULÉN González",
+            "PERSEO Saavedra",
             "ARÍSTIDES García",
+            "ORIA Rojas",
+            "GINA Álvarez",
+            "FARAS Franco",
+            "EDELINA Soto",
             "MIRELLA López",
             "NAVILA Vera",
-            "EDELINA Soto",
-            "FARAS Franco",
             "FAVIO Sepúlveda",
             "MIGUEL Donoso",
-            "AMAIKE Martínez",
             "INARA Farías",
+            "AMAIKE Martínez",
             "NAHUEL Maidana",
             "BERTILDA Gutiérrez",
-            "ZUAHIR Contreras",
-            "MIGUEL Carvajal",
-            "CHEVY Núñez",
-            "IBERO Vera",
             "SELENA López",
-            "EDILIO Maldonado",
-            "SILVERIO Campos",
-            "DE FATIMA Rojas",
-            "ATANASIO Ortiz",
-            "ONAN Vargas",
-            "CLAUS García",
-            "RONALDO Jiménez",
-            "THEO Maldonado",
-            "MIKI Córdoba",
-            "NICOLE Toro",
-            "PAMPA Ledesma",
-            "MATIAS Zúñiga",
-            "ANICETO Fernández",
-            "JUANA Alonso",
-            "MARISA Ledesma",
-            "DELFINA Valdéz",
-            "ROSENDO Muñoz",
-            "AGOSTINA Torres",
-            "ISAAC Contreras",
-            "KAPRIEL Escobar",
-            "PERSEO Saavedra",
-            "MEULÉN González",
-            "HADA Correa",
-            "GINA Álvarez",
-            "ORIA Rojas",
-            "ARÍSTIDES García",
-            "MIRELLA López",
-            "NAVILA Vera",
-            "EDELINA Soto",
-            "FARAS Franco",
-            "FAVIO Sepúlveda",
-            "MIGUEL Donoso",
-            "AMAIKE Martínez",
-            "INARA Farías",
-            "NAHUEL Maidana",
-            "BERTILDA Gutiérrez",
             "ZUAHIR Contreras",
-            "MIGUEL Carvajal",
             "CHEVY Núñez",
-            "IBERO Vera",
-            "SELENA López",
-            "EDILIO Maldonado",
-            "SILVERIO Campos",
-            "DE FATIMA Rojas",
-            "ATANASIO Ortiz",
-            "ONAN Vargas",
-            "CLAUS García",
-            "RONALDO Jiménez",
-            "THEO Maldonado",
-            "MIKI Córdoba",
-            "NICOLE Toro",
-            "PAMPA Ledesma",
-            "MATIAS Zúñiga",
-            "ANICETO Fernández",
-            "JUANA Alonso",
-            "MARISA Ledesma",
-            "DELFINA Valdéz",
-            "ROSENDO Muñoz",
-            "AGOSTINA Torres",
-            "ISAAC Contreras",
-            "KAPRIEL Escobar",
-            "PERSEO Saavedra",
-            "MEULÉN González",
-            "HADA Correa",
-            "GINA Álvarez",
-            "ORIA Rojas",
-            "ARÍSTIDES García",
-            "MIRELLA López",
-            "NAVILA Vera",
-            "EDELINA Soto",
-            "FARAS Franco",
-            "FAVIO Sepúlveda",
-            "MIGUEL Donoso",
-            "AMAIKE Martínez",
-            "INARA Farías",
-            "NAHUEL Maidana",
-            "BERTILDA Gutiérrez",
-            "ZUAHIR Contreras",
             "MIGUEL Carvajal",
-            "CHEVY Núñez",
-            "IBERO Vera",
-            "SELENA López",
-            "EDILIO Maldonado",
-            "SILVERIO Campos",
-            "DE FATIMA Rojas",
-            "ATANASIO Ortiz",
-            "ONAN Vargas",
-            "CLAUS García",
-            "RONALDO Jiménez",
-            "THEO Maldonado",
-            "MIKI Córdoba",
-            "NICOLE Toro",
-            "PAMPA Ledesma",
-            "MATIAS Zúñiga",
-            "ANICETO Fernández",
-            "JUANA Alonso",
-            "MARISA Ledesma",
-            "DELFINA Valdéz",
-            "ROSENDO Muñoz",
-            "AGOSTINA Torres",
-            "ISAAC Contreras",
-            "KAPRIEL Escobar",
-            "PERSEO Saavedra",
-            "MEULÉN González",
-            "HADA Correa",
-            "GINA Álvarez",
-            "ORIA Rojas",
-            "ARÍSTIDES García",
-            "MIRELLA López",
-            "NAVILA Vera",
-            "EDELINA Soto",
-            "FARAS Franco",
-            "FAVIO Sepúlveda",
-            "MIGUEL Donoso",
-            "AMAIKE Martínez",
-            "INARA Farías",
-            "NAHUEL Maidana",
-            "BERTILDA Gutiérrez",
-            "ZUAHIR Contreras",
-            "MIGUEL Carvajal",
-            "CHEVY Núñez",
-            "IBERO Vera",
-            "SELENA López",
-            "EDILIO Maldonado",
-            "SILVERIO Campos",
-            "DE FATIMA Rojas",
-            "ATANASIO Ortiz",
-            "ONAN Vargas",
-            "CLAUS García",
-            "RONALDO Jiménez",
-            "THEO Maldonado",
-            "MIKI Córdoba",
-            "NICOLE Toro",
-            "PAMPA Ledesma",
-            "MATIAS Zúñiga",
-            "ANICETO Fernández",
-            "JUANA Alonso",
-            "MARISA Ledesma",
-            "DELFINA Valdéz",
-            "ROSENDO Muñoz",
-            "AGOSTINA Torres",
-            "ISAAC Contreras",
-            "KAPRIEL Escobar",
-            "PERSEO Saavedra",
-            "MEULÉN González",
-            "HADA Correa",
-            "GINA Álvarez",
-            "ORIA Rojas",
-            "ARÍSTIDES García",
-            "MIRELLA López",
-            "NAVILA Vera",
-            "EDELINA Soto",
-            "FARAS Franco",
-            "FAVIO Sepúlveda",
-            "MIGUEL Donoso",
-            "AMAIKE Martínez",
-            "INARA Farías",
-            "NAHUEL Maidana",
-            "BERTILDA Gutiérrez",
-            "ZUAHIR Contreras",
-            "MIGUEL Carvajal",
-            "CHEVY Núñez",
-            "IBERO Vera",
-            "SELENA López",
-            "EDILIO Maldonado",
-            "SILVERIO Campos",
-            "DE FATIMA Rojas",
-            "ATANASIO Ortiz",
-            "ONAN Vargas",
-            "CLAUS García",
-            "RONALDO Jiménez",
-            "THEO Maldonado",
-            "MIKI Córdoba",
-            "NICOLE Toro",
-            "PAMPA Ledesma",
-            "MATIAS Zúñiga",
-            "ANICETO Fernández",
-            "JUANA Alonso",
-            "MARISA Ledesma",
-            "DELFINA Valdéz",
-            "ROSENDO Muñoz",
-            "AGOSTINA Torres",
-            "ISAAC Contreras",
-            "KAPRIEL Escobar",
-            "PERSEO Saavedra",
-            "MEULÉN González",
-            "HADA Correa",
-            "GINA Álvarez",
-            "ORIA Rojas",
-            "ARÍSTIDES García",
-            "MIRELLA López",
-            "NAVILA Vera",
-            "EDELINA Soto",
-            "FARAS Franco",
-            "FAVIO Sepúlveda",
-            "MIGUEL Donoso",
-            "AMAIKE Martínez",
-            "INARA Farías",
-            "NAHUEL Maidana",
-            "BERTILDA Gutiérrez",
-            "ZUAHIR Contreras",
-            "MIGUEL Carvajal",
-            "CHEVY Núñez",
-            "IBERO Vera",
-            "SELENA López",
-            "EDILIO Maldonado",
-            "SILVERIO Campos",
-            "DE FATIMA Rojas",
-            "ATANASIO Ortiz",
-            "ONAN Vargas",
-            "CLAUS García",
-            "RONALDO Jiménez",
-            "THEO Maldonado",
-            "MIKI Córdoba",
-            "NICOLE Toro",
-            "PAMPA Ledesma",
-            "MATIAS Zúñiga",
-            "ANICETO Fernández",
-            "JUANA Alonso",
-            "MARISA Ledesma",
-            "DELFINA Valdéz",
-            "ROSENDO Muñoz",
-            "AGOSTINA Torres",
-            "ISAAC Contreras",
-            "KAPRIEL Escobar",
-            "PERSEO Saavedra",
-            "MEULÉN González",
-            "HADA Correa",
-            "GINA Álvarez",
-            "ORIA Rojas",
-            "ARÍSTIDES García",
-            "MIRELLA López",
-            "NAVILA Vera",
-            "EDELINA Soto",
-            "FARAS Franco",
-            "FAVIO Sepúlveda",
-            "MIGUEL Donoso",
-            "AMAIKE Martínez",
-            "INARA Farías",
-            "NAHUEL Maidana",
-            "BERTILDA Gutiérrez",
-            "ZUAHIR Contreras",
-            "MIGUEL Carvajal",
-            "CHEVY Núñez",
-            "IBERO Vera",
-            "SELENA López"});
-            this.cmbChofer.Location = new System.Drawing.Point(188, 210);
-            // 
-            // cmbTurno
-            // 
-            this.cmbTurno.Items.AddRange(new object[] {
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche",
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche"});
-            // 
-            // lblLicencia
-            // 
-            this.lblLicencia.Location = new System.Drawing.Point(34, 271);
-            // 
-            // lblRodado
-            // 
-            this.lblRodado.Location = new System.Drawing.Point(34, 242);
-            // 
-            // txtLicencia
-            // 
-            this.txtLicencia.Location = new System.Drawing.Point(188, 268);
-            // 
-            // txtRodado
-            // 
-            this.txtRodado.Location = new System.Drawing.Point(188, 239);
+            "IBERO Vera"});
+            this.cmbChofer.Location = new System.Drawing.Point(188, 235);
             // 
             // btnAlta
             // 
-            this.btnAlta.Location = new System.Drawing.Point(161, 311);
+            this.btnAlta.Location = new System.Drawing.Point(164, 363);
             this.btnAlta.Name = "btnAlta";
             this.btnAlta.Size = new System.Drawing.Size(75, 23);
             this.btnAlta.TabIndex = 12;
@@ -424,7 +175,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(450, 381);
+            this.ClientSize = new System.Drawing.Size(450, 443);
             this.Controls.Add(this.btnAlta);
             this.Name = "AltaAutomovil";
             this.Text = "AltaAutomovil";
@@ -434,7 +185,7 @@
             this.Controls.SetChildIndex(this.lblRodado, 0);
             this.Controls.SetChildIndex(this.lblLicencia, 0);
             this.Controls.SetChildIndex(this.cmbChofer, 0);
-            this.Controls.SetChildIndex(this.cmbTurno, 0);
+            this.Controls.SetChildIndex(this.checkListTurno, 0);
             this.Controls.SetChildIndex(this.btnAlta, 0);
             this.Controls.SetChildIndex(this.lblChofer, 0);
             this.Controls.SetChildIndex(this.lblTurno, 0);

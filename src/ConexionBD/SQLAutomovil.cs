@@ -26,7 +26,8 @@ namespace UberFrba.ConexionBD
 
                 sqlCommand.Parameters.AddWithValue("@patente_auto", auto.patente);
                 sqlCommand.Parameters.AddWithValue("@modelo", auto.modelo);
-                sqlCommand.Parameters.AddWithValue("@id_turno", auto.idturno);
+                DataTable columna = auto.idturno.DefaultView.ToTable(false, auto.idturno.Columns[0].ColumnName);
+                sqlCommand.Parameters.AddWithValue("ids_turnos", columna);
                 sqlCommand.Parameters.AddWithValue("@id_marca", auto.idmarca);
                 sqlCommand.Parameters.AddWithValue("@rodado", auto.rodado);
                 sqlCommand.Parameters.AddWithValue("@habilitado", auto.habilitado);
@@ -50,7 +51,7 @@ namespace UberFrba.ConexionBD
                 conectar();
 
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT AC.id_auto, A.patente_auto, A.modelo, A.id_marca, M.nombre, A.rodado, A.licencia, U.nombre, U.apellido, AC.id_turno, AC.id_chofer, A.habilitado FROM NONAME.Auto A join NONAME.Auto_Chofer AC on A.id_auto = AC.id_auto, NONAME.Usuario U, NONAME.Marca M WHERE U.id_usuario = AC.id_chofer And M.id_marca = A.id_marca And " + ((auto.idmarca == 0) ? "1=1" : ("A.id_marca ='" + auto.idmarca) + "'") + (String.IsNullOrEmpty(auto.modelo) ? " And 1=1" : (" And A.modelo ='" + auto.modelo + "'")) + (String.IsNullOrEmpty(auto.patente) ? " And 1=1" : (" And A.patente_auto ='" + auto.patente + "'")) + (String.IsNullOrEmpty(auto.nombreChofer) ? " And 1=1" : (" And U.nombre ='" + auto.nombreChofer + "' ")) + (String.IsNullOrEmpty(auto.apellidoChofer) ? " And 1=1" : (" And U.apellido ='" + auto.apellidoChofer + "' "));
+                sqlCommand.CommandText = "SELECT AC.id_auto, A.patente_auto, A.modelo, A.id_marca, M.nombre, A.rodado, A.licencia, U.nombre, U.apellido, AC.id_turno, AC.id_chofer, A.habilitado FROM NONAME.Auto A join NONAME.Auto_Chofer AC on A.id_auto = AC.id_auto, NONAME.Usuario U, NONAME.Marca M WHERE U.id_usuario = AC.id_chofer And M.id_marca = A.id_marca And " + ((auto.idmarca == 0) ? "1=1" : ("A.id_marca ='" + auto.idmarca) + "'") + (String.IsNullOrEmpty(auto.modelo) ? " And 1=1" : (" And A.modelo ='" + auto.modelo + "'")) + (String.IsNullOrEmpty(auto.patente) ? " And 1=1" : (" And A.patente_auto ='" + auto.patente + "'")) + (String.IsNullOrEmpty(auto.nombreChofer) ? " And 1=1" : (" And U.nombre ='" + auto.nombreChofer + "' ")) + (String.IsNullOrEmpty(auto.apellidoChofer) ? " And 1=1" : (" And U.apellido ='" + auto.apellidoChofer + "'"));
                 sqlCommand.CommandType = CommandType.Text;
                 sqlCommand.Connection = miConexion;
 
@@ -94,7 +95,30 @@ namespace UberFrba.ConexionBD
                 desconectar();
             }
         }
+        public static DataTable obtenerTurnosDefinidosAuto(int id_auto){
+            try
+            {
+                conectar();
 
+                sqlCommand = new SqlCommand();
+                sqlCommand.CommandText = "SELECT Turno.id_turno, Turno.descripcion FROM NONAME.Auto_Chofer inner join NONAME.Turno on Turno.id_turno=Auto_Chofer.id_turno WHERE id_auto=" + id_auto; 
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableAutos = new DataTable();
+                dataTableAutos.Load(sqlReader);
+                return dataTableAutos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
         public static DataTable obtenerTodosLosAutomoviles()
         {
             try
@@ -155,7 +179,7 @@ namespace UberFrba.ConexionBD
 
                 sqlCommand.Parameters.AddWithValue("@patente_auto", auto.patente);
                 sqlCommand.Parameters.AddWithValue("@modelo", auto.modelo);
-                sqlCommand.Parameters.AddWithValue("@id_turno", auto.idturno);
+                sqlCommand.Parameters.AddWithValue("@ids_turnos", auto.idturno);
                 sqlCommand.Parameters.AddWithValue("@id_marca", auto.idmarca);
                 sqlCommand.Parameters.AddWithValue("@rodado", auto.rodado);
                 sqlCommand.Parameters.AddWithValue("@habilitado", auto.habilitado);

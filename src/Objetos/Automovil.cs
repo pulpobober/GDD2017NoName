@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data;
 
 
 namespace UberFrba.Objetos
@@ -13,9 +14,8 @@ namespace UberFrba.Objetos
         public Automovil()
         {
         }
-
-       public Automovil(int idturno, string patente,string modelo,int idmarca,int idchofer,string rodado, string licencia, int habilitado) {
-            this.idturno = idturno;
+       public Automovil(DataTable turnos , string patente,string modelo,int idmarca,int idchofer,string rodado, string licencia, int habilitado) {
+            this.idturno = turnos;
             this.patente = patente;
             this.modelo = modelo;
             this.idmarca = idmarca;
@@ -47,7 +47,7 @@ namespace UberFrba.Objetos
            this.modelo = datosAutomovil.Cells["modelo"].Value.ToString();
            this.idmarca = int.Parse(datosAutomovil.Cells["id_marca"].Value.ToString());
            this.idchofer = int.Parse(datosAutomovil.Cells["id_chofer"].Value.ToString());
-           this.idturno = int.Parse(datosAutomovil.Cells["id_turno"].Value.ToString());
+           //this.idturno = int.Parse(datosAutomovil.Cells["id_turno"].Value.ToString());
            bool hab = Convert.ToBoolean(datosAutomovil.Cells["habilitado"].Value.ToString());
             if (hab){
                 this.habilitado = 1;
@@ -60,7 +60,7 @@ namespace UberFrba.Objetos
            this.licencia = datosAutomovil.Cells["licencia"].Value.ToString();
 
         }
-        public Automovil(int idauto,int idturno, string patente, string modelo, int idmarca, int idchofer, string rodado, string licencia, int habilitado)
+        public Automovil(int idauto, DataTable idturno, string patente, string modelo, int idmarca, int idchofer, string rodado, string licencia, int habilitado)
         {
             this.idturno = idturno;
             this.patente = patente;
@@ -72,7 +72,7 @@ namespace UberFrba.Objetos
             this.habilitado = habilitado;
             this.idautomovil = idauto;
         }
-        public int idturno { get; set; }
+        public DataTable idturno { get; set; }
         public string patente { get; set; }
         public string modelo{ get; set; }
         public int idmarca { get; set; }
