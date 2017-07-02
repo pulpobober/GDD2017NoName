@@ -1525,6 +1525,12 @@ BEGIN
 END
 GO
 
+
+/*Para confirmar la facturacion se creo el sp_confirmacion_facturacion que recibe el nro_factura (el cual te doy 
+en una columna con el sp_importe_facturacion) y tambien recibe la fecha del momento en el cual se confirmola facturacion,
+para poder settear la fecha fin de la factura*/
+
+
 CREATE PROCEDURE NONAME.sp_confirmacion_facturacion
 	@fecha datetime,
 	@nro_factura numeric(18, 0)
