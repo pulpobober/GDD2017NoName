@@ -1522,7 +1522,7 @@ SET @id_viaje = SCOPE_IDENTITY()
 				END
 
 
-	IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion re WHERE re.fecha = @fecha_inicio and re.id_chofer = @id_chofer)
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion re WHERE re.fecha = @fecha_inicio and re.id_chofer = @id_chofer and re.id_turno = @id_turno)
 			BEGIN
 
 					DECLARE @nro_rendicion INT
@@ -1553,6 +1553,7 @@ SET @id_viaje = SCOPE_IDENTITY()
 				END
 END
 GO
+
 
 -- Listado estadistico
 
