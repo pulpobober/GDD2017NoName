@@ -230,6 +230,9 @@ EXEC NONAME.DROP_FK
 	IF TYPE_ID('NONAME.ListaIDs') IS NOT NULL
 		DROP TYPE NONAME.ListaIDs
 
+	IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
+ 		DROP TYPE NONAME.ListaFuncionalidadesRol
+
 --Schema
 
 	DROP SCHEMA [NONAME]
