@@ -85,16 +85,23 @@ namespace UberFrba.Rendicion_Viajes
                     tablaPreviaRendicion.DataSource = previaRendicion;
 
                     DataTable respuesta = SQLRendicionViajes.rendirElTotal(id_chofer, id_turno, selectorFecha.Value);
-                    lblPrevisualizarImporte.Text = respuesta.Rows[0][0].ToString();
-                    idRendicion = int.Parse(respuesta.Rows[0][1].ToString());
-                    tablaPreviaRendicion.DataSource = previaRendicion;
-                    this.tablaPreviaRendicion.Columns[3].Visible = false; //rendido
-                    lblPrevisualizarImporte.Show();
-                    lblPrevisualizarImporteTexto.Show();
-                    lblPrevisualizarImporte.Show();
-                    tablaPreviaRendicion.Show();
-                    lblPrevisualizar.Show();
-                    btnConfirmarRendicion.Show();
+                    if (respuesta.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Hubo un error", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        lblPrevisualizarImporte.Text = respuesta.Rows[0][0].ToString();
+                        idRendicion = int.Parse(respuesta.Rows[0][1].ToString());
+                        tablaPreviaRendicion.DataSource = previaRendicion;
+                        this.tablaPreviaRendicion.Columns[3].Visible = false; //rendido
+                        lblPrevisualizarImporte.Show();
+                        lblPrevisualizarImporteTexto.Show();
+                        lblPrevisualizarImporte.Show();
+                        tablaPreviaRendicion.Show();
+                        lblPrevisualizar.Show();
+                        btnConfirmarRendicion.Show();
+                    }
                 }
                 else
                 {
