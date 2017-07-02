@@ -1495,7 +1495,7 @@ CREATE PROCEDURE NONAME.sp_detalle_facturacion
 	@fecha datetime
 AS
 BEGIN
-	SELECT fv.id_viaje, v.cantidad_km, v.fecha_hora_inicio
+	SELECT fv.id_viaje, v.cantidad_km, v.fecha_hora_inicio, f.facturada
 	FROM Factura_Viaje fv
 	JOIN Viaje v ON fv.id_viaje = v.id_viaje
 	JOIN Factura f ON fv.nro_factura = f.nro_factura
