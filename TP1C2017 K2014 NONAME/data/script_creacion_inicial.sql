@@ -1408,7 +1408,8 @@ BEGIN
 	join [NONAME].Viaje v ON rv.id_viaje = v.id_viaje
 	where r.id_chofer = @id_usuario
 	and r.id_turno = @id_turno
-	and r.fecha = @fecha
+	and r.fecha >= @fecha
+	AND rendida = 0
 	group by r.nro_rendicion
 END
 GO
