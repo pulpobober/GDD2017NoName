@@ -31,6 +31,7 @@ namespace UberFrba.Abm_Chofer
                         Chofer nuevoChofer = new Chofer(txtNombre.Text, txtApellido.Text, Int32.Parse(txtDNI.Text), txtMail.Text, Int32.Parse(txtTelefono.Text), direccion, dateTimeNacimiento.Value);
                         SQLChofer.insertarChofer(nuevoChofer);
                         MessageBox.Show("El chofer ha sido dado de alta correctamente");
+                        this.Close();
                     }
                     else {
                         MessageBox.Show("Ese DNI ya esta en uso", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
