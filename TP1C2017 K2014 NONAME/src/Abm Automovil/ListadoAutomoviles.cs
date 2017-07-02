@@ -60,8 +60,7 @@ namespace UberFrba.Abm_Automovil
 
             this.tablaAutomoviles.Columns[0].Visible = false; //autoID
             this.tablaAutomoviles.Columns[3].Visible = false; //marcaID
-            this.tablaAutomoviles.Columns[9].Visible = false; //turnoID
-            this.tablaAutomoviles.Columns[10].Visible = false; //choferID
+            this.tablaAutomoviles.Columns[9].Visible = false; //choferID
 
             DataGridViewRow autoRow = tablaAutomoviles.Rows[0];
             autoSeleccionado = new Automovil(autoRow);
@@ -151,8 +150,7 @@ namespace UberFrba.Abm_Automovil
 
             this.tablaAutomoviles.Columns[0].Visible = false; //autoID
             this.tablaAutomoviles.Columns[3].Visible = false; //marcaID
-            this.tablaAutomoviles.Columns[9].Visible = false; //turnoID
-            this.tablaAutomoviles.Columns[10].Visible = false; //choferID
+            this.tablaAutomoviles.Columns[9].Visible = false; //choferID
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
@@ -216,8 +214,7 @@ namespace UberFrba.Abm_Automovil
 
             this.tablaAutomoviles.Columns[0].Visible = false; //autoID
             this.tablaAutomoviles.Columns[3].Visible = false; //marcaID
-            this.tablaAutomoviles.Columns[9].Visible = false; //turnoID
-            this.tablaAutomoviles.Columns[10].Visible = false; //choferID
+            this.tablaAutomoviles.Columns[9].Visible = false; //choferID
 
             DataGridViewRow autoRow = tablaAutomoviles.Rows[0];
             autoSeleccionado = new Automovil(autoRow);

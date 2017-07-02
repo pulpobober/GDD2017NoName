@@ -34,8 +34,6 @@
             // 
             // selectMarca
             // 
-            this.selectMarca.Items.AddRange(new object[] {
-            });
             this.selectMarca.Location = new System.Drawing.Point(188, 260);
             // 
             // lblModelo

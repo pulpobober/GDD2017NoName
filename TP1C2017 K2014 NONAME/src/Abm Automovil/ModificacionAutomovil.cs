@@ -36,19 +36,18 @@ namespace UberFrba.Abm_Automovil
             string nombreYApellido = obtenerNombreYApellidoChofer(auto.idchofer);
             cmbChofer.SelectedIndex = cmbChofer.FindStringExact(nombreYApellido);
 
-            tablaTurnos = SQLTurno.obtenerTodosLosTurnos();
+            tablaTurnos = SQLTurno.obtenerTodosLosTurnosHabilitados();
             
             turnosSeleccionados = SQLAutomovil.obtenerTurnosDefinidosAuto(auto.idautomovil);
             checkListTurno.Items.Clear();
             foreach (DataRow row in tablaTurnos.Rows)
             {
-                Boolean check = estaHabilitadoTurno(row["id_turno"].ToString());
+                Boolean check = estaSeleccionadoTurno(row["id_turno"].ToString());
                 checkListTurno.Items.Add(row["descripcion"].ToString(), check);
             }            
 
             string nombreMarca = obtenerNombreMarca(auto.idmarca);
             selectMarca.SelectedIndex = selectMarca.FindStringExact(nombreMarca);
-            //selectMarca.SelectedText = nombreMarca;
 
             ckbHabilitado.Checked = auto.habilitado == 1? true : false;
 
@@ -56,7 +55,8 @@ namespace UberFrba.Abm_Automovil
             txtLicencia.Text = auto.licencia;
             txtRodado.Text = auto.rodado;
         }
-       private Boolean estaHabilitadoTurno(String id_turno) { 
+        private Boolean estaSeleccionadoTurno(String id_turno)
+        { 
             foreach (DataRow row in turnosSeleccionados.Rows)
             {
                 if(row["id_turno"].ToString() == id_turno){

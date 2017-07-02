@@ -80,7 +80,7 @@ namespace UberFrba.Abm_Automovil
 
         private void AltaAutomovil_Load(object sender, EventArgs e)
         {
-            tablaTurnos = SQLTurno.obtenerTodosLosTurnos();
+            tablaTurnos = SQLTurno.obtenerTodosLosTurnosHabilitados();
             foreach (DataRow row in tablaTurnos.Rows)
             {
                 checkListTurno.Items.Add(row["descripcion"].ToString());

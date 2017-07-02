@@ -47,7 +47,6 @@ namespace UberFrba.Objetos
            this.modelo = datosAutomovil.Cells["modelo"].Value.ToString();
            this.idmarca = int.Parse(datosAutomovil.Cells["id_marca"].Value.ToString());
            this.idchofer = int.Parse(datosAutomovil.Cells["id_chofer"].Value.ToString());
-           //this.idturno = int.Parse(datosAutomovil.Cells["id_turno"].Value.ToString());
            bool hab = Convert.ToBoolean(datosAutomovil.Cells["habilitado"].Value.ToString());
             if (hab){
                 this.habilitado = 1;

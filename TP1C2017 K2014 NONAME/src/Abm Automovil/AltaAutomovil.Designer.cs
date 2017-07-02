@@ -83,8 +83,6 @@
             // 
             // cmbChofer
             // 
-            this.cmbChofer.Items.AddRange(new object[] {
-            });
             this.cmbChofer.Location = new System.Drawing.Point(188, 235);
             // 
             // btnAlta

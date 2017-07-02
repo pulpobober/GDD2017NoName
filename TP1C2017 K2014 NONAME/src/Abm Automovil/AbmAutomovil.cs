@@ -32,7 +32,7 @@ namespace UberFrba.Abm_Automovil
 
         public void cargarForm() {
             cmbChofer.Items.Clear();
-            tablaChoferes = SQLChofer.obtenerTodosLosChoferes();
+            tablaChoferes = SQLChofer.obtenerTodosLosChoferesHabilitados();
             foreach (DataRow row in tablaChoferes.Rows)
             {
                 cmbChofer.Items.Add(row["nombre"].ToString() + " " + row["apellido"].ToString());
