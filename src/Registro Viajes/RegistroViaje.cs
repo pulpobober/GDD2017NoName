@@ -112,6 +112,10 @@ namespace UberFrba.Registro_Viajes
             }
         }
 
+        private bool verificarSiHayUnViajeEnEsaHoraConEseChofer() {
+            return false;
+        }
+
         private int obtenerIDCliente(string nombreYApellido)
         {
             if (esRolAdministrador)

@@ -16,13 +16,24 @@ namespace UberFrba.Rendicion_Viajes
     {
         DataTable tablaTurnos;
         DataTable tablaChoferes;
+        int id_turno = -1;
+        int id_chofer = -1;
+        int idRendicion = -1;
 
         public RendicionViajes()
         {
             InitializeComponent();
             lblImporteTotal.Hide();
             lblImporteTotalTexto.Hide();
-
+            lblNumeroRendicion.Hide();
+            lblNumeroRendicionTexto.Hide();
+            lblPrevisualizarImporte.Hide();
+            lblPrevisualizarImporteTexto.Hide();
+            lblDetalleRendicion.Hide();
+            tablaRendicion.Hide();
+            tablaPreviaRendicion.Hide();
+            lblPrevisualizar.Hide();
+            btnConfirmarRendicion.Hide();
 
             tablaTurnos = SQLTurno.obtenerTodosLosTurnos();
 
@@ -44,11 +55,11 @@ namespace UberFrba.Rendicion_Viajes
 
         private void btnRendir_Click(object sender, EventArgs e)
         {
-            int id_turno = -1;
-            int id_chofer = -1;
+
             foreach (DataRow row in tablaTurnos.Rows)
             {
-                if (row["descripcion"].ToString() == cmbTurno.SelectedItem.ToString()) {
+                if (row["descripcion"].ToString() == cmbTurno.SelectedItem.ToString())
+                {
                     id_turno = int.Parse(row["id_turno"].ToString());
                 }
             }
@@ -61,15 +72,63 @@ namespace UberFrba.Rendicion_Viajes
                 }
             }
 
+            DataTable previaRendicion = SQLRendicionViajes.previsualizarConDetalle(id_chofer, id_turno, selectorFecha.Value);
+            if (previaRendicion == null)
+            {
+                MessageBox.Show("No hay nada para rendir", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            lblImporteTotal.Show();
-            lblImporteTotalTexto.Show();
-            tablaRendicion.DataSource = SQLRendicionViajes.rendirConDetalle(id_chofer, id_turno, selectorFecha.Value);
-            lblImporteTotal.Text = SQLRendicionViajes.rendirElTotal(id_chofer, id_turno, selectorFecha.Value).ToString();
+            }
+            else
+            {
+                if (!Convert.ToBoolean(previaRendicion.Rows[0][3].ToString()))
+                {
+                    tablaPreviaRendicion.DataSource = previaRendicion;
+
+                    DataTable respuesta = SQLRendicionViajes.rendirElTotal(id_chofer, id_turno, selectorFecha.Value);
+                    lblPrevisualizarImporte.Text = respuesta.Rows[0][0].ToString();
+                    idRendicion = int.Parse(respuesta.Rows[0][1].ToString());
+                    tablaPreviaRendicion.DataSource = previaRendicion;
+                    this.tablaPreviaRendicion.Columns[3].Visible = false; //rendido
+                    lblPrevisualizarImporte.Show();
+                    lblPrevisualizarImporteTexto.Show();
+                    lblPrevisualizarImporte.Show();
+                    tablaPreviaRendicion.Show();
+                    lblPrevisualizar.Show();
+                    btnConfirmarRendicion.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Ya esta hecha la rendicion para ese cliente en ese dia", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
         }
 
         private void RendicionViajes_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void lblDetalleRendicion_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            lblImporteTotal.Show();
+            lblImporteTotalTexto.Show();
+            lblNumeroRendicion.Show();
+            lblNumeroRendicionTexto.Show();
+            tablaRendicion.Show();
+            lblDetalleRendicion.Show();
+            SQLRendicionViajes.rendir(idRendicion, id_chofer, id_turno, selectorFecha.Value);
+            tablaRendicion.DataSource = tablaPreviaRendicion.DataSource;
+            this.tablaRendicion.Columns[3].Visible = false; //rendido
+            lblImporteTotal.Text = lblPrevisualizarImporte.Text;
+            lblNumeroRendicion.Text = idRendicion.ToString();
+
 
         }
     }

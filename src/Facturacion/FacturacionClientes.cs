@@ -33,6 +33,12 @@ namespace UberFrba.Facturacion
             }
             lblFacturacionClientesTexto.Hide();
             lblFacturacionTotal.Hide();
+            lblFechaFinFacturacion.Hide();
+            lblFechaFinFacturacionTexto.Hide();
+            lblFechaInicioFacturacion.Hide();
+            lblFechaInicioFacturacionTexto.Hide();
+            tablaFacturacion.Hide();
+            lblDetalleDeFacturacion.Hide();
 
         }
 
@@ -73,6 +79,11 @@ namespace UberFrba.Facturacion
                 }
             }
             return -1;
+        }
+
+        private void btnConfirmarFacturacion_Click(object sender, EventArgs e)
+        {
+
         }
 
 
