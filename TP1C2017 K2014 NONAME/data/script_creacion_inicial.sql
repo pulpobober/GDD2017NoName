@@ -226,8 +226,8 @@ EXEC NONAME.DROP_FK
 
 --User-Defined Data & Table Types
 
-	IF TYPE_ID('NONAME.ListaIDs') IS NOT NULL
-		DROP TYPE NONAME.ListaIDs
+	IF TYPE_ID('NONAME.ListaFuncionalidadesRol') IS NOT NULL
+		DROP TYPE NONAME.ListaFuncionalidadesRol
 
 --Schema
 
@@ -563,15 +563,15 @@ GO
 
 
 
-CREATE TYPE NONAME.ListaIDs
+CREATE TYPE NONAME.ListaFuncionalidadesRol
 AS TABLE (
-	id INT NOT NULL PRIMARY KEY);
+	id_funcion INT NOT NULL PRIMARY KEY);
 GO
 
 
 CREATE PROCEDURE NONAME.sproc_rol_alta
 	@tipo VARCHAR(255),
-	@ids_funciones AS NONAME.ListaIDs READONLY,--Lista de tipo Tabla (Table-Valued Parameters) que contiene al menos un valor de id_funcion
+	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY,--Lista de tipo Tabla (Table-Valued Parameters) que contiene al menos un valor de id_funcion
 	@habilitado BIT = 1
 
 AS
@@ -590,7 +590,7 @@ BEGIN
 
 	
 	INSERT INTO NONAME.Funcion_Rol
-	SELECT @id_rol, id -- (id = id_funcion)
+	SELECT @id_rol, id_funcion
 	FROM @ids_funciones
 
 END
@@ -625,7 +625,7 @@ GO
 CREATE PROCEDURE NONAME.sproc_rol_modificacion
 	@id_rol INT,
 	@tipo VARCHAR(255) = NULL,
-	@ids_funciones AS NONAME.ListaIDs READONLY, --Lista de tipo Tabla (Table-Valued Parameters) que contiene (o no) valores de id_funcion a asignar (deshabilitar)
+	@ids_funciones AS NONAME.ListaFuncionalidadesRol READONLY, --Lista de tipo Tabla (Table-Valued Parameters) que contiene (o no) valores de id_funcion a asignar (deshabilitar)
 	@habilitado BIT = NULL
 
 /*
@@ -664,9 +664,9 @@ Caso contrario (no llegan ids_funciones / vacio), le quito todos los permisos */
 	
 			--Asigno al Rol aquellas nuevas funcionalidades que no tenía asignadas previamente
 			INSERT INTO NONAME.Funcion_Rol
-			SELECT @id_rol, id -- (id = id_funcion)
+			SELECT @id_rol, id_funcion
 			FROM @ids_funciones
-			WHERE id NOT IN (SELECT id_funcion FROM NONAME.Funcion_Rol WHERE id_rol = @id_rol)
+			WHERE id_funcion NOT IN (SELECT id_funcion FROM NONAME.Funcion_Rol WHERE id_rol = @id_rol)
 			
 			--Quito aquellas funcionalidades viejas que ya no le corresponden al Rol
 			DELETE FROM NONAME.Funcion_Rol
@@ -826,7 +826,7 @@ CREATE PROCEDURE NONAME.sproc_automovil_alta
 	@id_marca INT,
 	@modelo VARCHAR(255),
 	@patente_auto VARCHAR(10),
-	@ids_turnos AS NONAME.ListaIDs READONLY, --Lista de tipo Tabla (Table-Valued Parameters) que contiene al menos un valor de id_turno
+	@id_turno INT,
 	@id_chofer INT,
 	@rodado VARCHAR(10) = NULL,
 	@licencia VARCHAR(26) = NULL,
@@ -857,10 +857,9 @@ BEGIN
 	IF NOT EXISTS (SELECT 1 FROM NONAME.Auto_Chofer WHERE id_auto = @id_auto AND id_chofer = @id_chofer)
 		BEGIN
 			INSERT INTO [NONAME].Auto_Chofer
-			--SELECT Auto.id_auto, Chofer.id_chofer, Turno.id_turno
-			SELECT @id_auto, @id_chofer, id -- (id = id_turno)
-			FROM @ids_turnos
-			--WHERE Auto.id_auto = @id_auto AND Chofer.id_chofer = @id_chofer AND Turno.id_turno = @id_turno
+			SELECT Auto.id_auto, Chofer.id_chofer, Turno.id_turno
+			FROM NONAME.Auto, NONAME.Chofer, NONAME.Turno
+			WHERE Auto.id_auto = @id_auto AND Chofer.id_chofer = @id_chofer AND Turno.id_turno = @id_turno
 		END
 
 END
@@ -892,7 +891,7 @@ CREATE PROCEDURE NONAME.sproc_automovil_modificacion
 	@id_auto INT,
 	@patente_auto VARCHAR(10),
 	@modelo VARCHAR(255),
-	@ids_turnos AS NONAME.ListaIDs READONLY, --Lista de tipo Tabla (Table-Valued Parameters) que contiene (o no) valores de id_turno a asignar (deshabilitar)
+	@id_turno INT,
 	@id_marca INT,
 	@id_chofer INT,
 	@rodado VARCHAR(10) = NULL,
@@ -917,36 +916,11 @@ BEGIN
 
 	
 	UPDATE NONAME.Auto_Chofer
-	SET id_chofer = @id_chofer
+	SET id_chofer = @id_chofer,
+		id_turno = @id_turno
 	WHERE id_auto = @id_auto
 
-
-/* En caso de haber algun id_turno en la lista de turnos @ids_turnos,
-actualizo la lista de turnos de Auto_Chofer en base a lo que me llegó por parametro.
-Caso contrario (no llegan ids_turnos / me llega vacio), le quito todos los turnos */
-	IF EXISTS (SELECT 1 FROM @ids_turnos) --Me llegó al menos un id_turno ==> AGREGO Y/O QUITO TURNOS
-		BEGIN
-			
-			DECLARE @id_turno INT;
 	
-			--Asigno a Auto_Chofer aquellos nuevos turnos que no tenía asignados previamente
-			INSERT INTO NONAME.Auto_Chofer
-			SELECT @id_auto, @id_chofer, id -- (id = id_funcion)
-			FROM @ids_turnos
-			WHERE id NOT IN (SELECT id_turno FROM NONAME.Auto_Chofer WHERE (id_auto = @id_auto) AND (id_chofer = @id_chofer))
-			
-			--Quito aquellos turnos viejos que ya no le corresponden a Auto_Chofer
-			DELETE FROM NONAME.Auto_Chofer
-			WHERE (id_auto = @id_auto) AND (id_chofer = @id_chofer) AND (id_turno NOT IN (SELECT * FROM @ids_turnos))
-
-		END
-	ELSE --tabla de ids_turnos vacia --> le quito todos los turnos que tenia
-		BEGIN
-			DELETE FROM NONAME.Auto_Chofer
-			WHERE (id_auto = @id_auto) AND (id_chofer = @id_chofer)
-		END
-
-
 	IF(@habilitado IS NOT NULL)
 		BEGIN
 			UPDATE NONAME.Auto
@@ -1548,7 +1522,7 @@ SET @id_viaje = SCOPE_IDENTITY()
 				END
 
 
-	IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion re WHERE re.fecha = @fecha_inicio and re.id_chofer = @id_chofer)
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion re WHERE re.fecha = @fecha_inicio and re.id_chofer = @id_chofer and re.id_turno = @id_turno)
 			BEGIN
 
 					DECLARE @nro_rendicion INT
@@ -1579,6 +1553,7 @@ SET @id_viaje = SCOPE_IDENTITY()
 				END
 END
 GO
+
 
 -- Listado estadistico
 
