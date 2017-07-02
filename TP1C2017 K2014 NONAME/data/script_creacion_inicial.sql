@@ -1387,6 +1387,7 @@ BEGIN
 	JOIN [NONAME].Rendicion r ON renvi.nro_rendicion = r.nro_rendicion
 	where v.id_chofer = @id_usuario
 	and v.fecha_hora_inicio = @fecha
+	and r.id_turno = @id_turno
 END
 GO
 
@@ -1550,7 +1551,7 @@ SET @id_viaje = SCOPE_IDENTITY()
 				END
 
 
-	IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion re WHERE re.fecha = @fecha_inicio and re.id_chofer = @id_chofer)
+	IF NOT EXISTS (SELECT 1 FROM NONAME.Rendicion re WHERE re.fecha = @fecha_inicio and re.id_chofer = @id_chofer and re.id_turno = @id_turno)
 			BEGIN
 
 					DECLARE @nro_rendicion INT
