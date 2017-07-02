@@ -1,4 +1,5 @@
-﻿namespace UberFrba.Abm_Cliente
+﻿using System;
+namespace UberFrba.Abm_Cliente
 {
     partial class AbmCliente
     {
@@ -52,6 +53,7 @@
             this.lblDepartamento = new System.Windows.Forms.Label();
             this.txtPiso = new System.Windows.Forms.TextBox();
             this.txtDepto = new System.Windows.Forms.TextBox();
+            this.dMax = DateTime.Today;
             this.SuspendLayout();
             // 
             // lblMail
@@ -201,6 +203,8 @@
             this.dateTimeNacimiento.Name = "dateTimeNacimiento";
             this.dateTimeNacimiento.Size = new System.Drawing.Size(206, 20);
             this.dateTimeNacimiento.TabIndex = 25;
+            this.dateTimeNacimiento.MaxDate = dMax;
+            this.dateTimeNacimiento.ValueChanged += new System.EventHandler(this.dateTimeNacimiento_ValueChanged);
             // 
             // label1
             // 
@@ -315,6 +319,7 @@
         protected System.Windows.Forms.TextBox txtPiso;
         protected System.Windows.Forms.Label lblDepartamento;
         protected System.Windows.Forms.TextBox txtDepto;
+        public System.DateTime dMax;
 
     }
 }
