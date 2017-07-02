@@ -35,48 +35,7 @@
             // selectMarca
             // 
             this.selectMarca.Items.AddRange(new object[] {
-            "Fiat",
-            "Peugeot",
-            "Ford",
-            "Renault",
-            "Volkswagen",
-            "Chevrolet",
-            "Fiat",
-            "Peugeot",
-            "Ford",
-            "Renault",
-            "Volkswagen",
-            "Chevrolet",
-            "Fiat",
-            "Peugeot",
-            "Ford",
-            "Renault",
-            "Volkswagen",
-            "Chevrolet",
-            "Fiat",
-            "Peugeot",
-            "Ford",
-            "Renault",
-            "Volkswagen",
-            "Chevrolet",
-            "Fiat",
-            "Peugeot",
-            "Ford",
-            "Renault",
-            "Volkswagen",
-            "Chevrolet",
-            "Fiat",
-            "Peugeot",
-            "Ford",
-            "Renault",
-            "Volkswagen",
-            "Chevrolet",
-            "Fiat",
-            "Peugeot",
-            "Ford",
-            "Renault",
-            "Volkswagen",
-            "Chevrolet"});
+            });
             this.selectMarca.Location = new System.Drawing.Point(188, 260);
             // 
             // lblModelo
@@ -105,13 +64,6 @@
             // 
             this.lblMarca.Location = new System.Drawing.Point(34, 260);
             // 
-            // checkListTurno
-            // 
-            this.checkListTurno.Items.AddRange(new object[] {
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche"});
-            // 
             // lblLicencia
             // 
             this.lblLicencia.Location = new System.Drawing.Point(34, 340);
@@ -130,89 +82,6 @@
             // 
             // cmbChofer
             // 
-            this.cmbChofer.Items.AddRange(new object[] {
-            "EDILIO Maldonado",
-            "SILVERIO Campos",
-            "DE FATIMA Rojas",
-            "ATANASIO Ortiz",
-            "ONAN Vargas",
-            "CLAUS García",
-            "RONALDO Jiménez",
-            "MIKI Córdoba",
-            "THEO Maldonado",
-            "PAMPA Ledesma",
-            "NICOLE Toro",
-            "MATIAS Zúñiga",
-            "JUANA Alonso",
-            "ANICETO Fernández",
-            "MARISA Ledesma",
-            "DELFINA Valdéz",
-            "AGOSTINA Torres",
-            "ROSENDO Muñoz",
-            "ISAAC Contreras",
-            "KAPRIEL Escobar",
-            "HADA Correa",
-            "MEULÉN González",
-            "PERSEO Saavedra",
-            "ARÍSTIDES García",
-            "ORIA Rojas",
-            "GINA Álvarez",
-            "FARAS Franco",
-            "EDELINA Soto",
-            "MIRELLA López",
-            "NAVILA Vera",
-            "FAVIO Sepúlveda",
-            "MIGUEL Donoso",
-            "INARA Farías",
-            "AMAIKE Martínez",
-            "NAHUEL Maidana",
-            "BERTILDA Gutiérrez",
-            "SELENA López",
-            "ZUAHIR Contreras",
-            "CHEVY Núñez",
-            "MIGUEL Carvajal",
-            "IBERO Vera",
-            "EDILIO Maldonado",
-            "SILVERIO Campos",
-            "DE FATIMA Rojas",
-            "ATANASIO Ortiz",
-            "ONAN Vargas",
-            "CLAUS García",
-            "RONALDO Jiménez",
-            "THEO Maldonado",
-            "MIKI Córdoba",
-            "NICOLE Toro",
-            "PAMPA Ledesma",
-            "MATIAS Zúñiga",
-            "ANICETO Fernández",
-            "JUANA Alonso",
-            "MARISA Ledesma",
-            "DELFINA Valdéz",
-            "ROSENDO Muñoz",
-            "AGOSTINA Torres",
-            "ISAAC Contreras",
-            "KAPRIEL Escobar",
-            "PERSEO Saavedra",
-            "MEULÉN González",
-            "HADA Correa",
-            "GINA Álvarez",
-            "ORIA Rojas",
-            "ARÍSTIDES García",
-            "MIRELLA López",
-            "NAVILA Vera",
-            "EDELINA Soto",
-            "FARAS Franco",
-            "FAVIO Sepúlveda",
-            "MIGUEL Donoso",
-            "AMAIKE Martínez",
-            "INARA Farías",
-            "NAHUEL Maidana",
-            "BERTILDA Gutiérrez",
-            "ZUAHIR Contreras",
-            "MIGUEL Carvajal",
-            "CHEVY Núñez",
-            "IBERO Vera",
-            "SELENA López"});
             this.cmbChofer.Location = new System.Drawing.Point(188, 287);
             this.cmbChofer.SelectedIndexChanged += new System.EventHandler(this.cmbChofer_SelectedIndexChanged);
             // 

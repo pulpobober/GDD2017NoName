@@ -54,6 +54,7 @@
             this.Controls.Add(this.btnModificar);
             this.Name = "ModificacionRol";
             this.Text = "ModificacionRol";
+            this.Load += new System.EventHandler(this.ModificacionRol_Load);
             this.Controls.SetChildIndex(this.ckbHabilitado, 0);
             this.Controls.SetChildIndex(this.lblTitulo, 0);
             this.Controls.SetChildIndex(this.lblNombre, 0);

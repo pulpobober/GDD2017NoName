@@ -33,37 +33,6 @@
             // 
             // selectMarca
             // 
-            this.selectMarca.Items.AddRange(new object[] {
-            "Fiat",
-            "Peugeot",
-            "Ford",
-            "Renault",
-            "Volkswagen",
-            "Chevrolet",
-            "Fiat",
-            "Peugeot",
-            "Ford",
-            "Renault",
-            "Volkswagen",
-            "Chevrolet",
-            "Fiat",
-            "Peugeot",
-            "Ford",
-            "Renault",
-            "Volkswagen",
-            "Chevrolet",
-            "Fiat",
-            "Peugeot",
-            "Ford",
-            "Renault",
-            "Volkswagen",
-            "Chevrolet",
-            "[1] Fiat",
-            "[2] Peugeot",
-            "[3] Ford",
-            "[4] Renault",
-            "[5] Volkswagen",
-            "[6] Chevrolet"});
             this.selectMarca.Location = new System.Drawing.Point(188, 180);
             // 
             // lblModelo
@@ -94,10 +63,6 @@
             // 
             // checkListTurno
             // 
-            this.checkListTurno.Items.AddRange(new object[] {
-            "Turno Mañna",
-            "Turno Tarde",
-            "Turno Noche"});
             this.checkListTurno.Size = new System.Drawing.Size(186, 79);
             // 
             // lblLicencia
@@ -119,47 +84,7 @@
             // cmbChofer
             // 
             this.cmbChofer.Items.AddRange(new object[] {
-            "EDILIO Maldonado",
-            "SILVERIO Campos",
-            "DE FATIMA Rojas",
-            "ATANASIO Ortiz",
-            "ONAN Vargas",
-            "CLAUS García",
-            "RONALDO Jiménez",
-            "MIKI Córdoba",
-            "THEO Maldonado",
-            "PAMPA Ledesma",
-            "NICOLE Toro",
-            "MATIAS Zúñiga",
-            "JUANA Alonso",
-            "ANICETO Fernández",
-            "MARISA Ledesma",
-            "DELFINA Valdéz",
-            "AGOSTINA Torres",
-            "ROSENDO Muñoz",
-            "ISAAC Contreras",
-            "KAPRIEL Escobar",
-            "HADA Correa",
-            "MEULÉN González",
-            "PERSEO Saavedra",
-            "ARÍSTIDES García",
-            "ORIA Rojas",
-            "GINA Álvarez",
-            "FARAS Franco",
-            "EDELINA Soto",
-            "MIRELLA López",
-            "NAVILA Vera",
-            "FAVIO Sepúlveda",
-            "MIGUEL Donoso",
-            "INARA Farías",
-            "AMAIKE Martínez",
-            "NAHUEL Maidana",
-            "BERTILDA Gutiérrez",
-            "SELENA López",
-            "ZUAHIR Contreras",
-            "CHEVY Núñez",
-            "MIGUEL Carvajal",
-            "IBERO Vera"});
+            });
             this.cmbChofer.Location = new System.Drawing.Point(188, 235);
             // 
             // btnAlta

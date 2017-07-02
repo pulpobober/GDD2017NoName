@@ -101,7 +101,7 @@ namespace UberFrba.ConexionBD
                 conectar();
 
                 sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "SELECT Turno.id_turno, Turno.descripcion FROM NONAME.Auto_Chofer inner join NONAME.Turno on Turno.id_turno=Auto_Chofer.id_turno WHERE id_auto=" + id_auto; 
+                sqlCommand.CommandText = "SELECT Turno.id_turno, Turno.descripcion FROM NONAME.Auto_Chofer inner join NONAME.Turno on Turno.id_turno=Auto_Chofer.id_turno WHERE id_auto= '" + id_auto + "'"; 
                 sqlCommand.CommandType = CommandType.Text;
                 sqlCommand.Connection = miConexion;
 

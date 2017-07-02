@@ -35,16 +35,16 @@ namespace UberFrba.Abm_Automovil
 
             string nombreYApellido = obtenerNombreYApellidoChofer(auto.idchofer);
             cmbChofer.SelectedIndex = cmbChofer.FindStringExact(nombreYApellido);
-           // cmbChofer.SelectedText = nombreYApellido;
+
+            tablaTurnos = SQLTurno.obtenerTodosLosTurnos();
+            
             turnosSeleccionados = SQLAutomovil.obtenerTurnosDefinidosAuto(auto.idautomovil);
-            foreach (DataRow row in turnosSeleccionados.Rows)
+            checkListTurno.Items.Clear();
+            foreach (DataRow row in tablaTurnos.Rows)
             {
                 Boolean check = estaHabilitadoTurno(row["id_turno"].ToString());
                 checkListTurno.Items.Add(row["descripcion"].ToString(), check);
-            }
-            //string nombreTurno = obtenerNombreTurno(auto.idturno);
-            //checkListTurno.SelectedIndex = checkListTurno.FindStringExact(nombreTurno);
-            
+            }            
 
             string nombreMarca = obtenerNombreMarca(auto.idmarca);
             selectMarca.SelectedIndex = selectMarca.FindStringExact(nombreMarca);

@@ -38,13 +38,6 @@ namespace UberFrba.Abm_Automovil
                 cmbChofer.Items.Add(row["nombre"].ToString() + " " + row["apellido"].ToString());
             }
 
-            checkListTurno.Items.Clear();
-            tablaTurnos = SQLTurno.obtenerTodosLosTurnos();
-            foreach (DataRow row in tablaTurnos.Rows)
-            {
-                checkListTurno.Items.Add(row["descripcion"].ToString());
-            }
-
             selectMarca.Items.Clear();
             tablaMarcas = SQLAutomovil.obtenerTodasLasMarcas();
             foreach (DataRow row in tablaMarcas.Rows)

@@ -40,7 +40,6 @@ namespace UberFrba.Abm_Rol
             funcionalidadesHabilitadas.Clear();
             funcionalidadesHabilitadas.Columns.Add("id_funcion");
 
-
             int i;
             for (i = 0; i <= (checkListFuncionalidades.Items.Count-1); i++)
             {
@@ -49,7 +48,6 @@ namespace UberFrba.Abm_Rol
                     DataRow newRow = funcionalidadesHabilitadas.NewRow();
                     newRow["id_funcion"] = obtenerIDFuncion(checkListFuncionalidades.Items[i].ToString());
                     funcionalidadesHabilitadas.Rows.Add(newRow);
-
                 }
             }
             return funcionalidadesHabilitadas;

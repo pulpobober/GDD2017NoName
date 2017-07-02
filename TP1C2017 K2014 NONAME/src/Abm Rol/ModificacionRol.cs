@@ -60,5 +60,10 @@ namespace UberFrba.Abm_Rol
                 this.Close();
             }
         }
+
+        private void ModificacionRol_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
