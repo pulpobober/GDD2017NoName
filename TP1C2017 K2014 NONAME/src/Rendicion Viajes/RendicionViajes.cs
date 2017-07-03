@@ -134,8 +134,8 @@ namespace UberFrba.Rendicion_Viajes
             this.tablaRendicion.Columns[3].Visible = false; //rendido
             lblImporteTotal.Text = lblPrevisualizarImporte.Text;
             lblNumeroRendicion.Text = idRendicion.ToString();
-
-
+            btnRendir.Enabled = false;
+            btnConfirmarRendicion.Enabled = false;
         }
     }
 }

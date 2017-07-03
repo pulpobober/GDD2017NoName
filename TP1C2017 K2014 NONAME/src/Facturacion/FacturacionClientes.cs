@@ -134,6 +134,8 @@ namespace UberFrba.Facturacion
             lblNumeroFacturacion.Text = idFactura.ToString();
             lblFechaInicioFacturacion.Text = lblFechaInicioFacturacionPrevia.Text;
             lblFechaFinFacturacion.Text = lblfechaFinFacturacionPrevia.Text;
+            btnFacturacionPrevia.Enabled = false;
+            btnConfirmarFacturacion.Enabled = false;
         }
 
 
