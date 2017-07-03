@@ -1033,6 +1033,9 @@ CREATE PROCEDURE NONAME.sproc_turno_alta
 AS
 BEGIN
 
+	DECLARE @horarioCorrecto INT
+	SET @horarioCorrecto = 0
+
 	IF((@hora_inicio < @hora_fin) AND --el turno comienza y finaliza dentro del mismo dia y no excede las 24hs
 		NOT EXISTS (SELECT 1 FROM NONAME.Turno WHERE (  --los turnos no se superponen
 					(@hora_inicio < Turno.hora_fin AND @hora_fin > Turno.hora_fin) OR
@@ -1055,8 +1058,12 @@ BEGIN
 				@valor_km,
 				@precio_base,
 				@habilitado)
+
+			SET @horarioCorrecto = 1
 		END
 
+	SELECT @horarioCorrecto
+	RETURN @horarioCorrecto
 END
 GO
 
