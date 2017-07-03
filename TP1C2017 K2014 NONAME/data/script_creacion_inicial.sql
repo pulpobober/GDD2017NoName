@@ -1499,7 +1499,7 @@ BEGIN
 	FROM Factura_Viaje fv
 	JOIN Viaje v ON fv.id_viaje = v.id_viaje
 	JOIN Factura f ON fv.nro_factura = f.nro_factura
-	WHERE f.fecha_inicio <= @fecha and f.fecha_fin is null
+	WHERE (f.fecha_inicio <= @fecha or f.fecha_inicio >= @fecha) and f.fecha_fin is null
 	and f.id_cliente = @id_usuario
 	
 END
