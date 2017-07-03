@@ -16,6 +16,8 @@ namespace UberFrba.Facturacion
     {
 
         DataTable clientes;
+        int idFactura = -1;
+
         public FacturacionClientes()
         {
             InitializeComponent();
@@ -39,34 +41,64 @@ namespace UberFrba.Facturacion
             lblFechaInicioFacturacionTexto.Hide();
             tablaFacturacion.Hide();
             lblDetalleDeFacturacion.Hide();
+            tablaPreviaFacturacion.Hide();
+            lblNumeroFacturacionTexto.Hide();
+            lblNumeroFacturacion.Hide();
+
+            lblfechaFinFacturacionPrevia.Hide();
+            lblFechaFinFacturacionPreviaTexto.Hide();
+            lblFechaInicioFacturacionPrevia.Hide();
+            lblFechaInicioFactPreviaTexto.Hide();
+            btnConfirmarFacturacion.Hide();
+            lblFactTotalPreviaTexto.Hide();
+            lblFacturacionTotalPrevia.Hide();
+            lblPrevisualizacionFact.Hide();
 
         }
 
         private void btnFacturacion_Click(object sender, EventArgs e)
         {
-            tablaFacturacion.DataSource = SQLFacturacion.ObtenerFacturacionCliente(obtenerIDCliente(cmbClientes.SelectedItem.ToString()));
-            
-            lblFacturacionTotal.Text = SQLFacturacion.rendirElTotal(obtenerIDCliente(cmbClientes.SelectedItem.ToString())).ToString();
-
-            if (lblFacturacionTotal.Text != "0")
+            DataTable previaFacturacion = SQLFacturacion.ObtenerFacturacionCliente(obtenerIDCliente(cmbClientes.SelectedItem.ToString()));
+            if (previaFacturacion.Rows.Count == 0)
             {
-                lblFacturacionClientesTexto.Show();
-                lblFacturacionTotal.Show();
-                lblFechaFinFacturacion.Show();
-                lblFechaInicioFacturacion.Show();
-                lblFechaFinFacturacionTexto.Show();
-                lblFechaInicioFacturacionTexto.Show();
-                tablaFacturacion.Columns[2].Visible = false; //fecha_hora_inicio
-                lblFechaInicioFacturacion.Text = tablaFacturacion.Rows[0].Cells["fecha_hora_inicio"].Value.ToString();
-                lblFechaFinFacturacion.Text = Settings.Default.fecha_sistema.ToString();
+                MessageBox.Show("No hay nada para facturar", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else {
-                MessageBox.Show("No tiene nada para facturar en este mes el cliente seleccionado");
+                if (!Convert.ToBoolean(previaFacturacion.Rows[0][3].ToString()))
+                {
+                    DataTable respuesta = SQLFacturacion.rendirElTotal(obtenerIDCliente(cmbClientes.SelectedItem.ToString()));
+                    if (respuesta.Rows.Count == 0)
+                    {
+                        MessageBox.Show("Hubo un error", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        lblFacturacionTotalPrevia.Text = respuesta.Rows[0][0].ToString();
+                        idFactura = int.Parse(respuesta.Rows[0][1].ToString());
+                        tablaPreviaFacturacion.DataSource = previaFacturacion;
 
+                        lblFechaInicioFacturacionPrevia.Text = tablaPreviaFacturacion.Rows[0].Cells["fecha_hora_inicio"].Value.ToString();
+                        lblfechaFinFacturacionPrevia.Text = Settings.Default.fecha_sistema.ToString();
+
+                        tablaPreviaFacturacion.Columns[2].Visible = false; //fecha_hora_inicio
+                        tablaPreviaFacturacion.Columns[3].Visible = false; //rendido
+
+                        tablaPreviaFacturacion.Show();
+                        lblfechaFinFacturacionPrevia.Show();
+                        lblFechaFinFacturacionPreviaTexto.Show();
+                        lblFechaInicioFacturacionPrevia.Show();
+                        lblFechaInicioFactPreviaTexto.Show();
+                        btnConfirmarFacturacion.Show();
+                        lblFactTotalPreviaTexto.Show();
+                        lblFacturacionTotalPrevia.Show();
+                        lblPrevisualizacionFact.Show();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Ya esta hecha la rendicion para ese cliente en ese dia", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-           
-            
-
         }
 
         private int obtenerIDCliente(string nombreUsuario)
@@ -83,7 +115,25 @@ namespace UberFrba.Facturacion
 
         private void btnConfirmarFacturacion_Click(object sender, EventArgs e)
         {
+            lblFacturacionClientesTexto.Show();
+            lblFacturacionTotal.Show();
+            lblFechaFinFacturacion.Show();
+            lblFechaFinFacturacionTexto.Show();
+            lblFechaInicioFacturacion.Show();
+            lblFechaInicioFacturacionTexto.Show();
+            tablaFacturacion.Show();
+            lblDetalleDeFacturacion.Show();
+            lblNumeroFacturacionTexto.Show();
+            lblNumeroFacturacion.Show();
 
+            SQLFacturacion.facturar(idFactura);
+            tablaFacturacion.DataSource = tablaPreviaFacturacion.DataSource;
+            tablaFacturacion.Columns[2].Visible = false; //fecha_hora_inicio
+            tablaFacturacion.Columns[3].Visible = false; //rendido
+            lblFacturacionTotal.Text = lblFacturacionTotalPrevia.Text;
+            lblNumeroFacturacion.Text = idFactura.ToString();
+            lblFechaInicioFacturacion.Text = lblFechaInicioFacturacionPrevia.Text;
+            lblFechaFinFacturacion.Text = lblfechaFinFacturacionPrevia.Text;
         }
 
 

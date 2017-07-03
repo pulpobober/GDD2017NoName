@@ -34,7 +34,6 @@ namespace UberFrba.ConexionBD
             }
             catch (Exception ex)
             {
-                //Manejar errores
                 throw ex;
             }
             finally
@@ -43,7 +42,7 @@ namespace UberFrba.ConexionBD
             }
         }
 
-        public static double rendirElTotal(int id_cliente)
+        public static DataTable rendirElTotal(int id_cliente)
         {
             DateTime fecha = Settings.Default.fecha_sistema;
             try
@@ -60,14 +59,7 @@ namespace UberFrba.ConexionBD
                 SqlDataReader sqlReader = sqlCommand.ExecuteReader();
                 DataTable dataTableListado = new DataTable();
                 dataTableListado.Load(sqlReader);
-                if (dataTableListado.Rows[0][0].ToString() == "")
-                {
-                    return 0;
-                }
-                else
-                {
-                    return double.Parse(dataTableListado.Rows[0][0].ToString());
-                }
+                return dataTableListado;
             }
             catch (Exception ex)
             {
@@ -79,5 +71,31 @@ namespace UberFrba.ConexionBD
             }
         }
 
+
+        public static void facturar(int id_factura)
+        {
+            DateTime fecha = Settings.Default.fecha_sistema;
+            try
+            {
+                conectar();
+
+                sqlCommand = new SqlCommand("NONAME.sp_confirmacion_facturacion");
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Connection = miConexion;
+
+                sqlCommand.Parameters.AddWithValue("@nro_factura", id_factura);
+                sqlCommand.Parameters.AddWithValue("@fecha", fecha.Date);
+
+                sqlCommand.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
     }
 }

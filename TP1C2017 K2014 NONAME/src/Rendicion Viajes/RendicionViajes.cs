@@ -82,7 +82,6 @@ namespace UberFrba.Rendicion_Viajes
             {
                 if (!Convert.ToBoolean(previaRendicion.Rows[0][3].ToString()))
                 {
-                    tablaPreviaRendicion.DataSource = previaRendicion;
 
                     DataTable respuesta = SQLRendicionViajes.rendirElTotal(id_chofer, id_turno, selectorFecha.Value);
                     if (respuesta.Rows.Count == 0)

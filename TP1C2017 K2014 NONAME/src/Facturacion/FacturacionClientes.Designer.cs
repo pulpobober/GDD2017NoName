@@ -40,16 +40,18 @@
             this.lblFechaFinFacturacionTexto = new System.Windows.Forms.Label();
             this.lblFechaInicioFacturacion = new System.Windows.Forms.Label();
             this.lblFechaInicioFacturacionTexto = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblFechaInicioFacturacionPrevia = new System.Windows.Forms.Label();
+            this.lblFechaInicioFactPreviaTexto = new System.Windows.Forms.Label();
+            this.lblfechaFinFacturacionPrevia = new System.Windows.Forms.Label();
+            this.lblFechaFinFacturacionPreviaTexto = new System.Windows.Forms.Label();
+            this.lblFacturacionTotalPrevia = new System.Windows.Forms.Label();
+            this.lblFactTotalPreviaTexto = new System.Windows.Forms.Label();
             this.tablaPreviaFacturacion = new System.Windows.Forms.DataGridView();
             this.lblDetalleDeFacturacion = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lblPrevisualizacionFact = new System.Windows.Forms.Label();
             this.btnConfirmarFacturacion = new System.Windows.Forms.Button();
+            this.lblNumeroFacturacion = new System.Windows.Forms.Label();
+            this.lblNumeroFacturacionTexto = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tablaFacturacion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tablaPreviaFacturacion)).BeginInit();
             this.SuspendLayout();
@@ -87,7 +89,7 @@
             this.tablaFacturacion.AllowUserToAddRows = false;
             this.tablaFacturacion.AllowUserToDeleteRows = false;
             this.tablaFacturacion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaFacturacion.Location = new System.Drawing.Point(12, 451);
+            this.tablaFacturacion.Location = new System.Drawing.Point(12, 486);
             this.tablaFacturacion.Name = "tablaFacturacion";
             this.tablaFacturacion.ReadOnly = true;
             this.tablaFacturacion.Size = new System.Drawing.Size(720, 178);
@@ -107,7 +109,7 @@
             // 
             this.lblFacturacionClientesTexto.AutoSize = true;
             this.lblFacturacionClientesTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFacturacionClientesTexto.Location = new System.Drawing.Point(13, 674);
+            this.lblFacturacionClientesTexto.Location = new System.Drawing.Point(13, 709);
             this.lblFacturacionClientesTexto.Name = "lblFacturacionClientesTexto";
             this.lblFacturacionClientesTexto.Size = new System.Drawing.Size(203, 25);
             this.lblFacturacionClientesTexto.TabIndex = 6;
@@ -117,7 +119,7 @@
             // 
             this.lblFacturacionTotal.AutoSize = true;
             this.lblFacturacionTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFacturacionTotal.Location = new System.Drawing.Point(217, 674);
+            this.lblFacturacionTotal.Location = new System.Drawing.Point(217, 709);
             this.lblFacturacionTotal.Name = "lblFacturacionTotal";
             this.lblFacturacionTotal.Size = new System.Drawing.Size(24, 25);
             this.lblFacturacionTotal.TabIndex = 7;
@@ -138,7 +140,7 @@
             // 
             this.lblFechaFinFacturacion.AutoSize = true;
             this.lblFechaFinFacturacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFechaFinFacturacion.Location = new System.Drawing.Point(661, 646);
+            this.lblFechaFinFacturacion.Location = new System.Drawing.Point(661, 681);
             this.lblFechaFinFacturacion.Name = "lblFechaFinFacturacion";
             this.lblFechaFinFacturacion.Size = new System.Drawing.Size(0, 24);
             this.lblFechaFinFacturacion.TabIndex = 10;
@@ -148,7 +150,7 @@
             // 
             this.lblFechaFinFacturacionTexto.AutoSize = true;
             this.lblFechaFinFacturacionTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFechaFinFacturacionTexto.Location = new System.Drawing.Point(452, 645);
+            this.lblFechaFinFacturacionTexto.Location = new System.Drawing.Point(452, 680);
             this.lblFechaFinFacturacionTexto.Name = "lblFechaFinFacturacionTexto";
             this.lblFechaFinFacturacionTexto.Size = new System.Drawing.Size(197, 24);
             this.lblFechaFinFacturacionTexto.TabIndex = 9;
@@ -159,7 +161,7 @@
             // 
             this.lblFechaInicioFacturacion.AutoSize = true;
             this.lblFechaInicioFacturacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFechaInicioFacturacion.Location = new System.Drawing.Point(242, 645);
+            this.lblFechaInicioFacturacion.Location = new System.Drawing.Point(242, 680);
             this.lblFechaInicioFacturacion.Name = "lblFechaInicioFacturacion";
             this.lblFechaInicioFacturacion.Size = new System.Drawing.Size(0, 24);
             this.lblFechaInicioFacturacion.TabIndex = 12;
@@ -169,74 +171,74 @@
             // 
             this.lblFechaInicioFacturacionTexto.AutoSize = true;
             this.lblFechaInicioFacturacionTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFechaInicioFacturacionTexto.Location = new System.Drawing.Point(13, 645);
+            this.lblFechaInicioFacturacionTexto.Location = new System.Drawing.Point(13, 680);
             this.lblFechaInicioFacturacionTexto.Name = "lblFechaInicioFacturacionTexto";
             this.lblFechaInicioFacturacionTexto.Size = new System.Drawing.Size(222, 24);
             this.lblFechaInicioFacturacionTexto.TabIndex = 11;
             this.lblFechaInicioFacturacionTexto.Text = "Fecha inicio Facturacion:";
             this.lblFechaInicioFacturacionTexto.Visible = false;
             // 
-            // label1
+            // lblFechaInicioFacturacionPrevia
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(248, 335);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 24);
-            this.label1.TabIndex = 19;
-            this.label1.Visible = false;
+            this.lblFechaInicioFacturacionPrevia.AutoSize = true;
+            this.lblFechaInicioFacturacionPrevia.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaInicioFacturacionPrevia.Location = new System.Drawing.Point(248, 335);
+            this.lblFechaInicioFacturacionPrevia.Name = "lblFechaInicioFacturacionPrevia";
+            this.lblFechaInicioFacturacionPrevia.Size = new System.Drawing.Size(0, 24);
+            this.lblFechaInicioFacturacionPrevia.TabIndex = 19;
+            this.lblFechaInicioFacturacionPrevia.Visible = false;
             // 
-            // label2
+            // lblFechaInicioFactPreviaTexto
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(19, 335);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(222, 24);
-            this.label2.TabIndex = 18;
-            this.label2.Text = "Fecha inicio Facturacion:";
-            this.label2.Visible = false;
+            this.lblFechaInicioFactPreviaTexto.AutoSize = true;
+            this.lblFechaInicioFactPreviaTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaInicioFactPreviaTexto.Location = new System.Drawing.Point(19, 335);
+            this.lblFechaInicioFactPreviaTexto.Name = "lblFechaInicioFactPreviaTexto";
+            this.lblFechaInicioFactPreviaTexto.Size = new System.Drawing.Size(222, 24);
+            this.lblFechaInicioFactPreviaTexto.TabIndex = 18;
+            this.lblFechaInicioFactPreviaTexto.Text = "Fecha inicio Facturacion:";
+            this.lblFechaInicioFactPreviaTexto.Visible = false;
             // 
-            // label3
+            // lblfechaFinFacturacionPrevia
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(673, 336);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 24);
-            this.label3.TabIndex = 17;
-            this.label3.Visible = false;
+            this.lblfechaFinFacturacionPrevia.AutoSize = true;
+            this.lblfechaFinFacturacionPrevia.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblfechaFinFacturacionPrevia.Location = new System.Drawing.Point(673, 336);
+            this.lblfechaFinFacturacionPrevia.Name = "lblfechaFinFacturacionPrevia";
+            this.lblfechaFinFacturacionPrevia.Size = new System.Drawing.Size(0, 24);
+            this.lblfechaFinFacturacionPrevia.TabIndex = 17;
+            this.lblfechaFinFacturacionPrevia.Visible = false;
             // 
-            // label4
+            // lblFechaFinFacturacionPreviaTexto
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(464, 335);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(197, 24);
-            this.label4.TabIndex = 16;
-            this.label4.Text = "Fecha fin Facturacion:";
-            this.label4.Visible = false;
+            this.lblFechaFinFacturacionPreviaTexto.AutoSize = true;
+            this.lblFechaFinFacturacionPreviaTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaFinFacturacionPreviaTexto.Location = new System.Drawing.Point(464, 335);
+            this.lblFechaFinFacturacionPreviaTexto.Name = "lblFechaFinFacturacionPreviaTexto";
+            this.lblFechaFinFacturacionPreviaTexto.Size = new System.Drawing.Size(197, 24);
+            this.lblFechaFinFacturacionPreviaTexto.TabIndex = 16;
+            this.lblFechaFinFacturacionPreviaTexto.Text = "Fecha fin Facturacion:";
+            this.lblFechaFinFacturacionPreviaTexto.Visible = false;
             // 
-            // label5
+            // lblFacturacionTotalPrevia
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(224, 364);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(24, 25);
-            this.label5.TabIndex = 15;
-            this.label5.Text = "0";
+            this.lblFacturacionTotalPrevia.AutoSize = true;
+            this.lblFacturacionTotalPrevia.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFacturacionTotalPrevia.Location = new System.Drawing.Point(224, 364);
+            this.lblFacturacionTotalPrevia.Name = "lblFacturacionTotalPrevia";
+            this.lblFacturacionTotalPrevia.Size = new System.Drawing.Size(24, 25);
+            this.lblFacturacionTotalPrevia.TabIndex = 15;
+            this.lblFacturacionTotalPrevia.Text = "0";
             // 
-            // label6
+            // lblFactTotalPreviaTexto
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(20, 364);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(203, 25);
-            this.label6.TabIndex = 14;
-            this.label6.Text = "Facturacion Total: $";
+            this.lblFactTotalPreviaTexto.AutoSize = true;
+            this.lblFactTotalPreviaTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFactTotalPreviaTexto.Location = new System.Drawing.Point(20, 364);
+            this.lblFactTotalPreviaTexto.Name = "lblFactTotalPreviaTexto";
+            this.lblFactTotalPreviaTexto.Size = new System.Drawing.Size(203, 25);
+            this.lblFactTotalPreviaTexto.TabIndex = 14;
+            this.lblFactTotalPreviaTexto.Text = "Facturacion Total: $";
             // 
             // tablaPreviaFacturacion
             // 
@@ -252,25 +254,25 @@
             // lblDetalleDeFacturacion
             // 
             this.lblDetalleDeFacturacion.AutoSize = true;
-            this.lblDetalleDeFacturacion.Location = new System.Drawing.Point(12, 432);
+            this.lblDetalleDeFacturacion.Location = new System.Drawing.Point(12, 467);
             this.lblDetalleDeFacturacion.Name = "lblDetalleDeFacturacion";
             this.lblDetalleDeFacturacion.Size = new System.Drawing.Size(111, 13);
             this.lblDetalleDeFacturacion.TabIndex = 20;
             this.lblDetalleDeFacturacion.Text = "Detalle de facturacion";
             // 
-            // label8
+            // lblPrevisualizacionFact
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 125);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(156, 13);
-            this.label8.TabIndex = 21;
-            this.label8.Text = "Previsualizacion De facturacion";
+            this.lblPrevisualizacionFact.AutoSize = true;
+            this.lblPrevisualizacionFact.Location = new System.Drawing.Point(15, 125);
+            this.lblPrevisualizacionFact.Name = "lblPrevisualizacionFact";
+            this.lblPrevisualizacionFact.Size = new System.Drawing.Size(156, 13);
+            this.lblPrevisualizacionFact.TabIndex = 21;
+            this.lblPrevisualizacionFact.Text = "Previsualizacion De facturacion";
             // 
             // btnConfirmarFacturacion
             // 
             this.btnConfirmarFacturacion.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.btnConfirmarFacturacion.Location = new System.Drawing.Point(12, 392);
+            this.btnConfirmarFacturacion.Location = new System.Drawing.Point(12, 413);
             this.btnConfirmarFacturacion.Name = "btnConfirmarFacturacion";
             this.btnConfirmarFacturacion.Size = new System.Drawing.Size(720, 35);
             this.btnConfirmarFacturacion.TabIndex = 22;
@@ -278,20 +280,42 @@
             this.btnConfirmarFacturacion.UseVisualStyleBackColor = false;
             this.btnConfirmarFacturacion.Click += new System.EventHandler(this.btnConfirmarFacturacion_Click);
             // 
+            // lblNumeroFacturacion
+            // 
+            this.lblNumeroFacturacion.AutoSize = true;
+            this.lblNumeroFacturacion.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNumeroFacturacion.Location = new System.Drawing.Point(732, 709);
+            this.lblNumeroFacturacion.Name = "lblNumeroFacturacion";
+            this.lblNumeroFacturacion.Size = new System.Drawing.Size(24, 25);
+            this.lblNumeroFacturacion.TabIndex = 24;
+            this.lblNumeroFacturacion.Text = "0";
+            // 
+            // lblNumeroFacturacionTexto
+            // 
+            this.lblNumeroFacturacionTexto.AutoSize = true;
+            this.lblNumeroFacturacionTexto.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNumeroFacturacionTexto.Location = new System.Drawing.Point(451, 709);
+            this.lblNumeroFacturacionTexto.Name = "lblNumeroFacturacionTexto";
+            this.lblNumeroFacturacionTexto.Size = new System.Drawing.Size(286, 25);
+            this.lblNumeroFacturacionTexto.TabIndex = 23;
+            this.lblNumeroFacturacionTexto.Text = "El numero de facturacion es:";
+            // 
             // FacturacionClientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(846, 711);
+            this.ClientSize = new System.Drawing.Size(846, 746);
+            this.Controls.Add(this.lblNumeroFacturacion);
+            this.Controls.Add(this.lblNumeroFacturacionTexto);
             this.Controls.Add(this.btnConfirmarFacturacion);
-            this.Controls.Add(this.label8);
+            this.Controls.Add(this.lblPrevisualizacionFact);
             this.Controls.Add(this.lblDetalleDeFacturacion);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.lblFechaInicioFacturacionPrevia);
+            this.Controls.Add(this.lblFechaInicioFactPreviaTexto);
+            this.Controls.Add(this.lblfechaFinFacturacionPrevia);
+            this.Controls.Add(this.lblFechaFinFacturacionPreviaTexto);
+            this.Controls.Add(this.lblFacturacionTotalPrevia);
+            this.Controls.Add(this.lblFactTotalPreviaTexto);
             this.Controls.Add(this.tablaPreviaFacturacion);
             this.Controls.Add(this.lblFechaInicioFacturacion);
             this.Controls.Add(this.lblFechaInicioFacturacionTexto);
@@ -329,15 +353,17 @@
         private System.Windows.Forms.Label lblFechaFinFacturacionTexto;
         private System.Windows.Forms.Label lblFechaInicioFacturacion;
         private System.Windows.Forms.Label lblFechaInicioFacturacionTexto;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblFechaInicioFacturacionPrevia;
+        private System.Windows.Forms.Label lblFechaInicioFactPreviaTexto;
+        private System.Windows.Forms.Label lblfechaFinFacturacionPrevia;
+        private System.Windows.Forms.Label lblFechaFinFacturacionPreviaTexto;
+        private System.Windows.Forms.Label lblFacturacionTotalPrevia;
+        private System.Windows.Forms.Label lblFactTotalPreviaTexto;
         private System.Windows.Forms.DataGridView tablaPreviaFacturacion;
         private System.Windows.Forms.Label lblDetalleDeFacturacion;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblPrevisualizacionFact;
         private System.Windows.Forms.Button btnConfirmarFacturacion;
+        private System.Windows.Forms.Label lblNumeroFacturacion;
+        private System.Windows.Forms.Label lblNumeroFacturacionTexto;
     }
 }
