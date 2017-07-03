@@ -50,5 +50,32 @@ namespace UberFrba.ConexionBD
                 desconectar();
             }
         }
+
+        public static DataTable verificarViaje(int id_chofer, DateTime fechaYHoraInicio, DateTime fechaYHoraFinal, int id_cliente)
+        {
+            try
+            {
+                conectar();
+                sqlCommand = new SqlCommand();
+            //    sqlCommand.CommandText = "select id_viaje from [NONAME].Viaje where ( id_cliente = " + id_cliente + " or id_chofer = " + id_chofer + " ) and ((fecha_hora_inicio <= '" + fechaYHoraInicio + "' <= fecha_hora_fin) or (fecha_hora_inicio <= '" + fechaYHoraFinal + "' <= fecha_hora_fin))";
+                sqlCommand.CommandText = "select id_viaje from [NONAME].Viaje where ( id_cliente = " + id_cliente + " or id_chofer = " + id_chofer + " ) and ((fecha_hora_inicio <= '" + fechaYHoraInicio + "' AND '" + fechaYHoraInicio + "' <= fecha_hora_fin) or (fecha_hora_inicio <= '" + fechaYHoraFinal + "' AND '" + fechaYHoraFinal + "' <= fecha_hora_fin))";
+                         //       " select id_viaje from [NONAME].Viaje where (id_cliente = @id_cliente or id_chofer = @id_chofer)                 and ((fecha_hora_inicio <= '" + fechaYHoraInicio + "' AND '" + fechaYHoraInicio + "' <= fecha_hora_fin) or (fecha_hora_inicio <= '" + fechaYHoraFinal + "' AND '" + fechaYHoraFinal + "' <= fecha_hora_fin))";
+                
+                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.Connection = miConexion;
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableVerificacion = new DataTable();
+                dataTableVerificacion.Load(sqlReader);
+                return dataTableVerificacion;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                desconectar();
+            }
+        }
     }
 }

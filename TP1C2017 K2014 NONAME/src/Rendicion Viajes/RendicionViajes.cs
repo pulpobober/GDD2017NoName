@@ -122,7 +122,6 @@ namespace UberFrba.Rendicion_Viajes
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             lblImporteTotal.Show();
             lblImporteTotalTexto.Show();
             lblNumeroRendicion.Show();

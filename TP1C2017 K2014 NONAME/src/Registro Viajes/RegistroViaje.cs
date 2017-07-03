@@ -107,9 +107,21 @@ namespace UberFrba.Registro_Viajes
         private void btnRegistrarViaje_Click(object sender, EventArgs e)
         {
             if (verificarDatosRegistro()) {
-                string respuesta = SQLRegistroViaje.registrarViaje(obtenerIDChofer(cmbChoferes.SelectedItem.ToString()), obtenerIDAuto(cmbAutomovil.SelectedItem.ToString()), obtenerIDTurno(cmbTurnos.SelectedItem.ToString()), int.Parse(txtCantidadKm.Text), dataTimeInicio.Value, dateTimeFin.Value, obtenerIDCliente(cmbCliente.SelectedItem.ToString()));
-               MessageBox.Show(respuesta);
+                if (verificarDatosViaje())
+                {
+                    string respuesta = SQLRegistroViaje.registrarViaje(obtenerIDChofer(cmbChoferes.SelectedItem.ToString()), obtenerIDAuto(cmbAutomovil.SelectedItem.ToString()), obtenerIDTurno(cmbTurnos.SelectedItem.ToString()), int.Parse(txtCantidadKm.Text), dataTimeInicio.Value, dateTimeFin.Value, obtenerIDCliente(cmbCliente.SelectedItem.ToString()));
+                    MessageBox.Show(respuesta);
+                }
             }
+        }
+
+        private bool verificarDatosViaje() {
+            DataTable respuesta = SQLRegistroViaje.verificarViaje(obtenerIDChofer(cmbChoferes.SelectedItem.ToString()), dataTimeInicio.Value, dateTimeFin.Value, obtenerIDCliente(cmbCliente.SelectedItem.ToString()));
+            if (respuesta.Rows.Count == 0) {
+                return true;
+            }
+            MessageBox.Show("Se superponen los horarios del viaje con viajes anteriores", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return false;
         }
 
         private bool verificarSiHayUnViajeEnEsaHoraConEseChofer() {

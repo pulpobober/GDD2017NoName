@@ -28,20 +28,22 @@ namespace UberFrba.ConexionBD
                 sqlCommand.Parameters.AddWithValue("@valor_km", unTurno.valor_km); 
                 sqlCommand.Parameters.AddWithValue("@precio_base", unTurno.precio_base);
                 sqlCommand.Parameters.AddWithValue("@habilitado", unTurno.habilitado);
-              
-               int response= sqlCommand.ExecuteNonQuery();
-               if (response > 0)
-               {
-                   return "Turno dado de alta correctamente";
-               }
-               else
-               {
-                   return "Fallo al dar de alta el turno: " + unTurno.descripcion;
-               }
+
+                SqlDataReader sqlReader = sqlCommand.ExecuteReader();
+                DataTable dataTableTurnos = new DataTable();
+                dataTableTurnos.Load(sqlReader);
+                int response = int.Parse(dataTableTurnos.Rows[0][0].ToString());
+                if (response == 1)
+                {
+                    return "Turno modificado correctamente";
+                }
+                else
+                {
+                    return "No se pudo modificar el turno, el horario ingresado se superpone con el de otro turno";
+                }
             }
             catch (Exception ex)
             {
-                return "Fallo al dar de alta el turno: " + unTurno.descripcion;
                 throw ex;
             }
             finally
