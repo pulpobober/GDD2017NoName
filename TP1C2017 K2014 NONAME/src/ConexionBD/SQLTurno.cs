@@ -35,11 +35,11 @@ namespace UberFrba.ConexionBD
                 int response = int.Parse(dataTableTurnos.Rows[0][0].ToString());
                 if (response == 1)
                 {
-                    return "Turno modificado correctamente";
+                    return "Turno dado de alta correctamente";
                 }
                 else
                 {
-                    return "No se pudo modificar el turno, el horario ingresado se superpone con el de otro turno";
+                    return "No se pudo dar de alta el turno, el horario ingresado se superpone con el de otro turno actualmente habilitado";
                 }
             }
             catch (Exception ex)
@@ -179,7 +179,7 @@ namespace UberFrba.ConexionBD
                     return "Turno modificado correctamente";
                 }
                 else {
-                    return "No se pudo modificar el turno, el horario ingresado se superpone con el de otro turno";
+                    return "No se pudo modificar el turno, el horario ingresado se superpone con el de otro turno actualmente habilitado";
                 }
 
                 //return dataTableTurnos;

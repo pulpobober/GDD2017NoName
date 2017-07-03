@@ -1005,7 +1005,7 @@ BEGIN
 	IF NOT EXISTS (SELECT 1 FROM NONAME.Turno WHERE (
 					(@hora_inicio < Turno.hora_fin AND @hora_fin > Turno.hora_fin) OR
 					(@hora_inicio < Turno.hora_inicio AND @hora_fin > Turno.hora_inicio) OR
-					(@hora_inicio > Turno.hora_inicio AND @hora_fin < Turno.hora_fin) OR
+					(@hora_inicio >= Turno.hora_inicio AND @hora_fin <= Turno.hora_fin) OR
 					(@hora_inicio < Turno.hora_inicio AND @hora_fin > Turno.hora_fin))
 					AND (Turno.id_turno <> @id_turno)
 					AND (Turno.habilitado = 1))
@@ -1040,7 +1040,7 @@ BEGIN
 		NOT EXISTS (SELECT 1 FROM NONAME.Turno WHERE (  --los turnos no se superponen
 					(@hora_inicio < Turno.hora_fin AND @hora_fin > Turno.hora_fin) OR
 					(@hora_inicio < Turno.hora_inicio AND @hora_fin > Turno.hora_inicio) OR
-					(@hora_inicio > Turno.hora_inicio AND @hora_fin < Turno.hora_fin) OR
+					(@hora_inicio >= Turno.hora_inicio AND @hora_fin <= Turno.hora_fin) OR
 					(@hora_inicio < Turno.hora_inicio AND @hora_fin > Turno.hora_fin))
 					AND (Turno.habilitado = 1)))
 		BEGIN
