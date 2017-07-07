@@ -99,7 +99,7 @@
             this.btnRendir.Name = "btnRendir";
             this.btnRendir.Size = new System.Drawing.Size(265, 35);
             this.btnRendir.TabIndex = 9;
-            this.btnRendir.Text = "Pevisualizar Rendicion";
+            this.btnRendir.Text = "Previsualizar Rendicion";
             this.btnRendir.UseVisualStyleBackColor = false;
             this.btnRendir.Click += new System.EventHandler(this.btnRendir_Click);
             // 
