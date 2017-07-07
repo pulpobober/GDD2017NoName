@@ -71,7 +71,7 @@ namespace UberFrba.ConexionBD
 
                 sqlCommand = new SqlCommand();
 
-                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento, habilitado FROM NONAME.Cliente join NONAME.Usuario on id_cliente = id_usuario WHERE habilitado = 1 And " + (String.IsNullOrEmpty(clie.nombre) ? "1=1" : ("nombre like '%" + clie.nombre) + "%'") + (clie.dni == 0 ? " And 1=1" : (" And usuario_dni ='" + clie.dni.ToString() + "'")) + (String.IsNullOrEmpty(clie.apellido) ? " And 1=1" : (" And apellido like '%" + clie.apellido.ToString() + "%'"));
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, codigo_postal, fecha_nacimiento, habilitado FROM NONAME.Cliente join NONAME.Usuario on id_cliente = id_usuario WHERE habilitado = 1 And " + (String.IsNullOrEmpty(clie.nombre) ? "1=1" : ("nombre like '%" + clie.nombre) + "%'") + (clie.dni == 0 ? " And 1=1" : (" And usuario_dni LIKE '%" + clie.dni.ToString() + "%'")) + (String.IsNullOrEmpty(clie.apellido) ? " And 1=1" : (" And apellido like '%" + clie.apellido.ToString() + "%'"));
                 sqlCommand.CommandType = CommandType.Text;
                 sqlCommand.Connection = miConexion;
 

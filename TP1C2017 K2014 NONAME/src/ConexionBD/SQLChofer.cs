@@ -53,7 +53,7 @@ namespace UberFrba.ConexionBD
 
                 sqlCommand = new SqlCommand();
 
-                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, fecha_nacimiento, habilitado FROM NONAME.Chofer join NONAME.Usuario on id_Chofer = id_usuario WHERE " + (String.IsNullOrEmpty(chofer.nombre) ? "1=1" : ("nombre like '%" + chofer.nombre) + "%'") + (chofer.dni == 0 ? " And 1=1" : (" And usuario_dni ='" + chofer.dni.ToString() + "'")) + (String.IsNullOrEmpty(chofer.apellido) ? " And 1=1" : (" And apellido like '%" + chofer.apellido.ToString() + "%'"));
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, fecha_nacimiento, habilitado FROM NONAME.Chofer join NONAME.Usuario on id_Chofer = id_usuario WHERE " + (String.IsNullOrEmpty(chofer.nombre) ? "1=1" : ("nombre like '%" + chofer.nombre) + "%'") + (chofer.dni == 0 ? " And 1=1" : (" And usuario_dni LIKE '%" + chofer.dni.ToString() + "%'")) + (String.IsNullOrEmpty(chofer.apellido) ? " And 1=1" : (" And apellido like '%" + chofer.apellido.ToString() + "%'"));
                 sqlCommand.CommandType = CommandType.Text;
                 sqlCommand.Connection = miConexion;
 
@@ -81,7 +81,7 @@ namespace UberFrba.ConexionBD
 
                 sqlCommand = new SqlCommand();
 
-                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, fecha_nacimiento, habilitado FROM NONAME.Chofer join NONAME.Usuario on id_Chofer = id_usuario WHERE habilitado = 1 And " + (String.IsNullOrEmpty(chofer.nombre) ? "1=1" : ("nombre like '%" + chofer.nombre) + "%'") + (chofer.dni == 0 ? " And 1=1" : (" And usuario_dni ='" + chofer.dni.ToString() + "'")) + (String.IsNullOrEmpty(chofer.apellido) ? " And 1=1" : (" And apellido like '%" + chofer.apellido.ToString() + "%'"));
+                sqlCommand.CommandText = "SELECT id_usuario, nombre, apellido, usuario_dni, mail, telefono, direccion, fecha_nacimiento, habilitado FROM NONAME.Chofer join NONAME.Usuario on id_Chofer = id_usuario WHERE habilitado = 1 And " + (String.IsNullOrEmpty(chofer.nombre) ? "1=1" : ("nombre like '%" + chofer.nombre) + "%'") + (chofer.dni == 0 ? " And 1=1" : (" And usuario_dni LIKE '%" + chofer.dni.ToString() + "%'")) + (String.IsNullOrEmpty(chofer.apellido) ? " And 1=1" : (" And apellido like '%" + chofer.apellido.ToString() + "%'"));
                 sqlCommand.CommandType = CommandType.Text;
                 sqlCommand.Connection = miConexion;
 
