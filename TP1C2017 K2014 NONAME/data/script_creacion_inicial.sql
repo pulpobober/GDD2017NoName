@@ -1346,11 +1346,18 @@ BEGIN
 	WHERE id_chofer = @id_usuario
 */
 
-	IF(@habilitado IS NOT NULL)
+	IF (@habilitado IS NOT NULL)
 		BEGIN
 			UPDATE [NONAME].Usuario
 			SET habilitado = @habilitado
 			WHERE id_usuario = @id_usuario
+
+			IF ((@habilitado = 1) AND ((SELECT intentos_fallidos FROM NONAME.Usuario WHERE @id_usuario = @id_usuario) = 3))
+				BEGIN
+					UPDATE [NONAME].Usuario
+					SET intentos_fallidos = 0
+					WHERE id_usuario = @id_usuario
+				END
 		END
 
 END
@@ -1378,6 +1385,10 @@ BEGIN
       id_usuario
     FROM NONAME.Usuario
     WHERE nombre_de_usuario = @nombre_de_usuario
+
+	UPDATE NONAME.Usuario
+	SET intentos_fallidos = 0
+	WHERE nombre_de_usuario = @nombre_de_usuario
   END
   ELSE
   BEGIN
@@ -1868,8 +1879,8 @@ INSERT INTO [NONAME].Usuario
     [Chofer_Direccion],
     [Chofer_Mail],
     [Chofer_Fecha_Nac],
-    cast([Chofer_Dni] as nvarchar(50)) + '-1',
-    HASHBYTES('SHA2_256', cast([Chofer_Dni] as nvarchar(50)) + '-1'),
+    cast([Chofer_Dni] as nvarchar(50)),
+    HASHBYTES('SHA2_256', cast([Chofer_Dni] as nvarchar(50))),
     1,
     0
   FROM [GD1C2017].[gd_esquema].[Maestra]
@@ -1899,8 +1910,8 @@ INSERT INTO [NONAME].Usuario
     [Cliente_Direccion],
     [Cliente_Mail],
     [Cliente_Fecha_Nac],
-    cast([Cliente_Dni] as nvarchar(50)) + '-1',
-    HASHBYTES('SHA2_256', cast([Cliente_Dni] as nvarchar(50)) + '-1'),
+    cast([Cliente_Dni] as nvarchar(50)),
+    HASHBYTES('SHA2_256', cast([Cliente_Dni] as nvarchar(50))),
     1,
     0
   FROM [GD1C2017].[gd_esquema].[Maestra]
