@@ -1,4 +1,3 @@
-
 USE [GD1C2017]
 GO
 
@@ -159,9 +158,6 @@ EXEC NONAME.DROP_FK
 	IF OBJECT_ID('NONAME.sproc_cliente_alta') IS NOT NULL
 		DROP PROCEDURE NONAME.sproc_cliente_alta
 
-	IF OBJECT_ID('NONAME.sproc_login_usuario') IS NOT NULL
-		DROP PROCEDURE NONAME.sproc_login_usuario
-
 	IF OBJECT_ID('NONAME.sproc_cliente_baja') IS NOT NULL
 		DROP PROCEDURE NONAME.sproc_cliente_baja
 
@@ -232,6 +228,11 @@ EXEC NONAME.DROP_FK
 	
 	IF OBJECT_ID('NONAME.seSuperponeConOtrosTurnos') IS NOT NULL
 		DROP FUNCTION NONAME.seSuperponeConOtrosTurnos
+
+--Triggers
+
+	IF OBJECT_ID('NONAME.trig_deshabilitarUsuarioLuegoDe3IntentosFallidos') IS NOT NULL
+		DROP TRIGGER NONAME.trig_deshabilitarUsuarioLuegoDe3IntentosFallidos
 
 --User-Defined Data & Table Types
 
@@ -573,15 +574,34 @@ GO
 ALTER TABLE [NONAME].[Viaje]  ADD CONSTRAINT [viaje_unico] UNIQUE (cantidad_km, id_cliente, id_chofer, fecha_hora_inicio ,id_turno);
 GO
 
--- Creacion de Store Procedures
+-- Creacion de Triggers
 
 
+CREATE TRIGGER NONAME.trig_deshabilitarUsuarioLuegoDe3IntentosFallidos
+ON NONAME.Usuario
+AFTER UPDATE
+
+AS
+BEGIN
+	SET NOCOUNT ON
+	
+	UPDATE NONAME.Usuario
+	SET habilitado = 0
+	FROM Usuario AS U INNER JOIN inserted AS I ON (U.id_usuario = I.id_usuario)
+	WHERE I.intentos_fallidos = 3
+END
+GO
+
+
+-- Creacion de User-Defined Types
 
 CREATE TYPE NONAME.ListaIDs
 AS TABLE (
 	id INT NOT NULL PRIMARY KEY);
 GO
 
+
+-- Creacion de Stored Procedures
 
 CREATE PROCEDURE NONAME.sproc_rol_alta
 	@tipo VARCHAR(255),
@@ -811,8 +831,7 @@ AS
 BEGIN
 	
 	UPDATE [NONAME].Usuario
-	SET
-		nombre = @nombre,
+	SET	nombre = @nombre,
 		apellido = @apellido,
 		usuario_dni = @usuario_dni,
 		mail = @mail,
@@ -825,15 +844,23 @@ BEGIN
 	SET codigo_postal = @codigo_postal
 	WHERE id_cliente = @id_usuario
 
-	IF(@habilitado IS NOT NULL)
+	IF (@habilitado IS NOT NULL)
 		BEGIN
+			DECLARE @intentos_fallidos INT
+			SET @intentos_fallidos = (SELECT intentos_fallidos FROM NONAME.Usuario WHERE id_usuario = @id_usuario)
+			
 			UPDATE [NONAME].Usuario
 			SET habilitado = @habilitado
 			WHERE id_usuario = @id_usuario
+
+			IF (@habilitado = 1 AND @intentos_fallidos = 3) -- Resetea intentos_fallidos a 0 si se re-habilita un usuario bloqueado.
+				BEGIN
+					UPDATE [NONAME].Usuario
+					SET intentos_fallidos = 0
+					WHERE id_usuario = @id_usuario
+				END
 		END
-
 END
-
 GO
 
 CREATE PROCEDURE NONAME.sproc_automovil_alta
@@ -1348,20 +1375,21 @@ BEGIN
 
 	IF (@habilitado IS NOT NULL)
 		BEGIN
+			DECLARE @intentos_fallidos INT
+			SET @intentos_fallidos = (SELECT intentos_fallidos FROM NONAME.Usuario WHERE id_usuario = @id_usuario)
+			
 			UPDATE [NONAME].Usuario
 			SET habilitado = @habilitado
 			WHERE id_usuario = @id_usuario
 
-			IF ((@habilitado = 1) AND ((SELECT intentos_fallidos FROM NONAME.Usuario WHERE @id_usuario = @id_usuario) = 3))
+			IF (@habilitado = 1 AND @intentos_fallidos = 3) -- Resetea intentos_fallidos a 0 si se re-habilita un usuario bloqueado.
 				BEGIN
 					UPDATE [NONAME].Usuario
 					SET intentos_fallidos = 0
 					WHERE id_usuario = @id_usuario
 				END
 		END
-
 END
-
 GO
 
 -- quedo detelle 
@@ -1371,67 +1399,60 @@ CREATE PROCEDURE NONAME.sproc_login_usuario
 	@contrasena varchar(50)
 
 AS
+
 BEGIN
+	IF EXISTS (SELECT 1 -- USUARIO Y CONTRASENA CORRECTOS Y ADEMAS ESTA HABILITADO
+				FROM NONAME.Usuario
+				WHERE nombre_de_usuario = @nombre_de_usuario
+				AND [contrasena] = CAST(HASHBYTES('SHA2_256', CAST(@contrasena AS NVARCHAR(255))) AS NVARCHAR(255))
+				AND habilitado = 1)
+		BEGIN
+			SELECT 'Ingreso OK' resultado, id_usuario
+			FROM NONAME.Usuario
+			WHERE nombre_de_usuario = @nombre_de_usuario
 
-  IF EXISTS (SELECT
-      1
-    FROM NONAME.Usuario
-    WHERE nombre_de_usuario = @nombre_de_usuario
-    AND [contrasena] = CAST(HASHBYTES('SHA2_256', CAST(@contrasena AS NVARCHAR(255))) AS NVARCHAR(255))
-    AND habilitado = 1)
-  BEGIN
-    SELECT
-      'Ingreso OK' resultado,
-      id_usuario
-    FROM NONAME.Usuario
-    WHERE nombre_de_usuario = @nombre_de_usuario
+			UPDATE NONAME.Usuario
+			SET intentos_fallidos = 0
+			WHERE nombre_de_usuario = @nombre_de_usuario
+		END
+	ELSE
+		BEGIN
+			IF EXISTS (SELECT 1 -- EL USUARIO EXISTE Y ESTA HABILITADO PERO LA CONTRASEÑA ES INCORRECTA
+						FROM NONAME.Usuario
+						WHERE (nombre_de_usuario = @nombre_de_usuario) AND (habilitado = 1))
+				BEGIN
+					UPDATE NONAME.Usuario
+					SET intentos_fallidos = intentos_fallidos + 1
+					WHERE nombre_de_usuario = @nombre_de_usuario
 
-	UPDATE NONAME.Usuario
-	SET intentos_fallidos = 0
-	WHERE nombre_de_usuario = @nombre_de_usuario
-  END
-  ELSE
-  BEGIN
-    IF EXISTS (SELECT
-        nombre_de_usuario,
-        nombre_de_usuario
-      FROM NONAME.Usuario
-      WHERE nombre_de_usuario = @nombre_de_usuario)
-    BEGIN
-      IF ((SELECT
-          intentos_fallidos
-        FROM NONAME.Usuario
-        WHERE nombre_de_usuario = @nombre_de_usuario)
-        < 3)
-      BEGIN
-        UPDATE NONAME.Usuario
-        SET intentos_fallidos = intentos_fallidos + 1
-        WHERE nombre_de_usuario = @nombre_de_usuario
-
-        SELECT
-          'usuario o password invalido' resultado,
-          0
-      END
-      ELSE
-      BEGIN
-        UPDATE NONAME.Usuario
-        SET habilitado = 0
-        WHERE nombre_de_usuario = @nombre_de_usuario
-
-        SELECT
-          'el usuario se encuentra bloqueado',
-          -1
-      END
-    END
-    ELSE
-    BEGIN
-      SELECT
-        'usuario o password invalido' resultado,
-        0
-    END
-  END
+					SELECT 'usuario o password invalido' resultado, 0
+					
+					--NO DEBERIA SER NECESARIO, LO DEBERIA DESHABILITAR EL TRIGGER AUTOMATICAMENTE AL LLEGAR A 3 INTENTOS FALLIDOS
+					DECLARE @intentos_fallidos INT
+					SET @intentos_fallidos = (SELECT intentos_fallidos FROM NONAME.Usuario WHERE nombre_de_usuario = @nombre_de_usuario)
+					
+					IF (@intentos_fallidos >= 3) -- DESHABILITAR/BLOQUEAR USUARIO
+						BEGIN
+							UPDATE NONAME.Usuario
+							SET habilitado = 0
+							WHERE nombre_de_usuario = @nombre_de_usuario
+						
+						SELECT 'el usuario se encuentra bloqueado' resultado, -1
+						END
+				END
+			ELSE
+				IF EXISTS (SELECT 1 -- EL USUARIO EXISTE PERO NO ESTA HABILITADO
+							FROM NONAME.Usuario
+							WHERE nombre_de_usuario = @nombre_de_usuario AND habilitado = 0)
+					BEGIN
+						SELECT 'el usuario se encuentra bloqueado' resultado, -1
+					END
+			ELSE -- USUARIO INVALIDO/NO EXISTE
+				BEGIN
+					SELECT 'usuario invalido' resultado, 0
+				END
+		END
 END
-
 GO
 
 -- quedo detelle
