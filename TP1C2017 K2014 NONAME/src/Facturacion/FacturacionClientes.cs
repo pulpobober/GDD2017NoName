@@ -96,7 +96,7 @@ namespace UberFrba.Facturacion
                 }
                 else
                 {
-                    MessageBox.Show("Ya esta hecha la rendicion para ese cliente en ese dia", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Ya esta hecha la facturacion para ese cliente en ese mes", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
