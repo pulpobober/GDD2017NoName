@@ -116,7 +116,7 @@ namespace UberFrba.Abm_Automovil
                 MessageBox.Show("No se puede dejar el campo chofer vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (checkListTurno.Text.Length == 0)
+            if (checkListTurno.CheckedItems.Count== 0)
             {
                 MessageBox.Show("No se puede dejar el campo turno vacio", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
